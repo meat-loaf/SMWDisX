@@ -8081,16 +8081,16 @@ ChucksMain:           PHB                                       ;;C1FC|C1F5+C1F5
                       RTL                                       ;;C219|C212+C212/C212\C212; Return 
                                                                 ;;                        ;
                                                                 ;;                        ;
-DATA_02C213:          db $01,$02,$03,$02                        ;;C21A|C213+C213/C213\C213;
+ChuckDeadHeadFrame:   db $01,$02,$03,$02                        ;;C21A|C213+C213/C213\C213; 'slightly right', 'towards screen', 'slightly left', 'towards screen'
                                                                 ;;                        ;
-                    - LDA.B !EffFrame                           ;;C21E|C217+C217/C217\C217;
-                      LSR A                                     ;;C220|C219+C219/C219\C219;
-                      LSR A                                     ;;C221|C21A+C21A/C21A\C21A;
-                      AND.B #$03                                ;;C222|C21B+C21B/C21B\C21B;
-                      TAY                                       ;;C224|C21D+C21D/C21D\C21D;
-                      LDA.W DATA_02C213,Y                       ;;C225|C21E+C21E/C21E\C21E;
-                      STA.W !SpriteMisc151C,X                   ;;C228|C221+C221/C221\C221;
-                      JSR CODE_02C81A                           ;;C22B|C224+C224/C224\C224;
+                    - LDA.B !EffFrame                           ;;C21E|C217+C217/C217\C217; \ the 'head shake' death animation
+                      LSR A                                     ;;C220|C219+C219/C219\C219; |
+                      LSR A                                     ;;C221|C21A+C21A/C21A\C21A; |
+                      AND.B #$03                                ;;C222|C21B+C21B/C21B\C21B; | Update once every 4 frames
+                      TAY                                       ;;C224|C21D+C21D/C21D\C21D; |
+                      LDA.W ChuckDeadHeadFrame,Y                ;;C225|C21E+C21E/C21E\C21E; /
+                      STA.W !SpriteMisc151C,X                   ;;C228|C221+C221/C221\C221; > Head animation frame
+                      JSR ChuckGraphics                         ;;C22B|C224+C224/C224\C224;
                       RTS                                       ;;C22E|C227+C227/C227\C227; Return 
                                                                 ;;                        ;
                                                                 ;;                        ;
@@ -8098,9 +8098,9 @@ DATA_02C228:          db $40,$10                                ;;C22F|C228+C228
                                                                 ;;                        ;
 DATA_02C22A:          db $03,$01                                ;;C231|C22A+C22A/C22A\C22A;
                                                                 ;;                        ;
-CODE_02C22C:          LDA.W !SpriteStatus,X                     ;;C233|C22C+C22C/C22C\C22C;
-                      CMP.B #$08                                ;;C236|C22F+C22F/C22F\C22F;
-                      BNE -                                     ;;C238|C231+C231/C231\C231;
+CODE_02C22C:          LDA.W !SpriteStatus,X                     ;;C233|C22C+C22C/C22C\C22C; \ If sprite status not #$08
+                      CMP.B #$08                                ;;C236|C22F+C22F/C22F\C22F; | Do the 'head shake falling
+                      BNE -                                     ;;C238|C231+C231/C231\C231; / off screen' animation
                       LDA.W !SpriteMisc15AC,X                   ;;C23A|C233+C233/C233\C233;
                       BEQ +                                     ;;C23D|C236+C236/C236\C236;
                       LDA.B #$05                                ;;C23F|C238+C238/C238\C238;
@@ -8115,7 +8115,7 @@ CODE_02C22C:          LDA.W !SpriteStatus,X                     ;;C233|C22C+C22C
                       BCS +                                     ;;C253|C24C+C24C/C24C\C24C;
                       LDA.B #$06                                ;;C255|C24E+C24E/C24E\C24E;
                       STA.W !SpriteMisc1602,X                   ;;C257|C250+C250/C250\C250;
-                    + JSR CODE_02C81A                           ;;C25A|C253+C253/C253\C253;
+                    + JSR ChuckGraphics                         ;;C25A|C253+C253/C253\C253;
                       LDA.B !SpriteLock                         ;;C25D|C256+C256/C256\C256;
                       BEQ +                                     ;;C25F|C258+C258/C258\C258;
                       RTS                                       ;;C261|C25A+C25A/C25A\C25A; Return 
@@ -8224,7 +8224,7 @@ CODE_02C2F7:          LDA.W !SpriteBlockedDirs,X                ;;C2FE|C2F7+C2F7
                       ADC.B #$03                                ;;C339|C332+C332/C332\C332;
                     + STA.B !SpriteYSpeed,X                     ;;C33B|C334+C334/C334\C334;
                       LDA.B !SpriteTableC2,X                    ;;C33D|C336+C336/C336\C336;
-                      JSL ExecutePtr                            ;;C33F|C338+C338/C338\C338;
+                      JSL ExecutePtr                            ;;C33F|C338+C338/C338\C338; Chargin' Chuck phase pointers
                                                                 ;;                        ;
                       dw CODE_02C63B                            ;;C343|C33C+C33C/C33C\C33C;
                       dw CODE_02C6A7                            ;;C345|C33E+C33E/C33E\C33E;
@@ -8830,7 +8830,7 @@ CODE_02C810:          LDA.W !PlayerRidingYoshi                  ;;C817|C810+C810
                       JSL HurtMario                             ;;C81C|C815+C815/C815\C815;
                     + RTS                                       ;;C820|C819+C819/C819\C819; Return 
                                                                 ;;                        ;
-CODE_02C81A:          JSR GetDrawInfo2                          ;;C821|C81A+C81A/C81A\C81A;
+ChuckGraphics:        JSR GetDrawInfo2                          ;;C821|C81A+C81A/C81A\C81A;
                       JSR CODE_02C88C                           ;;C824|C81D+C81D/C81D\C81D;
                       JSR CODE_02CA27                           ;;C827|C820+C820/C820\C820;
                       JSR CODE_02CA9D                           ;;C82A|C823+C823/C823\C823;
@@ -8865,7 +8865,7 @@ CODE_02C88C:          STZ.B !_7                                 ;;C893|C88C+C88C
                       CPY.B #$09                                ;;C89A|C893+C893/C893\C893;
                       CLC                                       ;;C89C|C895+C895/C895\C895;
                       BNE +                                     ;;C89D|C896+C896/C896\C896;
-                      LDA.W !SpriteMisc1540,X                   ;;C89F|C898+C898/C898\C898;
+                      LDA.W !SpriteMisc1540,X                   ;;C89F|C898+C898/C898\C898; Chuck body animation frame
                       SEC                                       ;;C8A2|C89B+C89B/C89B\C89B;
                       SBC.B #$20                                ;;C8A3|C89C+C89C/C89C\C89C;
                       BCC +                                     ;;C8A5|C89E+C89E/C89E\C89E;

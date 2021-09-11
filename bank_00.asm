@@ -8100,11 +8100,11 @@ CODE_00C8FB:          INC.W !ShowMarioStart                     ;;C89B|C8FB+C8FB
                       CPX.B #$11                                ;;C8A3|C903+C903/C8F0\C8F0;
                       BCC CODE_00C90A                           ;;C8A5|C905+C905/C8F2\C8F2;
                       INC.W !CarryYoshiThruLvls                 ;;C8A7|C907+C907/C8F4\C8F4;
-CODE_00C90A:          LDA.B #$01                                ;;C8AA|C90A+C90A/C8F7\C8F7;
-                      STA.W !RemoveYoshiFlag                    ;;C8AC|C90C+C90C/C8F9\C8F9;
+CODE_00C90A:          LDA.B #$01                                ;;C8AA|C90A+C90A/C8F7\C8F7; \ Remove Yoshi
+                      STA.W !RemoveYoshiFlag                    ;;C8AC|C90C+C90C/C8F9\C8F9; /
                       LDA.B #!SFX_YOSHIDRUMOFF                  ;;C8AF|C90F+C90F/C8FC\C8FC; \ Play sound effect 
-                      STA.W !SPCIO1                             ;;C8B1|C911+C911/C8FE\C8FE; / 
-                      RTS                                       ;;C8B4|C914+C914/C901\C901; Return 
+                      STA.W !SPCIO1                             ;;C8B1|C911+C911/C8FE\C8FE; /
+                      RTS                                       ;;C8B4|C914+C914/C901\C901; Return
                                                                 ;;                        ;
 EndLevelRoutine:      JSR NoButtons                             ;;C8B5|C915+C915/C902\C902;
                       STZ.W !PlayerInCloud                      ;;C8B8|C918+C918/C905\C905;
@@ -11101,7 +11101,7 @@ DATA_00E913:          db $01,$00,$FF,$FF,$01,$00,$01,$00        ;;E8B3|E913+E913
 DATA_00E91F:          db $00,$00,$00,$00,$FF,$FF,$01,$00        ;;E8BF|E91F+E91F/E90F\E90F;
                       db $FF,$FF,$01,$00                        ;;E8C7|E927+E927/E917\E917;
                                                                 ;;                        ;
-CODE_00E92B:          JSR CODE_00EAA6                           ;;E8CB|E92B+E92B/E91B\E91B;
+CODE_00E92B:          JSR ObjDetectRoutineInit                  ;;E8CB|E92B+E92B/E91B\E91B;
                       LDA.W !PlayerDisableObjInt                ;;E8CE|E92E+E92E/E91E\E91E;
                       BEQ CODE_00E938                           ;;E8D1|E931+E931/E921\E921;
                       JSR CODE_00EE1D                           ;;E8D3|E933+E933/E923\E923;
@@ -11285,7 +11285,7 @@ CODE_00EA65:          LSR.B !GraphicsCompPtr                    ;;EA05|EA65+EA65
 CODE_00EAA3:          STZ.B !PlayerInWater                      ;;EA43|EAA3+EAA3/EA93\EA93;
 Return00EAA5:         RTS                                       ;;EA45|EAA5+EAA5/EA95\EA95; Return 
                                                                 ;;                        ;
-CODE_00EAA6:          STZ.W !PlayerPoseLenTimer                 ;;EA46|EAA6+EAA6/EA96\EA96;
+ObjDetectRoutineInit: STZ.W !PlayerPoseLenTimer                 ;;EA46|EAA6+EAA6/EA96\EA96;
                       STZ.B !PlayerBlockedDir                   ;;EA49|EAA9+EAA9/EA99\EA99;
                       STZ.W !SlopeType                          ;;EA4B|EAAB+EAAB/EA9B\EA9B;
                       STZ.W !CurrentSlope                       ;;EA4E|EAAE+EAAE/EA9E\EA9E;
@@ -11317,7 +11317,7 @@ CODE_00EADB:          LDA.B !PlayerYPosNext                     ;;EA7B|EADB+EADB
                       BNE +                                     ;;EA84|EAE4+EAE4/EAD4\EAD4;
                       JMP CODE_00EB77                           ;;EA86|EAE6+EAE6/EAD6\EAD6;
                                                                 ;;                        ;
-                    + AND.B #$01                                ;;EA89|EAE9+EAE9/EAD9\EAD9;
+                    + AND.B #$01                                ;;EA89|EAE9+EAE9/EAD9\EAD9; Code that runs when using the wall-running triangle
                       TAY                                       ;;EA8B|EAEB+EAEB/EADB\EADB;
                       LDA.B !PlayerXSpeed                       ;;EA8C|EAEC+EAEC/EADC\EADC;
                       SEC                                       ;;EA8E|EAEE+EAEE/EADE\EADE;
@@ -13077,7 +13077,7 @@ DATA_00F8DF:          db $0C,$0C,$08,$00,$20,$04,$0A,$0D        ;;F87F|F8DF+F8DF
 DATA_00F8E8:          db $2A,$00,$2A,$00,$12,$00,$00,$00        ;;F888|F8E8+F8E8/F8D8\F8D8;
                       db $ED,$FF                                ;;F890|F8F0+F8F0/F8E0\F8E0;
                                                                 ;;                        ;
-CODE_00F8F2:          JSR CODE_00EAA6                           ;;F892|F8F2+F8F2/F8E2\F8E2;
+CODE_00F8F2:          JSR ObjDetectRoutineInit                  ;;F892|F8F2+F8F2/F8E2\F8E2;
                       BIT.W !IRQNMICommand                      ;;F895|F8F5+F8F5/F8E5\F8E5;
                       BVC CODE_00F94E                           ;;F898|F8F8+F8F8/F8E8\F8E8;
                       JSR CODE_00E92B                           ;;F89A|F8FA+F8FA/F8EA\F8EA;
