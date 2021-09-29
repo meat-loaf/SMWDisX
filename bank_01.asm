@@ -5949,10 +5949,10 @@ InitVerticalFish:     JSR FaceMario                             ;;B00B|B00B+B00B
 Return01B011:         RTS                                       ;;B011|B011+B011/B011\B018;
                                                                 ;;                        ;
                                                                 ;;                        ;
-DATA_01B012:          db $10,$F0                                ;;B012|B012+B012/B012\B019;
+JumpingFishInitXSpd:  db $10,$F0                                ;;B012|B012+B012/B012\B019;
                                                                 ;;                        ;
 InitFish:             JSR SubHorizPos                           ;;B014|B014+B014/B014\B01B;
-                      LDA.W DATA_01B012,Y                       ;;B017|B017+B017/B017\B01E;
+                      LDA.W JumpingFishInitXSpd,Y               ;;B017|B017+B017/B017\B01E;
                       STA.B !SpriteXSpeed,X                     ;;B01A|B01A+B01A/B01A\B021;
                       RTS                                       ;;B01C|B01C+B01C/B01C\B023; Return
                                                                 ;;                        ;

@@ -11105,7 +11105,7 @@ CODE_00E92B:          JSR ObjDetectRoutineInit                  ;;E8CB|E92B+E92B
                       LDA.W !PlayerDisableObjInt                ;;E8CE|E92E+E92E/E91E\E91E;
                       BEQ CODE_00E938                           ;;E8D1|E931+E931/E921\E921;
                       JSR CODE_00EE1D                           ;;E8D3|E933+E933/E923\E923;
-                      BRA CODE_00E98C                           ;;E8D6|E936+E936/E926\E926;
+                      BRA CheckSideExit                         ;;E8D6|E936+E936/E926\E926;
                                                                 ;;                        ;
 CODE_00E938:          LDA.W !PlayerIsOnGround                   ;;E8D8|E938+E938/E928\E928;
                       STA.B !GraphicsUncompPtr                  ;;E8DB|E93B+E93B/E92B\E92B;
@@ -11144,11 +11144,11 @@ CODE_00E938:          LDA.W !PlayerIsOnGround                   ;;E8D8|E938+E938
                       AND.B #$41                                ;;E91D|E97D+E97D/E96D\E96D;
                       STA.B !GraphicsUncompPtr+1                ;;E91F|E97F+E97F/E96F\E96F;
                       ASL A                                     ;;E921|E981+E981/E971\E971;
-                      BMI CODE_00E98C                           ;;E922|E982+E982/E972\E972;
+                      BMI CheckSideExit                         ;;E922|E982+E982/E972\E972;
                       STZ.W !LayerProcessing                    ;;E924|E984+E984/E974\E974;
                       ASL.B !GraphicsUncompPtr                  ;;E927|E987+E987/E977\E977;
                       JSR CODE_00EADB                           ;;E929|E989+E989/E979\E979;
-CODE_00E98C:          LDA.W !SideExitEnabled                    ;;E92C|E98C+E98C/E97C\E97C;
+CheckSideExit:        LDA.W !SideExitEnabled                    ;;E92C|E98C+E98C/E97C\E97C;
                       BEQ CODE_00E9A1                           ;;E92F|E98F+E98F/E97F\E97F;
                       REP #$20                                  ;;E931|E991+E991/E981\E981; Accum (16 bit) 
                       LDA.B !PlayerXPosScrRel                   ;;E933|E993+E993/E983\E983;
@@ -13162,7 +13162,7 @@ CODE_00F997:          REP #$20                                  ;;F937|F997+F997
                       SEP #$20                                  ;;F93E|F99E+F99E/F98E\F98E; Accum (8 bit) 
                       BMI +                                     ;;F940|F9A0+F9A0/F990\F990;
                       JSR CODE_00F629                           ;;F942|F9A2+F9A2/F992\F992;
-                    + JMP CODE_00E98C                           ;;F945|F9A5+F9A5/F995\F995;
+                    + JMP CheckSideExit                         ;;F945|F9A5+F9A5/F995\F995;
                                                                 ;;                        ;
 CODE_00F9A8:          REP #$20                                  ;;F948|F9A8+F9A8/F998\F998; Accum (16 bit) 
                       LDA.B !PlayerXPosNext                     ;;F94A|F9AA+F9AA/F99A\F99A;
