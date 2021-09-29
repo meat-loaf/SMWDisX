@@ -6649,9 +6649,9 @@ SubHorzPosBnk3:       LDY.B #$00                                ;;B817|B817+B817
 SubVertPosBnk3:       LDY.B #$00                                ;;B829|B829+B829/B829\B829;
                       LDA.B !PlayerYPosNext                     ;;B82B|B82B+B82B/B82B\B82B;
                       SEC                                       ;;B82D|B82D+B82D/B82D\B82D;
-                      SBC.B !SpriteYPosLow,X                    ;;B82E|B82E+B82E/B82E\B82E;
-                      STA.B !_F                                 ;;B830|B830+B830/B830\B830;
-                      LDA.B !PlayerYPosNext+1                   ;;B832|B832+B832/B832\B832;
+                      SBC.B !SpriteYPosLow,X                    ;;B82E|B82E+B82E/B82E\B82E; Interestingly, this routine in banks 1 and 2
+                      STA.B !_F                                 ;;B830|B830+B830/B830\B830; Stores the difference of player y-low pos and
+                      LDA.B !PlayerYPosNext+1                   ;;B832|B832+B832/B832\B832; sprite y-low into $0E instead.
                       SBC.W !SpriteXPosHigh,X                   ;;B834|B834+B834/B834\B834;
                       BPL +                                     ;;B837|B837+B837/B837\B837;
                       INY                                       ;;B839|B839+B839/B839\B839;

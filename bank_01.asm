@@ -478,7 +478,7 @@ InitGrowingPipe:      LDA.B #$40                                ;;8381|8381+8381
                       STA.W !SpriteMisc1534,X                   ;;8383|8383+8383/8383\8383;
                       RTS                                       ;;8386|8386+8386/8386\8386; Return
                                                                 ;;                        ;
-InitBanzai:           JSR SubHorizPos                           ;;8387|8387+8387/8387\8387;
+InitBanzai:           JSR SubHorizPosBnk1                       ;;8387|8387+8387/8387\8387;
                       TYA                                       ;;838A|838A+838A/838A\838A;
                       BNE +                                     ;;838B|838B+838B/838B\838B;
                       JMP OffScrEraseSprite                     ;;838D|838D+838D/838D\838D;
@@ -547,7 +547,7 @@ DATA_0183EF:          db $08                                    ;;83EF|83EF+83EF
                                                                 ;;                        ;
 DATA_0183F0:          db $00,$08                                ;;83F0|83F0+83F0/83F0\83F0;
                                                                 ;;                        ;
-InitSpikeTop:         JSR SubHorizPos                           ;;83F2|83F2+83F2/83F2\83F2;
+InitSpikeTop:         JSR SubHorizPosBnk1                       ;;83F2|83F2+83F2/83F2\83F2;
                       TYA                                       ;;83F5|83F5+83F5/83F5\83F5;
                       EOR.B #$01                                ;;83F6|83F6+83F6/83F6\83F6;
                       ASL A                                     ;;83F8|83F8+83F8/83F8\83F8;
@@ -667,7 +667,7 @@ InitCreateEatBlk:     LDA.B #$FF                                ;;84D6|84D6+84D6
                       STA.W !BlockSnakeActive                   ;;84D8|84D8+84D8/84D8\84D8;
                       BRA InitMontyMole                         ;;84DB|84DB+84DB/84DB\84DB;
                                                                 ;;                        ;
-InitBulletBill:       JSR SubHorizPos                           ;;84DD|84DD+84DD/84DD\84DD;
+InitBulletBill:       JSR SubHorizPosBnk1                       ;;84DD|84DD+84DD/84DD\84DD;
                       TYA                                       ;;84E0|84E0+84E0/84E0\84E0;
                       STA.B !SpriteTableC2,X                    ;;84E1|84E1+84E1/84E1\84E1;
                       LDA.B #$10                                ;;84E3|84E3+84E3/84E3\84E3;
@@ -757,7 +757,7 @@ InitGrnBounceKoopa:   LDA.B !SpriteYPosLow,X                    ;;856E|856E+856E
                       STA.W !SpriteMisc160E,X                   ;;8572|8572+8572/8572\8572;
 InitStandardSprite:   JSL GetRand                               ;;8575|8575+8575/8575\8575;
                       STA.W !SpriteMisc1570,X                   ;;8579|8579+8579/8579\8579;
-FaceMario:            JSR SubHorizPos                           ;;857C|857C+857C/857C\857C;
+FaceMario:            JSR SubHorizPosBnk1                       ;;857C|857C+857C/857C\857C;
                       TYA                                       ;;857F|857F+857F/857F\857F;
                       STA.W !SpriteMisc157C,X                   ;;8580|8580+8580/8580\8580;
 Return018583:         RTS                                       ;;8583|8583+8583/8583\8583;
@@ -1935,7 +1935,7 @@ ChangePiranhaState:   LDA.B !SpriteTableC2,X                    ;;8EC8|8EC8+8EC8
                       AND.B #$03                                ;;8ECA|8ECA+8ECA/8ECA\8ECA;  |
                       STA.B !_0                                 ;;8ECC|8ECC+8ECC/8ECC\8ECC; /
                       BNE CODE_018EE1                           ;;8ECE|8ECE+8ECE/8ECE\8ECE; \ If the piranha is in the pipe (State 0)...
-                      JSR SubHorizPos                           ;;8ED0|8ED0+8ED0/8ED0\8ED0;  | ...check if Mario is nearby...
+                      JSR SubHorizPosBnk1                       ;;8ED0|8ED0+8ED0/8ED0\8ED0;  | ...check if Mario is nearby...
                       LDA.B !_F                                 ;;8ED3|8ED3+8ED3/8ED3\8ED3;  |
                       CLC                                       ;;8ED5|8ED5+8ED5/8ED5\8ED5;  |
                       ADC.B #$1B                                ;;8ED6|8ED6+8ED6/8ED6\8ED6;  |
@@ -2906,7 +2906,7 @@ GeneralResetSpr:      JSL FindFreeSprSlot                       ;;96E1|96E1+96E1
                       LDA.B #$D0                                ;;972D|972D+972D/972D\9739; \ Set upward speed
                       STA.W !SpriteYSpeed,Y                     ;;972F|972F+972F/972F\973B; /
                       PHY                                       ;;9732|9732+9732/9732\973E; \ Make Shelless Koopa face away from Mario
-                      JSR SubHorizPos                           ;;9733|9733+9733/9733\973F;  |
+                      JSR SubHorizPosBnk1                       ;;9733|9733+9733/9733\973F;  |
                       TYA                                       ;;9736|9736+9736/9736\9742;  |
                       EOR.B #$01                                ;;9737|9737+9737/9737\9743;  |
                       PLY                                       ;;9739|9739+9739/9739\9745;  |
@@ -2919,7 +2919,7 @@ GeneralResetSpr:      JSL FindFreeSprSlot                       ;;96E1|96E1+96E1
                       RTS                                       ;;9746|9746+9746/9746\9752; Return
                                                                 ;;                        ;
                     + PHY                                       ;;9747|9747+9747/9747\9753;
-                      JSR SubHorizPos                           ;;9748|9748+9748/9748\9754;
+                      JSR SubHorizPosBnk1                       ;;9748|9748+9748/9748\9754;
                       LDA.W DATA_0197AD,Y                       ;;974B|974B+974B/974B\9757;
                       STY.B !_0                                 ;;974E|974E+974E/974E\975A;
                       PLY                                       ;;9750|9750+9750/9750\975C;
@@ -3945,7 +3945,7 @@ CODE_01A047:          LDY.B !PlayerDirection                    ;;A047|A047+A047
                       LDA.B !PlayerXPosNow+1                    ;;A051|A051+A051/A051\A05D;
                       ADC.W DATA_019F69,Y                       ;;A053|A053+A053/A053\A05F;
                       STA.W !SpriteYPosHigh,X                   ;;A056|A056+A056/A056\A062;
-                      JSR SubHorizPos                           ;;A059|A059+A059/A059\A065;
+                      JSR SubHorizPosBnk1                       ;;A059|A059+A059/A059\A065;
                       LDA.W DATA_019F99,Y                       ;;A05C|A05C+A05C/A05C\A068;
                       CLC                                       ;;A05F|A05F+A05F/A05F\A06B;
                       ADC.B !PlayerXSpeed                       ;;A060|A060+A060/A060\A06C;
@@ -4924,13 +4924,13 @@ MarioSprInteractRt:   LDA.W !SpriteTweakerD,X                   ;;A7E6|A7E4+A7E4
                     - CLC                                       ;;A7F7|A7F5+A7F5/A7F5\A801;  |
                       RTS                                       ;;A7F8|A7F6+A7F6/A7F6\A802; /
                                                                 ;;                        ;
-ProcessInteract:      JSR SubHorizPos                           ;;A7F9|A7F7+A7F7/A7F7\A803;
+ProcessInteract:      JSR SubHorizPosBnk1                       ;;A7F9|A7F7+A7F7/A7F7\A803;
                       LDA.B !_F                                 ;;A7FC|A7FA+A7FA/A7FA\A806;
                       CLC                                       ;;A7FE|A7FC+A7FC/A7FC\A808;
                       ADC.B #$50                                ;;A7FF|A7FD+A7FD/A7FD\A809;
                       CMP.B #$A0                                ;;A801|A7FF+A7FF/A7FF\A80B;
                       BCS -                                     ;;A803|A801+A801/A801\A80D; No contact, return
-                      JSR CODE_01AD42                           ;;A805|A803+A803/A803\A80F;
+                      JSR SubVertPosBnk1                        ;;A805|A803+A803/A803\A80F;
                       LDA.B !_E                                 ;;A808|A806+A806/A806\A812;
                       CLC                                       ;;A80A|A808+A808/A808\A814;
                       ADC.B #$60                                ;;A80B|A809+A809/A809\A815;
@@ -4979,7 +4979,7 @@ CODE_01A847:          JSL CODE_01AB6F                           ;;A849|A847+A847
                       STA.W !SpriteStatus,X                     ;;A86F|A86D+A86D/A86D\A879; /
                       LDA.B #$D0                                ;;A872|A870+A870/A870\A87C;
                       STA.B !SpriteYSpeed,X                     ;;A874|A872+A872/A872\A87E;
-                      JSR SubHorizPos                           ;;A876|A874+A874/A874\A880;
+                      JSR SubHorizPosBnk1                       ;;A876|A874+A874/A874\A880;
                       LDA.W DATA_01A839,Y                       ;;A879|A877+A877/A877\A883;
                       STA.B !SpriteXSpeed,X                     ;;A87C|A87A+A87A/A87A\A886;
 ReturnNoContact2:     CLC                                       ;;A87E|A87C+A87C/A87C\A888;
@@ -5050,7 +5050,7 @@ CODE_01A8E6:          LDA.W !PlayerSlopePose                    ;;A8E8|A8E6+A8E6
                       LDA.W !SpriteTweakerE,X                   ;;A905|A903+A903/A903\A90F;
                       AND.B #$10                                ;;A908|A906+A906/A906\A912;
                       BNE +                                     ;;A90A|A908+A908/A908\A914;
-                      JSR SubHorizPos                           ;;A90C|A90A+A90A/A90A\A916;
+                      JSR SubHorizPosBnk1                       ;;A90C|A90A+A90A/A90A\A916;
                       TYA                                       ;;A90F|A90D+A90D/A90D\A919;
                       STA.W !SpriteMisc157C,X                   ;;A910|A90E+A90E/A90E\A91A;
                     + LDA.B !SpriteNumber,X                     ;;A913|A911+A911/A911\A91D;
@@ -5078,7 +5078,7 @@ CODE_01A924:          JSL DisplayContactGfx                     ;;A926|A924+A924
 CODE_01A947:          JSR CODE_01A8D8                           ;;A949|A947+A947/A947\A953;
                       LDA.W !SpriteMisc187B,X                   ;;A94C|A94A+A94A/A94A\A956;
                       BEQ CODE_01A95D                           ;;A94F|A94D+A94D/A94D\A959;
-                      JSR SubHorizPos                           ;;A951|A94F+A94F/A94F\A95B;
+                      JSR SubHorizPosBnk1                       ;;A951|A94F+A94F/A94F\A95B;
                       LDA.B #$18                                ;;A954|A952+A952/A952\A95E;
                       CPY.B #$00                                ;;A956|A954+A954/A954\A960;
                       BEQ +                                     ;;A958|A956+A956/A956\A962;
@@ -5249,7 +5249,7 @@ CODE_01AA97:          JSR PlayKickSfx                           ;;AA9A|AA97+AA97
                       STA.W !SpriteStatus,X                     ;;AAA4|AAA1+AAA1/AAA1\AAAD; /
                       LDA.B #$10                                ;;AAA7|AAA4+AAA4/AAA4\AAB0;
                       STA.W !SpriteMisc154C,X                   ;;AAA9|AAA6+AAA6/AAA6\AAB2;
-                      JSR SubHorizPos                           ;;AAAC|AAA9+AAA9/AAA9\AAB5;
+                      JSR SubHorizPosBnk1                       ;;AAAC|AAA9+AAA9/AAA9\AAB5;
                       LDA.W ShellSpeedX,Y                       ;;AAAF|AAAC+AAAC/AAAC\AAB8;
                       STA.B !SpriteXSpeed,X                     ;;AAB2|AAAF+AAAF/AAAF\AABB;
                       RTS                                       ;;AAB4|AAB1+AAB1/AAB1\AABD; Return
@@ -5315,7 +5315,7 @@ Return01AB2C:         RTS                                       ;;AB2F|AB2C+AB2C
 DATA_01AB2D:          db $01,$00,$FF,$FF                        ;;AB30|AB2D+AB2D/AB2D\AB39;
                                                                 ;;                        ;
 CODE_01AB31:          STZ.B !PlayerXSpeed                       ;;AB34|AB31+AB31/AB31\AB3D;
-                      JSR SubHorizPos                           ;;AB36|AB33+AB33/AB33\AB3F;
+                      JSR SubHorizPosBnk1                       ;;AB36|AB33+AB33/AB33\AB3F;
                       TYA                                       ;;AB39|AB36+AB36/AB36\AB42;
                       ASL A                                     ;;AB3A|AB37+AB37/AB37\AB43;
                       TAY                                       ;;AB3B|AB38+AB38/AB38\AB44;
@@ -5582,10 +5582,10 @@ CODE_01AD26:          LDA.W !RNGCalc+1                          ;;AD29|AD26+AD26
                       STA.W !RandomNumber,Y                     ;;AD2F|AD2C+AD2C/AD2C\AD38;
                       RTL                                       ;;AD32|AD2F+AD2F/AD2F\AD3B; Return
                                                                 ;;                        ;
-SubHorizPos:          LDY.B #$00                                ;;AD33|AD30+AD30/AD30\AD3C;
-                      LDA.B !PlayerXPosNow                      ;;AD35|AD32+AD32/AD32\AD3E;
-                      SEC                                       ;;AD37|AD34+AD34/AD34\AD40;
-                      SBC.B !SpriteXPosLow,X                    ;;AD38|AD35+AD35/AD35\AD41;
+SubHorizPosBnk1:      LDY.B #$00                                ;;AD33|AD30+AD30/AD30\AD3C; Interestingly, this routine
+                      LDA.B !PlayerXPosNow                      ;;AD35|AD32+AD32/AD32\AD3E; uses the player's current frame x-position.
+                      SEC                                       ;;AD37|AD34+AD34/AD34\AD40; The versions in banks 2 and 3 use the
+                      SBC.B !SpriteXPosLow,X                    ;;AD38|AD35+AD35/AD35\AD41; next frame positions.
                       STA.B !_F                                 ;;AD3A|AD37+AD37/AD37\AD43;
                       LDA.B !PlayerXPosNow+1                    ;;AD3C|AD39+AD39/AD39\AD45;
                       SBC.W !SpriteYPosHigh,X                   ;;AD3E|AD3B+AD3B/AD3B\AD47;
@@ -5593,8 +5593,8 @@ SubHorizPos:          LDY.B #$00                                ;;AD33|AD30+AD30
                       INY                                       ;;AD43|AD40+AD40/AD40\AD4C;
                     + RTS                                       ;;AD44|AD41+AD41/AD41\AD4D; Return
                                                                 ;;                        ;
-CODE_01AD42:          LDY.B #$00                                ;;AD45|AD42+AD42/AD42\AD4E;
-                      LDA.B !PlayerYPosNow                      ;;AD47|AD44+AD44/AD44\AD50;
+SubVertPosBnk1:       LDY.B #$00                                ;;AD45|AD42+AD42/AD42\AD4E; Same quirk as above except regarding
+                      LDA.B !PlayerYPosNow                      ;;AD47|AD44+AD44/AD44\AD50; y-position.
                       SEC                                       ;;AD49|AD46+AD46/AD46\AD52;
                       SBC.B !SpriteYPosLow,X                    ;;AD4A|AD47+AD47/AD47\AD53;
                       STA.B !_E                                 ;;AD4C|AD49+AD49/AD49\AD55;
@@ -5787,7 +5787,7 @@ CODE_01AEC3:          LDA.W !SpriteOffscreenVert,X              ;;AEC3|AEC3+AEC3
                       BNE CODE_01AEEE                           ;;AEC6|AEC6+AEC6/AEC6\AECD;
                       LDA.W !SpriteOffscreenX,X                 ;;AEC8|AEC8+AEC8/AEC8\AECF;
                       BNE Return01AEF9                          ;;AECB|AECB+AECB/AECB\AED2;
-                      JSR SubHorizPos                           ;;AECD|AECD+AECD/AECD\AED4;
+                      JSR SubHorizPosBnk1                       ;;AECD|AECD+AECD/AECD\AED4;
                       TYA                                       ;;AED0|AED0+AED0/AED0\AED7;
                       STA.W !SpriteMisc157C,X                   ;;AED1|AED1+AED1/AED1\AED8;
                       STZ.W !SpriteMisc1528,X                   ;;AED4|AED4+AED4/AED4\AEDB;
@@ -5951,7 +5951,7 @@ Return01B011:         RTS                                       ;;B011|B011+B011
                                                                 ;;                        ;
 JumpingFishInitXSpd:  db $10,$F0                                ;;B012|B012+B012/B012\B019;
                                                                 ;;                        ;
-InitFish:             JSR SubHorizPos                           ;;B014|B014+B014/B014\B01B;
+InitFish:             JSR SubHorizPosBnk1                       ;;B014|B014+B014/B014\B01B;
                       LDA.W JumpingFishInitXSpd,Y               ;;B017|B017+B017/B017\B01E;
                       STA.B !SpriteXSpeed,X                     ;;B01A|B01A+B01A/B01A\B021;
                       RTS                                       ;;B01C|B01C+B01C/B01C\B023; Return
@@ -6076,7 +6076,7 @@ CODE_01B12A:          LDA.B #$10                                ;;B12A|B12A+B12A
                       STA.W !KickingTimer                       ;;B12C|B12C+B12C/B12C\B133;
                       LDA.B #!SFX_KICK                          ;;B12F|B12F+B12F/B12F\B136;
                       STA.W !SPCIO0                             ;;B131|B131+B131/B131\B138; / Play sound effect
-                      JSR SubHorizPos                           ;;B134|B134+B134/B134\B13B;
+                      JSR SubHorizPosBnk1                       ;;B134|B134+B134/B134\B13B;
                       LDA.W DATA_01B023,Y                       ;;B137|B137+B137/B137\B13E;
                       STA.B !SpriteXSpeed,X                     ;;B13A|B13A+B13A/B13A\B141;
                       LDA.B #$E0                                ;;B13C|B13C+B13C/B13C\B143;
@@ -6557,7 +6557,7 @@ DATA_01B4F9:          db $0E,$F1,$10,$E0,$1F,$F1                ;;B4FA|B4F9+B4F9
                                                                 ;;                        ;
 DATA_01B4FF:          db $00,$FF,$00,$FF,$00,$FF                ;;B500|B4FF+B4FF/B4FF\B506;
                                                                 ;;                        ;
-CODE_01B505:          JSR SubHorizPos                           ;;B506|B505+B505/B505\B50C;
+CODE_01B505:          JSR SubHorizPosBnk1                       ;;B506|B505+B505/B505\B50C;
                       LDA.B !SpriteNumber,X                     ;;B509|B508+B508/B508\B50F;
                       CMP.B #$A9                                ;;B50B|B50A+B50A/B50A\B511;
                       BEQ CODE_01B520                           ;;B50D|B50C+B50C/B50C\B513;
@@ -7134,7 +7134,7 @@ CODE_01B8FF:          LDA.B !_0                                 ;;B900|B8FF+B8FF
                                                                 ;;                        ;
 HorzNetKoopaSpeed:    db $08,$F8                                ;;B93D|B93C+B93C/B93C\B943;
                                                                 ;;                        ;
-InitHorzNetKoopa:     JSR SubHorizPos                           ;;B93F|B93E+B93E/B93E\B945;
+InitHorzNetKoopa:     JSR SubHorizPosBnk1                       ;;B93F|B93E+B93E/B93E\B945;
                       LDA.W HorzNetKoopaSpeed,Y                 ;;B942|B941+B941/B941\B948;
                       STA.B !SpriteXSpeed,X                     ;;B945|B944+B944/B944\B94B;
                       BRA +                                     ;;B947|B946+B946/B946\B94D;
@@ -7733,7 +7733,7 @@ CODE_01BDF2:          LDA.W !SpriteWillAppear                   ;;BDFD|BDF2+BDF2
                       LDA.B !Layer1XPos+1                       ;;BE34|BE29+BE29/BE29\BE30;
                       ADC.B #$00                                ;;BE36|BE2B+BE2B/BE2B\BE32;
                       STA.W !SpriteYPosHigh,X                   ;;BE38|BE2D+BE2D/BE2D\BE34;
-                      JSR SubHorizPos                           ;;BE3B|BE30+BE30/BE30\BE37;
+                      JSR SubHorizPosBnk1                       ;;BE3B|BE30+BE30/BE30\BE37;
                       LDA.B !_F                                 ;;BE3E|BE33+BE33/BE33\BE3A;
                       CLC                                       ;;BE40|BE35+BE35/BE35\BE3C;
                       ADC.B #$20                                ;;BE41|BE36+BE36/BE36\BE3D;
@@ -7750,7 +7750,7 @@ CODE_01BDF2:          LDA.W !SpriteWillAppear                   ;;BDFD|BDF2+BDF2
                       INC.B !SpriteTableC2,X                    ;;BE5A|BE4F+BE4F/BE4F\BE56;
                       STZ.W !SpriteMisc1570,X                   ;;BE5C|BE51+BE51/BE51\BE58;
                       JSR CODE_01BE82                           ;;BE5F|BE54+BE54/BE54\BE5B;
-                      JSR SubHorizPos                           ;;BE62|BE57+BE57/BE57\BE5E;
+                      JSR SubHorizPosBnk1                       ;;BE62|BE57+BE57/BE57\BE5E;
                       TYA                                       ;;BE65|BE5A+BE5A/BE5A\BE61;
                       STA.W !SpriteMisc157C,X                   ;;BE66|BE5B+BE5B/BE5B\BE62;
                     + RTS                                       ;;BE69|BE5E+BE5E/BE5E\BE65; Return
@@ -7767,7 +7767,7 @@ DATA_01BE6C:          db $10,$F8                                ;;BE77|BE6C+BE6C
                                                                 ;;                        ;
 CODE_01BE6E:          STZ.W !SpriteOnYoshiTongue,X              ;;BE79|BE6E+BE6E/BE6E\BE75;
                       JSR SubSprSpr_MarioSpr                    ;;BE7C|BE71+BE71/BE71\BE78;
-                      JSR SubHorizPos                           ;;BE7F|BE74+BE74/BE74\BE7B;
+                      JSR SubHorizPosBnk1                       ;;BE7F|BE74+BE74/BE74\BE7B;
                       TYA                                       ;;BE82|BE77+BE77/BE77\BE7E;
                       STA.W !SpriteMisc157C,X                   ;;BE83|BE78+BE78/BE78\BE7F;
                       LDA.W !SpriteMisc1540,X                   ;;BE86|BE7B+BE7B/BE7B\BE82;
@@ -7892,7 +7892,7 @@ CODE_01BF28:          LDA.B #!SFX_MAGIC                         ;;BF33|BF28+BF28
 CODE_01BF6A:          STA.B !_1                                 ;;BF75|BF6A+BF6A/BF6A\BF71;FILLS OUT RAM TO USE FOR SPEED?                  
                       PHX                                       ;;BF77|BF6C+BF6C/BF6C\BF73;
                       PHY                                       ;;BF78|BF6D+BF6D/BF6D\BF74;
-                      JSR CODE_01AD42                           ;;BF79|BF6E+BF6E/BF6E\BF75;
+                      JSR SubVertPosBnk1                        ;;BF79|BF6E+BF6E/BF6E\BF75;
                       STY.B !_2                                 ;;BF7C|BF71+BF71/BF71\BF78;
                       LDA.B !_E                                 ;;BF7E|BF73+BF73/BF73\BF7A;
                       BPL +                                     ;;BF80|BF75+BF75/BF75\BF7C;
@@ -7900,7 +7900,7 @@ CODE_01BF6A:          STA.B !_1                                 ;;BF75|BF6A+BF6A
                       CLC                                       ;;BF84|BF79+BF79/BF79\BF80;
                       ADC.B #$01                                ;;BF85|BF7A+BF7A/BF7A\BF81;
                     + STA.B !_C                                 ;;BF87|BF7C+BF7C/BF7C\BF83;
-                      JSR SubHorizPos                           ;;BF89|BF7E+BF7E/BF7E\BF85;
+                      JSR SubHorizPosBnk1                       ;;BF89|BF7E+BF7E/BF7E\BF85;
                       STY.B !_3                                 ;;BF8C|BF81+BF81/BF81\BF88;
                       LDA.B !_F                                 ;;BF8E|BF83+BF83/BF83\BF8A;
                       BPL +                                     ;;BF90|BF85+BF85/BF85\BF8C;
@@ -9733,7 +9733,7 @@ CODE_01CDD5:          STA.W !Mode7TileIndex                     ;;CDD5|CDD5+CDD5
                       BNE +                                     ;;CDF3|CDF3+CDF3/CDFA\CE01;
                       LDA.W !SpriteMisc157C,X                   ;;CDF5|CDF5+CDF5/CDFC\CE03;
                       PHA                                       ;;CDF8|CDF8+CDF8/CDFF\CE06;
-                      JSR SubHorizPos                           ;;CDF9|CDF9+CDF9/CE00\CE07;
+                      JSR SubHorizPosBnk1                       ;;CDF9|CDF9+CDF9/CE00\CE07;
                       TYA                                       ;;CDFC|CDFC+CDFC/CE03\CE0A;
                       STA.W !SpriteMisc157C,X                   ;;CDFD|CDFD+CDFD/CE04\CE0B;
                       PLA                                       ;;CE00|CE00+CE00/CE07\CE0E;
@@ -9833,7 +9833,7 @@ DATA_01CEB4:          db $14,$EC                                ;;CEB4|CEB4+CEB4
                                                                 ;;                        ;
 CODE_01CEB6:          LDA.W !SpriteMisc1540,X                   ;;CEB6|CEB6+CEB6/CEBD\CEC4;
                       BNE +                                     ;;CEB9|CEB9+CEB9/CEC0\CEC7;
-                      JSR SubHorizPos                           ;;CEBB|CEBB+CEBB/CEC2\CEC9;
+                      JSR SubHorizPosBnk1                       ;;CEBB|CEBB+CEBB/CEC2\CEC9;
                       TYA                                       ;;CEBE|CEBE+CEBE/CEC5\CECC;
                       CMP.W !SpriteYPosHigh,X                   ;;CEBF|CEBF+CEBF/CEC6\CECD;
                       BNE +                                     ;;CEC2|CEC2+CEC2/CEC9\CED0;
@@ -9848,7 +9848,7 @@ CODE_01CEB6:          LDA.W !SpriteMisc1540,X                   ;;CEB6|CEB6+CEB6
                       STA.B !SpriteYSpeed,X                     ;;CED9|CED9+CED9/CEE0\CEE7;
                       RTS                                       ;;CEDB|CEDB+CEDB/CEE2\CEE9; Return
                                                                 ;;                        ;
-                    + JSR SubHorizPos                           ;;CEDC|CEDC+CEDC/CEE3\CEEA;
+                    + JSR SubHorizPosBnk1                       ;;CEDC|CEDC+CEDC/CEE3\CEEA;
                       LDA.B !SpriteXSpeed,X                     ;;CEDF|CEDF+CEDF/CEE6\CEED;
                       CMP.W DATA_01CEAE,Y                       ;;CEE1|CEE1+CEE1/CEE8\CEEF;
                       BEQ +                                     ;;CEE4|CEE4+CEE4/CEEB\CEF2;
@@ -10232,7 +10232,7 @@ CODE_01D1D8:          LDA.W !SpriteMisc1626,X                   ;;D1D8|D1D8+D1D8
                       EOR.B #$02                                ;;D1FF|D1FF+D1FF/D206\D20D;
                     + CMP.B #$02                                ;;D201|D201+D201/D208\D20F;
                       BNE +                                     ;;D203|D203+D203/D20A\D211;
-                      JSR SubHorizPos                           ;;D205|D205+D205/D20C\D213;
+                      JSR SubHorizPosBnk1                       ;;D205|D205+D205/D20C\D213;
                       LDA.B !_F                                 ;;D208|D208+D208/D20F\D216;
                       CLC                                       ;;D20A|D20A+D20A/D211\D218;
                       ADC.B #$10                                ;;D20B|D20B+D20B/D212\D219;
@@ -10270,7 +10270,7 @@ CODE_01D23F:          LDA.W !SpriteMisc1540,X                   ;;D23F|D23F+D23F
                       CMP.B #$01                                ;;D244|D244+D244/D24B\D252;
                       BNE Return01D2A7                          ;;D246|D246+D246/D24D\D254;
                       STZ.W !SpriteMisc1528,X                   ;;D248|D248+D248/D24F\D256;
-                      JSR SubHorizPos                           ;;D24B|D24B+D24B/D252\D259;
+                      JSR SubHorizPosBnk1                       ;;D24B|D24B+D24B/D252\D259;
                       TYA                                       ;;D24E|D24E+D24E/D255\D25C;
                       STA.W !SpriteMisc157C,X                   ;;D24F|D24F+D24F/D256\D25D;
                       ASL A                                     ;;D252|D252+D252/D259\D260;
@@ -12246,7 +12246,7 @@ MontyMole:            JSR SubOffscreen0Bnk1                     ;;E2CF|E2CF+E2CF
                       dw CODE_01E37F                            ;;E2DC|E2DC+E2DC/E2DC\E2DC;
                       dw CODE_01E393                            ;;E2DE|E2DE+E2DE/E2DE\E2DE;
                                                                 ;;                        ;
-CODE_01E2E0:          JSR SubHorizPos                           ;;E2E0|E2E0+E2E0/E2E0\E2E0;
+CODE_01E2E0:          JSR SubHorizPosBnk1                       ;;E2E0|E2E0+E2E0/E2E0\E2E0;
                       LDA.B !_F                                 ;;E2E3|E2E3+E2E3/E2E3\E2E3;
                       CLC                                       ;;E2E5|E2E5+E2E5/E2E5\E2E5;
                       ADC.B #$60                                ;;E2E6|E2E6+E2E6/E2E6\E2E6;
@@ -13060,7 +13060,7 @@ DATA_01E98B:          db $10,$F0                                ;;E98D|E98B+E98B
                                                                 ;;                        ;
 CODE_01E98D:          LDA.B !SpriteLock                         ;;E98F|E98D+E98D/E98D\E98D; \ Branch if sprites locked
                       BNE Return01E984                          ;;E991|E98F+E98F/E98F\E98F; /
-                      JSR SubHorizPos                           ;;E993|E991+E991/E991\E991;
+                      JSR SubHorizPosBnk1                       ;;E993|E991+E991/E991\E991;
                       TYA                                       ;;E996|E994+E994/E994\E994;
                       LDY.W !SpriteMisc160E,X                   ;;E997|E995+E995/E995\E995;
                       STA.W !SpriteMisc157C,Y                   ;;E99A|E998+E998/E998\E998;
@@ -13159,7 +13159,7 @@ CODE_01EA21:          JSL FindFreeSprSlot                       ;;EA23|EA21+EA21
                       JSL InitSpriteTables                      ;;EA54|EA52+EA52/EA52\EA52;
                       LDA.B #$D8                                ;;EA58|EA56+EA56/EA56\EA56;
                       STA.B !SpriteYSpeed,X                     ;;EA5A|EA58+EA58/EA58\EA58;
-                      JSR SubHorizPos                           ;;EA5C|EA5A+EA5A/EA5A\EA5A;
+                      JSR SubHorizPosBnk1                       ;;EA5C|EA5A+EA5A/EA5A\EA5A;
                       LDA.W DATA_01EA17,Y                       ;;EA5F|EA5D+EA5D/EA5D\EA5D;
                       STA.B !SpriteXSpeed,X                     ;;EA62|EA60+EA60/EA60\EA60;
                       LDA.B !SpriteNumber,X                     ;;EA64|EA62+EA62/EA62\EA62;
@@ -13568,7 +13568,7 @@ CODE_01ED9E:          LDA.B #$02                                ;;EDA0|ED9E+ED9E
                       LDA.B #$A0                                ;;EDB3|EDB1+EDB1/EDB1\EDB1;
                       LDY.B !PlayerInAir                        ;;EDB5|EDB3+EDB3/EDB3\EDB3;
                       BNE +                                     ;;EDB7|EDB5+EDB5/EDB5\EDB5;
-                      JSR SubHorizPos                           ;;EDB9|EDB7+EDB7/EDB7\EDB7;
+                      JSR SubHorizPosBnk1                       ;;EDB9|EDB7+EDB7/EDB7\EDB7;
                       LDA.W DATA_01EBC0,Y                       ;;EDBC|EDBA+EDBA/EDBA\EDBA;
                       STA.B !PlayerXSpeed                       ;;EDBF|EDBD+EDBD/EDBD\EDBD;
                       LDA.B #$C0                                ;;EDC1|EDBF+EDBF/EDBF\EDBF;
@@ -14695,7 +14695,7 @@ CODE_01F6EC:          LDA.B !_5                                 ;;F6EF|F6EC+F6EC
                       BNE CODE_01F70E                           ;;F6FD|F6FA+F6FA/F6FA\F6FA;
                       PHX                                       ;;F6FF|F6FC+F6FC/F6FC\F6FC;
                       TYX                                       ;;F700|F6FD+F6FD/F6FD\F6FD;
-                      JSR SubHorizPos                           ;;F701|F6FE+F6FE/F6FE\F6FE;
+                      JSR SubHorizPosBnk1                       ;;F701|F6FE+F6FE/F6FE\F6FE;
                       STY.B !_0                                 ;;F704|F701+F701/F701\F701;
                       LDA.B !SpriteXSpeed,X                     ;;F706|F703+F703/F703\F703;
                       PLX                                       ;;F708|F705+F705/F705\F705;
@@ -14718,7 +14718,7 @@ CODE_01F70E:          LDA.W !InvinsibilityTimer                 ;;F711|F70E+F70E
                       LDA.B #$C0                                ;;F72C|F729+F729/F729\F729;
                       STA.B !PlayerYSpeed                       ;;F72E|F72B+F72B/F72B\F72B;
                       STZ.B !PlayerXSpeed                       ;;F730|F72D+F72D/F72D\F72D;
-                      JSR SubHorizPos                           ;;F732|F72F+F72F/F72F\F72F;
+                      JSR SubHorizPosBnk1                       ;;F732|F72F+F72F/F72F\F72F;
                       LDA.W DATA_01EBBE,Y                       ;;F735|F732+F732/F732\F732;
                       STA.B !SpriteXSpeed,X                     ;;F738|F735+F735/F735\F735;
                       STZ.W !SpriteMisc1594,X                   ;;F73A|F737+F737/F737\F737;
@@ -14747,7 +14747,7 @@ YoshiEgg:             LDA.W !SpriteMisc187B,X                   ;;F767|F764+F764
                       BEQ CODE_01F799                           ;;F76A|F767+F767/F767\F767;
                       JSR IsSprOffScreen                        ;;F76C|F769+F769/F769\F769;
                       BNE CODE_01F78D                           ;;F76F|F76C+F76C/F76C\F76C;
-                      JSR SubHorizPos                           ;;F771|F76E+F76E/F76E\F76E;
+                      JSR SubHorizPosBnk1                       ;;F771|F76E+F76E/F76E\F76E;
                       LDA.B !_F                                 ;;F774|F771+F771/F771\F771;
                       CLC                                       ;;F776|F773+F773/F773\F773;
                       ADC.B #$20                                ;;F777|F774+F774/F774\F774;
@@ -14883,7 +14883,7 @@ UnusedInit:           JSR FaceMario                             ;;F878|F875+F875
                       STA.W !SpriteMisc1534,X                   ;;F87B|F878+F878/F878\F878;
 Return01F87B:         RTS                                       ;;F87E|F87B+F87B/F87B\F87B; Return
                                                                 ;;                        ;
-InitEerie:            JSR SubHorizPos                           ;;F87F|F87C+F87C/F87C\F87C;
+InitEerie:            JSR SubHorizPosBnk1                       ;;F87F|F87C+F87C/F87C\F87C;
                       LDA.W EerieSpeedX,Y                       ;;F882|F87F+F87F/F87F\F87F;
                       STA.B !SpriteXSpeed,X                     ;;F885|F882+F882/F882\F882;
 InitBigBoo:           JSL GetRand                               ;;F887|F884+F884/F884\F884;
@@ -14943,7 +14943,7 @@ Boo_BooBlock:         JSR SubOffscreen0Bnk1                     ;;F8DF|F8DC+F8DC
                       BEQ +                                     ;;F8F0|F8ED+F8ED/F8ED\F8ED;
 CODE_01F8EF:          JMP CODE_01F9CE                           ;;F8F2|F8EF+F8EF/F8EF\F8EF;
                                                                 ;;                        ;
-                    + JSR SubHorizPos                           ;;F8F5|F8F2+F8F2/F8F2\F8F2;
+                    + JSR SubHorizPosBnk1                       ;;F8F5|F8F2+F8F2/F8F2\F8F2;
                       LDA.W !SpriteMisc1540,X                   ;;F8F8|F8F5+F8F5/F8F5\F8F5;
                       BNE CODE_01F914                           ;;F8FB|F8F8+F8F8/F8F8\F8F8;
                       LDA.B #$20                                ;;F8FD|F8FA+F8FA/F8FA\F8FA;
@@ -15025,7 +15025,7 @@ CODE_01F989:          STZ.W !SpriteMisc1570,X                   ;;F98C|F989+F989
                       LDA.B !TrueFrame                          ;;F98F|F98C+F98C/F98C\F98C;
                       AND.B #$07                                ;;F991|F98E+F98E/F98E\F98E;
                       BNE CODE_01F9C8                           ;;F993|F990+F990/F990\F990;
-                      JSR SubHorizPos                           ;;F995|F992+F992/F992\F992;
+                      JSR SubHorizPosBnk1                       ;;F995|F992+F992/F992\F992;
                       LDA.B !SpriteXSpeed,X                     ;;F998|F995+F995/F995\F995;
                       CMP.W DATA_01F8CF,Y                       ;;F99A|F997+F997/F997\F997;
                       BEQ +                                     ;;F99D|F99A+F99A/F99A\F99A;
@@ -15041,7 +15041,7 @@ CODE_01F989:          STZ.W !SpriteMisc1570,X                   ;;F98C|F989+F989
                       PHA                                       ;;F9B0|F9AD+F9AD/F9AD\F9AD;
                       SBC.B #$00                                ;;F9B1|F9AE+F9AE/F9AE\F9AE;
                       STA.B !PlayerYPosNow+1                    ;;F9B3|F9B0+F9B0/F9B0\F9B0;
-                      JSR CODE_01AD42                           ;;F9B5|F9B2+F9B2/F9B2\F9B2;
+                      JSR SubVertPosBnk1                        ;;F9B5|F9B2+F9B2/F9B2\F9B2;
                       PLA                                       ;;F9B8|F9B5+F9B5/F9B5\F9B5;
                       STA.B !PlayerYPosNow+1                    ;;F9B9|F9B6+F9B6/F9B6\F9B6;
                       PLA                                       ;;F9BB|F9B8+F9B8/F9B8\F9B8;
@@ -15194,7 +15194,7 @@ DATA_01FAE5:          db $00,$01,$02,$00,$01,$02,$00,$01        ;;FAE8|FAE5+FAE5
 PlatformKoopaKids:    LDA.B !SpriteLock                         ;;FAF8|FAF5+FAF5/FAF5\FAF5;
                       ORA.W !SpriteMisc154C,X                   ;;FAFA|FAF7+FAF7/FAF7\FAF7;
                       BNE +                                     ;;FAFD|FAFA+FAFA/FAFA\FAFA;
-                      JSR SubHorizPos                           ;;FAFF|FAFC+FAFC/FAFC\FAFC;
+                      JSR SubHorizPosBnk1                       ;;FAFF|FAFC+FAFC/FAFC\FAFC;
                       STY.B !_0                                 ;;FB02|FAFF+FAFF/FAFF\FAFF;
                       LDA.B !Mode7Angle                         ;;FB04|FB01+FB01/FB01\FB01;
                       ASL A                                     ;;FB06|FB03+FB03/FB03\FB03;
