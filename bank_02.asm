@@ -845,7 +845,7 @@ CODE_028752:          LDA.B !_4                                 ;;8752|8752+8752
                       STA.B !PlayerYSpeed                       ;;8775|8775+8775/8775\8775; /
                       LDA.B #$00                                ;;8777|8777+8777/8777\8777; for shatter routine?
                       JSL ShatterBlock                          ;;8779|8779+8779/8779\8779; Actually break the block
-                      JSR SprBlkInteract                        ;;877D|877D+877D/877D\877D; Handle sprite/block interaction 
+                      JSR SprBlkInteract                        ;;877D|877D+877D/877D\877D; Handle sprite/block interaction
 CODE_028780:          LDA.B #$02                                ;;8780|8780+8780/8780\8780; \ Replace block with "nothing" tile
                       STA.B !Map16TileGenerate                  ;;8782|8782+8782/8782\8782;  |
                       JSL GenerateTile                          ;;8784|8784+8784/8784\8784; /
@@ -3276,23 +3276,23 @@ CODE_029B16:          LDA.W !ExtSpriteNumber,X                  ;;9B21|9B16+9B16
                                                                 ;;                        ;
                       dw Return029B15                           ;;9B36|9B2B+9B2B/9B2B\9B2B; 00 - Empty slot
                       dw SmokePuff                              ;;9B38|9B2D+9B2D/9B2D\9B2D; 01 - Puff of smoke
-                      dw ReznorFireball                         ;;9B3A|9B2F+9B2F/9B2F\9B2F; 02 - Reznor fireball                            
-                      dw FlameRemnant                           ;;9B3C|9B31+9B31/9B31\9B31; 03 - Tiny flame left by hopping flame           
-                      dw Hammer                                 ;;9B3E|9B33+9B33/9B33\9B33; 04 - Hammer                                     
+                      dw ReznorFireball                         ;;9B3A|9B2F+9B2F/9B2F\9B2F; 02 - Reznor fireball
+                      dw FlameRemnant                           ;;9B3C|9B31+9B31/9B31\9B31; 03 - Tiny flame left by hopping flame
+                      dw Hammer                                 ;;9B3E|9B33+9B33/9B33\9B33; 04 - Hammer
                       dw MarioFireball                          ;;9B40|9B35+9B35/9B35\9B35; 05 - Mario fireball
                       dw Baseball                               ;;9B42|9B37+9B37/9B37\9B37; 06 - Bone
                       dw LavaSplash                             ;;9B44|9B39+9B39/9B39\9B39; 07 - Lava splash
-                      dw LauncherArm                            ;;9B46|9B3B+9B3B/9B3B\9B3B; 08 - Torpedo Ted shooter's arm                  
+                      dw LauncherArm                            ;;9B46|9B3B+9B3B/9B3B\9B3B; 08 - Torpedo Ted shooter's arm
                       dw UnusedExtendedSpr                      ;;9B48|9B3D+9B3D/9B3D\9B3D; 09 - Unused (Red thing that flickers from 16x16 to 8x8)
-                      dw CloudCoin                              ;;9B4A|9B3F+9B3F/9B3F\9B3F; 0A - Coin from cloud game 
-                      dw Hammer                                 ;;9B4C|9B41+9B41/9B41\9B41; 0B - Piranha fireball                           
+                      dw CloudCoin                              ;;9B4A|9B3F+9B3F/9B3F\9B3F; 0A - Coin from cloud game
+                      dw Hammer                                 ;;9B4C|9B41+9B41/9B41\9B41; 0B - Piranha fireball
                       dw VolcanoLotusFire                       ;;9B4E|9B43+9B43/9B43\9B43; 0C - Volcano lotus fire
-                      dw Baseball                               ;;9B50|9B45+9B45/9B45\9B45; 0D - Baseball                                   
+                      dw Baseball                               ;;9B50|9B45+9B45/9B45\9B45; 0D - Baseball
                       dw CloudCoin                              ;;9B52|9B47+9B47/9B47\9B47; 0E - Flower of Wiggler
-                      dw SmokeTrail                             ;;9B54|9B49+9B49/9B49\9B49; 0F - Trail of smoke                             
-                      dw SpinJumpStars                          ;;9B56|9B4B+9B4B/9B4B\9B4B; 10 - Spin Jump stars                             
+                      dw SmokeTrail                             ;;9B54|9B49+9B49/9B49\9B49; 0F - Trail of smoke
+                      dw SpinJumpStars                          ;;9B56|9B4B+9B4B/9B4B\9B4B; 10 - Spin Jump stars
                       dw YoshiFireball                          ;;9B58|9B4D+9B4D/9B4D\9B4D; 11 - Yoshi fireballs
-                      dw WaterBubble                            ;;9B5A|9B4F+9B4F/9B4F\9B4F; 12 - Water bubble                               
+                      dw WaterBubble                            ;;9B5A|9B4F+9B4F/9B4F\9B4F; 12 - Water bubble
                                                                 ;;                        ;
 VolcanoLotusFire:     LDY.W DATA_02A153,X                       ;;9B5C|9B51+9B51/9B51\9B51;
                       LDA.W !ExtSpriteXPosLow,X                 ;;9B5F|9B54+9B54/9B54\9B54;
@@ -5031,21 +5031,21 @@ CODE_02A95B:          LDA.B [!SpriteDataPtr],Y                  ;;A975|A95B+A95B
                       LDA.B !_4                                 ;;A98D|A973+A973/A973\A973; \ Sprite status = ??
                       STA.W !SpriteStatus,X                     ;;A98F|A975+A975/A975\A975; /
                       CMP.B #$09                                ;;A992|A978+A978/A978\A978;
-                      LDA.B [!SpriteDataPtr],Y                  ;;A994|A97A+A97A/A97A\A97A;KKOOPA STORAGE???              
-                      BCC +                                     ;;A996|A97C+A97C/A97C\A97C;NO, IT WAS STATIONARY         
+                      LDA.B [!SpriteDataPtr],Y                  ;;A994|A97A+A97A/A97A\A97A;KKOOPA STORAGE???
+                      BCC +                                     ;;A996|A97C+A97C/A97C\A97C;NO, IT WAS STATIONARY
                       SEC                                       ;;A998|A97E+A97E/A97E\A97E;
-                      SBC.B #$DA                                ;;A999|A97F+A97F/A97F\A97F;SUBTRACT DA, FIRST SHELL SPRITE [RED]               
+                      SBC.B #$DA                                ;;A999|A97F+A97F/A97F\A97F;SUBTRACT DA, FIRST SHELL SPRITE [RED]
                       CLC                                       ;;A99B|A981+A981/A981\A981;
                       ADC.B #$04                                ;;A99C|A982+A982/A982\A982;
                     + PHY                                       ;;A99E|A984+A984/A984\A984;
                       LDY.W !OWLevelTileSettings+$49            ;;A99F|A985+A985/A985\A985;
-                      BPL CODE_02A996                           ;;A9A2|A988+A988/A988\A988;IF POSITIBE, JUST STORE?          
+                      BPL CODE_02A996                           ;;A9A2|A988+A988/A988\A988;IF POSITIBE, JUST STORE?
                       CMP.B #$04                                ;;A9A4|A98A+A98A/A98A\A98A;
                       BNE +                                     ;;A9A6|A98C+A98C/A98C\A98C;
-                      LDA.B #$07                                ;;A9A8|A98E+A98E/A98E\A98E;WHAT?               
+                      LDA.B #$07                                ;;A9A8|A98E+A98E/A98E\A98E;WHAT?
                     + CMP.B #$05                                ;;A9AA|A990+A990/A990\A990;
                       BNE CODE_02A996                           ;;A9AC|A992+A992/A992\A992;
-                      LDA.B #$06                                ;;A9AE|A994+A994/A994\A994;STORING RED KOOPA SHELL TO SPRITENUM               
+                      LDA.B #$06                                ;;A9AE|A994+A994/A994\A994;STORING RED KOOPA SHELL TO SPRITENUM
 CODE_02A996:          STA.B !SpriteNumber,X                     ;;A9B0|A996+A996/A996\A996;
                       PLY                                       ;;A9B2|A998+A998/A998\A998;
                       LDA.B !_2                                 ;;A9B3|A999+A999/A999\A999; \ $161A,x = index of the sprite in the level
@@ -5833,21 +5833,21 @@ CallGenerator:        LDA.W !CurrentGenerator                   ;;B01B|AFFE+AFFE
                       DEC A                                     ;;B024|B007+B007/B007\B007;
                       JSL ExecutePtr                            ;;B025|B008+B008/B008\B008;
                                                                 ;;                        ;
-                      dw GenerateEerie                          ;;B029|B00C+B00C/B00C\B00C; 00 - Eerie, generator                         
-                      dw GenParaEnemy                           ;;B02B|B00E+B00E/B00E\B00E; 01 - Para-Goomba, generator                   
-                      dw GenParaEnemy                           ;;B02D|B010+B010/B010\B010; 02 - Para-Bomb, generator                     
-                      dw GenParaEnemy                           ;;B02F|B012+B012/B012\B012; 03 - Para-Bomb and Para-Goomba, generator     
-                      dw GenerateDolphin                        ;;B031|B014+B014/B014\B014; 04 - Dolphin, left, generator                 
-                      dw GenerateDolphin                        ;;B033|B016+B016/B016\B016; 05 - Dolphin, right, generator                
-                      dw GenerateFish                           ;;B035|B018+B018/B018\B018; 06 - Jumping fish, generator                  
-                      dw TurnOffGen2                            ;;B037|B01A+B01A/B01A\B01A; 07 - Turn off generator 2 (sprite E5)         
-                      dw GenSuperKoopa                          ;;B039|B01C+B01C/B01C\B01C; 08 - Super Koopa, generator                   
+                      dw GenerateEerie                          ;;B029|B00C+B00C/B00C\B00C; 00 - Eerie, generator
+                      dw GenParaEnemy                           ;;B02B|B00E+B00E/B00E\B00E; 01 - Para-Goomba, generator
+                      dw GenParaEnemy                           ;;B02D|B010+B010/B010\B010; 02 - Para-Bomb, generator
+                      dw GenParaEnemy                           ;;B02F|B012+B012/B012\B012; 03 - Para-Bomb and Para-Goomba, generator
+                      dw GenerateDolphin                        ;;B031|B014+B014/B014\B014; 04 - Dolphin, left, generator
+                      dw GenerateDolphin                        ;;B033|B016+B016/B016\B016; 05 - Dolphin, right, generator
+                      dw GenerateFish                           ;;B035|B018+B018/B018\B018; 06 - Jumping fish, generator
+                      dw TurnOffGen2                            ;;B037|B01A+B01A/B01A\B01A; 07 - Turn off generator 2 (sprite E5)
+                      dw GenSuperKoopa                          ;;B039|B01C+B01C/B01C\B01C; 08 - Super Koopa, generator
                       dw GenerateBubble                         ;;B03B|B01E+B01E/B01E\B01E; 09 - Bubble with Goomba and Bob-omb, generator
-                      dw GenerateBullet                         ;;B03D|B020+B020/B020\B020; 0A - Bullet Bill, generator                   
-                      dw GenMultiBullets                        ;;B03F|B022+B022/B022\B022; 0B - Bullet Bill surrounded, generator        
-                      dw GenMultiBullets                        ;;B041|B024+B024/B024\B024; 0C - Bullet Bill diagonal, generator          
-                      dw GenerateFire                           ;;B043|B026+B026/B026\B026; 0D - Bowser statue fire breath, generator     
-                      dw TurnOffGenerators                      ;;B045|B028+B028/B028\B028; 0E - Turn off standard generators             
+                      dw GenerateBullet                         ;;B03D|B020+B020/B020\B020; 0A - Bullet Bill, generator
+                      dw GenMultiBullets                        ;;B03F|B022+B022/B022\B022; 0B - Bullet Bill surrounded, generator
+                      dw GenMultiBullets                        ;;B041|B024+B024/B024\B024; 0C - Bullet Bill diagonal, generator
+                      dw GenerateFire                           ;;B043|B026+B026/B026\B026; 0D - Bowser statue fire breath, generator
+                      dw TurnOffGenerators                      ;;B045|B028+B028/B028\B028; 0E - Turn off standard generators
                                                                 ;;                        ;
                     + RTS                                       ;;B047|B02A+B02A/B02A\B02A; Return
                                                                 ;;                        ;
@@ -6378,33 +6378,33 @@ CODE_02B42D:          LDA.B #$08                                ;;B44A|B42D+B42D
                                                                 ;;                        ;
 DATA_02B464:          db $01,$FF                                ;;B481|B464+B464/B464\B464;
                                                                 ;;                        ;
-ShootBullet:          LDA.W !ShooterTimer,X                     ;;B483|B466+B466/B466\B466; \ Return if it's not time to generate       
-                      BNE +                                     ;;B486|B469+B469/B469\B469; /       
-                      LDA.B #$60                                ;;B488|B46B+B46B/B46B\B46B; \ Set time till next generation = 60       
-                      STA.W !ShooterTimer,X                     ;;B48A|B46D+B46D/B46D\B46D; /       
-                      LDA.W !ShooterYPosLow,X                   ;;B48D|B470+B470/B470\B470; \ Don't generate if off screen vertically       
-                      CMP.B !Layer1YPos                         ;;B490|B473+B473/B473\B473;  |       
-                      LDA.W !ShooterYPosHigh,X                  ;;B492|B475+B475/B475\B475;  |       
-                      SBC.B !Layer1YPos+1                       ;;B495|B478+B478/B478\B478;  |       
-                      BNE +                                     ;;B497|B47A+B47A/B47A\B47A; /       
-                      LDA.W !ShooterXPosLow,X                   ;;B499|B47C+B47C/B47C\B47C; \ Don't generate if off screen horizontally       
-                      CMP.B !Layer1XPos                         ;;B49C|B47F+B47F/B47F\B47F;  |       
-                      LDA.W !ShooterXPosHigh,X                  ;;B49E|B481+B481/B481\B481;  |       
-                      SBC.B !Layer1XPos+1                       ;;B4A1|B484+B484/B484\B484;  |       
-                      BNE +                                     ;;B4A3|B486+B486/B486\B486; /        
-                      LDA.W !ShooterXPosLow,X                   ;;B4A5|B488+B488/B488\B488; \ ?? something else related to x position of generator??       
-                      SEC                                       ;;B4A8|B48B+B48B/B48B\B48B;  |        
-                      SBC.B !Layer1XPos                         ;;B4A9|B48C+B48C/B48C\B48C;  |       
-                      CLC                                       ;;B4AB|B48E+B48E/B48E\B48E;  |       
-                      ADC.B #$10                                ;;B4AC|B48F+B48F/B48F\B48F;  |       
-                      CMP.B #$10                                ;;B4AE|B491+B491/B491\B491;  |       
-                      BCC +                                     ;;B4B0|B493+B493/B493\B493; /       
-                      LDA.B !PlayerXPosNext                     ;;B4B2|B495+B495/B495\B495; \ Don't fire if mario is next to generator       
-                      SBC.W !ShooterXPosLow,X                   ;;B4B4|B497+B497/B497\B497;  |       
-                      CLC                                       ;;B4B7|B49A+B49A/B49A\B49A;  |       
-                      ADC.B #$11                                ;;B4B8|B49B+B49B/B49B\B49B;  |       
-                      CMP.B #$22                                ;;B4BA|B49D+B49D/B49D\B49D;  |       
-                      BCC +                                     ;;B4BC|B49F+B49F/B49F\B49F; /       
+ShootBullet:          LDA.W !ShooterTimer,X                     ;;B483|B466+B466/B466\B466; \ Return if it's not time to generate
+                      BNE +                                     ;;B486|B469+B469/B469\B469; /
+                      LDA.B #$60                                ;;B488|B46B+B46B/B46B\B46B; \ Set time till next generation = 60
+                      STA.W !ShooterTimer,X                     ;;B48A|B46D+B46D/B46D\B46D; /
+                      LDA.W !ShooterYPosLow,X                   ;;B48D|B470+B470/B470\B470; \ Don't generate if off screen vertically
+                      CMP.B !Layer1YPos                         ;;B490|B473+B473/B473\B473;  |
+                      LDA.W !ShooterYPosHigh,X                  ;;B492|B475+B475/B475\B475;  |
+                      SBC.B !Layer1YPos+1                       ;;B495|B478+B478/B478\B478;  |
+                      BNE +                                     ;;B497|B47A+B47A/B47A\B47A; /
+                      LDA.W !ShooterXPosLow,X                   ;;B499|B47C+B47C/B47C\B47C; \ Don't generate if off screen horizontally
+                      CMP.B !Layer1XPos                         ;;B49C|B47F+B47F/B47F\B47F;  |
+                      LDA.W !ShooterXPosHigh,X                  ;;B49E|B481+B481/B481\B481;  |
+                      SBC.B !Layer1XPos+1                       ;;B4A1|B484+B484/B484\B484;  |
+                      BNE +                                     ;;B4A3|B486+B486/B486\B486; /
+                      LDA.W !ShooterXPosLow,X                   ;;B4A5|B488+B488/B488\B488; \ ?? something else related to x position of generator??
+                      SEC                                       ;;B4A8|B48B+B48B/B48B\B48B;  |
+                      SBC.B !Layer1XPos                         ;;B4A9|B48C+B48C/B48C\B48C;  |
+                      CLC                                       ;;B4AB|B48E+B48E/B48E\B48E;  |
+                      ADC.B #$10                                ;;B4AC|B48F+B48F/B48F\B48F;  |
+                      CMP.B #$10                                ;;B4AE|B491+B491/B491\B491;  |
+                      BCC +                                     ;;B4B0|B493+B493/B493\B493; /
+                      LDA.B !PlayerXPosNext                     ;;B4B2|B495+B495/B495\B495; \ Don't fire if mario is next to generator
+                      SBC.W !ShooterXPosLow,X                   ;;B4B4|B497+B497/B497\B497;  |
+                      CLC                                       ;;B4B7|B49A+B49A/B49A\B49A;  |
+                      ADC.B #$11                                ;;B4B8|B49B+B49B/B49B\B49B;  |
+                      CMP.B #$22                                ;;B4BA|B49D+B49D/B49D\B49D;  |
+                      BCC +                                     ;;B4BC|B49F+B49F/B49F\B49F; /
                       JSL FindFreeSlotLowPri                    ;;B4BE|B4A1+B4A1/B4A1\B4A1; \ Get an index to an unused sprite slot, return if all slots full
                       BMI +                                     ;;B4C2|B4A5+B4A5/B4A5\B4A5; / After: Y has index of sprite being generated
                       LDA.B #!SFX_KAPOW                         ;;B4C4|B4A7+B4A7/B4A7\B4A7; \ Only shoot every #$80 frames
@@ -6427,8 +6427,8 @@ ShootBullet:          LDA.W !ShooterTimer,X                     ;;B483|B466+B466
                       PHX                                       ;;B4F0|B4D3+B4D3/B4D3\B4D3; \ Before: X must have index of sprite being generated
                       TYX                                       ;;B4F1|B4D4+B4D4/B4D4\B4D4;  | Routine clears *all* old sprite values...
                       JSL InitSpriteTables                      ;;B4F2|B4D5+B4D5/B4D5\B4D5;  | ...and loads in new values for the 6 main sprite tables
-                      PLX                                       ;;B4F6|B4D9+B4D9/B4D9\B4D9; / 
-                      JSR ShowShooterSmoke                      ;;B4F7|B4DA+B4DA/B4DA\B4DA; Display smoke graphic                                     
+                      PLX                                       ;;B4F6|B4D9+B4D9/B4D9\B4D9; /
+                      JSR ShowShooterSmoke                      ;;B4F7|B4DA+B4DA/B4DA\B4DA; Display smoke graphic
                     + RTS                                       ;;B4FA|B4DD+B4DD/B4DD\B4DD; Return
                                                                 ;;                        ;
 ShowShooterSmoke:     LDY.B #$03                                ;;B4FB|B4DE+B4DE/B4DE\B4DE; \ Find a free slot to display effect
@@ -6441,25 +6441,25 @@ FindFreeSmokeSlot:    LDA.W !SmokeSpriteNumber,Y                ;;B4FD|B4E0+B4E0
                                                                 ;;                        ;
 ShooterSmokeDispX:    db $F4,$0C                                ;;B506|B4E9+B4E9/B4E9\B4E9;
                                                                 ;;                        ;
-SetShooterSmoke:      LDA.B #$01                                ;;B508|B4EB+B4EB/B4EB\B4EB; \ Set effect graphic to smoke graphic 
-                      STA.W !SmokeSpriteNumber,Y                ;;B50A|B4ED+B4ED/B4ED\B4ED; / 
-                      LDA.W !ShooterYPosLow,X                   ;;B50D|B4F0+B4F0/B4F0\B4F0; \ Smoke y position = generator y position 
-                      STA.W !SmokeSpriteYPos,Y                  ;;B510|B4F3+B4F3/B4F3\B4F3; / 
-                      LDA.B #$1B                                ;;B513|B4F6+B4F6/B4F6\B4F6; \ Set time to show smoke 
-                      STA.W !SmokeSpriteTimer,Y                 ;;B515|B4F8+B4F8/B4F8\B4F8; / 
-                      LDA.W !ShooterXPosLow,X                   ;;B518|B4FB+B4FB/B4FB\B4FB; \ Load generator x position and store it for later 
-                      PHA                                       ;;B51B|B4FE+B4FE/B4FE\B4FE; / 
+SetShooterSmoke:      LDA.B #$01                                ;;B508|B4EB+B4EB/B4EB\B4EB; \ Set effect graphic to smoke graphic
+                      STA.W !SmokeSpriteNumber,Y                ;;B50A|B4ED+B4ED/B4ED\B4ED; /
+                      LDA.W !ShooterYPosLow,X                   ;;B50D|B4F0+B4F0/B4F0\B4F0; \ Smoke y position = generator y position
+                      STA.W !SmokeSpriteYPos,Y                  ;;B510|B4F3+B4F3/B4F3\B4F3; /
+                      LDA.B #$1B                                ;;B513|B4F6+B4F6/B4F6\B4F6; \ Set time to show smoke
+                      STA.W !SmokeSpriteTimer,Y                 ;;B515|B4F8+B4F8/B4F8\B4F8; /
+                      LDA.W !ShooterXPosLow,X                   ;;B518|B4FB+B4FB/B4FB\B4FB; \ Load generator x position and store it for later
+                      PHA                                       ;;B51B|B4FE+B4FE/B4FE\B4FE; /
                       LDA.B !PlayerXPosNext                     ;;B51C|B4FF+B4FF/B4FF\B4FF; \ Determine which side of the generator mario is on
-                      CMP.W !ShooterXPosLow,X                   ;;B51E|B501+B501/B501\B501;  | 
-                      LDA.B !PlayerXPosNext+1                   ;;B521|B504+B504/B504\B504;  | 
-                      SBC.W !ShooterXPosHigh,X                  ;;B523|B506+B506/B506\B506;  | 
-                      LDX.B #$00                                ;;B526|B509+B509/B509\B509;  | 
-                      BCC +                                     ;;B528|B50B+B50B/B50B\B50B;  | 
-                      INX                                       ;;B52A|B50D+B50D/B50D\B50D; / 
-                    + PLA                                       ;;B52B|B50E+B50E/B50E\B50E; \ Set smoke x position from generator position 
-                      CLC                                       ;;B52C|B50F+B50F/B50F\B50F;  | 
-                      %LorW_X(ADC,ShooterSmokeDispX)            ;;B52D|B510+B510/B510\B510;  | 
-                      STA.W !SmokeSpriteXPos,Y                  ;;B531|B513+B513/B513\B513; /  
+                      CMP.W !ShooterXPosLow,X                   ;;B51E|B501+B501/B501\B501;  |
+                      LDA.B !PlayerXPosNext+1                   ;;B521|B504+B504/B504\B504;  |
+                      SBC.W !ShooterXPosHigh,X                  ;;B523|B506+B506/B506\B506;  |
+                      LDX.B #$00                                ;;B526|B509+B509/B509\B509;  |
+                      BCC +                                     ;;B528|B50B+B50B/B50B\B50B;  |
+                      INX                                       ;;B52A|B50D+B50D/B50D\B50D; /
+                    + PLA                                       ;;B52B|B50E+B50E/B50E\B50E; \ Set smoke x position from generator position
+                      CLC                                       ;;B52C|B50F+B50F/B50F\B50F;  |
+                      %LorW_X(ADC,ShooterSmokeDispX)            ;;B52D|B510+B510/B510\B510;  |
+                      STA.W !SmokeSpriteXPos,Y                  ;;B531|B513+B513/B513\B513; /
                       LDX.W !CurSpriteProcess                   ;;B534|B516+B516/B516\B516; X = Sprite index
                       RTS                                       ;;B537|B519+B519/B519\B519; Return
                                                                 ;;                        ;
@@ -13373,15 +13373,15 @@ FloatingSkullMain:    PHB                                       ;;EDD1|EDD0+EDD0
                       RTL                                       ;;EDD8|EDD7+EDD7/EDD7\EDD7; Return
                                                                 ;;                        ;
 CODE_02EDD8:          LDA.B !SpriteTableC2,X                    ;;EDD9|EDD8+EDD8/EDD8\EDD8;
-                      BEQ CODE_02EDF6                           ;;EDDB|EDDA+EDDA/EDDA\EDDA;IF SKULLS DIEING          
+                      BEQ CODE_02EDF6                           ;;EDDB|EDDA+EDDA/EDDA\EDDA;IF SKULLS DIEING
                       JSR SubOffscreen0Bnk2                     ;;EDDD|EDDC+EDDC/EDDC\EDDC;
                       LDA.W !SpriteStatus,X                     ;;EDE0|EDDF+EDDF/EDDF\EDDF;
-                      BNE CODE_02EDF6                           ;;EDE3|EDE2+EDE2/EDE2\EDE2;IF LIVING, DO BELOW          
+                      BNE CODE_02EDF6                           ;;EDE3|EDE2+EDE2/EDE2\EDE2;IF LIVING, DO BELOW
                       LDY.B #$09                                ;;EDE5|EDE4+EDE4/EDE4\EDE4;
 CODE_02EDE6:          LDA.W !SpriteNumber,Y                     ;;EDE7|EDE6+EDE6/EDE6\EDE6;
-                      CMP.B #$61                                ;;EDEA|EDE9+EDE9/EDE9\EDE9;SEARCH OUT OTHERS               
+                      CMP.B #$61                                ;;EDEA|EDE9+EDE9/EDE9\EDE9;SEARCH OUT OTHERS
                       BNE +                                     ;;EDEC|EDEB+EDEB/EDEB\EDEB;
-                      LDA.B #$00                                ;;EDEE|EDED+EDED/EDED\EDED;ERASE THEM TOO              
+                      LDA.B #$00                                ;;EDEE|EDED+EDED/EDED\EDED;ERASE THEM TOO
                       STA.W !SpriteStatus,Y                     ;;EDF0|EDEF+EDEF/EDEF\EDEF;
                     + DEY                                       ;;EDF3|EDF2+EDF2/EDF2\EDF2;
                       BPL CODE_02EDE6                           ;;EDF4|EDF3+EDF3/EDF3\EDF3;

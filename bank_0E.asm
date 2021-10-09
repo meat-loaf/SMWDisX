@@ -13,7 +13,7 @@ APU_Start:            CLRP                                      ;;0500|0500+0500
                       MOV !ARam_0386,A                          ;;0506|0506+0506/0506\0506;
                       MOV !ARam_0387,A                          ;;0509|0509+0509/0509\0509;
                       MOV !ARam_0388,A                          ;;050C|050C+050C/050C\050C;
-                      MOV !ARam_0389,A                          ;;050F|050F+050F/050F\050F; zero 0386-9 
+                      MOV !ARam_0389,A                          ;;050F|050F+050F/050F\050F; zero 0386-9
                       MOV X,A                                   ;;0512|0512+0512/0512\0512;
                     - MOV (X+),A                                ;;0513|0513+0513/0513\0513;
                       CMP X,#$E8                                ;;0514|0514+0514/0514\0514;
@@ -48,15 +48,15 @@ JAPU_0535:            MOV A,#$5A                                ;;0535          
                       DEC X                                     ;;054B|0533+0533/0533\0533;
                       BPL -                                     ;;054C|0534+0534/0534\0534; set initial DSP reg values;
                       MOV A,#$F0                                ;;054E|0536+0536/0536\0536;
-                      MOV !SPCCONTROL,A                         ;;0550|0538+0538/0538\0538; reset ports, disable timers 
+                      MOV !SPCCONTROL,A                         ;;0550|0538+0538/0538\0538; reset ports, disable timers
                       MOV A,#$10                                ;;0553|053B+053B/053B\053B;
-                      MOV !TIMER0,A                             ;;0555|053D+053D/053D\053D; set timer0 freq to 2ms 
+                      MOV !TIMER0,A                             ;;0555|053D+053D/053D\053D; set timer0 freq to 2ms
                       MOV A,#$36                                ;;0558|0540+0540/0540\0540;
-                      MOV !MasterTempo+1,A                      ;;055A|0542+0542/0542\0542; set $51 to #$36 
+                      MOV !MasterTempo+1,A                      ;;055A|0542+0542/0542\0542; set $51 to #$36
                       MOV A,#$01                                ;;055C|0544+0544/0544\0544;
-                      MOV !SPCCONTROL,A                         ;;055E|0546+0546/0546\0546; start timer 0 
+                      MOV !SPCCONTROL,A                         ;;055E|0546+0546/0546\0546; start timer 0
                                                                 ;;                        ;
-APU_Loop:             MOV Y,!COUNTER0                           ;;0561|0549+0549/0549\0549; main loop 
+APU_Loop:             MOV Y,!COUNTER0                           ;;0561|0549+0549/0549\0549; main loop
                       BEQ APU_Loop                              ;;0564|054C+054C/054C\054C; wait for counter 0 increment;
                       PUSH Y                                    ;;0566|054E+054E/054E\054E;
                       MOV A,#$38                                ;;0567|054F+054F/054F\054F;
@@ -88,7 +88,7 @@ APU_Loop:             MOV Y,!COUNTER0                           ;;0561|0549+0549
                     + MOV X,#$02                                ;;059E|0586+0586/0586\0586;
                       CALL CopyToSNES                           ;;05A0|0588+0588/0588\0588; read/send APU2;
                       BRA APU_Loop                              ;;05A3|058B+058B/058B\058B; restart main loop;
-APU_058D:             MOV A,!SPCOutBuffer+2                     ;;05A5|058D+058D/058D\058D; if writing 0 to APU2 then 
+APU_058D:             MOV A,!SPCOutBuffer+2                     ;;05A5|058D+058D/058D\058D; if writing 0 to APU2 then
                       BEQ APU_Loop                              ;;05A7|058F+058F/058F\058F; restart main loop;
                                                                 ;;                        ;
                       MOV X,#$0E                                ;;05A9|0591+0591/0591\0591; foreach voice;
@@ -136,10 +136,10 @@ HandleVCmd:           CMP A,#$D0                                ;;05DD|05C5+05C5
                       CALL APU_0D56                             ;;05F3|05DB+05DB/05DB\05DB; set sample A-$D0 in bank $5FA5 width 6;
                       BNE -                                     ;;05F6|05DE+05DE/05DE\05DE; return if 1D vbit set;
                       INC Y                                     ;;05F8|05E0+05E0/05E0\05E0;
-                      MOV A,(!ARam_14)+Y                        ;;05F9|05E1+05E1/05E1\05E1; get perc note num from instr tbl 
+                      MOV A,(!ARam_14)+Y                        ;;05F9|05E1+05E1/05E1\05E1; get perc note num from instr tbl
 APU_05E3:             AND A,#$7F                                ;;05FB|05E3+05E3/05E3\05E3;
                       CLRC                                      ;;05FD|05E5+05E5/05E5\05E5;
-                      ADC A,!MasterTranspose                    ;;05FE|05E6+05E6/05E6\05E6; add global transpose 
+                      ADC A,!MasterTranspose                    ;;05FE|05E6+05E6/05E6\05E6; add global transpose
                       MOV !ARam_02B0+1+X,A                      ;;0600|05E8+05E8/05E8\05E8;
                       MOV A,!ARam_02D0+1+X                      ;;0603|05EB+05EB/05EB\05EB;
                       MOV !ARam_02B0+X,A                        ;;0606|05EE+05EE/05EE\05EE;
@@ -149,8 +149,8 @@ APU_05E3:             AND A,#$7F                                ;;05FB|05E3+05E3
                       MOV !VoVibrato+X,A                        ;;0611|05F9+05F9/05F9\05F9;
                       MOV !ARam_0110+X,A                        ;;0613|05FB+05FB/05FB\05FB;
                       MOV !ARam_B0+X,A                          ;;0616|05FE+05FE/05FE\05FE;
-                      OR (!ARam_5C),(!CurrentChannel)           ;;0618|0600+0600/0600\0600; set volume changed flg 
-                      OR (!ARam_47),(!CurrentChannel)           ;;061B|0603+0603/0603\0603; set key on shadow vbit 
+                      OR (!ARam_5C),(!CurrentChannel)           ;;0618|0600+0600/0600\0600; set volume changed flg
+                      OR (!ARam_47),(!CurrentChannel)           ;;061B|0603+0603/0603\0603; set key on shadow vbit
                       MOV A,!ARam_0300+X                        ;;061E|0606+0606/0606\0606;
                       MOV !VoPitchSlide+X,A                     ;;0621|0609+0609/0609\0609;
                       BEQ APU_062B                              ;;0623|060B+060B/060B\060B;
@@ -187,7 +187,7 @@ APU_0646:             ADDW YA,!ARam_10                          ;;065E|0646+0646
 APU_064A:             PUSH X                                    ;;0662|064A+064A/064A\064A;
                       MOV A,!ARam_11                            ;;0663|064B+064B/064B\064B;
                       CALL GetPitch                             ;;0665|064D+064D/064D\064D;
-                      MOVW !ARam_14,YA                          ;;0668|0650+0650/0650\0650; $14/5 = pitch for notenum $11 
+                      MOVW !ARam_14,YA                          ;;0668|0650+0650/0650\0650; $14/5 = pitch for notenum $11
                       MOV A,!ARam_11                            ;;066A|0652+0652/0652\0652;
                       INC A                                     ;;066C|0654+0654/0654\0654;
                       CALL GetPitch                             ;;066D|0655+0655/0655\0655; get pitch for notenum $11 + 1;
@@ -214,7 +214,7 @@ APU_064A:             PUSH X                                    ;;0662|064A+064A
                       MUL YA                                    ;;0693|067B+067B/067B\067B;
                       CLRC                                      ;;0694|067C+067C/067C\067C;
                       ADC A,!PitchValue+1                       ;;0695|067D+067D/067D\067D;
-                      MOV !PitchValue+1,A                       ;;0697|067F+067F/067F\067F; $16/7 = $14/15 * 0210+X 
+                      MOV !PitchValue+1,A                       ;;0697|067F+067F/067F\067F; $16/7 = $14/15 * 0210+X
                       MOV A,X                                   ;;0699|0681+0681/0681\0681; set voice X pitch DSP reg from 16/7;
                       XCN A                                     ;;069A|0682+0682/0682\0682; (if vbit clear in 1D);
                       LSR A                                     ;;069B|0683+0683/0683\0683;
@@ -230,7 +230,7 @@ WriteDSPRegCond:      PUSH A                                    ;;06A7|068F+068F
                       AND A,!ChannelsMuted                      ;;06AA|0692+0692/0692\0692;
                       POP A                                     ;;06AC|0694+0694/0694\0694;
                       BNE +                                     ;;06AD|0695+0695/0695\0695;
-WriteDSPReg:          MOV !DSPDATA,Y                            ;;06AF|0697+0697/0697\0697; write A to DSP reg Y 
+WriteDSPReg:          MOV !DSPDATA,Y                            ;;06AF|0697+0697/0697\0697; write A to DSP reg Y
                       MOV !DSPADDR,A                            ;;06B2|069A+069A/069A\069A;
                     + RET                                       ;;06B5|069D+069D/069D\069D;
                                                                 ;;                        ;
@@ -291,7 +291,7 @@ APU_06F7:             MOV A,#$02                                ;;070F|06F7+06F7
                       MOV !ARam_0300+8,A                        ;;072E|0716+0716/0716\0716;
                       RET                                       ;;0731|0719+0719/0719\0719;
                                                                 ;;                        ;
-APU_071A:             DEC !ARam_0382                            ;;0732|071A+071A/071A\071A; 0382 nonzero 
+APU_071A:             DEC !ARam_0382                            ;;0732|071A+071A/071A\071A; 0382 nonzero
                       BNE APU_06D1                              ;;0735|071D+071D/071D\071D; ret;
 APU_071F:             MOV A,!SPCOutBuffer                       ;;0737|071F+071F/071F\071F;
                       ASL A                                     ;;0739|0721+0721/0721\0721;
@@ -433,7 +433,7 @@ APU_0837:             MOV !SPCOutBuffer+3,A                     ;;084F|0837+0837
                       MOV A,#$40                                ;;0854|083C+083C/083C\083C;
                       MOV Y,#$5C                                ;;0856|083E+083E/083E\083E;
                       CALL WriteDSPReg                          ;;0858|0840+0840/0840\0840; key off voice 6 now;
-                      SET6 !ChannelsMuted                       ;;085B|0843+0843/0843\0843; don't set vol DSP for voice 6 
+                      SET6 !ChannelsMuted                       ;;085B|0843+0843/0843\0843; don't set vol DSP for voice 6
                       MOV A,#$00                                ;;085D|0845+0845/0845\0845;
                       MOV !ARam_0300+$0C,A                      ;;085F|0847+0847/0847\0847;
                       RET                                       ;;0862|084A+084A/084A\084A;
@@ -447,7 +447,7 @@ APU_084B:             DBNZ !ARam_0C+1,-                         ;;0863|084B+084B
                       MOV !SFX1DFCPhrasePtr+1,A                 ;;0872|085A+085A/085A\085A;
                       BRA APU_087D                              ;;0874|085C+085C/085C\085C;
 APU_085E:             MOV !SPCOutBuffer+3,#$00                  ;;0876|085E+085E/085E\085E;
-                      CLR6 !ChannelsMuted                       ;;0879|0861+0861/0861\0861; OK to use voice 6 again 
+                      CLR6 !ChannelsMuted                       ;;0879|0861+0861/0861\0861; OK to use voice 6 again
                       MOV A,#$00                                ;;087B|0863+0863/0863\0863;
                       MOV !ARam_2F,A                            ;;087D|0865+0865/0865\0865;
                       MOV Y,#$3D                                ;;087F|0867+0867/0867\0867;
@@ -504,7 +504,7 @@ APU_08CD:             MOV A,!ARam_0385                          ;;08E5|08CD+08CD
                       MOV !ARam_0384,A                          ;;08E8|08D0+08D0/08D0\08D0;
 APU_08D3:             CLR7 !ARam_13                             ;;08EB|08D3+08D3/08D3\08D3;
                       MOV X,#$0C                                ;;08ED|08D5+08D5/08D5\08D5;
-                      MOV A,!VoPitchSlide+X                     ;;08EF|08D7+08D7/08D7\08D7; pitch slide counter 
+                      MOV A,!VoPitchSlide+X                     ;;08EF|08D7+08D7/08D7\08D7; pitch slide counter
                       BEQ APU_08E0                              ;;08F1|08D9+08D9/08D9\08D9;
                       CALL PitchSlideDelta                      ;;08F3|08DB+08DB/08DB\08DB; add pitch slide delta and set DSP pitch;
                       BRA +                                     ;;08F6|08DE+08DE/08DE\08DE;
@@ -583,10 +583,10 @@ SFXDSPRegs:           MOV Y,#$09                                ;;097A|0962+0962
                       INC Y                                     ;;098A|0972+0972/0972\0972;
                       DBNZ !ARam_12,-                           ;;098B|0973+0973/0973\0973;
                       MOV A,SFXDSPSettings+X                    ;;098E|0976+0976/0976\0976;
-                      MOV !ARam_0210+$0A,A                      ;;0991|0979+0979/0979\0979; set voice 5 pitch mult from 5570+X 
+                      MOV !ARam_0210+$0A,A                      ;;0991|0979+0979/0979\0979; set voice 5 pitch mult from 5570+X
                       RET                                       ;;0994|097C+097C/097C\097C;
                                                                 ;;                        ;
-APU_097D:             MOV A,!SPCOutBuffer+2                     ;;0995|097D+097D/097D\097D; $01 = 02 
+APU_097D:             MOV A,!SPCOutBuffer+2                     ;;0995|097D+097D/097D\097D; $01 = 02
                       CMP A,#$06                                ;;0997|097F+097F/097F\097F;
                       BEQ +                                     ;;0999|0981+0981/0981\0981;
                       AND A,#$FC                                ;;099B|0983+0983/0983\0983;
@@ -631,7 +631,7 @@ PitchSlideDelta:      MOV A,#$B0                                ;;09E5|09CD+09CD
                       MOV Y,A                                   ;;09F1|09D9+09D9/09D9\09D9;
                       MOV A,!ARam_02B0+X                        ;;09F2|09DA+09DA/09DA\09DA;
                       MOVW !ARam_10,YA                          ;;09F5|09DD+09DD/09DD\09DD;
-                      MOV !CurrentChannel,#$00                  ;;09F7|09DF+09DF/09DF\09DF; vbit flags = 0 (to force DSP set) 
+                      MOV !CurrentChannel,#$00                  ;;09F7|09DF+09DF/09DF\09DF; vbit flags = 0 (to force DSP set)
                       JMP APU_0634                              ;;09FA|09E2+09E2/09E2\09E2; force voice DSP pitch from 02B0/1;
                                                                 ;;                        ;
 APU_09E5:             MOV A,!SPCInEdge+1                        ;;09FD|09E5+09E5/09E5\09E5;
@@ -660,7 +660,7 @@ APU_0A0D:             RET                                       ;;0A25|0A0D+0A0D
 APU_0A0E:             JMP APU_0ACE                              ;;0A26|0A0E+0A0E/0A0E\0A0E;
                     + JMP APU_0B08                              ;;0A29|0A11+0A11/0A11\0A11;
                                                                 ;;                        ;
-APU_0A14:             MOV !SPCOutBuffer+1,A                     ;;0A2C|0A14+0A14/0A14\0A14; $01 = 01 
+APU_0A14:             MOV !SPCOutBuffer+1,A                     ;;0A2C|0A14+0A14/0A14\0A14; $01 = 01
                       MOV A,#$04                                ;;0A2E|0A16+0A16/0A16\0A16;
                       MOV !ARam_0383,A                          ;;0A30|0A18+0A18/0A18\0A18;
                       MOV A,#$80                                ;;0A33|0A1B+0A1B/0A1B\0A1B;
@@ -748,7 +748,7 @@ APU_0AB3:             MOV Y,#$09                                ;;0ACB|0AB3+0AB3
                       MOV !ARam_0210+$0E,A                      ;;0AE2|0ACA+0ACA/0ACA\0ACA;
                       RET                                       ;;0AE5|0ACD+0ACD/0ACD\0ACD;
                                                                 ;;                        ;
-APU_0ACE:             MOV !SPCOutBuffer+1,A                     ;;0AE6|0ACE+0ACE/0ACE\0ACE; $01 = 04 && $05 != 01 
+APU_0ACE:             MOV !SPCOutBuffer+1,A                     ;;0AE6|0ACE+0ACE/0ACE\0ACE; $01 = 04 && $05 != 01
                       MOV A,#$04                                ;;0AE8|0AD0+0AD0/0AD0\0AD0;
                       MOV !ARam_0383,A                          ;;0AEA|0AD2+0AD2/0AD2\0AD2;
                       MOV A,#$80                                ;;0AED|0AD5+0AD5/0AD5\0AD5;
@@ -824,27 +824,27 @@ APU_0B40:             SETC                                      ;;0B58|0B40+0B40
                                                                 ;;                        ;
                       MOV X,#$0E                                ;;0B83|0B6B+0B6B/0B6B\0B6B; foreach voice;
                     - MOV A,#$0A                                ;;0B85|0B6D+0B6D/0B6D\0B6D;
-                      MOV !ARam_0280+1+X,A                      ;;0B87|0B6F+0B6F/0B6F\0B6F; pan 
+                      MOV !ARam_0280+1+X,A                      ;;0B87|0B6F+0B6F/0B6F\0B6F; pan
                       MOV A,#$FF                                ;;0B8A|0B72+0B72/0B72\0B72;
-                      MOV !ARam_0240+1+X,A                      ;;0B8C|0B74+0B74/0B74\0B74; voice base vol 
+                      MOV !ARam_0240+1+X,A                      ;;0B8C|0B74+0B74/0B74\0B74; voice base vol
                       MOV A,#$00                                ;;0B8F|0B77+0B77/0B77\0B77;
-                      MOV !ARam_02D0+1+X,A                      ;;0B91|0B79+0B79/0B79\0B79; portamento off 
-                      MOV !VoPanFade+1+X,A                      ;;0B94|0B7C+0B7C/0B7C\0B7C; pan fade ctr 
-                      MOV !VoPanFade+X,A                        ;;0B96|0B7E+0B7E/0B7E\0B7E; vol fade ctr 
+                      MOV !ARam_02D0+1+X,A                      ;;0B91|0B79+0B79/0B79\0B79; portamento off
+                      MOV !VoPanFade+1+X,A                      ;;0B94|0B7C+0B7C/0B7C\0B7C; pan fade ctr
+                      MOV !VoPanFade+X,A                        ;;0B96|0B7E+0B7E/0B7E\0B7E; vol fade ctr
                       MOV !VoVibrato+1+X,A                      ;;0B98|0B80+0B80/0B80\0B80;
                       MOV !ARam_B0+1+X,A                        ;;0B9A|0B82+0B82/0B82\0B82;
-                      MOV !VoInstrument+X,A                     ;;0B9C|0B84+0B84/0B84\0B84; repeat ctr 
-                      MOV !VoInstrument+1+X,A                   ;;0B9E|0B86+0B86/0B86\0B86; current instr 
+                      MOV !VoInstrument+X,A                     ;;0B9C|0B84+0B84/0B84\0B84; repeat ctr
+                      MOV !VoInstrument+1+X,A                   ;;0B9E|0B86+0B86/0B86\0B86; current instr
                       DEC X                                     ;;0BA0|0B88+0B88/0B88\0B88;
                       DEC X                                     ;;0BA1|0B89+0B89/0B89\0B89;
                       BPL -                                     ;;0BA2|0B8A+0B8A/0B8A\0B8A;
                                                                 ;;                        ;
-                      MOV !VolFadeTimer,A                       ;;0BA4|0B8C+0B8C/0B8C\0B8C; master vol fade ctr 
-                      MOV !ARam_60,A                            ;;0BA6|0B8E+0B8E/0B8E\0B8E; echo vol fade ctr 
-                      MOV !TempoSetTimer,A                      ;;0BA8|0B90+0B90/0B90\0B90; tempo fade ctr 
-                      MOV !MasterTranspose,A                    ;;0BAA|0B92+0B92/0B92\0B92; global transpose 
-                      MOV !MasterVolume,#$C0                    ;;0BAC|0B94+0B94/0B94\0B94; master vol 
-                      MOV !MasterTempo+1,#$36                   ;;0BAF|0B97+0B97/0B97\0B97; tempo 
+                      MOV !VolFadeTimer,A                       ;;0BA4|0B8C+0B8C/0B8C\0B8C; master vol fade ctr
+                      MOV !ARam_60,A                            ;;0BA6|0B8E+0B8E/0B8E\0B8E; echo vol fade ctr
+                      MOV !TempoSetTimer,A                      ;;0BA8|0B90+0B90/0B90\0B90; tempo fade ctr
+                      MOV !MasterTranspose,A                    ;;0BAA|0B92+0B92/0B92\0B92; global transpose
+                      MOV !MasterVolume,#$C0                    ;;0BAC|0B94+0B94/0B94\0B94; master vol
+                      MOV !MasterTempo+1,#$36                   ;;0BAF|0B97+0B97/0B97\0B97; tempo
                       MOV Y,#$20                                ;;0BB2|0B9A+0B9A/0B9A\0B9A;
                     - MOV !ARam_02FF+Y,A                        ;;0BB4|0B9C+0B9C/0B9C\0B9C;
                       DBNZ Y,-                                  ;;0BB7|0B9F+0B9F/0B9F\0B9F; zero $0300-031f;
@@ -862,7 +862,7 @@ APU_0BAE:             MOV X,#$F0                                ;;0BC6|0BAE+0BAE
                       SETC                                      ;;0BCE|0BB6+0BB6/0BB6\0BB6;
                       SBC A,!MasterVolume                       ;;0BCF|0BB7+0BB7/0BB7\0BB7;
                       CALL APU_0F76                             ;;0BD1|0BB9+0BB9/0BB9\0BB9;
-                      MOVW !ARam_5A,YA                          ;;0BD4|0BBC+0BBC/0BBC\0BBC; set volume fade out after 240 counts 
+                      MOVW !ARam_5A,YA                          ;;0BD4|0BBC+0BBC/0BBC\0BBC; set volume fade out after 240 counts
                       BRA APU_0BE7                              ;;0BD6|0BBE+0BBE/0BBE\0BBE;
                                                                 ;;                        ;
 APU_0BC0:             MOV A,!SPCOutBuffer+2                     ;;0BD8|0BC0+0BC0/0BC0\0BC0;
@@ -902,20 +902,20 @@ APU_0BF0:             MOV Y,#$00                                ;;0C08|0BF0+0BF0
                                                                 ;;                        ;
 APU_0BFE:             DBNZ !ARam_0C,-                           ;;0C16|0BFE+0BFE/0BFE\0BFE;
 APU_0C01:             CALL APU_0BF0                             ;;0C19|0C01+0C01/0C01\0C01; read next word at $40;
-                      MOVW !PitchValue,YA                       ;;0C1C|0C04+0C04/0C04\0C04; save in $16/17 
+                      MOVW !PitchValue,YA                       ;;0C1C|0C04+0C04/0C04\0C04; save in $16/17
                       MOV A,Y                                   ;;0C1E|0C06+0C06/0C06\0C06; high byte zero?;
                       BNE APU_0C22                              ;;0C1F|0C07+0C07/0C07\0C07;
-                      MOV A,!PitchValue                         ;;0C21|0C09+0C09/0C09\0C09; refetch lo byte 
+                      MOV A,!PitchValue                         ;;0C21|0C09+0C09/0C09\0C09; refetch lo byte
                       BEQ APU_0BA3                              ;;0C23|0C0B+0C0B/0C0B\0C0B; key off, return if also zero;
                       DEC !MusicLoopCounter                     ;;0C25|0C0D+0C0D/0C0D\0C0D;
                       BEQ APU_0C1C                              ;;0C27|0C0F+0C0F/0C0F\0C0F;
                       BPL +                                     ;;0C29|0C11+0C11/0C11\0C11;
                       MOV !MusicLoopCounter,A                   ;;0C2B|0C13+0C13/0C13\0C13;
                     + CALL APU_0BF0                             ;;0C2D|0C15+0C15/0C15\0C15; read next word at $40;
-                      MOVW !BlockPtr,YA                         ;;0C30|0C18+0C18/0C18\0C18; "goto" that address 
+                      MOVW !BlockPtr,YA                         ;;0C30|0C18+0C18/0C18\0C18; "goto" that address
                       BRA APU_0C01                              ;;0C32|0C1A+0C1A/0C1A\0C1A; and continue;
 APU_0C1C:             INCW !BlockPtr                            ;;0C34|0C1C+0C1C/0C1C\0C1C;
-                      INCW !BlockPtr                            ;;0C36|0C1E+0C1E/0C1E\0C1E; skip goto address 
+                      INCW !BlockPtr                            ;;0C36|0C1E+0C1E/0C1E\0C1E; skip goto address
                       BRA APU_0C01                              ;;0C38|0C20+0C20/0C20\0C20; continue;
                                                                 ;;                        ;
 APU_0C22:             MOV Y,#$0F                                ;;0C3A|0C22+0C22/0C22\0C22; high byte not zero:;
@@ -925,11 +925,11 @@ APU_0C22:             MOV Y,#$0F                                ;;0C3A|0C22+0C22
                       BPL -                                     ;;0C42|0C2A+0C2A/0C2A\0C2A; set vptrs from [$16];
                                                                 ;;                        ;
                       MOV X,#$0E                                ;;0C44|0C2C+0C2C/0C2C\0C2C;
-                      MOV !CurrentChannel,#$80                  ;;0C46|0C2E+0C2E/0C2E\0C2E; foreach voice 
+                      MOV !CurrentChannel,#$80                  ;;0C46|0C2E+0C2E/0C2E\0C2E; foreach voice
                     - MOV A,!VoPhrasePtr+1+X                    ;;0C49|0C31+0C31/0C31\0C31;
                       BEQ +                                     ;;0C4B|0C33+0C33/0C33\0C33; next if vptr hi = 0;
                       MOV A,#$01                                ;;0C4D|0C35+0C35/0C35\0C35;
-                      MOV !VoTimers+X,A                         ;;0C4F|0C37+0C37/0C37\0C37; set duration counter to 1 
+                      MOV !VoTimers+X,A                         ;;0C4F|0C37+0C37/0C37\0C37; set duration counter to 1
                       MOV A,!VoInstrument+1+X                   ;;0C51|0C39+0C39/0C39\0C39;
                       BNE +                                     ;;0C53|0C3B+0C3B/0C3B\0C3B;
                       CALL APU_0D4A                             ;;0C55|0C3D+0C3D/0C3D\0C3D; set instr to 0 if no instr set;
@@ -940,30 +940,30 @@ APU_0C22:             MOV Y,#$0F                                ;;0C3A|0C22+0C22
                                                                 ;;                        ;
 APU_0C46:             MOV X,#$00                                ;;0C5E|0C46+0C46/0C46\0C46;
                       MOV !ARam_47,X                            ;;0C60|0C48+0C48/0C48\0C48;
-                      MOV !CurrentChannel,#$01                  ;;0C62|0C4A+0C4A/0C4A\0C4A; foreach voice 
+                      MOV !CurrentChannel,#$01                  ;;0C62|0C4A+0C4A/0C4A\0C4A; foreach voice
 APU_0C4D:             MOV !CurrentChannel2,X                    ;;0C65|0C4D+0C4D/0C4D\0C4D;
                       MOV A,!VoPhrasePtr+1+X                    ;;0C67|0C4F+0C4F/0C4F\0C4F;
                       BEQ APU_0CC9                              ;;0C69|0C51+0C51/0C51\0C51; next if vptr hi zero;
-                      DEC !VoTimers+X                           ;;0C6B|0C53+0C53/0C53\0C53; dec duration counter 
+                      DEC !VoTimers+X                           ;;0C6B|0C53+0C53/0C53\0C53; dec duration counter
                       BNE APU_0CC6                              ;;0C6D|0C55+0C55/0C55\0C55; if not zero, skip to voice readahead;
 APU_0C57:             CALL NextVCmd                             ;;0C6F|0C57+0C57/0C57\0C57; get next vbyte;
                       BNE APU_0C7A                              ;;0C72|0C5A+0C5A/0C5A\0C5A;
-                      MOV A,!VoInstrument+X                     ;;0C74|0C5C+0C5C/0C5C\0C5C; vcmd 00:  end repeat/return 
+                      MOV A,!VoInstrument+X                     ;;0C74|0C5C+0C5C/0C5C\0C5C; vcmd 00:  end repeat/return
                       BEQ APU_0C01                              ;;0C76|0C5E+0C5E/0C5E\0C5E; goto next $40 section if rpt count 0;
-                      DEC !VoInstrument+X                       ;;0C78|0C60+0C60/0C60\0C60; dec repeat count 
+                      DEC !VoInstrument+X                       ;;0C78|0C60+0C60/0C60\0C60; dec repeat count
                       BNE APU_0C6E                              ;;0C7A|0C62+0C62/0C62\0C62; if zero then;
                       MOV A,!ARam_03E0+X                        ;;0C7C|0C64+0C64/0C64\0C64;
                       MOV !VoPhrasePtr+X,A                      ;;0C7F|0C67+0C67/0C67\0C67;
                       MOV A,!ARam_03E0+1+X                      ;;0C81|0C69+0C69/0C69\0C69;
                       BRA +                                     ;;0C84|0C6C+0C6C/0C6C\0C6C; goto 03E0/1;
-APU_0C6E:             MOV A,!ARam_03F0+X                        ;;0C86|0C6E+0C6E/0C6E\0C6E; else 
+APU_0C6E:             MOV A,!ARam_03F0+X                        ;;0C86|0C6E+0C6E/0C6E\0C6E; else
                       MOV !VoPhrasePtr+X,A                      ;;0C89|0C71+0C71/0C71\0C71;
-                      MOV A,!ARam_03F0+1+X                      ;;0C8B|0C73+0C73/0C73\0C73; goto 03F0/1 
+                      MOV A,!ARam_03F0+1+X                      ;;0C8B|0C73+0C73/0C73\0C73; goto 03F0/1
                     + MOV !VoPhrasePtr+1+X,A                    ;;0C8E|0C76+0C76/0C76\0C76;
                       BRA APU_0C57                              ;;0C90|0C78+0C78/0C78\0C78; continue to next vbyte;
                                                                 ;;                        ;
 APU_0C7A:             BMI APU_0C9F                              ;;0C92|0C7A+0C7A/0C7A\0C7A; vcmds 01-7f:;
-                      MOV !ARam_0200+X,A                        ;;0C94|0C7C+0C7C/0C7C\0C7C; set cmd as duration 
+                      MOV !ARam_0200+X,A                        ;;0C94|0C7C+0C7C/0C7C\0C7C; set cmd as duration
                       CALL NextVCmd                             ;;0C97|0C7F+0C7F/0C7F\0C7F; get next vcmd;
                       BMI APU_0C9F                              ;;0C9A|0C82+0C82/0C82\0C82; if not note then;
                       PUSH A                                    ;;0C9C|0C84+0C84/0C84\0C84;
@@ -971,13 +971,13 @@ APU_0C7A:             BMI APU_0C9F                              ;;0C92|0C7A+0C7A
                       AND A,#$07                                ;;0C9E|0C86+0C86/0C86\0C86;
                       MOV Y,A                                   ;;0CA0|0C88+0C88/0C88\0C88;
                       MOV A,NoteDurs+Y                          ;;0CA1|0C89+0C89/0C89\0C89;
-                      MOV !ARam_0200+1+X,A                      ;;0CA4|0C8C+0C8C/0C8C\0C8C; set dur% from high nybble 
+                      MOV !ARam_0200+1+X,A                      ;;0CA4|0C8C+0C8C/0C8C\0C8C; set dur% from high nybble
                       POP A                                     ;;0CA7|0C8F+0C8F/0C8F\0C8F;
                       AND A,#$0F                                ;;0CA8|0C90+0C90/0C90\0C90;
                       MOV Y,A                                   ;;0CAA|0C92+0C92/0C92\0C92;
                       MOV A,VelocityValues+Y                    ;;0CAB|0C93+0C93/0C93\0C93;
-                      MOV !ARam_0210+1+X,A                      ;;0CAE|0C96+0C96/0C96\0C96; set per-note vol from low nybble 
-                      OR (!ARam_5C),(!CurrentChannel)           ;;0CB1|0C99+0C99/0C99\0C99; mark vol changed? 
+                      MOV !ARam_0210+1+X,A                      ;;0CAE|0C96+0C96/0C96\0C96; set per-note vol from low nybble
+                      OR (!ARam_5C),(!CurrentChannel)           ;;0CB1|0C99+0C99/0C99\0C99; mark vol changed?
                       CALL NextVCmd                             ;;0CB4|0C9C+0C9C/0C9C\0C9C; get next vbyte;
 APU_0C9F:             CMP A,#$DA                                ;;0CB7|0C9F+0C9F/0C9F\0C9F;
                       BCC +                                     ;;0CB9|0CA1+0CA1/0CA1\0CA1; vcmd da-ff:;
@@ -991,14 +991,14 @@ APU_0C9F:             CMP A,#$DA                                ;;0CB7|0C9F+0C9F
                       BNE +                                     ;;0CC6|0CAE+0CAE/0CAE\0CAE;
                       CALL HandleVCmd                           ;;0CC8|0CB0+0CB0/0CB0\0CB0; handle note cmd if vbit 1D clear;
                     + MOV A,!ARam_0200+X                        ;;0CCB|0CB3+0CB3/0CB3\0CB3;
-                      MOV !VoTimers+X,A                         ;;0CCE|0CB6+0CB6/0CB6\0CB6; set duration counter from duration 
+                      MOV !VoTimers+X,A                         ;;0CCE|0CB6+0CB6/0CB6\0CB6; set duration counter from duration
                       MOV Y,A                                   ;;0CD0|0CB8+0CB8/0CB8\0CB8;
                       MOV A,!ARam_0200+1+X                      ;;0CD1|0CB9+0CB9/0CB9\0CB9;
                       MUL YA                                    ;;0CD4|0CBC+0CBC/0CBC\0CBC;
                       MOV A,Y                                   ;;0CD5|0CBD+0CBD/0CBD\0CBD;
                       BNE +                                     ;;0CD6|0CBE+0CBE/0CBE\0CBE;
                       INC A                                     ;;0CD8|0CC0+0CC0/0CC0\0CC0;
-                    + MOV !NoteLength+X,A                       ;;0CD9|0CC1+0CC1/0CC1\0CC1; set note dur counter from dur * dur% 
+                    + MOV !NoteLength+X,A                       ;;0CD9|0CC1+0CC1/0CC1\0CC1; set note dur counter from dur * dur%
                       BRA APU_0CC9                              ;;0CDC|0CC4+0CC4/0CC4\0CC4;
 APU_0CC6:             CALL APU_10A1                             ;;0CDE|0CC6+0CC6/0CC6\0CC6; do voice readahead;
 APU_0CC9:             INC X                                     ;;0CE1|0CC9+0CC9/0CC9\0CC9;
@@ -1007,7 +1007,7 @@ APU_0CC9:             INC X                                     ;;0CE1|0CC9+0CC9
                       BCS +                                     ;;0CE5|0CCD+0CCD/0CCD\0CCD;
                       JMP APU_0C4D                              ;;0CE7|0CCF+0CCF/0CCF\0CCF; loop;
                                                                 ;;                        ;
-                    + MOV A,!TempoSetTimer                      ;;0CEA|0CD2+0CD2/0CD2\0CD2; do global fades 
+                    + MOV A,!TempoSetTimer                      ;;0CEA|0CD2+0CD2/0CD2\0CD2; do global fades
                       BEQ APU_0CE3                              ;;0CEC|0CD4+0CD4/0CD4\0CD4;
                       DBNZ !TempoSetTimer,+                     ;;0CEE|0CD6+0CD6/0CD6\0CD6;
                       MOVW YA,!TempoSetTimer                    ;;0CF1|0CD9+0CD9/0CD9\0CD9;
@@ -1041,7 +1041,7 @@ APU_0D03:             MOV A,!VolFadeTimer                       ;;0D1B|0D03+0D03
                     + MOVW YA,!ARam_5A                          ;;0D26|0D0E+0D0E/0D0E\0D0E;
                       ADDW YA,!ARam_56                          ;;0D28|0D10+0D10/0D10\0D10;
 APU_0D12:             MOVW !ARam_56,YA                          ;;0D2A|0D12+0D12/0D12\0D12;
-                      MOV !ARam_5C,#$FF                         ;;0D2C|0D14+0D14/0D14\0D14; set all vol chg flags 
+                      MOV !ARam_5C,#$FF                         ;;0D2C|0D14+0D14/0D14\0D14; set all vol chg flags
                                                                 ;;                        ;
 APU_0D17:             MOV X,#$0E                                ;;0D2F|0D17+0D17/0D17\0D17;
                       MOV !CurrentChannel,#$80                  ;;0D31|0D19+0D19/0D19\0D19;
@@ -1052,7 +1052,7 @@ APU_0D17:             MOV X,#$0E                                ;;0D2F|0D17+0D17
                       DEC X                                     ;;0D3D|0D25+0D25/0D25\0D25;
                       DEC X                                     ;;0D3E|0D26+0D26/0D26\0D26;
                       BPL -                                     ;;0D3F|0D27+0D27/0D27\0D27;
-                      MOV !ARam_5C,#$00                         ;;0D41|0D29+0D29/0D29\0D29; clear volchg flags 
+                      MOV !ARam_5C,#$00                         ;;0D41|0D29+0D29/0D29\0D29; clear volchg flags
                       MOV A,!ChannelsMuted                      ;;0D44|0D2C+0D2C/0D2C\0D2C;
                       EOR A,#$FF                                ;;0D46|0D2E+0D2E/0D2E\0D2E;
                       AND A,!ARam_47                            ;;0D48|0D30+0D30/0D30\0D30;
@@ -1106,19 +1106,19 @@ APU_0D56:             MUL YA                                    ;;0D6E|0D56+0D56
                       BNE -                                     ;;0D9B|0D83+0D83/0D83\0D83; set SRCN, ADSR1/2, GAIN;
                       MOV A,(!ARam_14)+Y                        ;;0D9D|0D85+0D85/0D85\0D85;
                       POP X                                     ;;0D9F|0D87+0D87/0D87\0D87;
-                      MOV !ARam_0210+X,A                        ;;0DA0|0D88+0D88/0D88\0D88; set pitch multiplier 
+                      MOV !ARam_0210+X,A                        ;;0DA0|0D88+0D88/0D88\0D88; set pitch multiplier
                       MOV A,#$00                                ;;0DA3|0D8B+0D8B/0D8B\0D8B;
 APU_0D8D:             RET                                       ;;0DA5|0D8D+0D8D/0D8D\0D8D;
                                                                 ;;                        ;
 VCmd_DB:              CALL NextVCmd46                           ;;0DA6|0D8E+0D8E/0D8E\0D8E; vcmd DB: set pan;
                       AND A,#$1F                                ;;0DA9|0D91+0D91/0D91\0D91;
-                      MOV !ARam_0280+1+X,A                      ;;0DAB|0D93+0D93/0D93\0D93; voice pan value 
+                      MOV !ARam_0280+1+X,A                      ;;0DAB|0D93+0D93/0D93\0D93; voice pan value
                       MOV A,Y                                   ;;0DAE|0D96+0D96/0D96\0D96;
                       AND A,#$C0                                ;;0DAF|0D97+0D97/0D97\0D97;
-                      MOV !ARam_02A0+1+X,A                      ;;0DB1|0D99+0D99/0D99\0D99; negate voice vol bits 
+                      MOV !ARam_02A0+1+X,A                      ;;0DB1|0D99+0D99/0D99\0D99; negate voice vol bits
                       MOV A,#$00                                ;;0DB4|0D9C+0D9C/0D9C\0D9C;
                       MOV !ARam_0280+X,A                        ;;0DB6|0D9E+0D9E/0D9E\0D9E;
-                      OR (!ARam_5C),(!CurrentChannel)           ;;0DB9|0DA1+0DA1/0DA1\0DA1; set vol chg flag 
+                      OR (!ARam_5C),(!CurrentChannel)           ;;0DB9|0DA1+0DA1/0DA1\0DA1; set vol chg flag
                       RET                                       ;;0DBC|0DA4+0DA4/0DA4\0DA4;
                                                                 ;;                        ;
 VCmd_DC:              CALL NextVCmd46                           ;;0DBD|0DA5+0DA5/0DA5\0DA5; vcmd DC: pan fade;
@@ -1127,7 +1127,7 @@ VCmd_DC:              CALL NextVCmd46                           ;;0DBD|0DA5+0DA5
                       CALL NextVCmd                             ;;0DC3|0DAB+0DAB/0DAB\0DAB;
                       MOV !ARam_02A0+X,A                        ;;0DC6|0DAE+0DAE/0DAE\0DAE;
                       SETC                                      ;;0DC9|0DB1+0DB1/0DB1\0DB1;
-                      SBC A,!ARam_0280+1+X                      ;;0DCA|0DB2+0DB2/0DB2\0DB2; current pan value 
+                      SBC A,!ARam_0280+1+X                      ;;0DCA|0DB2+0DB2/0DB2\0DB2; current pan value
                       POP X                                     ;;0DCD|0DB5+0DB5/0DB5\0DB5;
                       CALL APU_0F76                             ;;0DCE|0DB6+0DB6/0DB6\0DB6; delta = pan value / steps;
                       MOV !ARam_0290+X,A                        ;;0DD1|0DB9+0DB9/0DB9\0DB9;
@@ -1143,7 +1143,7 @@ VCmd_DE:              CALL NextVCmd46                           ;;0DD9|0DC1+0DC1
                       MOV !ARam_0330+1+X,A                      ;;0DE7|0DCF+0DCF/0DCF\0DCF;
                       CALL NextVCmd                             ;;0DEA|0DD2+0DD2/0DD2\0DD2;
                                                                 ;;                        ;
-VCmd_DF:              MOV X,!CurrentChannel2                    ;;0DED|0DD5+0DD5/0DD5\0DD5; vcmd DF: vibrato off 
+VCmd_DF:              MOV X,!CurrentChannel2                    ;;0DED|0DD5+0DD5/0DD5\0DD5; vcmd DF: vibrato off
                       MOV !VoVibrato+1+X,A                      ;;0DEF|0DD7+0DD7/0DD7\0DD7;
                       RET                                       ;;0DF1|0DD9+0DD9/0DD9\0DD9;
                                                                 ;;                        ;
@@ -1162,7 +1162,7 @@ VCmd_EA:              CALL NextVCmd46                           ;;0DF2|0DDA+0DDA
 VCmd_E0:              CALL NextVCmd46                           ;;0E08|0DF0+0DF0/0DF0\0DF0; vcmd E0: set master volume;
                       MOV !MasterVolume,A                       ;;0E0B|0DF3+0DF3/0DF3\0DF3;
                       MOV !ARam_56,#$00                         ;;0E0D|0DF5+0DF5/0DF5\0DF5;
-                      MOV !ARam_5C,#$FF                         ;;0E10|0DF8+0DF8/0DF8\0DF8; all vol chgd 
+                      MOV !ARam_5C,#$FF                         ;;0E10|0DF8+0DF8/0DF8\0DF8; all vol chgd
                       RET                                       ;;0E13|0DFB+0DFB/0DFB\0DFB;
                                                                 ;;                        ;
 VCmd_E1:              CALL NextVCmd46                           ;;0E14|0DFC+0DFC/0DFC\0DFC; vcmd E1: master vol fade;
@@ -1177,7 +1177,7 @@ VCmd_E1:              CALL NextVCmd46                           ;;0E14|0DFC+0DFC
                       RET                                       ;;0E28|0E10+0E10/0E10\0E10;
                                                                 ;;                        ;
 VCmd_E2:              CALL NextVCmd46                           ;;0E29|0E11+0E11/0E11\0E11; vcmd E2: tempo;
-APU_0E14:             ADC A,!ARam_0387                          ;;0E2C|0E14+0E14/0E14\0E14; set tempo 
+APU_0E14:             ADC A,!ARam_0387                          ;;0E2C|0E14+0E14/0E14\0E14; set tempo
                       MOV !MasterTempo+1,A                      ;;0E2F|0E17+0E17/0E17\0E17;
                       MOV !MasterTempo,#$00                     ;;0E31|0E19+0E19/0E19\0E19;
                       RET                                       ;;0E34|0E1C+0E1C/0E1C\0E1C;
@@ -1204,7 +1204,7 @@ VCmd_E5:              CALL NextVCmd46                           ;;0E53|0E3B+0E3B
                       MOV !ARam_0360+2+X,A                      ;;0E5C|0E44+0E44/0E44\0E44;
                       CALL NextVCmd                             ;;0E5F|0E47+0E47/0E47\0E47;
                                                                 ;;                        ;
-VCmd_E6:              MOV X,!CurrentChannel2                    ;;0E62|0E4A+0E4A/0E4A\0E4A; vcmd E6: tremolo off 
+VCmd_E6:              MOV X,!CurrentChannel2                    ;;0E62|0E4A+0E4A/0E4A\0E4A; vcmd E6: tremolo off
                       MOV !ARam_B0+1+X,A                        ;;0E64|0E4C+0E4C/0E4C\0E4C;
                       RET                                       ;;0E66|0E4E+0E4E/0E4E\0E4E;
                                                                 ;;                        ;
@@ -1228,7 +1228,7 @@ VCmd_E7:              CALL NextVCmd46                           ;;0E8B|0E73+0E73
                       MOV !ARam_0240+1+X,A                      ;;0E8E|0E76+0E76/0E76\0E76;
                       MOV A,#$00                                ;;0E91|0E79+0E79/0E79\0E79;
                       MOV !ARam_0240+X,A                        ;;0E93|0E7B+0E7B/0E7B\0E7B;
-                      OR (!ARam_5C),(!CurrentChannel)           ;;0E96|0E7E+0E7E/0E7E\0E7E; mark volume changed 
+                      OR (!ARam_5C),(!CurrentChannel)           ;;0E96|0E7E+0E7E/0E7E\0E7E; mark volume changed
                       RET                                       ;;0E99|0E81+0E81/0E81\0E81;
                                                                 ;;                        ;
 VCmd_E8:              CALL NextVCmd46                           ;;0E9A|0E82+0E82/0E82\0E82; vcmd E8: voice volume base fade;
@@ -1254,35 +1254,35 @@ VCmd_E9:              CALL NextVCmd46                           ;;0EBD|0EA5+0EA5
                       CALL NextVCmd                             ;;0EC1|0EA9+0EA9/0EA9\0EA9;
                       PUSH A                                    ;;0EC4|0EAC+0EAC/0EAC\0EAC;
                       CALL NextVCmd                             ;;0EC5|0EAD+0EAD/0EAD\0EAD;
-                      MOV !VoInstrument+X,A                     ;;0EC8|0EB0+0EB0/0EB0\0EB0; repeat counter = op3 
+                      MOV !VoInstrument+X,A                     ;;0EC8|0EB0+0EB0/0EB0\0EB0; repeat counter = op3
                       MOV A,!VoPhrasePtr+X                      ;;0ECA|0EB2+0EB2/0EB2\0EB2;
                       MOV !ARam_03E0+X,A                        ;;0ECC|0EB4+0EB4/0EB4\0EB4;
                       MOV A,!VoPhrasePtr+1+X                    ;;0ECF|0EB7+0EB7/0EB7\0EB7;
-                      MOV !ARam_03E0+1+X,A                      ;;0ED1|0EB9+0EB9/0EB9\0EB9; save current vptr in 3E0/1+X 
+                      MOV !ARam_03E0+1+X,A                      ;;0ED1|0EB9+0EB9/0EB9\0EB9; save current vptr in 3E0/1+X
                       POP A                                     ;;0ED4|0EBC+0EBC/0EBC\0EBC;
                       MOV !VoPhrasePtr+1+X,A                    ;;0ED5|0EBD+0EBD/0EBD\0EBD;
                       MOV !ARam_03F0+1+X,A                      ;;0ED7|0EBF+0EBF/0EBF\0EBF;
                       POP A                                     ;;0EDA|0EC2+0EC2/0EC2\0EC2;
                       MOV !VoPhrasePtr+X,A                      ;;0EDB|0EC3+0EC3/0EC3\0EC3;
-                      MOV !ARam_03F0+X,A                        ;;0EDD|0EC5+0EC5/0EC5\0EC5; set vptr/3F0/1+X to op1/2 
+                      MOV !ARam_03F0+X,A                        ;;0EDD|0EC5+0EC5/0EC5\0EC5; set vptr/3F0/1+X to op1/2
                       RET                                       ;;0EE0|0EC8+0EC8/0EC8\0EC8;
                                                                 ;;                        ;
 VCmd_EF:              CALL NextVCmd46                           ;;0EE1|0EC9+0EC9/0EC9\0EC9; vcmd EF: set echo vbits/volume;
-                      MOV !ARam_0389,A                          ;;0EE4|0ECC+0ECC/0ECC\0ECC; set echo vbit shadow from op1 
+                      MOV !ARam_0389,A                          ;;0EE4|0ECC+0ECC/0ECC\0ECC; set echo vbit shadow from op1
                       MOV Y,#$4D                                ;;0EE7|0ECF+0ECF/0ECF\0ECF;
                       CALL WriteDSPReg                          ;;0EE9|0ED1+0ED1/0ED1\0ED1; set echo vbits DSP from shadow;
                       CALL NextVCmd                             ;;0EEC|0ED4+0ED4/0ED4\0ED4;
                       MOV A,#$00                                ;;0EEF|0ED7+0ED7/0ED7\0ED7;
-                      MOVW !EchoVolLeft,YA                      ;;0EF1|0ED9+0ED9/0ED9\0ED9; set 61/2 from op2 * $100 (evol L) 
+                      MOVW !EchoVolLeft,YA                      ;;0EF1|0ED9+0ED9/0ED9\0ED9; set 61/2 from op2 * $100 (evol L)
                       CALL NextVCmd                             ;;0EF3|0EDB+0EDB/0EDB\0EDB;
                       MOV A,#$00                                ;;0EF6|0EDE+0EDE/0EDE\0EDE;
-                      MOVW !EchoVolRight,YA                     ;;0EF8|0EE0+0EE0/0EE0\0EE0; set 63/4 from op3 * $100 (evol R) 
-                      MOV !ARam_2E,A                            ;;0EFA|0EE2+0EE2/0EE2\0EE2; zero 2e 
+                      MOVW !EchoVolRight,YA                     ;;0EF8|0EE0+0EE0/0EE0\0EE0; set 63/4 from op3 * $100 (evol R)
+                      MOV !ARam_2E,A                            ;;0EFA|0EE2+0EE2/0EE2\0EE2; zero 2e
                       AND A,#$1F                                ;;0EFC|0EE4+0EE4/0EE4\0EE4;
                       MOV Y,#$6C                                ;;0EFE|0EE6+0EE6/0EE6\0EE6;
                       CALL WriteDSPReg                          ;;0F00|0EE8+0EE8/0EE8\0EE8; zero noise freq, enable echo write;
                                                                 ;;                        ;
-APU_0EEB:             MOV A,!EchoVolLeft+1                      ;;0F03|0EEB+0EEB/0EEB\0EEB; set echo vol's from shadows 
+APU_0EEB:             MOV A,!EchoVolLeft+1                      ;;0F03|0EEB+0EEB/0EEB\0EEB; set echo vol's from shadows
                       MOV Y,#$2C                                ;;0F05|0EED+0EED/0EED\0EED;
                       CALL WriteDSPReg                          ;;0F07|0EEF+0EEF/0EEF\0EEF; set echo vol L DSP from $62;
                       MOV A,!EchoVolRight+1                     ;;0F0A|0EF2+0EF2/0EF2\0EF2;
@@ -1307,13 +1307,13 @@ VCmd_F2:              CALL NextVCmd46                           ;;0F11|0EF9+0EF9
                       MOVW !ARam_67,YA                          ;;0F32|0F1A+0F1A/0F1A\0F1A;
                       RET                                       ;;0F34|0F1C+0F1C/0F1C\0F1C;
                                                                 ;;                        ;
-VCmd_F0:              MOV X,!CurrentChannel2                    ;;0F35|0F1D+0F1D/0F1D\0F1D; vcmd F0: disable echo 
-                      MOV !ARam_0389,A                          ;;0F37|0F1F+0F1F/0F1F\0F1F; clear all echo vbits 
+VCmd_F0:              MOV X,!CurrentChannel2                    ;;0F35|0F1D+0F1D/0F1D\0F1D; vcmd F0: disable echo
+                      MOV !ARam_0389,A                          ;;0F37|0F1F+0F1F/0F1F\0F1F; clear all echo vbits
 APU_0F22:             MOV Y,A                                   ;;0F3A|0F22+0F22/0F22\0F22;
-                      MOVW !EchoVolLeft,YA                      ;;0F3B|0F23+0F23/0F23\0F23; zero echo vol L shadow 
-                      MOVW !EchoVolRight,YA                     ;;0F3D|0F25+0F25/0F25\0F25; zero echo vol R shadow 
+                      MOVW !EchoVolLeft,YA                      ;;0F3B|0F23+0F23/0F23\0F23; zero echo vol L shadow
+                      MOVW !EchoVolRight,YA                     ;;0F3D|0F25+0F25/0F25\0F25; zero echo vol R shadow
                       CALL APU_0EEB                             ;;0F3F|0F27+0F27/0F27\0F27; set echo vol DSP regs from shadows;
-                      MOV !ARam_2E,A                            ;;0F42|0F2A+0F2A/0F2A\0F2A; zero 2E 
+                      MOV !ARam_2E,A                            ;;0F42|0F2A+0F2A/0F2A\0F2A; zero 2E
                       OR A,#$20                                 ;;0F44|0F2C+0F2C/0F2C\0F2C;
                       MOV Y,#$6C                                ;;0F46|0F2E+0F2E/0F2E\0F2E;
                       JMP WriteDSPReg                           ;;0F48|0F30+0F30/0F30\0F30; disable echo write, noise freq 0;
@@ -1341,17 +1341,17 @@ VCmd_F1:              CALL NextVCmd46                           ;;0F4B|0F33+0F33
                       RET                                       ;;0F74|0F5C+0F5C/0F5C\0F5C;
                                                                 ;;                        ;
 APU_0F5D:             AND A,#$7F                                ;;0F75|0F5D+0F5D/0F5D\0F5D; calculate portamento delta;
-                      MOV !ARam_02D0+X,A                        ;;0F77|0F5F+0F5F/0F5F\0F5F; final portamento value 
+                      MOV !ARam_02D0+X,A                        ;;0F77|0F5F+0F5F/0F5F\0F5F; final portamento value
                       SETC                                      ;;0F7A|0F62+0F62/0F62\0F62;
-                      SBC A,!ARam_02B0+1+X                      ;;0F7B|0F63+0F63/0F63\0F63; note number 
+                      SBC A,!ARam_02B0+1+X                      ;;0F7B|0F63+0F63/0F63\0F63; note number
                       PUSH A                                    ;;0F7E|0F66+0F66/0F66\0F66;
-                      MOV A,!VoPitchSlide+X                     ;;0F7F|0F67+0F67/0F67\0F67; portamento steps 
+                      MOV A,!VoPitchSlide+X                     ;;0F7F|0F67+0F67/0F67\0F67; portamento steps
                       MOV X,A                                   ;;0F81|0F69+0F69/0F69\0F69;
                       POP A                                     ;;0F82|0F6A+0F6A/0F6A\0F6A;
                       CALL APU_0F76                             ;;0F83|0F6B+0F6B/0F6B\0F6B;
                       MOV !ARam_02C0+X,A                        ;;0F86|0F6E+0F6E/0F6E\0F6E;
                       MOV A,Y                                   ;;0F89|0F71+0F71/0F71\0F71;
-                      MOV !ARam_02C0+1+X,A                      ;;0F8A|0F72+0F72/0F72\0F72; portamento delta 
+                      MOV !ARam_02C0+1+X,A                      ;;0F8A|0F72+0F72/0F72\0F72; portamento delta
                       RET                                       ;;0F8D|0F75+0F75/0F75\0F75;
                                                                 ;;                        ;
 APU_0F76:             BCS APU_0F85                              ;;0F8E|0F76+0F76/0F76\0F76; signed 16 bit division;
@@ -1371,7 +1371,7 @@ APU_0F85:             MOV Y,#$00                                ;;0F9D|0F85+0F85
                       POP Y                                     ;;0FA4|0F8C+0F8C/0F8C\0F8C;
                       MOV X,!CurrentChannel2                    ;;0FA5|0F8D+0F8D/0F8D\0F8D;
                       RET                                       ;;0FA7|0F8F+0F8F/0F8F\0F8F;
-                                                                ;;                        ; 
+                                                                ;;                        ;
 VCmdPtrs:             dw VCmd_DA                                ;;0FA8|0F90+0F90/0F90\0F90; DA - SET INSTRUMENT ; dispatch table for 0d44 (vcmds)
                       dw VCmd_DB                                ;;0FAA|0F92+0F92/0F92\0F92; db - set pan
                       dw VCmd_DC                                ;;0FAC|0F94+0F94/0F94\0F94; dc - pan fade
@@ -1429,7 +1429,7 @@ APU_0FDB:             MOV A,!VoPanFade+X                        ;;0FF3|0FDB+0FDB
                       BRA APU_1019                              ;;1027|100F+100F/100F\100F;
                                                                 ;;                        ;
 APU_1011:             INC !ARam_B0+X                            ;;1029|1011+1011/1011\1011;
-APU_1013:             MOV A,!ARam_0210+1+X                      ;;102B|1013+1013/1013\1013; volume from note 
+APU_1013:             MOV A,!ARam_0210+1+X                      ;;102B|1013+1013/1013\1013; volume from note
                       CALL APU_124D                             ;;102E|1016+1016/1016\1016; set voice vol from master/base/note;
 APU_1019:             MOV A,!VoPanFade+1+X                      ;;1031|1019+1019/1019\1019;
                       BNE APU_1024                              ;;1033|101B+101B/101B\101B;
@@ -1445,12 +1445,12 @@ APU_1024:             MOV A,#$80                                ;;103C|1024+1024
 APU_102D:             MOV A,!ARam_0280+1+X                      ;;1045|102D+102D/102D\102D;
                       MOV Y,A                                   ;;1048|1030+1030/1030\1030;
                       MOV A,!ARam_0280+X                        ;;1049|1031+1031/1031\1031;
-                      MOVW !ARam_10,YA                          ;;104C|1034+1034/1034\1034; set $10/1 from voice pan 
+                      MOVW !ARam_10,YA                          ;;104C|1034+1034/1034\1034; set $10/1 from voice pan
                                                                 ;;                        ;
 APU_1036:             MOV A,X                                   ;;104E|1036+1036/1036\1036; set voice volume DSP regs with pan value from $10/1;
                       XCN A                                     ;;104F|1037+1037/1037\1037;
                       LSR A                                     ;;1050|1038+1038/1038\1038;
-                      MOV !ARam_12,A                            ;;1051|1039+1039/1039\1039; $12 = voice X volume DSP reg 
+                      MOV !ARam_12,A                            ;;1051|1039+1039/1039\1039; $12 = voice X volume DSP reg
 APU_103B:             MOV Y,!ARam_11                            ;;1053|103B+103B/103B\103B;
                       MOV A,PanTable+1+Y                        ;;1055|103D+103D/103D\103D; next pan val from table;
                       SETC                                      ;;1058|1040+1040/1040\1040;
@@ -1462,9 +1462,9 @@ APU_103B:             MOV Y,!ARam_11                            ;;1053|103B+103B
                       CLRC                                      ;;1062|104A+104A/104A\104A;
                       ADC A,PanTable+Y                          ;;1063|104B+104B/104B\104B; add integer part to pan val;
                       MOV Y,A                                   ;;1066|104E+104E/104E\104E;
-                      MOV A,!ARam_0370+1+X                      ;;1067|104F+104F/104F\104F; volume 
+                      MOV A,!ARam_0370+1+X                      ;;1067|104F+104F/104F\104F; volume
                       MUL YA                                    ;;106A|1052+1052/1052\1052;
-                      MOV A,!ARam_02A0+1+X                      ;;106B|1053+1053/1053\1053; bits 7/6 will negate volume L/R 
+                      MOV A,!ARam_02A0+1+X                      ;;106B|1053+1053/1053\1053; bits 7/6 will negate volume L/R
                       BBC0 !ARam_12,+                           ;;106E|1056+1056/1056\1056;
                       ASL A                                     ;;1071|1059+1059/1059\1059;
                     + BPL APU_1061                              ;;1072|105A+105A/105A\105A;
@@ -1478,12 +1478,12 @@ APU_1061:             MOV A,Y                                   ;;1079|1061+1061
                       MOV A,#$00                                ;;107F|1067+1067/1067\1067;
                       MOV Y,#$14                                ;;1081|1069+1069/1069\1069;
                       SUBW YA,!ARam_10                          ;;1083|106B+106B/106B\106B;
-                      MOVW !ARam_10,YA                          ;;1085|106D+106D/106D\106D; $10/11 = #$1400 - $10/11 
-                      INC !ARam_12                              ;;1087|106F+106F/106F\106F; go back and do R chan vol 
+                      MOVW !ARam_10,YA                          ;;1085|106D+106D/106D\106D; $10/11 = #$1400 - $10/11
+                      INC !ARam_12                              ;;1087|106F+106F/106F\106F; go back and do R chan vol
                       BBC1 !ARam_12,APU_103B                    ;;1089|1071+1071/1071\1071;
                       RET                                       ;;108C|1074+1074/1074\1074;
                                                                 ;;                        ;
-APU_1075:             MOVW !ARam_14,YA                          ;;108D|1075+1075/1075\1075; add fade delta to value (set final value at end) 
+APU_1075:             MOVW !ARam_14,YA                          ;;108D|1075+1075/1075\1075; add fade delta to value (set final value at end)
                       BNE APU_1088                              ;;108F|1077+1077/1077\1077;
                       CLRC                                      ;;1091|1079+1079/1079\1079;
                       ADC A,#$20                                ;;1092|107A+107A/107A\107A;
@@ -1586,7 +1586,7 @@ APU_111F:             SET7 !ARam_13                             ;;1137|111F+111F
 APU_112A:             MOV A,!ARam_02B0+1+X                      ;;1142|112A+112A/112A\112A;
                       MOV Y,A                                   ;;1145|112D+112D/112D\112D;
                       MOV A,!ARam_02B0+X                        ;;1146|112E+112E/112E\112E;
-                      MOVW !ARam_10,YA                          ;;1149|1131+1131/1131\1131; note num -> $10/11 
+                      MOVW !ARam_10,YA                          ;;1149|1131+1131/1131\1131; note num -> $10/11
                       MOV A,!VoVibrato+1+X                      ;;114B|1133+1133/1133\1133;
                       BEQ APU_1140                              ;;114D|1135+1135/1135\1135;
                       MOV A,!ARam_0340+X                        ;;114F|1137+1137/1137\1137;
@@ -1638,7 +1638,7 @@ APU_1188:             BBC7 !ARam_12,+                           ;;11A0|1188+1188
                       MOVW !ARam_10,YA                          ;;11AB|1193+1193/1193\1193;
 APU_1195:             JMP APU_0634                              ;;11AD|1195+1195/1195\1195;
                                                                 ;;                        ;
-APU_1198:             CLR7 !ARam_13                             ;;11B0|1198+1198/1198\1198; per-voice fades/dsps? 
+APU_1198:             CLR7 !ARam_13                             ;;11B0|1198+1198/1198\1198; per-voice fades/dsps?
                       MOV A,!ARam_B0+1+X                        ;;11B2|119A+119A/119A\119A;
                       BEQ +                                     ;;11B4|119C+119C/119C\119C;
                       MOV A,!ARam_0370+X                        ;;11B6|119E+119E/119E\119E;
@@ -1647,23 +1647,23 @@ APU_1198:             CLR7 !ARam_13                             ;;11B0|1198+1198
                     + MOV A,!ARam_0280+1+X                      ;;11BF|11A7+11A7/11A7\11A7;
                       MOV Y,A                                   ;;11C2|11AA+11AA/11AA\11AA;
                       MOV A,!ARam_0280+X                        ;;11C3|11AB+11AB/11AB\11AB;
-                      MOVW !ARam_10,YA                          ;;11C6|11AE+11AE/11AE\11AE; $10/11 = voice pan value 
-                      MOV A,!VoPanFade+1+X                      ;;11C8|11B0+11B0/11B0\11B0; voice pan fade counter 
+                      MOVW !ARam_10,YA                          ;;11C6|11AE+11AE/11AE\11AE; $10/11 = voice pan value
+                      MOV A,!VoPanFade+1+X                      ;;11C8|11B0+11B0/11B0\11B0; voice pan fade counter
                       BNE +                                     ;;11CA|11B2+11B2/11B2\11B2;
                       BBS7 !ARam_13,APU_11C3                    ;;11CC|11B4+11B4/11B4\11B4;
                       BRA APU_11C6                              ;;11CF|11B7+11B7/11B7\11B7;
                                                                 ;;                        ;
                     + MOV A,!ARam_0290+1+X                      ;;11D1|11B9+11B9/11B9\11B9;
                       MOV Y,A                                   ;;11D4|11BC+11BC/11BC\11BC;
-                      MOV A,!ARam_0290+X                        ;;11D5|11BD+11BD/11BD\11BD; pan fade delta 
+                      MOV A,!ARam_0290+X                        ;;11D5|11BD+11BD/11BD\11BD; pan fade delta
                       CALL APU_1201                             ;;11D8|11C0+11C0/11C0\11C0; add delta (with mutations)?;
 APU_11C3:             CALL APU_1036                             ;;11DB|11C3+11C3/11C3\11C3; set voice DSP regs, pan from $10/11;
 APU_11C6:             CLR7 !ARam_13                             ;;11DE|11C6+11C6/11C6\11C6;
                       MOV A,!ARam_02B0+1+X                      ;;11E0|11C8+11C8/11C8\11C8;
                       MOV Y,A                                   ;;11E3|11CB+11CB/11CB\11CB;
                       MOV A,!ARam_02B0+X                        ;;11E4|11CC+11CC/11CC\11CC;
-                      MOVW !ARam_10,YA                          ;;11E7|11CF+11CF/11CF\11CF; notenum to $10/11 
-                      MOV A,!VoPitchSlide+X                     ;;11E9|11D1+11D1/11D1\11D1; pitch slide counter 
+                      MOVW !ARam_10,YA                          ;;11E7|11CF+11CF/11CF\11CF; notenum to $10/11
+                      MOV A,!VoPitchSlide+X                     ;;11E9|11D1+11D1/11D1\11D1; pitch slide counter
                       BEQ +                                     ;;11EB|11D3+11D3/11D3\11D3;
                       MOV A,!VoPitchSlide+1+X                   ;;11ED|11D5+11D5/11D5\11D5;
                       BNE +                                     ;;11EF|11D7+11D7/11D7\11D7;
@@ -1711,8 +1711,8 @@ APU_1201:             MOVW !PitchValue,YA                       ;;1219|1201+1201
                       RET                                       ;;1244|122C+122C/122C\122C;
                                                                 ;;                        ;
 APU_122D:             SET7 !ARam_13                             ;;1245|122D+122D/122D\122D;
-                      MOV Y,!ARam_49                            ;;1247|122F+122F/122F\122F; tempo counter (i.e. fractional part of tick counter) 
-                      MOV A,!ARam_0360+2+X                      ;;1249|1231+1231/1231\1231; tremolo rate 
+                      MOV Y,!ARam_49                            ;;1247|122F+122F/122F\122F; tempo counter (i.e. fractional part of tick counter)
+                      MOV A,!ARam_0360+2+X                      ;;1249|1231+1231/1231\1231; tremolo rate
                       MUL YA                                    ;;124C|1234+1234/1234\1234;
                       MOV A,Y                                   ;;124D|1235+1235/1235\1235;
                       CLRC                                      ;;124E|1236+1236/1236\1236;
@@ -1720,45 +1720,45 @@ APU_122D:             SET7 !ARam_13                             ;;1245|122D+122D
 APU_123A:             ASL A                                     ;;1252|123A+123A/123A\123A;
                       BCC +                                     ;;1253|123B+123B/123B\123B;
                       EOR A,#$FF                                ;;1255|123D+123D/123D\123D;
-                    + MOV Y,!ARam_B0+1+X                        ;;1257|123F+123F/123F\123F; tremolo depth 
+                    + MOV Y,!ARam_B0+1+X                        ;;1257|123F+123F/123F\123F; tremolo depth
                       MUL YA                                    ;;1259|1241+1241/1241\1241;
-                      MOV A,!ARam_0210+1+X                      ;;125A|1242+1242/1242\1242; per-note volume (velocity) 
+                      MOV A,!ARam_0210+1+X                      ;;125A|1242+1242/1242\1242; per-note volume (velocity)
                       MUL YA                                    ;;125D|1245+1245/1245\1245;
                       MOV A,Y                                   ;;125E|1246+1246/1246\1246;
                       EOR A,#$FF                                ;;125F|1247+1247/1247\1247;
                       SETC                                      ;;1261|1249+1249/1249\1249;
                       ADC A,!ARam_0210+1+X                      ;;1262|124A+124A/124A\124A;
 APU_124D:             MOV Y,A                                   ;;1265|124D+124D/124D\124D;
-                      MOV A,!ARam_0240+1+X                      ;;1266|124E+124E/124E\124E; CHANNEL VOLUME ; set voice volume from master/base/A 
+                      MOV A,!ARam_0240+1+X                      ;;1266|124E+124E/124E\124E; CHANNEL VOLUME ; set voice volume from master/base/A
                       MUL YA                                    ;;1269|1251+1251/1251\1251;
-                      MOV A,!MasterVolume                       ;;126A|1252+1252/1252\1252; master volume 
+                      MOV A,!MasterVolume                       ;;126A|1252+1252/1252\1252; master volume
                       MUL YA                                    ;;126C|1254+1254/1254\1254;
                       MOV A,Y                                   ;;126D|1255+1255/1255\1255;
                       MUL YA                                    ;;126E|1256+1256/1256\1256;
                       MOV A,Y                                   ;;126F|1257+1257/1257\1257; (^2 exponential);
-                      MOV !ARam_0370+1+X,A                      ;;1270|1258+1258/1258\1258; voice volume 
+                      MOV !ARam_0370+1+X,A                      ;;1270|1258+1258/1258\1258; voice volume
                       RET                                       ;;1273|125B+125B/125B\125B;
                                                                 ;;                        ;
 NextVCmd46:           MOV X,!CurrentChannel2                    ;;1274|125C+125C/125C\125C; get next vcmd stream byte for voice $46 Channel2
-NextVCmd:             MOV A,(!VoPhrasePtr+X)                    ;;1276|125E+125E/125E\125E; get next vcmd stream byte into A/Y 
+NextVCmd:             MOV A,(!VoPhrasePtr+X)                    ;;1276|125E+125E/125E\125E; get next vcmd stream byte into A/Y
 APU_1260:             INC !VoPhrasePtr+X                        ;;1278|1260+1260/1260\1260;
                       BNE +                                     ;;127A|1262+1262/1262\1262;
                       INC !VoPhrasePtr+1+X                      ;;127C|1264+1264/1264\1264;
                     + MOV Y,A                                   ;;127E|1266+1266/1266\1266;
                       RET                                       ;;127F|1267+1267/1267\1267;
-                                                                ;;                        ; 
+                                                                ;;                        ;
 NoteDurs:             db $33,$66,$80,$99,$B3,$CC,$E6,$FF        ;;1280|1268+1268/1268\1268; for 0C89 - note dur%'s
-                                                                ;;                        ; 
+                                                                ;;                        ;
 VelocityValues:       db $08,$12,$1B,$24,$2C,$35,$3E,$47        ;;1288|1270+1270/1270\1270; per-note velocity values
                       db $51,$5A,$62,$6B,$7D,$8F,$A1,$B3        ;;1290|1278+1278/1278\1278;
-                                                                ;;                        ; 
+                                                                ;;                        ;
 PanTable:             db $00,$01,$03,$07,$0D,$15,$1E,$29        ;;1298|1280+1280/1280\1280; pan table (max pan full L = $14.00)
                       db $34,$42,$51,$5E,$67,$6E,$73,$77        ;;12A0|1288+1288/1288\1288;
                       db $7A,$7C,$7D,$7E,$7F                    ;;12A8|1290+1290/1290\1290;
-                                                                ;;                        ; 
+                                                                ;;                        ;
 DefaultDSPVals:       db $7F,$7F,$00,$00,$2F,$60,$00,$00        ;;12AD|1295+1295/1295\1295; default values (1295) for DSP regs (12A1)
                       db $00,$80,$60,$02                        ;;12B5|129D+129D/129D\129D;
-                                                                ;;                        ; 
+                                                                ;;                        ;
 DefaultDSPRegs:       db $0C,$1C,$2C,$3C,$6C,$0D,$2D,$3D        ;;12B9|12A1+12A1/12A1\12A1; mvol L/R max, echo vol L/R zero, FLG = echo off/noise 400HZ
                       db $4D,$5D,$6D,$7D                        ;;12C1|12A9+12A9/12A9\12A9; echo feedback = $60, echo/pitchmod/noise vbits off
                                                                 ;;                        ; source dir = $8000, echo ram = $6000, echo delay = 32ms
@@ -1827,7 +1827,7 @@ APU_1325:             MOV A,!SNESIO2                            ;;133D|1325+1325
                       MOV !SNESIO0,Y                            ;;134B|1333+1333/1333\1333;
                       BNE APU_1305                              ;;134E|1336+1336/1336\1336;
                       MOV X,#$31                                ;;1350|1338+1338/1338\1338;
-                      MOV !SPCCONTROL,X                         ;;1352|133A+133A/133A\133A; reset ports, keep timer running 
+                      MOV !SPCCONTROL,X                         ;;1352|133A+133A/133A\133A; reset ports, keep timer running
                       RET                                       ;;1355|133D+133D/133D\133D;
                                                                 ;;1356|133E+133E/133E\133E;
                                                                 ;;                        ;

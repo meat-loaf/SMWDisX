@@ -57,7 +57,7 @@ GenericSprGfxRt0:     PHB                                       ;;8042|8042+8042
                       RTL                                       ;;8049|8049+8049/8049\8049; Return
                                                                 ;;                        ;
 InvertAccum:          EOR.B #$FF                                ;;804A|804A+804A/804A\804A; \ Set A to -A
-                      INC A                                     ;;804C|804C+804C/804C\804C; / 
+                      INC A                                     ;;804C|804C+804C/804C\804C; /
                       RTS                                       ;;804D|804D+804D/804D\804D; Return
                                                                 ;;                        ;
 CODE_01804E:          LDA.W !SpriteBlockedDirs,X                ;;804E|804E+804E/804E\804E; \ Branch if in air
@@ -119,17 +119,17 @@ CODE_01808C:          PHB                                       ;;808C|808C+808C
                       RTL                                       ;;80CA|80CA+80CA/80CA\80CA; Return
                                                                 ;;                        ;
 IsSprOffScreen:       LDA.W !SpriteOffscreenX,X                 ;;80CB|80CB+80CB/80CB\80CB; \ A = Current sprite is offscreen
-                      ORA.W !SpriteOffscreenVert,X              ;;80CE|80CE+80CE/80CE\80CE; / 
+                      ORA.W !SpriteOffscreenVert,X              ;;80CE|80CE+80CE/80CE\80CE; /
                       RTS                                       ;;80D1|80D1+80D1/80D1\80D1; Return
                                                                 ;;                        ;
 CODE_0180D2:          PHX                                       ;;80D2|80D2+80D2/80D2\80D2; In all sprite routines, X = current sprite
                       TXA                                       ;;80D3|80D3+80D3/80D3\80D3;
                       LDX.W !SpriteMemorySetting                ;;80D4|80D4+80D4/80D4\80D4; $1692 = Current Sprite memory settings
-                      CLC                                       ;;80D7|80D7+80D7/80D7\80D7; \ 
+                      CLC                                       ;;80D7|80D7+80D7/80D7\80D7; \
                       ADC.L DATA_07F0B4,X                       ;;80D8|80D8+80D8/80D8\80D8;  |Add $07:F0B4,$1692 to sprite index.  i.e. minimum one tile allotted to each sprite
                       TAX                                       ;;80DC|80DC+80DC/80DC\80DC;  |the bytes read go straight to the OAM indexes
                       LDA.L DATA_07F000,X                       ;;80DD|80DD+80DD/80DD\80DD;  |
-                      PLX                                       ;;80E1|80E1+80E1/80E1\80E1; / 
+                      PLX                                       ;;80E1|80E1+80E1/80E1\80E1; /
                       STA.W !SpriteOAMIndex,X                   ;;80E2|80E2+80E2/80E2\80E2; Current sprite's OAM index
                       LDA.W !SpriteStatus,X                     ;;80E5|80E5+80E5/80E5\80E5; If  (something related to current sprite) is 0
                       BEQ Return018126                          ;;80E8|80E8+80E8/80E8\80E8; do not decrement these counters
@@ -532,7 +532,7 @@ InitScalePlats:       LDA.B !SpriteYPosLow,X                    ;;83B5|83B5+83B5
                       RTS                                       ;;83D9|83D9+83D9/83D9\83D9; Return
                                                                 ;;                        ;
 InitMsg_SideExit:     LDA.B #$28                                ;;83DA|83DA+83DA/83DA\83DA; \ Set current sprite's "disable contact with other sprites" timer to x28
-                      STA.W !SpriteMisc1564,X                   ;;83DC|83DC+83DC/83DC\83DC; / 
+                      STA.W !SpriteMisc1564,X                   ;;83DC|83DC+83DC/83DC\83DC; /
                       RTS                                       ;;83DF|83DF+83DF/83DF\83DF; Return
                                                                 ;;                        ;
 InitYoshi:            DEC.W !SpriteMisc160E,X                   ;;83E0|83E0+83E0/83E0\83E0;
@@ -1245,25 +1245,25 @@ Spr0to13Prop:         db $00,$02,$03,$0D,$40,$42,$43,$45        ;;88F0|88F0+88F0
                                                                 ;;                        ;
 ShellessKoopas:       LDA.B !SpriteLock                         ;;8904|8904+8904/8904\8904; \ If sprites aren't locked,
                       BEQ CODE_018952                           ;;8906|8906+8906/8906\8906; / branch to $8952
-CODE_018908:          LDA.W !SpriteMisc163E,X                   ;;8908|8908+8908/8908\8908;COME BACK HERE ON NOT STATIONARY BRANCH            
+CODE_018908:          LDA.W !SpriteMisc163E,X                   ;;8908|8908+8908/8908\8908;COME BACK HERE ON NOT STATIONARY BRANCH
                       CMP.B #$80                                ;;890B|890B+890B/890B\890B;
                       BCC +                                     ;;890D|890D+890D/890D\890D;
                       LDA.B !SpriteLock                         ;;890F|890F+890F/890F\890F; \ If sprites are locked,
                       BNE +                                     ;;8911|8911+8911/8911\8911; / branch to $891F
 CODE_018913:          JSR SetAnimationFrame                     ;;8913|8913+8913/8913\8913;
-                      LDA.W !SpriteMisc1602,X                   ;;8916|8916+8916/8916\8916; \ 
+                      LDA.W !SpriteMisc1602,X                   ;;8916|8916+8916/8916\8916; \
                       CLC                                       ;;8919|8919+8919/8919\8919;  |Increase sprite's image by x05
                       ADC.B #$05                                ;;891A|891A+891A/891A\891A;  |
-                      STA.W !SpriteMisc1602,X                   ;;891C|891C+891C/891C\891C; / 
+                      STA.W !SpriteMisc1602,X                   ;;891C|891C+891C/891C\891C; /
                     + JSR CODE_018931                           ;;891F|891F+891F/891F\891F;
                       JSR SubUpdateSprPos                       ;;8922|8922+8922/8922\8922;
                       STZ.B !SpriteXSpeed,X                     ;;8925|8925+8925/8925\8925; Sprite X Speed = 0
                       JSR IsOnGround                            ;;8927|8927+8927/8927\8927; \ If sprite is on edge (on ground),
                       BEQ +                                     ;;892A|892A+892A/892A\892A;  |Sprite Y Speed = 0
-                      STZ.B !SpriteYSpeed,X                     ;;892C|892C+892C/892C\892C; / 
+                      STZ.B !SpriteYSpeed,X                     ;;892C|892C+892C/892C\892C; /
                     + JMP CODE_018B03                           ;;892E|892E+892E/892E\892E;
                                                                 ;;                        ;
-CODE_018931:          LDA.B !SpriteNumber,X                     ;;8931|8931+8931/8931\8931; \ 
+CODE_018931:          LDA.B !SpriteNumber,X                     ;;8931|8931+8931/8931\8931; \
                       CMP.B #$02                                ;;8933|8933+8933/8933\8933;  |If sprite isn't Blue shelless Koopa,
                       BNE CODE_01893C                           ;;8935|8935+8935/8935\8935; / branch to $893C
                       JSR MarioSprInteractRt                    ;;8937|8937+8937/8937\8937;
@@ -1279,24 +1279,24 @@ CODE_01893C:          ASL.W !SpriteTweakerD,X                   ;;893C|893C+893C
                       LSR.W !SpriteTweakerD,X                   ;;894E|894E+894E/894E\894E;
 Return018951:         RTS                                       ;;8951|8951+8951/8951\8951; Return
                                                                 ;;                        ;
-CODE_018952:          LDA.W !SpriteMisc163E,X                   ;;8952|8952+8952/8952\8952;CODE RUNA T START?       
-                      BEQ CODE_0189B4                           ;;8955|8955+8955/8955\8955;SKIP IF $163E IS ZERO FOR SPRITE.  IS KICKING SHELL TIMER / GENREAL TIME         
+CODE_018952:          LDA.W !SpriteMisc163E,X                   ;;8952|8952+8952/8952\8952;CODE RUNA T START?
+                      BEQ CODE_0189B4                           ;;8955|8955+8955/8955\8955;SKIP IF $163E IS ZERO FOR SPRITE.  IS KICKING SHELL TIMER / GENREAL TIME
                       CMP.B #$80                                ;;8957|8957+8957/8957\8957;
                       BNE CODE_01896B                           ;;8959|8959+8959/8959\8959;
                       JSR FaceMario                             ;;895B|895B+895B/895B\895B;
-                      LDA.B !SpriteNumber,X                     ;;895E|895E+895E/895E\895E; \ 
+                      LDA.B !SpriteNumber,X                     ;;895E|895E+895E/895E\895E; \
                       CMP.B #$02                                ;;8960|8960+8960/8960\8960;  |If sprite is Blue shelless Koopa,
                       BEQ +                                     ;;8962|8962+8962/8962\8962;  |Set Y speed to xE0
                       LDA.B #$E0                                ;;8964|8964+8964/8964\8964;  |
-                      STA.B !SpriteYSpeed,X                     ;;8966|8966+8966/8966\8966; / 
-                    + STZ.W !SpriteMisc163E,X                   ;;8968|8968+8968/8968\8968;ZERO KICKING SHELL TIMER            
+                      STA.B !SpriteYSpeed,X                     ;;8966|8966+8966/8966\8966; /
+                    + STZ.W !SpriteMisc163E,X                   ;;8968|8968+8968/8968\8968;ZERO KICKING SHELL TIMER
 CODE_01896B:          CMP.B #$01                                ;;896B|896B+896B/896B\896B;
                       BNE CODE_018908                           ;;896D|896D+896D/896D\896D;
-                      LDY.W !SpriteMisc160E,X                   ;;896F|896F+896F/896F\896F;IT KICKS THIS? !@#            
+                      LDY.W !SpriteMisc160E,X                   ;;896F|896F+896F/896F\896F;IT KICKS THIS? !@#
                       LDA.W !SpriteStatus,Y                     ;;8972|8972+8972/8972\8972;
-                      CMP.B #$09                                ;;8975|8975+8975/8975\8975;IF NOT STATIONARY, BRANCH               
+                      CMP.B #$09                                ;;8975|8975+8975/8975\8975;IF NOT STATIONARY, BRANCH
                       BNE CODE_018908                           ;;8977|8977+8977/8977\8977;
-                      LDA.B !SpriteXPosLow,X                    ;;8979|8979+8979/8979\8979;KOOPA BLUE KICK SHELL!      
+                      LDA.B !SpriteXPosLow,X                    ;;8979|8979+8979/8979\8979;KOOPA BLUE KICK SHELL!
                       SEC                                       ;;897B|897B+897B/897B\897B;
                       SBC.W !SpriteXPosLow,Y                    ;;897C|897C+897C/897C\897C;
                       CLC                                       ;;897F|897F+897F/897F\897F;
@@ -1356,7 +1356,7 @@ CODE_0189E6:          STZ.W !SpriteMisc1570,X                   ;;89E6|89E6+89E6
                       STA.W !OAMTileNo+$100,Y                   ;;89F9|89F9+89F9/89F9\89F9;
                       RTS                                       ;;89FC|89FC+89FC/89FC\89FC; Return
                                                                 ;;                        ;
-CODE_0189FD:          JSR IsOnGround                            ;;89FD|89FD+89FD/89FD\89FD;KOOPA CODE        
+CODE_0189FD:          JSR IsOnGround                            ;;89FD|89FD+89FD/89FD\89FD;KOOPA CODE
                       BEQ CODE_018A0F                           ;;8A00|8A00+8A00/8A00\8A00;
                       LDA.B #$FF                                ;;8A02|8A02+8A02/8A02\8A02;
                       LDY.B !SpriteNumber,X                     ;;8A04|8A04+8A04/8A04\8A04;
@@ -1434,7 +1434,7 @@ CODE_018A88:          LDA.B !SpriteTableC2,X                    ;;8A88|8A88+8A88
 CODE_018A9B:          LDA.W !SpriteMisc1558,X                   ;;8A9B|8A9B+8A9B/8A9B\8A9B;
                       CMP.B #$01                                ;;8A9E|8A9E+8A9E/8A9E\8A9E;
                       BNE Spr0to13Main                          ;;8AA0|8AA0+8AA0/8AA0\8AA0;
-                      LDY.W !SpriteMisc1594,X                   ;;8AA2|8AA2+8AA2/8AA2\8AA2;SHELL TO INTERACT WITH???            
+                      LDY.W !SpriteMisc1594,X                   ;;8AA2|8AA2+8AA2/8AA2\8AA2;SHELL TO INTERACT WITH???
                       LDA.W !SpriteStatus,Y                     ;;8AA5|8AA5+8AA5/8AA5\8AA5;
                       CMP.B #$08                                ;;8AA8|8AA8+8AA8/8AA8\8AA8;
                       BCC +                                     ;;8AAA|8AAA+8AAA/8AAA\8AAA;
@@ -1455,7 +1455,7 @@ CODE_018A9B:          LDA.W !SpriteMisc1558,X                   ;;8A9B|8A9B+8A9B
                       LDA.B #$10                                ;;8ACF|8ACF+8ACF/8ACF\8ACF;
                       STA.W !SpriteMisc1558,Y                   ;;8AD1|8AD1+8AD1/8AD1\8AD1;
                       LDA.B !SpriteNumber,X                     ;;8AD4|8AD4+8AD4/8AD4\8AD4;
-                      STA.W !SpriteMisc160E,Y                   ;;8AD6|8AD6+8AD6/8AD6\8AD6;SPRITE NUMBER TO DEAL WITH ?           
+                      STA.W !SpriteMisc160E,Y                   ;;8AD6|8AD6+8AD6/8AD6\8AD6;SPRITE NUMBER TO DEAL WITH ?
                     + RTS                                       ;;8AD9|8AD9+8AD9/8AD9\8AD9; Return
                                                                 ;;                        ;
                     - PHB                                       ;;8ADA|8ADA+8ADA/8ADA\8ADA; \ Change Bob-omb into explosion
@@ -5107,7 +5107,7 @@ CODE_01A979:          CPY.B #$6E                                ;;A97B|A979+A979
                       STA.B !SpriteTableC2,X                    ;;A981|A97F+A97F/A97F\A98B;
                       LDA.B #$FF                                ;;A983|A981+A981/A981\A98D;
                       STA.W !SpriteMisc1540,X                   ;;A985|A983+A983/A983\A98F;
-                      LDA.B #$6F                                ;;A988|A986+A986/A986\A992;DINO TORCH SPRITE NUM               
+                      LDA.B #$6F                                ;;A988|A986+A986/A986\A992;DINO TORCH SPRITE NUM
                       BRA CODE_01A99B                           ;;A98A|A988+A988/A988\A994;
                                                                 ;;                        ;
 CODE_01A98A:          CPY.B #$3F                                ;;A98C|A98A+A98A/A98A\A996;
@@ -5406,21 +5406,21 @@ SubSprXPosNoGrvty:    TXA                                       ;;ABCF|ABCC+ABCC
                                                                 ;;                        ;
 SubSprYPosNoGrvty:    LDA.B !SpriteYSpeed,X                     ;;ABDB|ABD8+ABD8/ABD8\ABE4; Load current sprite's Y speed
                       BEQ CODE_01AC09                           ;;ABDD|ABDA+ABDA/ABDA\ABE6; If speed is 0, branch to $AC09
-                      ASL A                                     ;;ABDF|ABDC+ABDC/ABDC\ABE8; \ 
+                      ASL A                                     ;;ABDF|ABDC+ABDC/ABDC\ABE8; \
                       ASL A                                     ;;ABE0|ABDD+ABDD/ABDD\ABE9;  |Multiply speed by 16
                       ASL A                                     ;;ABE1|ABDE+ABDE/ABDE\ABEA;  |
-                      ASL A                                     ;;ABE2|ABDF+ABDF/ABDF\ABEB; / 
-                      CLC                                       ;;ABE3|ABE0+ABE0/ABE0\ABEC; \ 
+                      ASL A                                     ;;ABE2|ABDF+ABDF/ABDF\ABEB; /
+                      CLC                                       ;;ABE3|ABE0+ABE0/ABE0\ABEC; \
                       ADC.W !SpriteYPosSpx,X                    ;;ABE4|ABE1+ABE1/ABE1\ABED;  |Increase (unknown sprite table) by that value
-                      STA.W !SpriteYPosSpx,X                    ;;ABE7|ABE4+ABE4/ABE4\ABF0; / 
+                      STA.W !SpriteYPosSpx,X                    ;;ABE7|ABE4+ABE4/ABE4\ABF0; /
                       PHP                                       ;;ABEA|ABE7+ABE7/ABE7\ABF3;
                       PHP                                       ;;ABEB|ABE8+ABE8/ABE8\ABF4;
                       LDY.B #$00                                ;;ABEC|ABE9+ABE9/ABE9\ABF5;
                       LDA.B !SpriteYSpeed,X                     ;;ABEE|ABEB+ABEB/ABEB\ABF7; Load current sprite's Y speed
-                      LSR A                                     ;;ABF0|ABED+ABED/ABED\ABF9; \ 
+                      LSR A                                     ;;ABF0|ABED+ABED/ABED\ABF9; \
                       LSR A                                     ;;ABF1|ABEE+ABEE/ABEE\ABFA;  |Multiply speed by 16
                       LSR A                                     ;;ABF2|ABEF+ABEF/ABEF\ABFB;  |
-                      LSR A                                     ;;ABF3|ABF0+ABF0/ABF0\ABFC; / 
+                      LSR A                                     ;;ABF3|ABF0+ABF0/ABF0\ABFC; /
                       CMP.B #$08                                ;;ABF4|ABF1+ABF1/ABF1\ABFD;
                       BCC +                                     ;;ABF6|ABF3+ABF3/ABF3\ABFF;
                       ORA.B #$F0                                ;;ABF8|ABF5+ABF5/ABF5\AC01;
@@ -5428,7 +5428,7 @@ SubSprYPosNoGrvty:    LDA.B !SpriteYSpeed,X                     ;;ABDB|ABD8+ABD8
                     + PLP                                       ;;ABFB|ABF8+ABF8/ABF8\AC04;
                       PHA                                       ;;ABFC|ABF9+ABF9/ABF9\AC05;
                       ADC.B !SpriteYPosLow,X                    ;;ABFD|ABFA+ABFA/ABFA\AC06; \ Add value to current sprite's Y position
-                      STA.B !SpriteYPosLow,X                    ;;ABFF|ABFC+ABFC/ABFC\AC08; / 
+                      STA.B !SpriteYPosLow,X                    ;;ABFF|ABFC+ABFC/ABFC\AC08; /
                       TYA                                       ;;AC01|ABFE+ABFE/ABFE\AC0A;
                       ADC.W !SpriteXPosHigh,X                   ;;AC02|ABFF+ABFF/ABFF\AC0B;
                       STA.W !SpriteXPosHigh,X                   ;;AC05|AC02+AC02/AC02\AC0E;
@@ -5458,21 +5458,21 @@ SubOffscreen1Bnk1:    LDA.B #$02                                ;;AC2E|AC2B+AC2B
                       BRA +                                     ;;AC32|AC2F+AC2F/AC2F\AC3B;  |
                                                                 ;;                        ;
 SubOffscreen0Bnk1:    STZ.B !_3                                 ;;AC34|AC31+AC31/AC31\AC3D; /
-                    + JSR IsSprOffScreen                        ;;AC36|AC33+AC33/AC33\AC3F; \ if sprite is not off screen, return                                      
-                      BEQ Return01ACA4                          ;;AC39|AC36+AC36/AC36\AC42; /                                                                          
-                      LDA.B !ScreenMode                         ;;AC3B|AC38+AC38/AC38\AC44; \  vertical level                                   
+                    + JSR IsSprOffScreen                        ;;AC36|AC33+AC33/AC33\AC3F; \ if sprite is not off screen, return
+                      BEQ Return01ACA4                          ;;AC39|AC36+AC36/AC36\AC42; /
+                      LDA.B !ScreenMode                         ;;AC3B|AC38+AC38/AC38\AC44; \  vertical level
                       AND.B #$01                                ;;AC3D|AC3A+AC3A/AC3A\AC46;  |
-                      BNE VerticalLevel                         ;;AC3F|AC3C+AC3C/AC3C\AC48; /                                                                          
-                      LDA.B !SpriteYPosLow,X                    ;;AC41|AC3E+AC3E/AC3E\AC4A; \                                                                          
+                      BNE VerticalLevel                         ;;AC3F|AC3C+AC3C/AC3C\AC48; /
+                      LDA.B !SpriteYPosLow,X                    ;;AC41|AC3E+AC3E/AC3E\AC4A; \
                       CLC                                       ;;AC43|AC40+AC40/AC40\AC4C;  |
                       ADC.B #$50                                ;;AC44|AC41+AC41/AC41\AC4D;  | if the sprite has gone off the bottom of the level...
                       LDA.W !SpriteXPosHigh,X                   ;;AC46|AC43+AC43/AC43\AC4F;  | (if adding 0x50 to the sprite y position would make the high byte >= 2)
                       ADC.B #$00                                ;;AC49|AC46+AC46/AC46\AC52;  |
                       CMP.B #$02                                ;;AC4B|AC48+AC48/AC48\AC54;  |
-                      BPL OffScrEraseSprite                     ;;AC4D|AC4A+AC4A/AC4A\AC56; /    ...erase the sprite                                                   
-                      LDA.W !SpriteTweakerD,X                   ;;AC4F|AC4C+AC4C/AC4C\AC58; \ if "process offscreen" flag is set, return                               
+                      BPL OffScrEraseSprite                     ;;AC4D|AC4A+AC4A/AC4A\AC56; /    ...erase the sprite
+                      LDA.W !SpriteTweakerD,X                   ;;AC4F|AC4C+AC4C/AC4C\AC58; \ if "process offscreen" flag is set, return
                       AND.B #$04                                ;;AC52|AC4F+AC4F/AC4F\AC5B;  |
-                      BNE Return01ACA4                          ;;AC54|AC51+AC51/AC51\AC5D; /                                                                          
+                      BNE Return01ACA4                          ;;AC54|AC51+AC51/AC51\AC5D; /
                       LDA.B !TrueFrame                          ;;AC56|AC53+AC53/AC53\AC5F;
                       AND.B #$01                                ;;AC58|AC55+AC55/AC55\AC61;
                       ORA.B !_3                                 ;;AC5A|AC57+AC57/AC57\AC63;
@@ -5513,18 +5513,18 @@ OffScrEraseSprite:    LDA.B !SpriteNumber,X                     ;;AC83|AC80+AC80
                     + STZ.W !SpriteStatus,X                     ;;ACA4|ACA1+ACA1/ACA1\ACAD; Erase sprite
 Return01ACA4:         RTS                                       ;;ACA7|ACA4+ACA4/ACA4\ACB0;
                                                                 ;;                        ;
-VerticalLevel:        LDA.W !SpriteTweakerD,X                   ;;ACA8|ACA5+ACA5/ACA5\ACB1; \ If "process offscreen" flag is set, return               
+VerticalLevel:        LDA.W !SpriteTweakerD,X                   ;;ACA8|ACA5+ACA5/ACA5\ACB1; \ If "process offscreen" flag is set, return
                       AND.B #$04                                ;;ACAB|ACA8+ACA8/ACA8\ACB4;  |
-                      BNE Return01ACA4                          ;;ACAD|ACAA+ACAA/ACAA\ACB6; /                                                          
+                      BNE Return01ACA4                          ;;ACAD|ACAA+ACAA/ACAA\ACB6; /
                       LDA.B !TrueFrame                          ;;ACAF|ACAC+ACAC/ACAC\ACB8; \ Return every other frame
                       LSR A                                     ;;ACB1|ACAE+ACAE/ACAE\ACBA;  |
-                      BCS Return01ACA4                          ;;ACB2|ACAF+ACAF/ACAF\ACBB; /                                                          
-                      LDA.B !SpriteXPosLow,X                    ;;ACB4|ACB1+ACB1/ACB1\ACBD; \                                                          
-                      CMP.B #$00                                ;;ACB6|ACB3+ACB3/ACB3\ACBF;  | If the sprite has gone off the side of the level...     
-                      LDA.W !SpriteYPosHigh,X                   ;;ACB8|ACB5+ACB5/ACB5\ACC1;  |                                                         
-                      SBC.B #$00                                ;;ACBB|ACB8+ACB8/ACB8\ACC4;  |                                                         
-                      CMP.B #$02                                ;;ACBD|ACBA+ACBA/ACBA\ACC6;  |                                                         
-                      BCS OffScrEraseSprite                     ;;ACBF|ACBC+ACBC/ACBC\ACC8; /  ...erase the sprite     
+                      BCS Return01ACA4                          ;;ACB2|ACAF+ACAF/ACAF\ACBB; /
+                      LDA.B !SpriteXPosLow,X                    ;;ACB4|ACB1+ACB1/ACB1\ACBD; \
+                      CMP.B #$00                                ;;ACB6|ACB3+ACB3/ACB3\ACBF;  | If the sprite has gone off the side of the level...
+                      LDA.W !SpriteYPosHigh,X                   ;;ACB8|ACB5+ACB5/ACB5\ACC1;  |
+                      SBC.B #$00                                ;;ACBB|ACB8+ACB8/ACB8\ACC4;  |
+                      CMP.B #$02                                ;;ACBD|ACBA+ACBA/ACBA\ACC6;  |
+                      BCS OffScrEraseSprite                     ;;ACBF|ACBC+ACBC/ACBC\ACC8; /  ...erase the sprite
                       LDA.B !TrueFrame                          ;;ACC1|ACBE+ACBE/ACBE\ACCA;
                       LSR A                                     ;;ACC3|ACC0+ACC0/ACC0\ACCC;
                       AND.B #$01                                ;;ACC4|ACC1+ACC1/ACC1\ACCD;
@@ -7781,7 +7781,7 @@ CODE_01BE82:          LDY.B #$34                                ;;BE8D|BE82+BE82
                       LDA.B !SpriteLock                         ;;BE96|BE8B+BE8B/BE8B\BE92;
                       ORA.W !SpriteOffscreenX,X                 ;;BE98|BE8D+BE8D/BE8D\BE94;
                       BNE +                                     ;;BE9B|BE90+BE90/BE90\BE97;
-                      JSR CODE_01BF1D                           ;;BE9D|BE92+BE92/BE92\BE99;JUMP TO GENERATE MAGIC        
+                      JSR CODE_01BF1D                           ;;BE9D|BE92+BE92/BE92\BE99;JUMP TO GENERATE MAGIC
                     + PLA                                       ;;BEA0|BE95+BE95/BE95\BE9C;
 CODE_01BE96:          LSR A                                     ;;BEA1|BE96+BE96/BE96\BE9D;
                       LSR A                                     ;;BEA2|BE97+BE97/BE97\BE9E;
@@ -7865,7 +7865,7 @@ CODE_01BF28:          LDA.B #!SFX_MAGIC                         ;;BF33|BF28+BF28
                       STA.W !SPCIO0                             ;;BF35|BF2A+BF2A/BF2A\BF31; /
                       LDA.B #$08                                ;;BF38|BF2D+BF2D/BF2D\BF34; \ Sprite status = Normal
                       STA.W !SpriteStatus,Y                     ;;BF3A|BF2F+BF2F/BF2F\BF36; /
-                      LDA.B #$20                                ;;BF3D|BF32+BF32/BF32\BF39;GENERATES MAGIC HERE!   !@#           
+                      LDA.B #$20                                ;;BF3D|BF32+BF32/BF32\BF39;GENERATES MAGIC HERE!   !@#
                       STA.W !SpriteNumber,Y                     ;;BF3F|BF34+BF34/BF34\BF3B;
                       LDA.B !SpriteXPosLow,X                    ;;BF42|BF37+BF37/BF37\BF3E;
                       STA.W !SpriteXPosLow,Y                    ;;BF44|BF39+BF39/BF39\BF40;
@@ -7883,13 +7883,13 @@ CODE_01BF28:          LDA.B #!SFX_MAGIC                         ;;BF33|BF28+BF28
                       LDA.B #$20                                ;;BF62|BF57+BF57/BF57\BF5E;
                       JSR CODE_01BF6A                           ;;BF64|BF59+BF59/BF59\BF60;
                       LDX.W !CurSpriteProcess                   ;;BF67|BF5C+BF5C/BF5C\BF63; X = Sprite index
-                      LDA.B !_0                                 ;;BF6A|BF5F+BF5F/BF5F\BF66;PULLS SPEED FROM RAM HERE?                  
+                      LDA.B !_0                                 ;;BF6A|BF5F+BF5F/BF5F\BF66;PULLS SPEED FROM RAM HERE?
                       STA.W !SpriteYSpeed,Y                     ;;BF6C|BF61+BF61/BF61\BF68;
                       LDA.B !_1                                 ;;BF6F|BF64+BF64/BF64\BF6B;
                       STA.W !SpriteXSpeed,Y                     ;;BF71|BF66+BF66/BF66\BF6D;
                       RTS                                       ;;BF74|BF69+BF69/BF69\BF70; Return
                                                                 ;;                        ;
-CODE_01BF6A:          STA.B !_1                                 ;;BF75|BF6A+BF6A/BF6A\BF71;FILLS OUT RAM TO USE FOR SPEED?                  
+CODE_01BF6A:          STA.B !_1                                 ;;BF75|BF6A+BF6A/BF6A\BF71;FILLS OUT RAM TO USE FOR SPEED?
                       PHX                                       ;;BF77|BF6C+BF6C/BF6C\BF73;
                       PHY                                       ;;BF78|BF6D+BF6D/BF6D\BF74;
                       JSR SubVertPosBnk1                        ;;BF79|BF6E+BF6E/BF6E\BF75;
@@ -8612,7 +8612,7 @@ GivePowerPtrIndex:    db $00,$01,$01,$01,$04,$04,$04,$01        ;;C530|C524+C524
                       db $05,$05,$05,$05                        ;;C540|C534+C534/C537\C53E;
                                                                 ;;                        ;
 TouchedPowerUp:       SEC                                       ;;C544|C538+C538/C53B\C542; \ Index created from...
-                      SBC.B #$74                                ;;C545|C539+C539/C53C\C543;  | ... powerup touched (upper 2 bits) 
+                      SBC.B #$74                                ;;C545|C539+C539/C53C\C543;  | ... powerup touched (upper 2 bits)
                       ASL A                                     ;;C547|C53B+C53B/C53E\C545;  |
                       ASL A                                     ;;C548|C53C+C53C/C53F\C546;  |
                       ORA.B !Powerup                            ;;C549|C53D+C53D/C540\C547;  | ... Mario's status (lower 3 bits)
@@ -8620,7 +8620,7 @@ TouchedPowerUp:       SEC                                       ;;C544|C538+C538
                       LDA.W ItemBoxSprite,Y                     ;;C54C|C540+C540/C543\C54A; \ Put appropriate item in item box
                       BEQ +                                     ;;C54F|C543+C543/C546\C54D;  |
                       STA.W !PlayerItembox                      ;;C551|C545+C545/C548\C54F; /
-                      LDA.B #!SFX_ITEMRESERVED                  ;;C554|C548+C548/C54B\C552; \ 
+                      LDA.B #!SFX_ITEMRESERVED                  ;;C554|C548+C548/C54B\C552; \
                       STA.W !SPCIO3                             ;;C556|C54A+C54A/C54D\C554; / Play sound effect
                     + LDA.W GivePowerPtrIndex,Y                 ;;C559|C54D+C54D/C550\C557; \ Call routine to change Mario's status
                       JSL ExecutePtr                            ;;C55C|C550+C550/C553\C55A; /
@@ -8636,7 +8636,7 @@ TouchedPowerUp:       SEC                                       ;;C544|C538+C538
                                                                 ;;                        ;
 GiveMarioMushroom:    LDA.B #$02                                ;;C56D|C561+C561/C564\C56B; \ Set growing action
                       STA.B !PlayerAnimation                    ;;C56F|C563+C563/C566\C56D; /
-                      LDA.B #$2F                                ;;C571|C565+C565/C568\C56F; \ 
+                      LDA.B #$2F                                ;;C571|C565+C565/C568\C56F; \
                    if ver_is_japanese(!_VER)          ;\   IF   ;;++++++++++++++++++++++++; J
                       STA.W !PlayerAniTimer                     ;;C573                    ;  | Set animation timer
                    else                               ;<  ELSE  ;;------------------------; U, SS, E0, & E1
@@ -8794,7 +8794,7 @@ CODE_01C670:          PHX                                       ;;C67C|C670+C670
                                                                 ;;                        ;
 PowerUpGfxRt:         CMP.B #$76                                ;;C6AD|C6A1+C6A1/C6A4\C6AB; \ Setup flashing palette for star
                       BNE +                                     ;;C6AF|C6A3+C6A3/C6A6\C6AD;  |
-                      LDA.B !TrueFrame                          ;;C6B1|C6A5+C6A5/C6A8\C6AF;  | 
+                      LDA.B !TrueFrame                          ;;C6B1|C6A5+C6A5/C6A8\C6AF;  |
                       LSR A                                     ;;C6B3|C6A7+C6A7/C6AA\C6B1;  |
                       AND.B #$03                                ;;C6B4|C6A8+C6A8/C6AB\C6B2;  |
                       PHY                                       ;;C6B6|C6AA+C6AA/C6AD\C6B4;  |
@@ -11005,9 +11005,9 @@ CODE_01D7F6:          STY.W !SpriteInterIndex                   ;;D7F7|D7F6+D7F6
                       AND.B #$F0                                ;;D835|D834+D834/D83B\D842;
                       CMP.B !_5                                 ;;D837|D836+D836/D83D\D844;
                       BEQ CODE_01D861                           ;;D839|D838+D838/D83F\D846;
-CODE_01D83A:          JSR CODE_01D94D                           ;;D83B|D83A+D83A/D841\D848;WIERD ROUTINE INVOLVING POSITIONS.  ALL VARIABLES SET ABOVE...        
+CODE_01D83A:          JSR CODE_01D94D                           ;;D83B|D83A+D83A/D841\D848;WIERD ROUTINE INVOLVING POSITIONS.  ALL VARIABLES SET ABOVE...
                       BNE CODE_01D7F1                           ;;D83E|D83D+D83D/D844\D84B;
-                      LDA.W !Map16TileNumber                    ;;D840|D83F+D83F/D846\D84D;"# OF CUSTOM BLOCK???"              
+                      LDA.W !Map16TileNumber                    ;;D840|D83F+D83F/D846\D84D;"# OF CUSTOM BLOCK???"
                       CMP.B #$94                                ;;D843|D842+D842/D849\D850;
                       BEQ CODE_01D851                           ;;D845|D844+D844/D84B\D852;
                       CMP.B #$95                                ;;D847|D846+D846/D84D\D854;
@@ -11042,7 +11042,7 @@ CODE_01D861:          LDY.W !SpriteInterIndex                   ;;D862|D861+D861
                       ASL A                                     ;;D884|D883+D883/D88A\D891;
                     + PHY                                       ;;D885|D884+D884/D88B\D892;
                       ASL A                                     ;;D886|D885+D885/D88C\D893;
-                      STA.B !SpriteYSpeed,X                     ;;D887|D886+D886/D88D\D894;SPEED SETTINGS!  
+                      STA.B !SpriteYSpeed,X                     ;;D887|D886+D886/D88D\D894;SPEED SETTINGS!
                       PLY                                       ;;D889|D888+D888/D88F\D896;
                       LDA.W DATA_01DD51,Y                       ;;D88A|D889+D889/D890\D897;
                       ASL A                                     ;;D88D|D88C+D88C/D893\D89A;
@@ -11193,11 +11193,11 @@ CODE_01D977:          PLA                                       ;;D978|D977+D977
                       AND.W DATA_018000,Y                       ;;D9A4|D9A3+D9A3/D9AA\D9B1;
                       RTS                                       ;;D9A7|D9A6+D9A6/D9AD\D9B4; Return
                                                                 ;;                        ;
-CODE_01D9A7:          LDA.B !SpriteNumber,X                     ;;D9A8|D9A7+D9A7/D9AE\D9B5;LINE GUIDE PLATFORM FUZZY      
-                      CMP.B #$64                                ;;D9AA|D9A9+D9A9/D9B0\D9B7;DETERMINE SPRITE ITS DEALING WITH               
+CODE_01D9A7:          LDA.B !SpriteNumber,X                     ;;D9A8|D9A7+D9A7/D9AE\D9B5;LINE GUIDE PLATFORM FUZZY
+                      CMP.B #$64                                ;;D9AA|D9A9+D9A9/D9B0\D9B7;DETERMINE SPRITE ITS DEALING WITH
                       BEQ CODE_01D9D3                           ;;D9AC|D9AB+D9AB/D9B2\D9B9;
                       CMP.B #$65                                ;;D9AE|D9AD+D9AD/D9B4\D9BB;
-                      BCC CODE_01D9D0                           ;;D9B0|D9AF+D9AF/D9B6\D9BD;PLATFORM!         
+                      BCC CODE_01D9D0                           ;;D9B0|D9AF+D9AF/D9B6\D9BD;PLATFORM!
                       CMP.B #$68                                ;;D9B2|D9B1+D9B1/D9B8\D9BF;
                       BNE CODE_01D9BA                           ;;D9B4|D9B3+D9B3/D9BA\D9C1;
                       JSR CODE_01DBD4                           ;;D9B6|D9B5+D9B5/D9BC\D9C3;
@@ -11319,10 +11319,10 @@ CODE_01DA90:          LDY.B #$00                                ;;DA91|DA90+DA90
                       STA.B !PlayerXPosNext+1                   ;;DAA0|DA9F+DA9F/DAA6\DAAD;
                       RTS                                       ;;DAA2|DAA1+DAA1/DAA8\DAAF; Return
                                                                 ;;                        ;
-CODE_01DAA2:          LDY.B #$18                                ;;DAA3|DAA2+DAA2/DAA9\DAB0;LINE GUIDED PLATFORM CODE              
+CODE_01DAA2:          LDY.B #$18                                ;;DAA3|DAA2+DAA2/DAA9\DAB0;LINE GUIDED PLATFORM CODE
                       LDA.W !SpriteMisc1602,X                   ;;DAA5|DAA4+DAA4/DAAB\DAB2;
                       BEQ +                                     ;;DAA8|DAA7+DAA7/DAAE\DAB5;
-                      LDY.B #$28                                ;;DAAA|DAA9+DAA9/DAB0\DAB7;CONDITIONAL DEPENDING ON PLATFORM TYPE?              
+                      LDY.B #$28                                ;;DAAA|DAA9+DAA9/DAB0\DAB7;CONDITIONAL DEPENDING ON PLATFORM TYPE?
                     + STY.B !_0                                 ;;DAAC|DAAB+DAAB/DAB2\DAB9;
                       LDA.B !SpriteXPosLow,X                    ;;DAAE|DAAD+DAAD/DAB4\DABB;
                       PHA                                       ;;DAB0|DAAF+DAAF/DAB6\DABD;
@@ -11342,8 +11342,8 @@ CODE_01DAA2:          LDY.B #$18                                ;;DAA3|DAA2+DAA2
                       PHA                                       ;;DACA|DAC9+DAC9/DAD0\DAD7;
                       SBC.B #$00                                ;;DACB|DACA+DACA/DAD1\DAD8;
                       STA.W !SpriteXPosHigh,X                   ;;DACD|DACC+DACC/DAD3\DADA;
-                      JSR CODE_01B2DF                           ;;DAD0|DACF+DACF/DAD6\DADD;DRAW GFX  .  RELIES ON NEW POSITIONS MADE UP THERE.     
-                      PLA                                       ;;DAD3|DAD2+DAD2/DAD9\DAE0;RESTORE POSITIONS                    
+                      JSR CODE_01B2DF                           ;;DAD0|DACF+DACF/DAD6\DADD;DRAW GFX  .  RELIES ON NEW POSITIONS MADE UP THERE.
+                      PLA                                       ;;DAD3|DAD2+DAD2/DAD9\DAE0;RESTORE POSITIONS
                       STA.W !SpriteXPosHigh,X                   ;;DAD4|DAD3+DAD3/DADA\DAE1;
                       PLA                                       ;;DAD7|DAD6+DAD6/DADD\DAE4;
                       STA.B !SpriteYPosLow,X                    ;;DAD8|DAD7+DAD7/DADE\DAE5;
@@ -11353,7 +11353,7 @@ CODE_01DAA2:          LDY.B #$18                                ;;DAA3|DAA2+DAA2
                       STA.B !SpriteXPosLow,X                    ;;DADF|DADE+DADE/DAE5\DAEC;
                       LDA.B !SpriteXPosLow,X                    ;;DAE1|DAE0+DAE0/DAE7\DAEE;
                       PHA                                       ;;DAE3|DAE2+DAE2/DAE9\DAF0;
-                      JSR CODE_01D74D                           ;;DAE4|DAE3+DAE3/DAEA\DAF1;LINE GUIDE HANDLER???       
+                      JSR CODE_01D74D                           ;;DAE4|DAE3+DAE3/DAEA\DAF1;LINE GUIDE HANDLER???
                       PLA                                       ;;DAE7|DAE6+DAE6/DAED\DAF4;
                       SEC                                       ;;DAE8|DAE7+DAE7/DAEE\DAF5;
                       SBC.B !SpriteXPosLow,X                    ;;DAE9|DAE8+DAE8/DAEF\DAF6;
@@ -11385,7 +11385,7 @@ CODE_01DAA2:          LDY.B #$18                                ;;DAA3|DAA2+DAA2
                       PHA                                       ;;DB1C|DB1B+DB1B/DB22\DB29;
                       SBC.B #$00                                ;;DB1D|DB1C+DB1C/DB23\DB2A;
                       STA.W !SpriteXPosHigh,X                   ;;DB1F|DB1E+DB1E/DB25\DB2C;
-                      JSR CODE_01B457                           ;;DB22|DB21+DB21/DB28\DB2F;CUSTOM INTERACTION HANDLER        
+                      JSR CODE_01B457                           ;;DB22|DB21+DB21/DB28\DB2F;CUSTOM INTERACTION HANDLER
                       BCC +                                     ;;DB25|DB24+DB24/DB2B\DB32;
                       LDA.W !SpriteMisc1626,X                   ;;DB27|DB26+DB26/DB2D\DB34;
                       BEQ +                                     ;;DB2A|DB29+DB29/DB30\DB37;
@@ -15179,10 +15179,10 @@ KoopaKid:             LDA.B !SpriteTableC2,X                    ;;FAC4|FAC1+FAC1
                       JSL ExecutePtr                            ;;FAC6|FAC3+FAC3/FAC3\FAC3; 00 - Morton
                                                                 ;;                        ;
                       dw WallKoopaKids                          ;;FACA|FAC7+FAC7/FAC7\FAC7; 02 - Ludwig
-                      dw WallKoopaKids                          ;;FACC|FAC9+FAC9/FAC9\FAC9; 03 - Iggy  
-                      dw WallKoopaKids                          ;;FACE|FACB+FACB/FACB\FACB; 04 - Larry 
-                      dw PlatformKoopaKids                      ;;FAD0|FACD+FACD/FACD\FACD; 05 - Lemmy 
-                      dw PlatformKoopaKids                      ;;FAD2|FACF+FACF/FACF\FACF; 06 - Wendy 
+                      dw WallKoopaKids                          ;;FACC|FAC9+FAC9/FAC9\FAC9; 03 - Iggy
+                      dw WallKoopaKids                          ;;FACE|FACB+FACB/FACB\FACB; 04 - Larry
+                      dw PlatformKoopaKids                      ;;FAD0|FACD+FACD/FACD\FACD; 05 - Lemmy
+                      dw PlatformKoopaKids                      ;;FAD2|FACF+FACF/FACF\FACF; 06 - Wendy
                       dw PipeKoopaKids                          ;;FAD4|FAD1+FAD1/FAD1\FAD1;
                       dw PipeKoopaKids                          ;;FAD6|FAD3+FAD3/FAD3\FAD3;
                                                                 ;;                        ;
