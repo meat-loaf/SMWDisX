@@ -2323,7 +2323,7 @@ ADDR_029361:          LDA.B #$01                                ;;936A|9361+9361
 Return029391:         RTS                                       ;;939A|9391+9391/9391\9391; Return
                                                                 ;;                        ;
                                                                 ;;                        ;
-DATA_029392:          db $F8,$08                                ;;939B|9392+9392/9392\9392;
+SpriteCapeHitXSpdTbl: db $F8,$08                                ;;939B|9392+9392/9392\9392;
                                                                 ;;                        ;
 CODE_029394:          STZ.W !QuakeSpriteNumber,X                ;;939D|9394+9394/9394\9394;
                     - RTS                                       ;;93A0|9397+9397/9397\9397; Return
@@ -2361,13 +2361,13 @@ CODE_0293B0:          STX.W !CurSpriteProcess                   ;;93B9|93B0+93B0
                       JSL GetSpriteClippingA                    ;;93E7|93DE+93DE/93DE\93DE;
                       LDA.B !_E                                 ;;93EB|93E2+93E2/93E2\93E2;
                       BEQ CODE_0293EB                           ;;93ED|93E4+93E4/93E4\93E4;
-                      JSR CODE_029696                           ;;93EF|93E6+93E6/93E6\93E6;
+                      JSR SetCapeIntrCntctPrms                  ;;93EF|93E6+93E6/93E6\93E6;
                       BRA +                                     ;;93F2|93E9+93E9/93E9\93E9;
                                                                 ;;                        ;
 CODE_0293EB:          JSR CODE_029663                           ;;93F4|93EB+93EB/93EB\93EB;
                     + JSL CheckForContact                       ;;93F7|93EE+93EE/93EE\93EE;
                       BCC CODE_0293F7                           ;;93FB|93F2+93F2/93F2\93F2;
-                      JSR CODE_029404                           ;;93FD|93F4+93F4/93F4\93F4;
+                      JSR CapeSprHit                            ;;93FD|93F4+93F4/93F4\93F4;
 CODE_0293F7:          LDY.W !MinorSpriteProcIndex               ;;9400|93F7+93F7/93F7\93F7;
                       DEX                                       ;;9403|93FA+93FA/93FA\93FA;
                       BMI +                                     ;;9404|93FB+93FB/93FB\93FB;
@@ -2376,90 +2376,90 @@ CODE_0293F7:          LDY.W !MinorSpriteProcIndex               ;;9400|93F7+93F7
                     + LDX.W !MinorSpriteProcIndex               ;;9409|9400+9400/9400\9400;
                       RTS                                       ;;940C|9403+9403/9403\9403; Return
                                                                 ;;                        ;
-CODE_029404:          LDA.B #$08                                ;;940D|9404+9404/9404\9404;
-                      STA.W !SpriteMisc154C,X                   ;;940F|9406+9406/9406\9406;
-                      LDA.B !SpriteNumber,X                     ;;9412|9409+9409/9409\9409;
-                      CMP.B #$81                                ;;9414|940B+940B/940B\940B;
-                      BNE CODE_029427                           ;;9416|940D+940D/940D\940D;
-                      LDA.B !SpriteTableC2,X                    ;;9418|940F+940F/940F\940F;
-                      BEQ +                                     ;;941A|9411+9411/9411\9411;
-                      STZ.B !SpriteTableC2,X                    ;;941C|9413+9413/9413\9413;
+CapeSprHit:           LDA.B #$08                                ;;940D|9404+9404/9404\9404; \ The table at 154C is typically used to
+                      STA.W !SpriteMisc154C,X                   ;;940F|9406+9406/9406\9406; / disable player contact.
+                      LDA.B !SpriteNumber,X                     ;;9412|9409+9409/9409\9409; \ If sprite number is not
+                      CMP.B #$81                                ;;9414|940B+940B/940B\940B; | #$81 (the powerup roulete sprite)
+                      BNE CapeHitNotRoulette                    ;;9416|940D+940D/940D\940D; / branch
+                      LDA.B !SpriteTableC2,X                    ;;9418|940F+940F/940F\940F; > Roulete sprite uses this as a 'stationary in block' flag when non-zero
+                      BEQ +                                     ;;941A|9411+9411/9411\9411; > Branch to return if not stationary
+                      STZ.B !SpriteTableC2,X                    ;;941C|9413+9413/9413\9413; > Unset 'stationary' flag
                       LDA.B #$C0                                ;;941E|9415+9415/9415\9415;
                       STA.B !SpriteYSpeed,X                     ;;9420|9417+9417/9417\9417;
                       LDA.B #$10                                ;;9422|9419+9419/9419\9419;
-                      STA.W !SpriteMisc1540,X                   ;;9424|941B+941B/941B\941B;
+                      STA.W !SpriteMisc1540,X                   ;;9424|941B+941B/941B\941B; > Roulette sprite uses this as a 'rise out of block' timer
                       STZ.W !SpriteMisc157C,X                   ;;9427|941E+941E/941E\941E;
                       LDA.B #$20                                ;;942A|9421+9421/9421\9421;
-                      STA.W !SpriteMisc1558,X                   ;;942C|9423+9423/9423\9423;
+                      STA.W !SpriteMisc1558,X                   ;;942C|9423+9423/9423\9423; > Roulette sprite uses this to disable block interaction
                     + RTS                                       ;;942F|9426+9426/9426\9426; Return
                                                                 ;;                        ;
-CODE_029427:          CMP.B #$2D                                ;;9430|9427+9427/9427\9427;
-                      BEQ CODE_029448                           ;;9432|9429+9429/9429\9429;
-                      LDA.W !SpriteTweakerD,X                   ;;9434|942B+942B/942B\942B;
-                      AND.B #$02                                ;;9437|942E+942E/942E\942E;
-                      BNE CODE_0294A2                           ;;9439|9430+9430/9430\9430;
-                      LDA.W !SpriteStatus,X                     ;;943B|9432+9432/9432\9432;
-                      CMP.B #$08                                ;;943E|9435+9435/9435\9435;
-                      BEQ CODE_029443                           ;;9440|9437+9437/9437\9437;
-                      LDA.B !SpriteNumber,X                     ;;9442|9439+9439/9439\9439;
-                      CMP.B #$0D                                ;;9444|943B+943B/943B\943B;
-                      BEQ CODE_029448                           ;;9446|943D+943D/943D\943D;
-                      LDA.B !SpriteTableC2,X                    ;;9448|943F+943F/943F\943F;
-                      BEQ CODE_029448                           ;;944A|9441+9441/9441\9441;
-CODE_029443:          LDA.B #$FF                                ;;944C|9443+9443/9443\9443;
-                      STA.W !SpriteMisc1540,X                   ;;944E|9445+9445/9445\9445;
-CODE_029448:          STZ.W !SpriteMisc1558,X                   ;;9451|9448+9448/9448\9448;
-                      LDA.B !_E                                 ;;9454|944B+944B/944B\944B;
-                      CMP.B #$35                                ;;9456|944D+944D/944D\944D;
+CapeHitNotRoulette:   CMP.B #$2D                                ;;9430|9427+9427/9427\9427; \ A contains sprite number...
+                      BEQ CapeSprHitCont                        ;;9432|9429+9429/9429\9429; / Branch if baby yoshi (#$2D): notably has below tweaker bit set
+                      LDA.W !SpriteTweakerD,X                   ;;9434|942B+942B/942B\942B; \ Branch if sprite is
+                      AND.B #$02                                ;;9437|942E+942E/942E\942E; | immune to star power, cape spin, fire,
+                      BNE CapeSprHitSetXYSpeed                  ;;9439|9430+9430/9430\9430; / or being hit from below by a block
+                      LDA.W !SpriteStatus,X                     ;;943B|9432+9432/9432\9432; \ Load sprite status
+                      CMP.B #$08                                ;;943E|9435+9435/9435\9435; | If in 'main' state (#$08)...
+                      BEQ SetSprStunTimer                       ;;9440|9437+9437/9437\9437; / branch
+                      LDA.B !SpriteNumber,X                     ;;9442|9439+9439/9439\9439; \ If sprite is bob-omb (#$0D)...
+                      CMP.B #$0D                                ;;9444|943B+943B/943B\943B; | (and not in 'main' state, per above)
+                      BEQ CapeSprHitCont                        ;;9446|943D+943D/943D\943D; / branch
+                      LDA.B !SpriteTableC2,X                    ;;9448|943F+943F/943F\943F; \ If value at C2 table is #$00,
+                      BEQ CapeSprHitCont                        ;;944A|9441+9441/9441\9441; / branch
+SetSprStunTimer:      LDA.B #$FF                                ;;944C|9443+9443/9443\9443; \ Generally used as a 'stun' timer. Set
+                      STA.W !SpriteMisc1540,X                   ;;944E|9445+9445/9445\9445; / when hit by a cape
+CapeSprHitCont:       STZ.W !SpriteMisc1558,X                   ;;9451|9448+9448/9448\9448;
+                      LDA.B !_E                                 ;;9454|944B+944B/944B\944B; \ This routine is also used by the 'yoshi ground pound' routine
+                      CMP.B #$35                                ;;9456|944D+944D/944D\944D; / (when Yellow Yoshi has a shell), and it stores #$35 to $0E
                       BEQ +                                     ;;9458|944F+944F/944F\944F;
-                      JSL CODE_01AB6F                           ;;945A|9451+9451/9451\9451;
+                      JSL DisplayContactGfxS                    ;;945A|9451+9451/9451\9451;
                     + LDA.B #$00                                ;;945E|9455+9455/9455\9455;
                       JSL GivePoints                            ;;9460|9457+9457/9457\9457;
                       LDA.B #$02                                ;;9464|945B+945B/945B\945B; \ Sprite status = Killed
                       STA.W !SpriteStatus,X                     ;;9466|945D+945D/945D\945D; /
-                      LDA.B !SpriteNumber,X                     ;;9469|9460+9460/9460\9460;
-                      CMP.B #$1E                                ;;946B|9462+9462/9462\9462;
-                      BNE +                                     ;;946D|9464+9464/9464\9464;
-                      LDA.B #$1F                                ;;946F|9466+9466/9466\9466;
-                      STA.W !SpriteMisc1540+9                   ;;9471|9468+9468/9468\9468;
-                    + LDA.W !SpriteTweakerB,X                   ;;9474|946B+946B/946B\946B;
-                      AND.B #$80                                ;;9477|946E+946E/946E\946E;
-                      BNE CODE_0294A2                           ;;9479|9470+9470/9470\9470;
+                      LDA.B !SpriteNumber,X                     ;;9469|9460+9460/9460\9460; \ If sprite is not #$1E (Cloud-riding Lakitu)
+                      CMP.B #$1E                                ;;946B|9462+9462/9462\9462; | ...
+                      BNE +                                     ;;946D|9464+9464/9464\9464; / branch
+                      LDA.B #$1F                                ;;946F|9466+9466/9466\9466; \ Set the Timer for Lakitu's cloud
+                      STA.W !SpriteMisc1540+9                   ;;9471|9468+9468/9468\9468; / ...It seems to be in a hardcoded slot
+                    + LDA.W !SpriteTweakerB,X                   ;;9474|946B+946B/946B\946B; \ Branch if sprite 'falls straight down when killed'
+                      AND.B #$80                                ;;9477|946E+946E/946E\946E; |
+                      BNE CapeSprHitSetXYSpeed                  ;;9479|9470+9470/9470\9470; /
                       LDA.W !SpriteTweakerA,X                   ;;947B|9472+9472/9472\9472; \ Branch if can't be jumped on
                       AND.B #$10                                ;;947E|9475+9475/9475\9475;  |
-                      BEQ CODE_0294A2                           ;;9480|9477+9477/9477\9477; /
+                      BEQ CapeSprHitSetXYSpeed                  ;;9480|9477+9477/9477\9477; /
                       LDA.W !SpriteTweakerA,X                   ;;9482|9479+9479/9479\9479; \ Branch if dies when jumped on
                       AND.B #$20                                ;;9485|947C+947C/947C\947C;  |
-                      BNE CODE_0294A2                           ;;9487|947E+947E/947E\947E; /
+                      BNE CapeSprHitSetXYSpeed                  ;;9487|947E+947E/947E\947E; /
                       LDA.B #$09                                ;;9489|9480+9480/9480\9480; \ Sprite status = Carryable
                       STA.W !SpriteStatus,X                     ;;948B|9482+9482/9482\9482; /
                       ASL.W !SpriteOBJAttribute,X               ;;948E|9485+9485/9485\9485;
                       SEC                                       ;;9491|9488+9488/9488\9488;
                       ROR.W !SpriteOBJAttribute,X               ;;9492|9489+9489/9489\9489;
-                      LDA.W !SpriteTweakerE,X                   ;;9495|948C+948C/948C\948C;
-                      AND.B #$40                                ;;9498|948F+948F/948F\948F;
-                      BEQ CODE_0294A2                           ;;949A|9491+9491/9491\9491;
-                      PHX                                       ;;949C|9493+9493/9493\9493;
-                      LDA.B !SpriteNumber,X                     ;;949D|9494+9494/9494\9494;
-                      TAX                                       ;;949F|9496+9496/9496\9496;
-                      LDA.L SpriteToSpawn,X                     ;;94A0|9497+9497/9497\9497;
-                      PLX                                       ;;94A4|949B+949B/949B\949B;
-                      STA.B !SpriteNumber,X                     ;;94A5|949C+949C/949C\949C;
-                      JSL LoadSpriteTables                      ;;94A7|949E+949E/949E\949E;
-CODE_0294A2:          LDA.B #$C0                                ;;94AB|94A2+94A2/94A2\94A2;
-                      LDY.B !_E                                 ;;94AD|94A4+94A4/94A4\94A4;
-                      BEQ +                                     ;;94AF|94A6+94A6/94A6\94A6;
-                      LDA.B #$B0                                ;;94B1|94A8+94A8/94A8\94A8;
-                      CPY.B #$02                                ;;94B3|94AA+94AA/94AA\94AA;
-                      BNE +                                     ;;94B5|94AC+94AC/94AC\94AC;
-                      LDA.B #$C0                                ;;94B7|94AE+94AE/94AE\94AE;
+                      LDA.W !SpriteTweakerE,X                   ;;9495|948C+948C/948C\948C; \ Branch if 'Spawns a new sprite' bit is not set
+                      AND.B #$40                                ;;9498|948F+948F/948F\948F; |
+                      BEQ CapeSprHitSetXYSpeed                  ;;949A|9491+9491/9491\9491; /
+                      PHX                                       ;;949C|9493+9493/9493\9493; \ Use the current sprite number
+                      LDA.B !SpriteNumber,X                     ;;949D|9494+9494/9494\9494; | To determine what sprite to spawn
+                      TAX                                       ;;949F|9496+9496/9496\9496; |
+                      LDA.L SpriteToSpawn,X                     ;;94A0|9497+9497/9497\9497; | Load the sprite to spawn
+                      PLX                                       ;;94A4|949B+949B/949B\949B; |
+                      STA.B !SpriteNumber,X                     ;;94A5|949C+949C/949C\949C; | Store the new sprite number
+                      JSL LoadSpriteTables                      ;;94A7|949E+949E/949E\949E; / Initialize the sprite tables
+CapeSprHitSetXYSpeed: LDA.B #$C0                                ;;94AB|94A2+94A2/94A2\94A2; \ Figure out the Y speed based
+                      LDY.B !_E                                 ;;94AD|94A4+94A4/94A4\94A4; | on whatever is in $0E
+                      BEQ +                                     ;;94AF|94A6+94A6/94A6\94A6; | TODO: what stores to $0E here?
+                      LDA.B #$B0                                ;;94B1|94A8+94A8/94A8\94A8; | Known: Yoshi ground pound routine (#$35)
+                      CPY.B #$02                                ;;94B3|94AA+94AA/94AA\94AA; |
+                      BNE +                                     ;;94B5|94AC+94AC/94AC\94AC; |
+                      LDA.B #$C0                                ;;94B7|94AE+94AE/94AE\94AE; /
                     + STA.B !SpriteYSpeed,X                     ;;94B9|94B0+94B0/94B0\94B0;
-                      JSR SubHorzPosBnk2                        ;;94BB|94B2+94B2/94B2\94B2;
-                      LDA.W DATA_029392,Y                       ;;94BE|94B5+94B5/94B5\94B5;
+                      JSR SubHorzPosBnk2                        ;;94BB|94B2+94B2/94B2\94B2; \ Get current facing direction
+                      LDA.W SpriteCapeHitXSpdTbl,Y              ;;94BE|94B5+94B5/94B5\94B5; / Set sprite's Y speed based on which way its facing
                       STA.B !SpriteXSpeed,X                     ;;94C1|94B8+94B8/94B8\94B8;
-                      TYA                                       ;;94C3|94BA+94BA/94BA\94BA;
-                      EOR.B #$01                                ;;94C4|94BB+94BB/94BB\94BB;
-                      STA.W !SpriteMisc157C,X                   ;;94C6|94BD+94BD/94BD\94BD;
+                      TYA                                       ;;94C3|94BA+94BA/94BA\94BA; \ Invert the sprite's horizontal
+                      EOR.B #$01                                ;;94C4|94BB+94BB/94BB\94BB; | facing direction
+                      STA.W !SpriteMisc157C,X                   ;;94C6|94BD+94BD/94BD\94BD; /
                       RTS                                       ;;94C9|94C0+94C0/94C0\94C0; Return
                                                                 ;;                        ;
 GroundPound:          LDA.B #$30                                ;;94CA|94C1+94C1/94C1\94C1; \ Set ground shake timer
@@ -2482,7 +2482,7 @@ KillSprLoopStart:     LDA.W !SpriteStatus,X                     ;;94D7|94CE+94CE
                       BNE +                                     ;;94F0|94E7+94E7/94E7\94E7; /
                       LDA.B #$35                                ;;94F2|94E9+94E9/94E9\94E9;
                       STA.B !_E                                 ;;94F4|94EB+94EB/94EB\94EB;
-                      JSR CODE_029404                           ;;94F6|94ED+94ED/94ED\94ED;
+                      JSR CapeSprHit                            ;;94F6|94ED+94ED/94ED\94ED;
                     + DEX                                       ;;94F9|94F0+94F0/94F0\94F0;
                       BPL KillSprLoopStart                      ;;94FA|94F1+94F1/94F1\94F1;
                       PLB                                       ;;94FC|94F3+94F3/94F3\94F3;
@@ -2647,7 +2647,7 @@ CODE_029633:          STX.W !CurSpriteProcess                   ;;963C|9633+9633
                       CMP.B #$02                                ;;9642|9639+9639/9639\9639;
                       BCC +                                     ;;9644|963B+963B/963B\963B;
                       JSR CODE_02A519                           ;;9646|963D+963D/963D\963D;
-                      JSR CODE_029696                           ;;9649|9640+9640/9640\9640;
+                      JSR SetCapeIntrCntctPrms                 ;;9649|9640+9640/9640\9640;
                       JSL CheckForContact                       ;;964C|9643+9643/9643\9643;
                       BCC +                                     ;;9650|9647+9647/9647\9647;
                       LDA.W !ExtSpriteNumber,X                  ;;9652|9649+9649/9649\9649;
@@ -2695,7 +2695,7 @@ CODE_029663:          PHX                                       ;;966C|9663+9663
                       PLX                                       ;;969D|9694+9694/9694\9694;
                       RTS                                       ;;969E|9695+9695/9695\9695; Return
                                                                 ;;                        ;
-CODE_029696:          LDA.W !CapeInteractionXPos                ;;969F|9696+9696/9696\9696;
+SetCapeIntrCntctPrms: LDA.W !CapeInteractionXPos                ;;969F|9696+9696/9696\9696;
                       SEC                                       ;;96A2|9699+9699/9699\9699;
                       SBC.B #$02                                ;;96A3|969A+969A/969A\969A;
                       STA.B !_0                                 ;;96A5|969C+969C/969C\969C;
@@ -7412,8 +7412,8 @@ CODE_02BC3C:          CLC                                       ;;BC3F|BC3C+BC3C
                       JMP CODE_02B7A7                           ;;BC8F|BC8C+BC8C/BC8C\BC8C;
                                                                 ;;                        ;
                                                                 ;;                        ;
-DATA_02BC8F:          db $08,$00,$F8,$00,$F8,$00,$08,$00        ;;BC92|BC8F+BC8F/BC8F\BC8F;
-DATA_02BC97:          db $00,$08,$00,$F8,$00,$08,$00,$F8        ;;BC9A|BC97+BC97/BC97\BC97;
+WallFollowXSpdTbl:    db $08,$00,$F8,$00,$F8,$00,$08,$00        ;;BC92|BC8F+BC8F/BC8F\BC8F;
+WallFollowYSpdTbl:    db $00,$08,$00,$F8,$00,$08,$00,$F8        ;;BC9A|BC97+BC97/BC97\BC97;
 DATA_02BC9F:          db $01,$FF,$FF,$01,$FF,$01,$01,$FF        ;;BCA2|BC9F+BC9F/BC9F\BC9F;
 DATA_02BCA7:          db $01,$01,$FF,$FF,$01,$01,$FF,$FF        ;;BCAA|BCA7+BCA7/BCA7\BCA7;
 DATA_02BCAF:          db $01,$04,$02,$08,$02,$04,$01,$08        ;;BCB2|BCAF+BCAF/BCAF\BCAF;
@@ -7589,9 +7589,9 @@ CODE_02BE27:          CMP.B #$03                                ;;BE2A|BE27+BE27
                       LDA.B #$07                                ;;BE2E|BE2B+BE2B/BE2B\BE2B;
 CODE_02BE2D:          STA.B !SpriteTableC2,X                    ;;BE30|BE2D+BE2D/BE2D\BE2D;
 CODE_02BE2F:          LDY.B !SpriteTableC2,X                    ;;BE32|BE2F+BE2F/BE2F\BE2F;
-                      LDA.W DATA_02BC97,Y                       ;;BE34|BE31+BE31/BE31\BE31;
+                      LDA.W WallFollowYSpdTbl,Y                 ;;BE34|BE31+BE31/BE31\BE31;
                       STA.B !SpriteYSpeed,X                     ;;BE37|BE34+BE34/BE34\BE34;
-                      LDA.W DATA_02BC8F,Y                       ;;BE39|BE36+BE36/BE36\BE36;
+                      LDA.W WallFollowXSpdTbl,Y                 ;;BE39|BE36+BE36/BE36\BE36;
                       STA.B !SpriteXSpeed,X                     ;;BE3C|BE39+BE39/BE39\BE39;
                       LDA.B !SpriteNumber,X                     ;;BE3E|BE3B+BE3B/BE3B\BE3B; \ Branch if not Ground-guided Fuzzball/Sparky
                       CMP.B #$A5                                ;;BE40|BE3D+BE3D/BE3D\BE3D;  |
@@ -8800,7 +8800,7 @@ CODE_02C7B1:          STZ.B !SpriteXSpeed,X                     ;;C7B8|C7B1+C7B1
                       STA.W !SpriteMisc1564,X                   ;;C7D6|C7CF+C7CF/C7CF\C7CF;
                       LDA.B #!SFX_SPLAT                         ;;C7D9|C7D2+C7D2/C7D2\C7D2; \ Play sound effect
                       STA.W !SPCIO0                             ;;C7DB|C7D4+C7D4/C7D4\C7D4; /
-                      JSL DisplayContactGfx                     ;;C7DE|C7D7+C7D7/C7D7\C7D7;
+                      JSL DisplayContactGfxP                    ;;C7DE|C7D7+C7D7/C7D7\C7D7;
                       JSL BoostMarioSpeed                       ;;C7E2|C7DB+C7DB/C7DB\C7DB;
                       STZ.W !SpriteMisc163E,X                   ;;C7E6|C7DF+C7DF/C7DF\C7DF;
                       LDA.B !SpriteTableC2,X                    ;;C7E9|C7E2+C7E2/C7E2\C7E2;
@@ -11235,7 +11235,7 @@ CODE_02DBD7:          JSR UpdateYPosNoGrvty                     ;;DBD7|DBD7+DBD7
                       STA.W !SpriteYSpeed,Y                     ;;DC04|DC04+DC04/DC04\DC04;
                       PHX                                       ;;DC07|DC07+DC07/DC07\DC07;
                       TYX                                       ;;DC08|DC08+DC08/DC08\DC08;
-                      JSL CODE_01AB6F                           ;;DC09|DC09+DC09/DC09\DC09;
+                      JSL DisplayContactGfxS                    ;;DC09|DC09+DC09/DC09\DC09;
                       PLX                                       ;;DC0D|DC0D+DC0D/DC0D\DC0D;
 Return02DC0E:         RTS                                       ;;DC0E|DC0E+DC0E/DC0E\DC0E; Return
                                                                 ;;                        ;
@@ -13967,7 +13967,7 @@ CODE_02F26B:          LDA.B #!SFX_KICK                          ;;F26E|F26B+F26B
                       LDA.W !SpriteMisc151C,X                   ;;F277|F274+F274/F274\F274;
                       ORA.W !SpriteOnYoshiTongue,X              ;;F27A|F277+F277/F277\F277;
                       BNE Return02F295                          ;;F27D|F27A+F27A/F27A\F27A;
-                      JSL DisplayContactGfx                     ;;F27F|F27C+F27C/F27C\F27C;
+                      JSL DisplayContactGfxP                    ;;F27F|F27C+F27C/F27C\F27C;
                       LDA.W !SpriteStompCounter                 ;;F283|F280+F280/F280\F280;
                       INC.W !SpriteStompCounter                 ;;F286|F283+F283/F283\F283;
                       JSL GivePoints                            ;;F289|F286+F286/F286\F286;

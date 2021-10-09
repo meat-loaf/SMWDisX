@@ -6882,7 +6882,7 @@ CODE_05D8B7:          REP #$30                                  ;;D8B7|D8B7+D8B7
                       STA.W !VertLayer2Setting                  ;;D920|D920+D920/D920\D920;
                       LDA.B #$01                                ;;D923|D923+D923/D923\D923;
                       STA.W !HorizLayer1Setting                 ;;D925|D925+D925/D925\D925;
-                      LDA.W DATA_05F200,Y                       ;;D928|D928+D928/D928\D928;
+                      LDA.W Lay3EntranceXPosDat,Y               ;;D928|D928+D928/D928\D928;
                       AND.B #$C0                                ;;D92B|D92B+D92B/D92B\D92B;
                       CLC                                       ;;D92D|D92D+D92D/D92D\D92D;
                       ASL A                                     ;;D92E|D92E+D92E/D92E\D92E;
@@ -6911,7 +6911,7 @@ CODE_05D8B7:          REP #$30                                  ;;D8B7|D8B7+D8B7
                       STA.B !PlayerYPosNext                     ;;D95B|D95B+D95B/D95B\D95B;
                       LDA.L DATA_05D740,X                       ;;D95D|D95D+D95D/D95D\D95D;
                       STA.B !PlayerYPosNext+1                   ;;D961|D961+D961/D961\D961;
-                      LDA.W DATA_05F200,Y                       ;;D963|D963+D963/D963\D963;
+                      LDA.W Lay3EntranceXPosDat,Y               ;;D963|D963+D963/D963\D963;
                       STA.B !_2                                 ;;D966|D966+D966/D966\D966;
                       AND.B #$07                                ;;D968|D968+D968/D968\D968;
                       TAX                                       ;;D96A|D96A+D96A/D96A\D96A;
@@ -8862,10 +8862,10 @@ DATA_05F000:          db $07,$5B,$19,$2B,$1B,$5B,$5B,$5B        ;;F000|F000+F000
                       db $2B,$29,$5B,$0B,$4B,$01,$5B,$49        ;;F1E8|F1E8+F1E8/F1E8\F1E8;
                       db $1B,$1B,$57,$48,$1B,$19,$0B,$6C        ;;F1F0|F1F0+F1F0/F1F0\F1F0;
                       db $28,$2B,$1B,$5A,$1B,$19,$19,$1B        ;;F1F8|F1F8+F1F8/F1F8\F1F8;
-DATA_05F200:          db $20,$00,$80,$01,$00,$01,$00,$00        ;;F200|F200+F200/F200\F200;
-                      db $00,$C0,$38,$39,$00,$00,$00,$00        ;;F208|F208+F208/F208\F208;
-                      db $00,$F8,$00,$00,$00,$00,$00,$00        ;;F210|F210+F210/F210\F210;
-                      db $F8,$00,$C0,$00,$00,$01,$00,$80        ;;F218|F218+F218/F218\F218;
+Lay3EntranceXPosDat:  db $20,$00,$80,$01,$00,$01,$00,$00        ;;F200|F200+F200/F200\F200; format LLEEEXXX
+                      db $00,$C0,$38,$39,$00,$00,$00,$00        ;;F208|F208+F208/F208\F208; LL - layer 3 setting
+                      db $00,$F8,$00,$00,$00,$00,$00,$00        ;;F210|F210+F210/F210\F210; EEE - entrance setting
+                      db $F8,$00,$C0,$00,$00,$01,$00,$80        ;;F218|F218+F218/F218\F218; XXX - x position setting (index to lo/hi position tables)
                       db $01,$00,$00,$00,$00,$00,$00,$00        ;;F220|F220+F220/F220\F220;
                       db $00,$00,$00,$00,$00,$00,$00,$00        ;;F228|F228+F228/F228\F228;
                       db $00,$00,$00,$00,$00,$00,$00,$00        ;;F230|F230+F230/F230\F230;

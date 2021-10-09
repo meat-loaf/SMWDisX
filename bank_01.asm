@@ -3953,7 +3953,7 @@ CODE_01A047:          LDY.B !PlayerDirection                    ;;A047|A047+A047
                       STZ.B !SpriteYSpeed,X                     ;;A064|A064+A064/A064\A070; Sprite Y Speed = 0
                       BRA CODE_01A0A6                           ;;A066|A066+A066/A066\A072;
                                                                 ;;                        ;
-CODE_01A068:          JSL CODE_01AB6F                           ;;A068|A068+A068/A068\A074;
+CODE_01A068:          JSL DisplayContactGfxS                    ;;A068|A068+A068/A068\A074;
                       LDA.B #$90                                ;;A06C|A06C+A06C/A06C\A078;
                       STA.B !SpriteYSpeed,X                     ;;A06E|A06E+A06E/A06E\A07A;
                       LDA.B !PlayerXSpeed                       ;;A070|A070+A070/A070\A07C;
@@ -3962,7 +3962,7 @@ CODE_01A068:          JSL CODE_01AB6F                           ;;A068|A068+A068
                       ROR.B !SpriteXSpeed,X                     ;;A075|A075+A075/A075\A081;
                       BRA CODE_01A0A6                           ;;A077|A077+A077/A077\A083;
                                                                 ;;                        ;
-CODE_01A079:          JSL CODE_01AB6F                           ;;A079|A079+A079/A079\A085;
+CODE_01A079:          JSL DisplayContactGfxS                    ;;A079|A079+A079/A079\A085;
                       LDA.W !SpriteMisc1540,X                   ;;A07D|A07D+A07D/A07D\A089;
                       STA.B !SpriteTableC2,X                    ;;A080|A080+A080/A080\A08C;
                       LDA.B #$0A                                ;;A082|A082+A082/A082\A08E; \ Sprite status = Kicked
@@ -4658,7 +4658,7 @@ CODE_01A5D3:          PHX                                       ;;A5D4|A5D3+A5D3
                       STA.W !SpriteStatus,Y                     ;;A5E6|A5E5+A5E5/A5E5\A5F1; /
                       PHX                                       ;;A5E9|A5E8+A5E8/A5E8\A5F4;
                       TYX                                       ;;A5EA|A5E9+A5E9/A5E9\A5F5;
-                      JSL CODE_01AB72                           ;;A5EB|A5EA+A5EA/A5EA\A5F6;
+                      JSL DisplCntctGfxSNoSnd                   ;;A5EB|A5EA+A5EA/A5EA\A5F6;
                       PLX                                       ;;A5EF|A5EE+A5EE/A5EE\A5FA;
                       LDA.B !SpriteXSpeed,X                     ;;A5F0|A5EF+A5EF/A5EF\A5FB;
                       ASL A                                     ;;A5F2|A5F1+A5F1/A5F1\A5FD;
@@ -4729,7 +4729,7 @@ CODE_01A642:          JSR IsOnGround                            ;;A643|A642+A642
                       JSL GivePoints                            ;;A669|A667+A667/A667\A673;
                       LDA.B #$02                                ;;A66D|A66B+A66B/A66B\A677; \ Sprite status = Killed
                       STA.W !SpriteStatus,X                     ;;A66F|A66D+A66D/A66D\A679; /
-                      JSL CODE_01AB72                           ;;A672|A670+A670/A670\A67C;
+                      JSL DisplCntctGfxSNoSnd                  ;;A672|A670+A670/A670\A67C;
                       LDA.W !SpriteXSpeed,Y                     ;;A676|A674+A674/A674\A680;
                       ASL A                                     ;;A679|A677+A677/A677\A683;
                       LDA.B #$10                                ;;A67A|A678+A678/A678\A684;
@@ -4766,7 +4766,7 @@ ADDR_01A69A:          JSR CODE_01B4E2                           ;;A69C|A69A+A69A
                       BRA CODE_01A6BB                           ;;A6B8|A6B6+A6B6/A6B6\A6C2;
                                                                 ;;                        ;
 ADDR_01A6B8:          JSR CODE_01A5D3                           ;;A6BA|A6B8+A6B8/A6B8\A6C4;
-CODE_01A6BB:          JSL CODE_01AB6F                           ;;A6BD|A6BB+A6BB/A6BB\A6C7;
+CODE_01A6BB:          JSL DisplayContactGfxS                    ;;A6BD|A6BB+A6BB/A6BB\A6C7;
                       LDA.B #$04                                ;;A6C1|A6BF+A6BF/A6BF\A6CB;
                       JSL GivePoints                            ;;A6C3|A6C1+A6C1/A6C1\A6CD;
                       LDA.B !SpriteXSpeed,X                     ;;A6C7|A6C5+A6C5/A6C5\A6D1;
@@ -4962,7 +4962,7 @@ DATA_01A839:          db $F0,$10                                ;;A83B|A839+A839
                       LDA.W !SpriteTweakerD,X                   ;;A842|A840+A840/A840\A84C; \ Branch if "Process interaction every frame" is set
                       AND.B #$02                                ;;A845|A843+A843/A843\A84F;  |
                       BNE CODE_01A87E                           ;;A847|A845+A845/A845\A851; /
-CODE_01A847:          JSL CODE_01AB6F                           ;;A849|A847+A847/A847\A853;
+CODE_01A847:          JSL DisplayContactGfxS                    ;;A849|A847+A847/A847\A853;
                       INC.W !StarKillCounter                    ;;A84D|A84B+A84B/A84B\A857;
                       LDA.W !StarKillCounter                    ;;A850|A84E+A84E/A84E\A85A;
                       CMP.B #$08                                ;;A853|A851+A851/A851\A85D;
@@ -5031,7 +5031,7 @@ CODE_01A8C9:          LDA.W !SpriteTweakerA,X                   ;;A8CB|A8C9+A8C9
 CODE_01A8D8:          LDA.B #!SFX_SPLAT                         ;;A8DA|A8D8+A8D8/A8D8\A8E4;
                       STA.W !SPCIO0                             ;;A8DC|A8DA+A8DA/A8DA\A8E6; / Play sound effect
                       JSL BoostMarioSpeed                       ;;A8DF|A8DD+A8DD/A8DD\A8E9;
-                      JSL DisplayContactGfx                     ;;A8E3|A8E1+A8E1/A8E1\A8ED;
+                      JSL DisplayContactGfxP                    ;;A8E3|A8E1+A8E1/A8E1\A8ED;
                       RTS                                       ;;A8E7|A8E5+A8E5/A8E5\A8F1; Return
                                                                 ;;                        ;
 CODE_01A8E6:          LDA.W !PlayerSlopePose                    ;;A8E8|A8E6+A8E6/A8E6\A8F2;
@@ -5062,7 +5062,7 @@ Return01A91B:         RTS                                       ;;A91D|A91B+A91B
 CODE_01A91C:          LDA.W !SpinJumpFlag                       ;;A91E|A91C+A91C/A91C\A928;
                       ORA.W !PlayerRidingYoshi                  ;;A921|A91F+A91F/A91F\A92B;
                       BEQ CODE_01A947                           ;;A924|A922+A922/A922\A92E;
-CODE_01A924:          JSL DisplayContactGfx                     ;;A926|A924+A924/A924\A930;
+CODE_01A924:          JSL DisplayContactGfxP                    ;;A926|A924+A924/A924\A930;
                       LDA.B #$F8                                ;;A92A|A928+A928/A928\A934;
                       STA.B !PlayerYSpeed                       ;;A92C|A92A+A92A/A92A\A936;
                       LDA.W !PlayerRidingYoshi                  ;;A92E|A92C+A92C/A92C\A938;
@@ -5349,17 +5349,17 @@ CODE_01AB46:          PHY                                       ;;AB49|AB46+AB46
                                                                 ;;                        ;
                       db $0C,$FC,$EC,$DC,$CC                    ;;AB6D|AB6A+AB6A/AB6A\AB76;
                                                                 ;;                        ;
-CODE_01AB6F:          JSR PlayKickSfx                           ;;AB72|AB6F+AB6F/AB6F\AB7B;
-CODE_01AB72:          JSR IsSprOffScreen                        ;;AB75|AB72+AB72/AB72\AB7E;
-                      BNE Return01AB98                          ;;AB78|AB75+AB75/AB75\AB81;
+DisplayContactGfxS:   JSR PlayKickSfx                           ;;AB72|AB6F+AB6F/AB6F\AB7B; S for sprite (routine uses sprite's position)
+DisplCntctGfxSNoSnd:  JSR IsSprOffScreen                        ;;AB75|AB72+AB72/AB72\AB7E; \ Return if offscreen
+                      BNE Return01AB98                          ;;AB78|AB75+AB75/AB75\AB81; /
                       PHY                                       ;;AB7A|AB77+AB77/AB77\AB83;
-                      LDY.B #$03                                ;;AB7B|AB78+AB78/AB78\AB84;
-CODE_01AB7A:          LDA.W !SmokeSpriteNumber,Y                ;;AB7D|AB7A+AB7A/AB7A\AB86;
-                      BEQ CODE_01AB83                           ;;AB80|AB7D+AB7D/AB7D\AB89;
+                      LDY.B #$03                                ;;AB7B|AB78+AB78/AB78\AB84; > Max number of smoke sprites (4)
+NextSlotContactGfxS:  LDA.W !SmokeSpriteNumber,Y                ;;AB7D|AB7A+AB7A/AB7A\AB86; \ 0 indicates free slot
+                      BEQ FoundSlotContactGfxS                  ;;AB80|AB7D+AB7D/AB7D\AB89; /
                       DEY                                       ;;AB82|AB7F+AB7F/AB7F\AB8B;
-                      BPL CODE_01AB7A                           ;;AB83|AB80+AB80/AB80\AB8C;
+                      BPL NextSlotContactGfxS                   ;;AB83|AB80+AB80/AB80\AB8C;
                       INY                                       ;;AB85|AB82+AB82/AB82\AB8E;
-CODE_01AB83:          LDA.B #$02                                ;;AB86|AB83+AB83/AB83\AB8F;
+FoundSlotContactGfxS: LDA.B #$02                                ;;AB86|AB83+AB83/AB83\AB8F; > I guess we just overwrite slot 0 if we don't find an open slot.
                       STA.W !SmokeSpriteNumber,Y                ;;AB88|AB85+AB85/AB85\AB91;
                       LDA.B !SpriteXPosLow,X                    ;;AB8B|AB88+AB88/AB88\AB94;
                       STA.W !SmokeSpriteXPos,Y                  ;;AB8D|AB8A+AB8A/AB8A\AB96;
@@ -5370,27 +5370,27 @@ CODE_01AB83:          LDA.B #$02                                ;;AB86|AB83+AB83
                       PLY                                       ;;AB9A|AB97+AB97/AB97\ABA3;
 Return01AB98:         RTL                                       ;;AB9B|AB98+AB98/AB98\ABA4; Return
                                                                 ;;                        ;
-DisplayContactGfx:    JSR IsSprOffScreen                        ;;AB9C|AB99+AB99/AB99\ABA5;
+DisplayContactGfxP:   JSR IsSprOffScreen                        ;;AB9C|AB99+AB99/AB99\ABA5; P for player (routine uses player's position)
                       BNE Return01ABCB                          ;;AB9F|AB9C+AB9C/AB9C\ABA8;
                       PHY                                       ;;ABA1|AB9E+AB9E/AB9E\ABAA;
-                      LDY.B #$03                                ;;ABA2|AB9F+AB9F/AB9F\ABAB;
-CODE_01ABA1:          LDA.W !SmokeSpriteNumber,Y                ;;ABA4|ABA1+ABA1/ABA1\ABAD;
-                      BEQ CODE_01ABAA                           ;;ABA7|ABA4+ABA4/ABA4\ABB0;
+                      LDY.B #$03                                ;;ABA2|AB9F+AB9F/AB9F\ABAB; > Max number of smoke sprites (4)
+NextSlotContactGfxP:  LDA.W !SmokeSpriteNumber,Y                ;;ABA4|ABA1+ABA1/ABA1\ABAD; \ 0 indiecates free slot
+                      BEQ FoundSlotContactGfxP                  ;;ABA7|ABA4+ABA4/ABA4\ABB0; /
                       DEY                                       ;;ABA9|ABA6+ABA6/ABA6\ABB2;
-                      BPL CODE_01ABA1                           ;;ABAA|ABA7+ABA7/ABA7\ABB3;
+                      BPL NextSlotContactGfxP                   ;;ABAA|ABA7+ABA7/ABA7\ABB3;
                       INY                                       ;;ABAC|ABA9+ABA9/ABA9\ABB5;
-CODE_01ABAA:          LDA.B #$02                                ;;ABAD|ABAA+ABAA/ABAA\ABB6;
+FoundSlotContactGfxP: LDA.B #$02                                ;;ABAD|ABAA+ABAA/ABAA\ABB6; > I guess we just overwrite slot 0 if we don't find an open slot.
                       STA.W !SmokeSpriteNumber,Y                ;;ABAF|ABAC+ABAC/ABAC\ABB8;
-                      LDA.B !PlayerXPosNext                     ;;ABB2|ABAF+ABAF/ABAF\ABBB;
-                      STA.W !SmokeSpriteXPos,Y                  ;;ABB4|ABB1+ABB1/ABB1\ABBD;
-                      LDA.W !PlayerRidingYoshi                  ;;ABB7|ABB4+ABB4/ABB4\ABC0;
-                      CMP.B #$01                                ;;ABBA|ABB7+ABB7/ABB7\ABC3;
-                      LDA.B #$14                                ;;ABBC|ABB9+ABB9/ABB9\ABC5;
-                      BCC +                                     ;;ABBE|ABBB+ABBB/ABBB\ABC7;
-                      LDA.B #$1E                                ;;ABC0|ABBD+ABBD/ABBD\ABC9;
-                    + CLC                                       ;;ABC2|ABBF+ABBF/ABBF\ABCB;
-                      ADC.B !PlayerYPosNext                     ;;ABC3|ABC0+ABC0/ABC0\ABCC;
-                      STA.W !SmokeSpriteYPos,Y                  ;;ABC5|ABC2+ABC2/ABC2\ABCE;
+                      LDA.B !PlayerXPosNext                     ;;ABB2|ABAF+ABAF/ABAF\ABBB; \ Smoke sprite position at player's X position
+                      STA.W !SmokeSpriteXPos,Y                  ;;ABB4|ABB1+ABB1/ABB1\ABBD; /
+                      LDA.W !PlayerRidingYoshi                  ;;ABB7|ABB4+ABB4/ABB4\ABC0; \ Find players Y position,
+                      CMP.B #$01                                ;;ABBA|ABB7+ABB7/ABB7\ABC3; | Adjust for Yoshi
+                      LDA.B #$14                                ;;ABBC|ABB9+ABB9/ABB9\ABC5; |
+                      BCC +                                     ;;ABBE|ABBB+ABBB/ABBB\ABC7; |
+                      LDA.B #$1E                                ;;ABC0|ABBD+ABBD/ABBD\ABC9; |
+                    + CLC                                       ;;ABC2|ABBF+ABBF/ABBF\ABCB; |
+                      ADC.B !PlayerYPosNext                     ;;ABC3|ABC0+ABC0/ABC0\ABCC; | Top-left corner is (0,0), so this shifts the smoke sprite
+                      STA.W !SmokeSpriteYPos,Y                  ;;ABC5|ABC2+ABC2/ABC2\ABCE; / Near the bottom of the player's sprite
                       LDA.B #$08                                ;;ABC8|ABC5+ABC5/ABC5\ABD1;
                       STA.W !SmokeSpriteTimer,Y                 ;;ABCA|ABC7+ABC7/ABC7\ABD3;
                       PLY                                       ;;ABCD|ABCA+ABCA/ABCA\ABD6;
@@ -10415,7 +10415,7 @@ CODE_01D351:          LDA.B !SpriteXPosLow,X                    ;;D351|D351+D351
                       CLC                                       ;;D365|D365+D365/D36C\D373;
                       ADC.B #$08                                ;;D366|D366+D366/D36D\D374;
                       STA.B !SpriteYPosLow,X                    ;;D368|D368+D368/D36F\D376;
-                      JSL DisplayContactGfx                     ;;D36A|D36A+D36A/D371\D378;
+                      JSL DisplayContactGfxP                    ;;D36A|D36A+D36A/D371\D378;
                       PLA                                       ;;D36E|D36E+D36E/D375\D37C;
                       STA.B !SpriteYPosLow,X                    ;;D36F|D36F+D36F/D376\D37D;
                       PLA                                       ;;D371|D371+D371/D378\D37F;
@@ -12624,7 +12624,7 @@ CODE_01E5DB:          LDA.B !SpriteNumber,X                     ;;E5DB|E5DB+E5DB
                       CMP.B #$60                                ;;E5E7|E5E7+E5E7/E5E7\E5E7;
                       BCC CODE_01E604                           ;;E5E9|E5E9+E5E9/E5E9\E5E9;
 CODE_01E5EB:          JSR CODE_01AB46                           ;;E5EB|E5EB+E5EB/E5EB\E5EB;
-                      JSL DisplayContactGfx                     ;;E5EE|E5EE+E5EE/E5EE\E5EE;
+                      JSL DisplayContactGfxP                    ;;E5EE|E5EE+E5EE/E5EE\E5EE;
                       LDA.B #!SFX_BONES                         ;;E5F2|E5F2+E5F2/E5F2\E5F2; \ Play sound effect
                       STA.W !SPCIO0                             ;;E5F4|E5F4+E5F4/E5F4\E5F4; /
                       JSL BoostMarioSpeed                       ;;E5F7|E5F7+E5F7/E5F7\E5F7;
@@ -15439,7 +15439,7 @@ CODE_01FC77:          LDA.W !BrSwingPlatXPos                    ;;FC7A|FC77+FC77
                       SBC.B #$10                                ;;FCEC|FCE9+FCE9/FCE9\FCE9;
                       STA.B !SpriteYPosLow,X                    ;;FCEE|FCEB+FCEB/FCEB\FCEB;
                       STZ.W !SpriteOffscreenX,X                 ;;FCF0|FCED+FCED/FCED\FCED;
-                      JSL DisplayContactGfx                     ;;FCF3|FCF0+FCF0/FCF0\FCF0;
+                      JSL DisplayContactGfxP                    ;;FCF3|FCF0+FCF0/FCF0\FCF0;
                       PLA                                       ;;FCF7|FCF4+FCF4/FCF4\FCF4;
                       STA.B !SpriteYPosLow,X                    ;;FCF8|FCF5+FCF5/FCF5\FCF5;
                       PLA                                       ;;FCFA|FCF7+FCF7/FCF7\FCF7;

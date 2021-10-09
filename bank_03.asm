@@ -21,7 +21,7 @@ Football:             JSL GenericSprGfxRt2                      ;;8012|8012+8012
                       BEQ CODE_03802D                           ;;8024|8024+8024/8024\8024;
                       DEC A                                     ;;8026|8026+8026/8026\8026;
                       BNE +                                     ;;8027|8027+8027/8027\8027;
-                      JSL CODE_01AB6F                           ;;8029|8029+8029/8029\8029;
+                      JSL DisplayContactGfxS                    ;;8029|8029+8029/8029\8029;
 CODE_03802D:          JSL UpdateSpritePos                       ;;802D|802D+802D/802D\802D;
                     + LDA.W !SpriteBlockedDirs,X                ;;8031|8031+8031/8031\8031; \ Branch if not touching object
                       AND.B #$03                                ;;8034|8034+8034/8034\8034;  |
@@ -2546,7 +2546,7 @@ RexInAir:             LDA.W !SpriteMisc1FE2,X                   ;;9569|9569+9569
                       BMI RexWins                               ;;959E|959E+959E/959E\959E; /
                       JSR RexPoints                             ;;95A0|95A0+95A0/95A0\95A0; Give mario points
                       JSL BoostMarioSpeed                       ;;95A3|95A3+95A3/95A3\95A3; Set mario speed
-                      JSL DisplayContactGfx                     ;;95A7|95A7+95A7/95A7\95A7; Display contact graphic
+                      JSL DisplayContactGfxP                    ;;95A7|95A7+95A7/95A7\95A7; Display contact graphic
                       LDA.W !SpinJumpFlag                       ;;95AB|95AB+95AB/95AB\95AB; \  If mario is spin jumping...
                       ORA.W !PlayerRidingYoshi                  ;;95AE|95AE+95AE/95AE\95AE;  |    ... or on yoshi ...
                       BNE RexSpinKill                           ;;95B1|95B1+95B1/95B1\95B1; /     ... goto SPIN_KILL
@@ -5873,7 +5873,7 @@ CODE_03B142:          LDA.B #$00                                ;;B13E|B142+B142
                       LDA.B #$02                                ;;B151|B155+B155/B155\B155; \ Sprite status = Killed
                       STA.W !SpriteStatus,Y                     ;;B153|B157+B157/B157\B157; /
                       TYX                                       ;;B156|B15A+B15A/B15A\B15A;
-                      JSL CODE_01AB6F                           ;;B157|B15B+B15B/B15B\B15B;
+                      JSL DisplayContactGfxS                    ;;B157|B15B+B15B/B15B\B15B;
                       PLX                                       ;;B15B|B15F+B15F/B15F\B15F;
 Return03B160:         RTS                                       ;;B15C|B160+B160/B160\B160; Return
                                                                 ;;                        ;
@@ -8423,7 +8423,7 @@ CODE_03CEA7:          JSL MarioSprInteract                      ;;CEA7|CEA7+CEA7
                       LDA.B !PlayerYSpeed                       ;;CEAD|CEAD+CEAD/CEAD\CEAD;
                       CMP.B #$10                                ;;CEAF|CEAF+CEAF/CEAF\CEAF;
                       BMI CODE_03CEED                           ;;CEB1|CEB1+CEB1/CEB1\CEB1;
-                      JSL DisplayContactGfx                     ;;CEB3|CEB3+CEB3/CEB3\CEB3;
+                      JSL DisplayContactGfxP                    ;;CEB3|CEB3+CEB3/CEB3\CEB3;
                       LDA.B #$02                                ;;CEB7|CEB7+CEB7/CEB7\CEB7;
                       JSL GivePoints                            ;;CEB9|CEB9+CEB9/CEB9\CEB9;
                       JSL BoostMarioSpeed                       ;;CEBD|CEBD+CEBD/CEBD\CEBD;
