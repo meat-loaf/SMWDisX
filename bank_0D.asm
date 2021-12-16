@@ -2188,18 +2188,18 @@ CODE_0DAB42:          CMP.B #$0A                                ;;AB41|AB42+AB42
                                                                 ;;                        ;
                     + JSL ExecutePtrLong                        ;;AB4B|AB4C+AB4C/AB4C\AB4C;
                                                                 ;;                        ;
-                      dl CODE_0DAB6E                            ;;AB4F|AB50+AB50/AB50\AB50;
-                      dl CODE_0DAC21                            ;;AB52|AB53+AB53/AB53\AB53;
-                      dl CODE_0DAC92                            ;;AB55|AB56+AB56/AB56\AB56;
-                      dl CODE_0DAD44                            ;;AB58|AB59+AB59/AB59\AB59;
-                      dl CODE_0DADA3                            ;;AB5B|AB5C+AB5C/AB5C\AB5C;
-                      dl CODE_0DADEB                            ;;AB5E|AB5F+AB5F/AB5F\AB5F;
-                      dl CODE_0DAE6D                            ;;AB61|AB62+AB62/AB62\AB62;
-                      dl CODE_0DAEFC                            ;;AB64|AB65+AB65/AB65\AB65;
-                      dl CODE_0DAF61                            ;;AB67|AB68+AB68/AB68\AB68;
-                      dl CODE_0DAFEA                            ;;AB6A|AB6B+AB6B/AB6B\AB6B;
+                      dl SlopeObjNormalLeft                     ;;AB4F|AB50+AB50/AB50\AB50;
+                      dl SlopeObjSteepLeft                      ;;AB52|AB53+AB53/AB53\AB53;
+                      dl SlopeObjGradualLeft                    ;;AB55|AB56+AB56/AB56\AB56;
+                      dl SlopeObjNormalRight                    ;;AB58|AB59+AB59/AB59\AB59;
+                      dl SlopeObjSteepRight                     ;;AB5B|AB5C+AB5C/AB5C\AB5C;
+                      dl SlopeObjGradualRight                   ;;AB5E|AB5F+AB5F/AB5F\AB5F;
+                      dl SlopeObjUpsdNrmLeft                    ;;AB61|AB62+AB62/AB62\AB62;
+                      dl SlopeObjUpsdNrmRight                   ;;AB64|AB65+AB65/AB65\AB65;
+                      dl SlopeObjUpsdStpLeft                    ;;AB67|AB68+AB68/AB68\AB68;
+                      dl SlopeObjUpsdStpRight                   ;;AB6A|AB6B+AB6B/AB6B\AB6B;
                                                                 ;;                        ;
-CODE_0DAB6E:          LDY.B !LevelLoadPos                       ;;AB6D|AB6E+AB6E/AB6E\AB6E;
+SlopeObjNormalLeft:   LDY.B !LevelLoadPos                       ;;AB6D|AB6E+AB6E/AB6E\AB6E;
                       LDA.B #$01                                ;;AB6F|AB70+AB70/AB70\AB70;
                       STA.B !_2                                 ;;AB71|AB72+AB72/AB72\AB72;
                       STA.B !_0                                 ;;AB73|AB74+AB74/AB74\AB74;
@@ -2296,7 +2296,7 @@ CODE_0DAC1A:          PLA                                       ;;AC19|AC1A+AC1A
                       LDA.B !_C                                 ;;AC1B|AC1C+AC1C/AC1C\AC1C;
                       JMP CODE_0DA95B                           ;;AC1D|AC1E+AC1E/AC1E\AC1E;
                                                                 ;;                        ;
-CODE_0DAC21:          LDY.B !LevelLoadPos                       ;;AC20|AC21+AC21/AC21\AC21;
+SlopeObjSteepLeft:       LDY.B !LevelLoadPos                       ;;AC20|AC21+AC21/AC21\AC21;
                       LDA.B !LvlLoadObjSize                     ;;AC22|AC23+AC23/AC23\AC23;
                       LSR A                                     ;;AC24|AC25+AC25/AC25\AC25;
                       LSR A                                     ;;AC25|AC26+AC26/AC26\AC26;
@@ -2356,7 +2356,7 @@ CODE_0DAC89:          LDX.B !_2                                 ;;AC88|AC89+AC89
                                                                 ;;                        ;
 Return0DAC91:         RTS                                       ;;AC90|AC91+AC91/AC91\AC91; Return
                                                                 ;;                        ;
-CODE_0DAC92:          LDY.B !LevelLoadPos                       ;;AC91|AC92+AC92/AC92\AC92;
+SlopeObjGradualLeft:  LDY.B !LevelLoadPos                       ;;AC91|AC92+AC92/AC92\AC92;
                       LDA.B #$03                                ;;AC93|AC94+AC94/AC94\AC94;
                       STA.B !_2                                 ;;AC95|AC96+AC96/AC96\AC96;
                       STA.B !_0                                 ;;AC97|AC98+AC98/AC98\AC98;
@@ -2448,7 +2448,7 @@ CODE_0DAD37:          LDX.B !_2                                 ;;AD36|AD37+AD37
                                                                 ;;                        ;
 Return0DAD43:         RTS                                       ;;AD42|AD43+AD43/AD43\AD43; Return
                                                                 ;;                        ;
-CODE_0DAD44:          LDY.B !LevelLoadPos                       ;;AD43|AD44+AD44/AD44\AD44;
+SlopeObjNormalRight:  LDY.B !LevelLoadPos                       ;;AD43|AD44+AD44/AD44\AD44;
                       LDX.B #$01                                ;;AD45|AD46+AD46/AD46\AD46;
                       STX.B !_2                                 ;;AD47|AD48+AD48/AD48\AD48;
                       STX.B !_0                                 ;;AD49|AD4A+AD4A/AD4A\AD4A;
@@ -2495,7 +2495,7 @@ Return0DAD9F:         RTS                                       ;;AD9E|AD9F+AD9F
                                                                 ;;                        ;
                     + JMP CODE_0DAD65                           ;;AD9F|ADA0+ADA0/ADA0\ADA0;
                                                                 ;;                        ;
-CODE_0DADA3:          LDY.B !LevelLoadPos                       ;;ADA2|ADA3+ADA3/ADA3\ADA3;
+SlopeObjSteepRight:   LDY.B !LevelLoadPos                       ;;ADA2|ADA3+ADA3/ADA3\ADA3;
                       LDX.B #$00                                ;;ADA4|ADA5+ADA5/ADA5\ADA5;
                       STX.B !_2                                 ;;ADA6|ADA7+ADA7/ADA7\ADA7;
                       STX.B !_0                                 ;;ADA8|ADA9+ADA9/ADA9\ADA9;
@@ -2531,7 +2531,7 @@ CODE_0DADD0:          LDA.B !_0                                 ;;ADCF|ADD0+ADD0
                       BPL CODE_0DADC4                           ;;ADE7|ADE8+ADE8/ADE8\ADE8;
 Return0DADEA:         RTS                                       ;;ADE9|ADEA+ADEA/ADEA\ADEA; Return
                                                                 ;;                        ;
-CODE_0DADEB:          LDY.B !LevelLoadPos                       ;;ADEA|ADEB+ADEB/ADEB\ADEB;
+SlopeObjGradualRight: LDY.B !LevelLoadPos                       ;;ADEA|ADEB+ADEB/ADEB\ADEB;
                       LDX.B #$03                                ;;ADEC|ADED+ADED/ADED\ADED;
                       STX.B !_2                                 ;;ADEE|ADEF+ADEF/ADEF\ADEF;
                       JSR CODE_0DA6B1                           ;;ADF0|ADF1+ADF1/ADF1\ADF1;
@@ -2594,7 +2594,7 @@ Return0DAE69:         RTS                                       ;;AE68|AE69+AE69
                                                                 ;;                        ;
                     + JMP CODE_0DAE0A                           ;;AE69|AE6A+AE6A/AE6A\AE6A;
                                                                 ;;                        ;
-CODE_0DAE6D:          LDY.B !LevelLoadPos                       ;;AE6C|AE6D+AE6D/AE6D\AE6D;
+SlopeObjUpsdNrmLeft: LDY.B !LevelLoadPos                       ;;AE6C|AE6D+AE6D/AE6D\AE6D;
                       LDA.B !LvlLoadObjSize                     ;;AE6E|AE6F+AE6F/AE6F\AE6F;
                       LSR A                                     ;;AE70|AE71+AE71/AE71\AE71;
                       LSR A                                     ;;AE71|AE72+AE72/AE72\AE72;
@@ -2669,7 +2669,7 @@ CODE_0DAEF2:          STY.B !LevelLoadPos                       ;;AEF1|AEF2+AEF2
                                                                 ;;                        ;
                     + RTS                                       ;;AEFA|AEFB+AEFB/AEFB\AEFB; Return
                                                                 ;;                        ;
-CODE_0DAEFC:          LDY.B !LevelLoadPos                       ;;AEFB|AEFC+AEFC/AEFC\AEFC;
+SlopeObjUpsdNrmRight: LDY.B !LevelLoadPos                       ;;AEFB|AEFC+AEFC/AEFC\AEFC;
                       LDA.B !LvlLoadObjSize                     ;;AEFD|AEFE+AEFE/AEFE\AEFE;
                       LSR A                                     ;;AEFF|AF00+AF00/AF00\AF00;
                       LSR A                                     ;;AF00|AF01+AF01/AF01\AF01;
@@ -2719,7 +2719,7 @@ CODE_0DAF3C:          JSR Sta1To6ePointer                       ;;AF3B|AF3C+AF3C
                       BPL CODE_0DAF20                           ;;AF5D|AF5E+AF5E/AF5E\AF5E;
                       RTS                                       ;;AF5F|AF60+AF60/AF60\AF60; Return
                                                                 ;;                        ;
-CODE_0DAF61:          LDY.B !LevelLoadPos                       ;;AF60|AF61+AF61/AF61\AF61;
+SlopeObjUpsdStpLeft:  LDY.B !LevelLoadPos                       ;;AF60|AF61+AF61/AF61\AF61;
                       LDA.B !LvlLoadObjSize                     ;;AF62|AF63+AF63/AF63\AF63;
                       LSR A                                     ;;AF64|AF65+AF65/AF65\AF65;
                       LSR A                                     ;;AF65|AF66+AF66/AF66\AF66;
@@ -2793,7 +2793,7 @@ CODE_0DAFDF:          LDA.B !Map16LowPtr+1                      ;;AFDE|AFDF+AFDF
                       STA.B !_5                                 ;;AFE6|AFE7+AFE7/AFE7\AFE7;
                       RTS                                       ;;AFE8|AFE9+AFE9/AFE9\AFE9; Return
                                                                 ;;                        ;
-CODE_0DAFEA:          LDY.B !LevelLoadPos                       ;;AFE9|AFEA+AFEA/AFEA\AFEA;
+SlopeObjUpsdStpRight: LDY.B !LevelLoadPos                       ;;AFE9|AFEA+AFEA/AFEA\AFEA;
                       LDA.B !LvlLoadObjSize                     ;;AFEB|AFEC+AFEC/AFEC\AFEC;
                       LSR A                                     ;;AFED|AFEE+AFEE/AFEE\AFEE;
                       LSR A                                     ;;AFEE|AFEF+AFEF/AFEF\AFEF;
