@@ -4102,18 +4102,18 @@ GameMode14:           LDA.W !MessageBoxTrigger                  ;;A178|A1DA+A1F1
                       TRB.B !byetudlrFrame                      ;;A1AB|A20D+A224/A212\A214;
                       TRB.B !axlr0000Frame                      ;;A1AD|A20F+A226/A214\A216;
                     + LDA.W !PauseTimer                         ;;A1AF|A211+A228/A216\A218;
-                      BEQ CODE_00A21B                           ;;A1B2|A214+A22B/A219\A21B;
+                      BEQ CheckStartPress                       ;;A1B2|A214+A22B/A219\A21B;
                       DEC.W !PauseTimer                         ;;A1B4|A216+A22D/A21B\A21D;
-                      BRA CODE_00A242                           ;;A1B7|A219+A230/A21E\A220;
+                      BRA NoStartPress                          ;;A1B7|A219+A230/A21E\A220;
                                                                 ;;                        ;
-CODE_00A21B:          LDA.B !byetudlrFrame                      ;;A1B9|A21B+A232/A220\A222;
+CheckStartPress:      LDA.B !byetudlrFrame                      ;;A1B9|A21B+A232/A220\A222;
                       AND.B #$10                                ;;A1BB|A21D+A234/A222\A224;
-                      BEQ CODE_00A242                           ;;A1BD|A21F+A236/A224\A226;
+                      BEQ NoStartPress                          ;;A1BD|A21F+A236/A224\A226;
                       LDA.W !EndLevelTimer                      ;;A1BF|A221+A238/A226\A228;
-                      BNE CODE_00A242                           ;;A1C2|A224+A23B/A229\A22B;
+                      BNE NoStartPress                          ;;A1C2|A224+A23B/A229\A22B;
                       LDA.B !PlayerAnimation                    ;;A1C4|A226+A23D/A22B\A22D;
                       CMP.B #$09                                ;;A1C6|A228+A23F/A22D\A22F;
-                      BCS CODE_00A242                           ;;A1C8|A22A+A241/A22F\A231;
+                      BCS NoStartPress                          ;;A1C8|A22A+A241/A22F\A231;
                       LDA.B #$3C                                ;;A1CA|A22C+A243/A231\A233;
                       STA.W !PauseTimer                         ;;A1CC|A22E+A245/A233\A235;
                       LDY.B #!SFX_UNPAUSE                       ;;A1CF|A231+A248/A236\A238;
@@ -4123,7 +4123,7 @@ CODE_00A21B:          LDA.B !byetudlrFrame                      ;;A1B9|A21B+A232
                       BEQ +                                     ;;A1D9|A23B+A252/A240\A242;
                       LDY.B #!SFX_PAUSE                         ;;A1DB|A23D+A254/A242\A244;
                     + STY.W !SPCIO0                             ;;A1DD|A23F+A256/A244\A246;
-CODE_00A242:          LDA.W !PauseFlag                          ;;A1E0|A242+A259/A247\A249;
+NoStartPress:         LDA.W !PauseFlag                          ;;A1E0|A242+A259/A247\A249;
                       BEQ CODE_00A28A                           ;;A1E3|A245+A25C/A24A\A24C;
                       BRA CODE_00A25B                           ;;A1E5|A247+A25E/A24C\A24E;
                                                                 ;;                        ;
@@ -11638,10 +11638,10 @@ CODE_00ED4A:          JSR CODE_00F44D                           ;;ECEA|ED4A+ED4A
                       JSR CODE_00F3E9                           ;;ECF8|ED58+ED58/ED48\ED48;
                       JMP CODE_00EDF7                           ;;ECFB|ED5B+ED5B/ED4B\ED4B;
                                                                 ;;                        ;
-                    + CPY.B #$D8                                ;;ECFE|ED5E+ED5E/ED4E\ED4E;
-                      BCC CODE_00ED86                           ;;ED00|ED60+ED60/ED50\ED50;
-                      CPY.B #$FB                                ;;ED02|ED62+ED62/ED52\ED52;
-                      BCC +                                     ;;ED04|ED64+ED64/ED54\ED54;
+                    + CPY.B #$D8                                ;;ECFE|ED5E+ED5E/ED4E\ED4E; \ Check for 'slope assist' tiles
+                      BCC CODE_00ED86                           ;;ED00|ED60+ED60/ED50\ED50; | Tile numbers D8 through FA
+                      CPY.B #$FB                                ;;ED02|ED62+ED62/ED52\ED52; |
+                      BCC +                                     ;;ED04|ED64+ED64/ED54\ED54; /
                       JMP CODE_00F629                           ;;ED06|ED66+ED66/ED56\ED56;
                                                                 ;;                        ;
                     + REP #$20                                  ;;ED09|ED69+ED69/ED59\ED59; Accum (16 bit)

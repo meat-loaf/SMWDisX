@@ -1355,11 +1355,11 @@ CODE_0DA44B:          SEP #$30                                  ;;A44B|A44B+A44B
                       dl CODE_0DA8C3                            ;;A476|A476+A476/A476\A476;
                       dl CODE_0DA8C3                            ;;A479|A479+A479/A479\A479;
                       dl CODE_0DA8C3                            ;;A47C|A47C+A47C/A47C\A47C;
-                      dl CODE_0DAA26                            ;;A47F|A47F+A47F/A47F\A47F;
-                      dl CODE_0DAAB4                            ;;A482|A482+A482/A482\A482;
+                      dl VertPipeObj                            ;;A47F|A47F+A47F/A47F\A47F;
+                      dl HorzPipeObj                            ;;A482|A482+A482/A482\A482;
                       dl CODE_0DAB0D                            ;;A485|A485+A485/A485\A485;
-                      dl CODE_0DAB3E                            ;;A488|A488+A488/A488\A488;
-                      dl CODE_0DB075                            ;;A48B|A48B+A48B/A48B\A48B;
+                      dl SlopeObjects                           ;;A488|A488+A488/A488\A488;
+                      dl EdgeObjects                            ;;A48B|A48B+A48B/A48B\A48B;
                       dl CODE_0DB1D4                            ;;A48E|A48E+A48E/A48E\A48E;
                       dl CODE_0DB224                            ;;A491|A491+A491/A491\A491;
                       dl ADDR_0DB336                            ;;A494|A494+A494/A494\A494;
@@ -1607,7 +1607,7 @@ CODE_0DA68E:          LDX.W !TranslevelNo                       ;;A68E|A68E+A68E
                       STA.B [!Map16LowPtr],Y                    ;;A6AD|A6AE+A6AE/A6AE\A6AE;
                     + RTS                                       ;;A6AF|A6B0+A6B0/A6B0\A6B0; Return
                                                                 ;;                        ;
-CODE_0DA6B1:          LDA.B !Map16LowPtr                        ;;A6B0|A6B1+A6B1/A6B1\A6B1;
+StoreLowMap16WordTo4: LDA.B !Map16LowPtr                        ;;A6B0|A6B1+A6B1/A6B1\A6B1;
                       STA.B !_4                                 ;;A6B2|A6B3+A6B3/A6B3\A6B3;
                       LDA.B !Map16LowPtr+1                      ;;A6B4|A6B5+A6B5/A6B5\A6B5;
                       STA.B !_5                                 ;;A6B6|A6B7+A6B7/A6B7\A6B7;
@@ -1656,7 +1656,7 @@ CODE_0DA71B:          LDY.B !LevelLoadPos                       ;;A71A|A71B+A71B
                       LDA.B #$04                                ;;A720|A721+A721/A721\A721;
                       STA.B !_1                                 ;;A722|A723+A723/A723\A723;
                       LDX.B #$00                                ;;A724|A725+A725/A725\A725;
-                      JSR CODE_0DA6B1                           ;;A726|A727+A727/A727\A727;
+                      JSR StoreLowMap16WordTo4                  ;;A726|A727+A727/A727\A727;
 CODE_0DA72A:          LDA.B !_0                                 ;;A729|A72A+A72A/A72A\A72A;
                       STA.B !_2                                 ;;A72B|A72C+A72C/A72C\A72C;
                     - JSR StzTo6ePointer                        ;;A72D|A72E+A72E/A72E\A72E;
@@ -1682,7 +1682,7 @@ CODE_0DA760:          LDY.B !LevelLoadPos                       ;;A75F|A760+A760
                       LDA.B #$03                                ;;A765|A766+A766/A766\A766;
                       STA.B !_1                                 ;;A767|A768+A768/A768\A768;
                       LDX.B #$00                                ;;A769|A76A+A76A/A76A\A76A;
-                      JSR CODE_0DA6B1                           ;;A76B|A76C+A76C/A76C\A76C;
+                      JSR StoreLowMap16WordTo4                  ;;A76B|A76C+A76C/A76C\A76C;
 CODE_0DA76F:          LDA.B !_0                                 ;;A76E|A76F+A76F/A76F\A76F;
                       STA.B !_2                                 ;;A770|A771+A771/A771\A771;
                     - JSR StzTo6ePointer                        ;;A772|A773+A773/A773\A773;
@@ -1722,7 +1722,7 @@ DATA_0DA7B1:          db $10,$11,$11,$12,$13,$0B,$0B,$15        ;;A7B0|A7B1+A7B1
                                                                 ;;                        ;
 CODE_0DA7C1:          LDY.B !LevelLoadPos                       ;;A7C0|A7C1+A7C1/A7C1\A7C1;
                       LDX.B #$00                                ;;A7C2|A7C3+A7C3/A7C3\A7C3;
-                      JSR CODE_0DA6B1                           ;;A7C4|A7C5+A7C5/A7C5\A7C5;
+                      JSR StoreLowMap16WordTo4                  ;;A7C4|A7C5+A7C5/A7C5\A7C5;
 CODE_0DA7C8:          LDA.B #$03                                ;;A7C7|A7C8+A7C8/A7C8\A7C8;
                       STA.B !_2                                 ;;A7C9|A7CA+A7CA/A7CA\A7CA;
                     - LDA.L DATA_0DA7B1,X                       ;;A7CB|A7CC+A7CC/A7CC\A7CC;
@@ -1741,7 +1741,7 @@ DATA_0DA7E3:          db $66,$67,$68,$69                        ;;A7E2|A7E3+A7E3
                                                                 ;;                        ;
 CODE_0DA7E7:          LDY.B !LevelLoadPos                       ;;A7E6|A7E7+A7E7/A7E7\A7E7;
                       LDX.B #$00                                ;;A7E8|A7E9+A7E9/A7E9\A7E9;
-                      JSR CODE_0DA6B1                           ;;A7EA|A7EB+A7EB/A7EB\A7EB;
+                      JSR StoreLowMap16WordTo4                  ;;A7EA|A7EB+A7EB/A7EB\A7EB;
                     - JSR StzTo6ePointer                        ;;A7ED|A7EE+A7EE/A7EE\A7EE;
                       LDA.L DATA_0DA7E3,X                       ;;A7F0|A7F1+A7F1/A7F1\A7F1;
                       JSR CODE_0DA95B                           ;;A7F4|A7F5+A7F5/A7F5\A7F5;
@@ -1861,7 +1861,7 @@ CODE_0DA8C3:          LDY.B !LevelLoadPos                       ;;A8C2|A8C3+A8C3
                       LSR A                                     ;;A8D0|A8D1+A8D1/A8D1\A8D1;
                       LSR A                                     ;;A8D1|A8D2+A8D2/A8D2\A8D2;
                       STA.B !_1                                 ;;A8D2|A8D3+A8D3/A8D3\A8D3;
-                      JSR CODE_0DA6B1                           ;;A8D4|A8D5+A8D5/A8D5\A8D5;
+                      JSR StoreLowMap16WordTo4                  ;;A8D4|A8D5+A8D5/A8D5\A8D5;
 CODE_0DA8D8:          CPX.B #$04                                ;;A8D7|A8D8+A8D8/A8D8\A8D8;
                       BNE CODE_0DA92E                           ;;A8D9|A8DA+A8DA/A8DA\A8DA;
                       TXA                                       ;;A8DB|A8DC+A8DC/A8DC\A8DC;
@@ -2047,7 +2047,7 @@ DATA_0DAA1C:          db $00,$00,$39,$33,$37                    ;;AA1B|AA1C+AA1C
                                                                 ;;                        ;
 DATA_0DAA21:          db $00,$00,$3A,$34,$38                    ;;AA20|AA21+AA21/AA21\AA21;
                                                                 ;;                        ;
-CODE_0DAA26:          LDY.B !LevelLoadPos                       ;;AA25|AA26+AA26/AA26\AA26;
+VertPipeObj:          LDY.B !LevelLoadPos                       ;;AA25|AA26+AA26/AA26\AA26;
                       LDA.B !LvlLoadObjSize                     ;;AA27|AA28+AA28/AA28\AA28;
                       LSR A                                     ;;AA29|AA2A+AA2A/AA2A\AA2A;
                       LSR A                                     ;;AA2A|AA2B+AA2B/AA2B\AA2B;
@@ -2057,7 +2057,7 @@ CODE_0DAA26:          LDY.B !LevelLoadPos                       ;;AA25|AA26+AA26
                       LDA.B !LvlLoadObjSize                     ;;AA2F|AA30+AA30/AA30\AA30;
                       AND.B #$0F                                ;;AA31|AA32+AA32/AA32\AA32;
                       TAX                                       ;;AA33|AA34+AA34/AA34\AA34;
-                      JSR CODE_0DA6B1                           ;;AA34|AA35+AA35/AA35\AA35;
+                      JSR StoreLowMap16WordTo4                  ;;AA34|AA35+AA35/AA35\AA35;
                       CPX.B #$03                                ;;AA37|AA38+AA38/AA38\AA38;
                       BPL CODE_0DAA52                           ;;AA39|AA3A+AA3A/AA3A\AA3A;
                       JSR Sta1To6ePointer                       ;;AA3B|AA3C+AA3C/AA3C\AA3C;
@@ -2108,7 +2108,7 @@ Return0DAAA3:         RTS                                       ;;AAA2|AAA3+AAA3
 DATA_0DAAA4:          db $3B,$3C,$3B,$3F,$3B,$3C,$3B,$3F        ;;AAA3|AAA4+AAA4/AAA4\AAA4;
 DATA_0DAAAC:          db $3D,$3E,$3D,$3E,$3D,$3E,$3D,$3E        ;;AAAB|AAAC+AAAC/AAAC\AAAC;
                                                                 ;;                        ;
-CODE_0DAAB4:          LDY.B !LevelLoadPos                       ;;AAB3|AAB4+AAB4/AAB4\AAB4;
+HorzPipeObj:          LDY.B !LevelLoadPos                       ;;AAB3|AAB4+AAB4/AAB4\AAB4;
                       LDA.B !LvlLoadObjSize                     ;;AAB5|AAB6+AAB6/AAB6\AAB6;
                       AND.B #$0F                                ;;AAB7|AAB8+AAB8/AAB8\AAB8;
                       STA.B !_0                                 ;;AAB9|AABA+AABA/AABA\AABA;
@@ -2119,7 +2119,7 @@ CODE_0DAAB4:          LDY.B !LevelLoadPos                       ;;AAB3|AAB4+AAB4
                       LSR A                                     ;;AAC2|AAC3+AAC3/AAC3\AAC3;
                       LSR A                                     ;;AAC3|AAC4+AAC4/AAC4\AAC4;
                       TAX                                       ;;AAC4|AAC5+AAC5/AAC5\AAC5;
-                      JSR CODE_0DA6B1                           ;;AAC5|AAC6+AAC6/AAC6\AAC6;
+                      JSR StoreLowMap16WordTo4                  ;;AAC5|AAC6+AAC6/AAC6\AAC6;
 CODE_0DAAC9:          CPX.B #$04                                ;;AAC8|AAC9+AAC9/AAC9\AAC9;
                       BPL CODE_0DAADA                           ;;AACA|AACB+AACB/AACB\AACB;
                       JSR Sta1To6ePointer                       ;;AACC|AACD+AACD/AACD\AACD;
@@ -2178,15 +2178,15 @@ CODE_0DAB0D:          LDY.B !LevelLoadPos                       ;;AB0C|AB0D+AB0D
                       BPL -                                     ;;AB3A|AB3B+AB3B/AB3B\AB3B;
 Return0DAB3D:         RTS                                       ;;AB3C|AB3D+AB3D/AB3D\AB3D; Return
                                                                 ;;                        ;
-CODE_0DAB3E:          LDA.B !LvlLoadObjSize                     ;;AB3D|AB3E+AB3E/AB3E\AB3E;
+SlopeObjects:         LDA.B !LvlLoadObjSize                     ;;AB3D|AB3E+AB3E/AB3E\AB3E;
                       AND.B #$0F                                ;;AB3F|AB40+AB40/AB40\AB40;
-CODE_0DAB42:          CMP.B #$0A                                ;;AB41|AB42+AB42/AB42\AB42;
-                      BMI +                                     ;;AB43|AB44+AB44/AB44\AB44;
-                      SEC                                       ;;AB45|AB46+AB46/AB46\AB46;
-                      SBC.B #$0A                                ;;AB46|AB47+AB47/AB47\AB47;
-                      JMP CODE_0DAB42                           ;;AB48|AB49+AB49/AB49\AB49;
+.loop:                CMP.B #$0A                                ;;AB41|AB42+AB42/AB42\AB42; \
+                      BMI .done                                 ;;AB43|AB44+AB44/AB44\AB44; |  until the result is less than 0A
+                      SEC                                       ;;AB45|AB46+AB46/AB46\AB46; |
+                      SBC.B #$0A                                ;;AB46|AB47+AB47/AB47\AB47; | subtract 0A
+                      JMP .loop                                 ;;AB48|AB49+AB49/AB49\AB49; / weird that this isnt a BRA instead
                                                                 ;;                        ;
-                    + JSL ExecutePtrLong                        ;;AB4B|AB4C+AB4C/AB4C\AB4C;
+.done:                JSL ExecutePtrLong                        ;;AB4B|AB4C+AB4C/AB4C\AB4C;
                                                                 ;;                        ;
                       dl SlopeObjNormalLeft                     ;;AB4F|AB50+AB50/AB50\AB50;
                       dl SlopeObjSteepLeft                      ;;AB52|AB53+AB53/AB53\AB53;
@@ -2203,7 +2203,7 @@ SlopeObjNormalLeft:   LDY.B !LevelLoadPos                       ;;AB6D|AB6E+AB6E
                       LDA.B #$01                                ;;AB6F|AB70+AB70/AB70\AB70;
                       STA.B !_2                                 ;;AB71|AB72+AB72/AB72\AB72;
                       STA.B !_0                                 ;;AB73|AB74+AB74/AB74\AB74;
-                      JSR CODE_0DA6B1                           ;;AB75|AB76+AB76/AB76\AB76;
+                      JSR StoreLowMap16WordTo4                  ;;AB75|AB76+AB76/AB76\AB76;
                       LDA.B !LvlLoadObjSize                     ;;AB78|AB79+AB79/AB79\AB79;
                       LSR A                                     ;;AB7A|AB7B+AB7B/AB7B\AB7B;
                       LSR A                                     ;;AB7B|AB7C+AB7C/AB7C\AB7C;
@@ -2214,10 +2214,10 @@ SlopeObjNormalLeft:   LDY.B !LevelLoadPos                       ;;AB6D|AB6E+AB6E
 CODE_0DAB83:          LDX.B !_2                                 ;;AB82|AB83+AB83/AB83\AB83;
                       JSR Sta1To6ePointer                       ;;AB84|AB85+AB85/AB85\AB85;
                       LDA.B #$96                                ;;AB87|AB88+AB88/AB88\AB88;
-                      JSR CODE_0DABFD                           ;;AB89|AB8A+AB8A/AB8A\AB8A;
+                      JSR HandleSlopeDirtTiles                  ;;AB89|AB8A+AB8A/AB8A\AB8A;
                       JSR Sta1To6ePointer                       ;;AB8C|AB8D+AB8D/AB8D\AB8D;
                       LDA.B #$9B                                ;;AB8F|AB90+AB90/AB90\AB90;
-                      JSR CODE_0DABFD                           ;;AB91|AB92+AB92/AB92\AB92;
+                      JSR HandleSlopeDirtTiles                  ;;AB91|AB92+AB92/AB92\AB92;
                       DEX                                       ;;AB94|AB95+AB95/AB95\AB95;
                       DEX                                       ;;AB95|AB96+AB96/AB96\AB96;
                       BMI CODE_0DABB8                           ;;AB96|AB97+AB97/AB97\AB97;
@@ -2272,31 +2272,31 @@ CODE_0DABEC:          LDX.B !_2                                 ;;ABEB|ABEC+ABEC
 Return0DABF6:         RTS                                       ;;ABF5|ABF6+ABF6/ABF6\ABF6; Return
                                                                 ;;                        ;
                                                                 ;;                        ;
-DATA_0DABF7:          db $3F,$01,$03                            ;;ABF6|ABF7+ABF7/ABF7\ABF7;
+SlopeTileOvrwrtChk:   db $3F,$01,$03                            ;;ABF6|ABF7+ABF7/ABF7\ABF7;
                                                                 ;;                        ;
-DATA_0DABFA:          db $01,$03,$04                            ;;ABF9|ABFA+ABFA/ABFA\ABFA;
+SlopeTileOvrwrtOff:   db $01,$03,$04                            ;;ABF9|ABFA+ABFA/ABFA\ABFA;
                                                                 ;;                        ;
-CODE_0DABFD:          STA.B !_C                                 ;;ABFC|ABFD+ABFD/ABFD\ABFD;
+HandleSlopeDirtTiles: STA.B !_C                                 ;;ABFC|ABFD+ABFD/ABFD\ABFD;
                       TXA                                       ;;ABFE|ABFF+ABFF/ABFF\ABFF;
                       PHA                                       ;;ABFF|AC00+AC00/AC00\AC00;
                       LDX.B #$02                                ;;AC00|AC01+AC01/AC01\AC01;
-                      LDA.B [!Map16LowPtr],Y                    ;;AC02|AC03+AC03/AC03\AC03;
-CODE_0DAC05:          CMP.L DATA_0DABF7,X                       ;;AC04|AC05+AC05/AC05\AC05;
-                      BEQ CODE_0DAC11                           ;;AC08|AC09+AC09/AC09\AC09;
-                      DEX                                       ;;AC0A|AC0B+AC0B/AC0B\AC0B;
-                      BPL CODE_0DAC05                           ;;AC0B|AC0C+AC0C/AC0C\AC0C;
-                      JMP CODE_0DAC1A                           ;;AC0D|AC0E+AC0E/AC0E\AC0E;
+                      LDA.B [!Map16LowPtr],Y                    ;;AC02|AC03+AC03/AC03\AC03; \
+.loop:                CMP.L SlopeTileOvrwrtChk,X                ;;AC04|AC05+AC05/AC05\AC05; |
+                      BEQ AddOffsetToSlopeTile                  ;;AC08|AC09+AC09/AC09\AC09; |
+                      DEX                                       ;;AC0A|AC0B+AC0B/AC0B\AC0B; |
+                      BPL .loop                                 ;;AC0B|AC0C+AC0C/AC0C\AC0C; /
+                      JMP SlopeOverwriteDone                    ;;AC0D|AC0E+AC0E/AC0E\AC0E;
                                                                 ;;                        ;
-CODE_0DAC11:          LDA.B !_C                                 ;;AC10|AC11+AC11/AC11\AC11;
+AddOffsetToSlopeTile: LDA.B !_C                                 ;;AC10|AC11+AC11/AC11\AC11;
                       CLC                                       ;;AC12|AC13+AC13/AC13\AC13;
-                      ADC.L DATA_0DABFA,X                       ;;AC13|AC14+AC14/AC14\AC14;
+                      ADC.L SlopeTileOvrwrtOff,X                ;;AC13|AC14+AC14/AC14\AC14;
                       STA.B !_C                                 ;;AC17|AC18+AC18/AC18\AC18;
-CODE_0DAC1A:          PLA                                       ;;AC19|AC1A+AC1A/AC1A\AC1A;
+SlopeOverwriteDone:   PLA                                       ;;AC19|AC1A+AC1A/AC1A\AC1A;
                       TAX                                       ;;AC1A|AC1B+AC1B/AC1B\AC1B;
                       LDA.B !_C                                 ;;AC1B|AC1C+AC1C/AC1C\AC1C;
                       JMP CODE_0DA95B                           ;;AC1D|AC1E+AC1E/AC1E\AC1E;
                                                                 ;;                        ;
-SlopeObjSteepLeft:       LDY.B !LevelLoadPos                       ;;AC20|AC21+AC21/AC21\AC21;
+SlopeObjSteepLeft:    LDY.B !LevelLoadPos                       ;;AC20|AC21+AC21/AC21\AC21;
                       LDA.B !LvlLoadObjSize                     ;;AC22|AC23+AC23/AC23\AC23;
                       LSR A                                     ;;AC24|AC25+AC25/AC25\AC25;
                       LSR A                                     ;;AC25|AC26+AC26/AC26\AC26;
@@ -2306,11 +2306,11 @@ SlopeObjSteepLeft:       LDY.B !LevelLoadPos                       ;;AC20|AC21+A
                       INC.B !_0                                 ;;AC2A|AC2B+AC2B/AC2B\AC2B;
                       LDA.B #$00                                ;;AC2C|AC2D+AC2D/AC2D\AC2D;
                       STA.B !_2                                 ;;AC2E|AC2F+AC2F/AC2F\AC2F;
-                      JSR CODE_0DA6B1                           ;;AC30|AC31+AC31/AC31\AC31;
+                      JSR StoreLowMap16WordTo4                  ;;AC30|AC31+AC31/AC31\AC31;
 CODE_0DAC34:          LDX.B !_2                                 ;;AC33|AC34+AC34/AC34\AC34;
                       JSR Sta1To6ePointer                       ;;AC35|AC36+AC36/AC36\AC36;
                       LDA.B #$AA                                ;;AC38|AC39+AC39/AC39\AC39;
-                      JSR CODE_0DABFD                           ;;AC3A|AC3B+AC3B/AC3B\AC3B;
+                      JSR HandleSlopeDirtTiles                  ;;AC3A|AC3B+AC3B/AC3B\AC3B;
 CODE_0DAC3E:          DEX                                       ;;AC3D|AC3E+AC3E/AC3E\AC3E;
                       BMI CODE_0DAC57                           ;;AC3E|AC3F+AC3F/AC3F\AC3F;
                       JSR Sta1To6ePointer                       ;;AC40|AC41+AC41/AC41\AC41;
@@ -2360,27 +2360,27 @@ SlopeObjGradualLeft:  LDY.B !LevelLoadPos                       ;;AC91|AC92+AC92
                       LDA.B #$03                                ;;AC93|AC94+AC94/AC94\AC94;
                       STA.B !_2                                 ;;AC95|AC96+AC96/AC96\AC96;
                       STA.B !_0                                 ;;AC97|AC98+AC98/AC98\AC98;
-                      JSR CODE_0DA6B1                           ;;AC99|AC9A+AC9A/AC9A\AC9A;
-                      LDA.B !LvlLoadObjSize                     ;;AC9C|AC9D+AC9D/AC9D\AC9D;
-                      LSR A                                     ;;AC9E|AC9F+AC9F/AC9F\AC9F;
-                      LSR A                                     ;;AC9F|ACA0+ACA0/ACA0\ACA0;
-                      LSR A                                     ;;ACA0|ACA1+ACA1/ACA1\ACA1;
-                      LSR A                                     ;;ACA1|ACA2+ACA2/ACA2\ACA2;
-                      STA.B !_0                                 ;;ACA2|ACA3+ACA3/ACA3\ACA3;
+                      JSR StoreLowMap16WordTo4                  ;;AC99|AC9A+AC9A/AC9A\AC9A;
+                      LDA.B !LvlLoadObjSize                     ;;AC9C|AC9D+AC9D/AC9D\AC9D; \
+                      LSR A                                     ;;AC9E|AC9F+AC9F/AC9F\AC9F; | slope objects use the high 4 bytes
+                      LSR A                                     ;;AC9F|ACA0+ACA0/ACA0\ACA0; | as their size.
+                      LSR A                                     ;;ACA0|ACA1+ACA1/ACA1\ACA1; |
+                      LSR A                                     ;;ACA1|ACA2+ACA2/ACA2\ACA2; |
+                      STA.B !_0                                 ;;ACA2|ACA3+ACA3/ACA3\ACA3; /
                       INC.B !_0                                 ;;ACA4|ACA5+ACA5/ACA5\ACA5;
 CODE_0DACA7:          LDX.B !_2                                 ;;ACA6|ACA7+ACA7/ACA7\ACA7;
                       JSR Sta1To6ePointer                       ;;ACA8|ACA9+ACA9/ACA9\ACA9;
                       LDA.B #$6E                                ;;ACAB|ACAC+ACAC/ACAC\ACAC;
-                      JSR CODE_0DABFD                           ;;ACAD|ACAE+ACAE/ACAE\ACAE;
+                      JSR HandleSlopeDirtTiles                  ;;ACAD|ACAE+ACAE/ACAE\ACAE;
                       JSR Sta1To6ePointer                       ;;ACB0|ACB1+ACB1/ACB1\ACB1;
                       LDA.B #$73                                ;;ACB3|ACB4+ACB4/ACB4\ACB4;
-                      JSR CODE_0DABFD                           ;;ACB5|ACB6+ACB6/ACB6\ACB6;
+                      JSR HandleSlopeDirtTiles                  ;;ACB5|ACB6+ACB6/ACB6\ACB6;
                       JSR Sta1To6ePointer                       ;;ACB8|ACB9+ACB9/ACB9\ACB9;
                       LDA.B #$78                                ;;ACBB|ACBC+ACBC/ACBC\ACBC;
-                      JSR CODE_0DABFD                           ;;ACBD|ACBE+ACBE/ACBE\ACBE;
+                      JSR HandleSlopeDirtTiles                  ;;ACBD|ACBE+ACBE/ACBE\ACBE;
                       JSR Sta1To6ePointer                       ;;ACC0|ACC1+ACC1/ACC1\ACC1;
                       LDA.B #$7D                                ;;ACC3|ACC4+ACC4/ACC4\ACC4;
-                      JSR CODE_0DABFD                           ;;ACC5|ACC6+ACC6/ACC6\ACC6;
+                      JSR HandleSlopeDirtTiles                  ;;ACC5|ACC6+ACC6/ACC6\ACC6;
                       DEX                                       ;;ACC8|ACC9+ACC9/ACC9\ACC9;
                       DEX                                       ;;ACC9|ACCA+ACCA/ACCA\ACCA;
                       DEX                                       ;;ACCA|ACCB+ACCB/ACCB\ACCB;
@@ -2452,7 +2452,7 @@ SlopeObjNormalRight:  LDY.B !LevelLoadPos                       ;;AD43|AD44+AD44
                       LDX.B #$01                                ;;AD45|AD46+AD46/AD46\AD46;
                       STX.B !_2                                 ;;AD47|AD48+AD48/AD48\AD48;
                       STX.B !_0                                 ;;AD49|AD4A+AD4A/AD4A\AD4A;
-                      JSR CODE_0DA6B1                           ;;AD4B|AD4C+AD4C/AD4C\AD4C;
+                      JSR StoreLowMap16WordTo4                  ;;AD4B|AD4C+AD4C/AD4C\AD4C;
                       LDA.B !LvlLoadObjSize                     ;;AD4E|AD4F+AD4F/AD4F\AD4F;
                       LSR A                                     ;;AD50|AD51+AD51/AD51\AD51;
                       LSR A                                     ;;AD51|AD52+AD52/AD52\AD52;
@@ -2480,10 +2480,10 @@ CODE_0DAD65:          CPX.B #$03                                ;;AD64|AD65+AD65
                       BEQ Return0DAD9F                          ;;AD7C|AD7D+AD7D/AD7D\AD7D;
 CODE_0DAD7F:          JSR Sta1To6ePointer                       ;;AD7E|AD7F+AD7F/AD7F\AD7F;
                       LDA.B #$A0                                ;;AD81|AD82+AD82/AD82\AD82;
-                      JSR CODE_0DABFD                           ;;AD83|AD84+AD84/AD84\AD84;
+                      JSR HandleSlopeDirtTiles                  ;;AD83|AD84+AD84/AD84\AD84;
                       JSR Sta1To6ePointer                       ;;AD86|AD87+AD87/AD87\AD87;
                       LDA.B #$A5                                ;;AD89|AD8A+AD8A/AD8A\AD8A;
-                      JSR CODE_0DABFD                           ;;AD8B|AD8C+AD8C/AD8C\AD8C;
+                      JSR HandleSlopeDirtTiles                  ;;AD8B|AD8C+AD8C/AD8C\AD8C;
                       JSR CODE_0DA6BA                           ;;AD8E|AD8F+AD8F/AD8F\AD8F;
                       JSR CODE_0DA97D                           ;;AD91|AD92+AD92/AD92\AD92;
                       INC.B !_2                                 ;;AD94|AD95+AD95/AD95\AD95;
@@ -2499,7 +2499,7 @@ SlopeObjSteepRight:   LDY.B !LevelLoadPos                       ;;ADA2|ADA3+ADA3
                       LDX.B #$00                                ;;ADA4|ADA5+ADA5/ADA5\ADA5;
                       STX.B !_2                                 ;;ADA6|ADA7+ADA7/ADA7\ADA7;
                       STX.B !_0                                 ;;ADA8|ADA9+ADA9/ADA9\ADA9;
-                      JSR CODE_0DA6B1                           ;;ADAA|ADAB+ADAB/ADAB\ADAB;
+                      JSR StoreLowMap16WordTo4                  ;;ADAA|ADAB+ADAB/ADAB\ADAB;
                       LDA.B !LvlLoadObjSize                     ;;ADAD|ADAE+ADAE/ADAE\ADAE;
                       LSR A                                     ;;ADAF|ADB0+ADB0/ADB0\ADB0;
                       LSR A                                     ;;ADB0|ADB1+ADB1/ADB1\ADB1;
@@ -2522,7 +2522,7 @@ CODE_0DADD0:          LDA.B !_0                                 ;;ADCF|ADD0+ADD0
                       BEQ Return0DADEA                          ;;ADD1|ADD2+ADD2/ADD2\ADD2;
                       JSR Sta1To6ePointer                       ;;ADD3|ADD4+ADD4/ADD4\ADD4;
                       LDA.B #$AF                                ;;ADD6|ADD7+ADD7/ADD7\ADD7;
-                      JSR CODE_0DABFD                           ;;ADD8|ADD9+ADD9/ADD9\ADD9;
+                      JSR HandleSlopeDirtTiles                  ;;ADD8|ADD9+ADD9/ADD9\ADD9;
                       JSR CODE_0DA6BA                           ;;ADDB|ADDC+ADDC/ADDC\ADDC;
                       JSR CODE_0DA97D                           ;;ADDE|ADDF+ADDF/ADDF\ADDF;
                       INC.B !_2                                 ;;ADE1|ADE2+ADE2/ADE2\ADE2;
@@ -2534,7 +2534,7 @@ Return0DADEA:         RTS                                       ;;ADE9|ADEA+ADEA
 SlopeObjGradualRight: LDY.B !LevelLoadPos                       ;;ADEA|ADEB+ADEB/ADEB\ADEB;
                       LDX.B #$03                                ;;ADEC|ADED+ADED/ADED\ADED;
                       STX.B !_2                                 ;;ADEE|ADEF+ADEF/ADEF\ADEF;
-                      JSR CODE_0DA6B1                           ;;ADF0|ADF1+ADF1/ADF1\ADF1;
+                      JSR StoreLowMap16WordTo4                  ;;ADF0|ADF1+ADF1/ADF1\ADF1;
                       LDA.B !LvlLoadObjSize                     ;;ADF3|ADF4+ADF4/ADF4\ADF4;
                       LSR A                                     ;;ADF5|ADF6+ADF6/ADF6\ADF6;
                       LSR A                                     ;;ADF6|ADF7+ADF7/ADF7\ADF7;
@@ -2571,16 +2571,16 @@ CODE_0DAE0A:          CPX.B #$07                                ;;AE09|AE0A+AE0A
                       BEQ Return0DAE69                          ;;AE33|AE34+AE34/AE34\AE34;
 CODE_0DAE36:          JSR Sta1To6ePointer                       ;;AE35|AE36+AE36/AE36\AE36;
                       LDA.B #$82                                ;;AE38|AE39+AE39/AE39\AE39;
-                      JSR CODE_0DABFD                           ;;AE3A|AE3B+AE3B/AE3B\AE3B;
+                      JSR HandleSlopeDirtTiles                  ;;AE3A|AE3B+AE3B/AE3B\AE3B;
                       JSR Sta1To6ePointer                       ;;AE3D|AE3E+AE3E/AE3E\AE3E;
                       LDA.B #$87                                ;;AE40|AE41+AE41/AE41\AE41;
-                      JSR CODE_0DABFD                           ;;AE42|AE43+AE43/AE43\AE43;
+                      JSR HandleSlopeDirtTiles                  ;;AE42|AE43+AE43/AE43\AE43;
                       JSR Sta1To6ePointer                       ;;AE45|AE46+AE46/AE46\AE46;
                       LDA.B #$8C                                ;;AE48|AE49+AE49/AE49\AE49;
-                      JSR CODE_0DABFD                           ;;AE4A|AE4B+AE4B/AE4B\AE4B;
+                      JSR HandleSlopeDirtTiles                  ;;AE4A|AE4B+AE4B/AE4B\AE4B;
                       JSR Sta1To6ePointer                       ;;AE4D|AE4E+AE4E/AE4E\AE4E;
                       LDA.B #$91                                ;;AE50|AE51+AE51/AE51\AE51;
-                      JSR CODE_0DABFD                           ;;AE52|AE53+AE53/AE53\AE53;
+                      JSR HandleSlopeDirtTiles                  ;;AE52|AE53+AE53/AE53\AE53;
                       JSR CODE_0DA6BA                           ;;AE55|AE56+AE56/AE56\AE56;
                       JSR CODE_0DA97D                           ;;AE58|AE59+AE59/AE59\AE59;
                       LDA.B !_2                                 ;;AE5B|AE5C+AE5C/AE5C\AE5C;
@@ -2607,7 +2607,7 @@ SlopeObjUpsdNrmLeft: LDY.B !LevelLoadPos                       ;;AE6C|AE6D+AE6D/
                       LDA.B #$00                                ;;AE7B|AE7C+AE7C/AE7C\AE7C;
                       STA.B !_1                                 ;;AE7D|AE7E+AE7E/AE7E\AE7E;
                       LDX.B !_2                                 ;;AE7F|AE80+AE80/AE80\AE80;
-                      JSR CODE_0DA6B1                           ;;AE81|AE82+AE82/AE82\AE82;
+                      JSR StoreLowMap16WordTo4                  ;;AE81|AE82+AE82/AE82\AE82;
                       JMP CODE_0DAE9E                           ;;AE84|AE85+AE85/AE85\AE85;
                                                                 ;;                        ;
 CODE_0DAE88:          LDX.B !_2                                 ;;AE87|AE88+AE88/AE88\AE88;
@@ -2681,7 +2681,7 @@ SlopeObjUpsdNrmRight: LDY.B !LevelLoadPos                       ;;AEFB|AEFC+AEFC
                       INC.B !_2                                 ;;AF08|AF09+AF09/AF09\AF09;
                       LDA.B #$00                                ;;AF0A|AF0B+AF0B/AF0B\AF0B;
                       STA.B !_1                                 ;;AF0C|AF0D+AF0D/AF0D\AF0D;
-                      JSR CODE_0DA6B1                           ;;AF0E|AF0F+AF0F/AF0F\AF0F;
+                      JSR StoreLowMap16WordTo4                  ;;AF0E|AF0F+AF0F/AF0F\AF0F;
                       LDX.B !_2                                 ;;AF11|AF12+AF12/AF12\AF12;
                       JMP CODE_0DAF20                           ;;AF13|AF14+AF14/AF14\AF14;
                                                                 ;;                        ;
@@ -2731,7 +2731,7 @@ SlopeObjUpsdStpLeft:  LDY.B !LevelLoadPos                       ;;AF60|AF61+AF61
                       LDA.B #$00                                ;;AF6E|AF6F+AF6F/AF6F\AF6F;
                       STA.B !_1                                 ;;AF70|AF71+AF71/AF71\AF71;
                       LDX.B !_2                                 ;;AF72|AF73+AF73/AF73\AF73;
-                      JSR CODE_0DA6B1                           ;;AF74|AF75+AF75/AF75\AF75;
+                      JSR StoreLowMap16WordTo4                  ;;AF74|AF75+AF75/AF75\AF75;
                       JMP CODE_0DAF88                           ;;AF77|AF78+AF78/AF78\AF78;
                                                                 ;;                        ;
 CODE_0DAF7B:          LDX.B !_2                                 ;;AF7A|AF7B+AF7B/AF7B\AF7B;
@@ -2803,7 +2803,7 @@ SlopeObjUpsdStpRight: LDY.B !LevelLoadPos                       ;;AFE9|AFEA+AFEA
                       STA.B !_2                                 ;;AFF3|AFF4+AFF4/AFF4\AFF4;
                       LDA.B #$00                                ;;AFF5|AFF6+AFF6/AFF6\AFF6;
                       STA.B !_1                                 ;;AFF7|AFF8+AFF8/AFF8\AFF8;
-                      JSR CODE_0DA6B1                           ;;AFF9|AFFA+AFFA/AFFA\AFFA;
+                      JSR StoreLowMap16WordTo4                  ;;AFF9|AFFA+AFFA/AFFA\AFFA;
                       LDX.B !_2                                 ;;AFFC|AFFD+AFFD/AFFD\AFFD;
                       JMP CODE_0DB00B                           ;;AFFE|AFFF+AFFF/AFFF\AFFF;
                                                                 ;;                        ;
@@ -2843,10 +2843,10 @@ DATA_0DB048:          db $40,$41,$06,$4B,$4B,$4C,$4C,$40        ;;B047|B048+B048
 DATA_0DB057:          db $40,$41,$06,$4B,$4B,$4C,$4C,$40        ;;B056|B057+B057/B057\B057;
                       db $41,$4B,$4C,$4B,$4B,$4C,$4C            ;;B05E|B05F+B05F/B05F\B05F;
                                                                 ;;                        ;
-DATA_0DB066:          db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF        ;;B065|B066+B066/B066\B066;
+EdgeBottomCorners:    db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF        ;;B065|B066+B066/B066\B066;
                       db $FF,$FF,$FF,$E2,$E2,$E4,$E4            ;;B06D|B06E+B06E/B06E\B06E;
                                                                 ;;                        ;
-CODE_0DB075:          LDY.B !LevelLoadPos                       ;;B074|B075+B075/B075\B075;
+EdgeObjects:          LDY.B !LevelLoadPos                       ;;B074|B075+B075/B075\B075; note: includes the vine object
                       LDA.B !LvlLoadObjSize                     ;;B076|B077+B077/B077\B077;
                       LSR A                                     ;;B078|B079+B079/B079\B079;
                       LSR A                                     ;;B079|B07A+B07A/B07A\B07A;
@@ -2897,7 +2897,7 @@ CODE_0DB0CF:          JSR Sta1To6ePointer                       ;;B0CE|B0CF+B0CF
 CODE_0DB0E2:          CPX.B #$0B                                ;;B0E1|B0E2+B0E2/B0E2\B0E2;
                       BMI +                                     ;;B0E3|B0E4+B0E4/B0E4\B0E4;
                       JSR Sta1To6ePointer                       ;;B0E5|B0E6+B0E6/B0E6\B0E6;
-                      LDA.L DATA_0DB066,X                       ;;B0E8|B0E9+B0E9/B0E9\B0E9;
+                      LDA.L EdgeBottomCorners,X                 ;;B0E8|B0E9+B0E9/B0E9\B0E9;
                       STA.B [!Map16LowPtr],Y                    ;;B0EC|B0ED+B0ED/B0ED\B0ED;
                     + RTS                                       ;;B0EE|B0EF+B0EF/B0EF\B0EF; Return
                                                                 ;;                        ;
@@ -2998,7 +2998,7 @@ CODE_0DB1D4:          LDA.B !LvlLoadObjSize                     ;;B1D3|B1D4+B1D4
                       LSR A                                     ;;B1DE|B1DF+B1DF/B1DF\B1DF;
                       LSR A                                     ;;B1DF|B1E0+B1E0/B1E0\B1E0;
                       STA.B !_2                                 ;;B1E0|B1E1+B1E1/B1E1\B1E1;
-CODE_0DB1E3:          JSR CODE_0DA6B1                           ;;B1E2|B1E3+B1E3/B1E3\B1E3;
+CODE_0DB1E3:          JSR StoreLowMap16WordTo4                  ;;B1E2|B1E3+B1E3/B1E3\B1E3;
                       LDY.B !LevelLoadPos                       ;;B1E5|B1E6+B1E6/B1E6\B1E6;
                     - JSR Sta1To6ePointer                       ;;B1E7|B1E8+B1E8/B1E8\B1E8;
                       LDA.B #$00                                ;;B1EA|B1EB+B1EB/B1EB\B1EB;
@@ -3045,7 +3045,7 @@ CODE_0DB224:          LDY.B !LevelLoadPos                       ;;B223|B224+B224
                       LSR A                                     ;;B230|B231+B231/B231\B231;
                       STA.B !_0                                 ;;B231|B232+B232/B232\B232;
                       STA.B !_1                                 ;;B233|B234+B234/B234\B234;
-                      JSR CODE_0DA6B1                           ;;B235|B236+B236/B236\B236;
+                      JSR StoreLowMap16WordTo4                  ;;B235|B236+B236/B236\B236;
                       LDX.B #$00                                ;;B238|B239+B239/B239\B239;
 CODE_0DB23B:          LDA.L DATA_0DB212,X                       ;;B23A|B23B+B23B/B23B\B23B;
                       STA.B !_3                                 ;;B23E|B23F+B23F/B23F\B23F;
@@ -3181,7 +3181,7 @@ ADDR_0DB336:          LDY.B !LevelLoadPos                       ;;B335|B336+B336
                       LSR A                                     ;;B342|B343+B343/B343\B343;
                       LSR A                                     ;;B343|B344+B344/B344\B344;
                       STA.B !_1                                 ;;B344|B345+B345/B345\B345;
-                      JSR CODE_0DA6B1                           ;;B346|B347+B347/B347\B347;
+                      JSR StoreLowMap16WordTo4                  ;;B346|B347+B347/B347\B347;
 ADDR_0DB34A:          TYA                                       ;;B349|B34A+B34A/B34A\B34A;
                       PHA                                       ;;B34A|B34B+B34B/B34B\B34B;
                       TXA                                       ;;B34B|B34C+B34C/B34C\B34C;
@@ -3282,7 +3282,7 @@ CODE_0DB3E3:          LDY.B !LevelLoadPos                       ;;B3E2|B3E3+B3E3
                       SEC                                       ;;B3F5|B3F6+B3F6/B3F6\B3F6;
                       SBC.B #$17                                ;;B3F6|B3F7+B3F7/B3F7\B3F7;
                       TAX                                       ;;B3F8|B3F9+B3F9/B3F9\B3F9;
-                      JSR CODE_0DA6B1                           ;;B3F9|B3FA+B3FA/B3FA\B3FA;
+                      JSR StoreLowMap16WordTo4                  ;;B3F9|B3FA+B3FA/B3FA\B3FA;
                     - JSR StzTo6ePointer                        ;;B3FC|B3FD+B3FD/B3FD\B3FD;
                       LDA.L DATA_0DB3DB,X                       ;;B3FF|B400+B400/B400\B400;
                       JSR CODE_0DA95B                           ;;B403|B404+B404/B404\B404;
@@ -3311,7 +3311,7 @@ CODE_0DB42D:          LDY.B !LevelLoadPos                       ;;B42C|B42D+B42D
                       AND.B #$0F                                ;;B430|B431+B431/B431\B431;
                       STA.B !_0                                 ;;B432|B433+B433/B433\B433;
                       STA.B !_1                                 ;;B434|B435+B435/B435\B435;
-                      JSR CODE_0DA6B1                           ;;B436|B437+B437/B437\B437;
+                      JSR StoreLowMap16WordTo4                  ;;B436|B437+B437/B437\B437;
                       LDX.B #$00                                ;;B439|B43A+B43A/B43A\B43A;
 CODE_0DB43C:          JSR StzTo6ePointer                        ;;B43B|B43C+B43C/B43C\B43C;
                       CPX.B #$00                                ;;B43E|B43F+B43F/B43F\B43F;
@@ -3341,7 +3341,7 @@ CODE_0DB461:          LDY.B !LevelLoadPos                       ;;B460|B461+B461
                       AND.B #$0F                                ;;B46C|B46D+B46D/B46D\B46D;
                       STA.B !_1                                 ;;B46E|B46F+B46F/B46F\B46F;
                       TAX                                       ;;B470|B471+B471/B471\B471;
-                      JSR CODE_0DA6B1                           ;;B471|B472+B472/B472\B472;
+                      JSR StoreLowMap16WordTo4                  ;;B471|B472+B472/B472\B472;
                       LDA.B !_0                                 ;;B474|B475+B475/B475\B475;
                       BEQ CODE_0DB490                           ;;B476|B477+B477/B477\B477;
                     - JSR StzTo6ePointer                        ;;B478|B479+B479/B479\B479;
@@ -3556,7 +3556,7 @@ CODE_0DB604:          LDA.B !LvlLoadObjSize                     ;;B603|B604+B604
                       LDA.B #$03                                ;;B609|B60A+B60A/B60A\B60A;
                       STA.B !_3                                 ;;B60B|B60C+B60C/B60C\B60C;
                       LDX.B #$00                                ;;B60D|B60E+B60E/B60E\B60E;
-                      JSR CODE_0DA6B1                           ;;B60F|B610+B610/B610\B610;
+                      JSR StoreLowMap16WordTo4                  ;;B60F|B610+B610/B610\B610;
                       LDY.B !LevelLoadPos                       ;;B612|B613+B613/B613\B613;
                       LDA.B !_0                                 ;;B614|B615+B615/B615\B615;
                       STA.B !_2                                 ;;B616|B617+B617/B617\B617;
@@ -3703,7 +3703,7 @@ CODE_0DB73F:          LDY.B !LevelLoadPos                       ;;B73E|B73F+B73F
                       LDA.B #$01                                ;;B748|B749+B749/B749\B749;
                       STA.B !_1                                 ;;B74A|B74B+B74B/B74B\B74B;
                       LDX.B #$00                                ;;B74C|B74D+B74D/B74D\B74D;
-                      JSR CODE_0DA6B1                           ;;B74E|B74F+B74F/B74F\B74F;
+                      JSR StoreLowMap16WordTo4                  ;;B74E|B74F+B74F/B74F\B74F;
 CODE_0DB752:          LDA.B !_1                                 ;;B751|B752+B752/B752\B752;
                       STA.B !_2                                 ;;B753|B754+B754/B754\B754;
                     - JSR Sta1To6ePointer                       ;;B755|B756+B756/B756\B756;
@@ -3758,10 +3758,10 @@ CODE_0DB7AA:          LDY.B !LevelLoadPos                       ;;B7A9|B7AA+B7AA
                       STA.B !_3                                 ;;B7B9|B7BA+B7BA/B7BA\B7BA;
                       LDX.B #$01                                ;;B7BB|B7BC+B7BC/B7BC\B7BC;
                       STX.B !_1                                 ;;B7BD|B7BE+B7BE/B7BE\B7BE;
-                      JSR CODE_0DA6B1                           ;;B7BF|B7C0+B7C0/B7C0\B7C0;
+                      JSR StoreLowMap16WordTo4                  ;;B7BF|B7C0+B7C0/B7C0\B7C0;
                       JSR Sta1To6ePointer                       ;;B7C2|B7C3+B7C3/B7C3\B7C3;
                       LDA.B #$AA                                ;;B7C5|B7C6+B7C6/B7C6\B7C6;
-                      JSR CODE_0DABFD                           ;;B7C7|B7C8+B7C8/B7C8\B7C8;
+                      JSR HandleSlopeDirtTiles                  ;;B7C7|B7C8+B7C8/B7C8\B7C8;
                       %LorW(LDA,StzTo6ePointer)                 ;;B7CA|B7CB+B7CB/B7CB\B7CB; wut
                       LDA.B #$A1                                ;;B7CE|B7CE+B7CE/B7CE\B7CE;
                       JSR CODE_0DB84E                           ;;B7D0|B7D0+B7D0/B7D0\B7D0;
@@ -3769,7 +3769,7 @@ CODE_0DB7AA:          LDY.B !LevelLoadPos                       ;;B7A9|B7AA+B7AA
                                                                 ;;                        ;
 CODE_0DB7D6:          JSR Sta1To6ePointer                       ;;B7D6|B7D6+B7D6/B7D6\B7D6;
                       LDA.B #$AA                                ;;B7D9|B7D9+B7D9/B7D9\B7D9;
-                      JSR CODE_0DABFD                           ;;B7DB|B7DB+B7DB/B7DB\B7DB;
+                      JSR HandleSlopeDirtTiles                  ;;B7DB|B7DB+B7DB/B7DB\B7DB;
                       DEX                                       ;;B7DE|B7DE+B7DE/B7DE\B7DE;
                       JSR Sta1To6ePointer                       ;;B7DF|B7DF+B7DF/B7DF\B7DF;
                       LDA.B #$E2                                ;;B7E2|B7E2+B7E2/B7E2\B7E2;
@@ -3793,12 +3793,12 @@ CODE_0DB7FD:          JSR CODE_0DA6BA                           ;;B7FD|B7FD+B7FD
                       BPL CODE_0DB7D6                           ;;B80B|B80B+B80B/B80B\B80B;
                       JSR CODE_0DA95D                           ;;B80D|B80D+B80D/B80D\B80D;
                       STY.B !LevelLoadPos                       ;;B810|B810+B810/B810\B810;
-                      JSR CODE_0DA6B1                           ;;B812|B812+B812/B812\B812;
+                      JSR StoreLowMap16WordTo4                  ;;B812|B812+B812/B812\B812;
                       DEX                                       ;;B815|B815+B815/B815\B815;
                       STX.B !_1                                 ;;B816|B816+B816/B816\B816;
                       JSR Sta1To6ePointer                       ;;B818|B818+B818/B818\B818;
                       LDA.B #$F7                                ;;B81B|B81B+B81B/B81B\B81B;
-                      JSR CODE_0DABFD                           ;;B81D|B81D+B81D/B81D\B81D;
+                      JSR HandleSlopeDirtTiles                  ;;B81D|B81D+B81D/B81D\B81D;
                       JMP CODE_0DB836                           ;;B820|B820+B820/B820\B820;
                                                                 ;;                        ;
 CODE_0DB823:          JSR StzTo6ePointer                        ;;B823|B823+B823/B823\B823;
@@ -3845,13 +3845,13 @@ CODE_0DB863:          LDY.B !LevelLoadPos                       ;;B863|B863+B863
                       STA.B !_3                                 ;;B873|B873+B873/B873\B873;
                       LDX.B #$01                                ;;B875|B875+B875/B875\B875;
                       STX.B !_1                                 ;;B877|B877+B877/B877\B877;
-                      JSR CODE_0DA6B1                           ;;B879|B879+B879/B879\B879;
+                      JSR StoreLowMap16WordTo4                  ;;B879|B879+B879/B879\B879;
                       %LorW(LDA,StzTo6ePointer)                 ;;B87C|B87C+B87C/B87C\B87C;
                       LDA.B #$AF                                ;;B880|B87F+B87F/B87F\B87F;
                       JSR CODE_0DB84E                           ;;B882|B881+B881/B881\B881;
                       JSR Sta1To6ePointer                       ;;B885|B884+B884/B884\B884;
                       LDA.B #$AF                                ;;B888|B887+B887/B887\B887;
-                      JSR CODE_0DABFD                           ;;B88A|B889+B889/B889\B889;
+                      JSR HandleSlopeDirtTiles                  ;;B88A|B889+B889/B889\B889;
                       JMP CODE_0DB8B7                           ;;B88D|B88C+B88C/B88C\B88C;
                                                                 ;;                        ;
 CODE_0DB88F:          JSR StzTo6ePointer                        ;;B890|B88F+B88F/B88F\B88F;
@@ -3870,7 +3870,7 @@ CODE_0DB8A2:          DEX                                       ;;B8A3|B8A2+B8A2
                       JSR CODE_0DA95B                           ;;B8AD|B8AC+B8AC/B8AC\B8AC;
                       JSR Sta1To6ePointer                       ;;B8B0|B8AF+B8AF/B8AF\B8AF;
                       LDA.B #$AF                                ;;B8B3|B8B2+B8B2/B8B2\B8B2;
-                      JSR CODE_0DABFD                           ;;B8B5|B8B4+B8B4/B8B4\B8B4;
+                      JSR HandleSlopeDirtTiles                  ;;B8B5|B8B4+B8B4/B8B4\B8B4;
 CODE_0DB8B7:          JSR CODE_0DA6BA                           ;;B8B8|B8B7+B8B7/B8B7\B8B7;
                       JSR CODE_0DA992                           ;;B8BB|B8BA+B8BA/B8BA\B8BA;
                       INC.B !_1                                 ;;B8BE|B8BD+B8BD/B8BD\B8BD;
@@ -3935,7 +3935,7 @@ CODE_0DB91E:          LDX.B #$01                                ;;B91F|B91E+B91E
                       STA.B !_1                                 ;;B92F|B92E+B92E/B92E\B92E;
 CODE_0DB930:          LDA.B !_0                                 ;;B931|B930+B930/B930\B930;
                       STA.B !_2                                 ;;B933|B932+B932/B932\B932;
-                      JSR CODE_0DA6B1                           ;;B935|B934+B934/B934\B934;
+                      JSR StoreLowMap16WordTo4                  ;;B935|B934+B934/B934\B934;
 CODE_0DB937:          JSR StzTo6ePointer                        ;;B938|B937+B937/B937\B937;
                       LDA.L DATA_0DB91A,X                       ;;B93B|B93A+B93A/B93A\B93A;
                       STA.B !_F                                 ;;B93F|B93E+B93E/B93E\B93E;
@@ -4012,7 +4012,7 @@ CODE_0DB9C0:          LDY.B !LevelLoadPos                       ;;B9C1|B9C0+B9C0
                       LSR A                                     ;;B9C7|B9C6+B9C6/B9C6\B9C6;
                       LSR A                                     ;;B9C8|B9C7+B9C7/B9C7\B9C7;
                       STA.B !_0                                 ;;B9C9|B9C8+B9C8/B9C8\B9C8;
-CODE_0DB9CA:          JSR CODE_0DA6B1                           ;;B9CB|B9CA+B9CA/B9CA\B9CA;
+CODE_0DB9CA:          JSR StoreLowMap16WordTo4                  ;;B9CB|B9CA+B9CA/B9CA\B9CA;
                       LDX.B #$B9                                ;;B9CE|B9CD+B9CD/B9CD\B9CD;
                       JSR CODE_0DB9F6                           ;;B9D0|B9CF+B9CF/B9CF\B9CF;
                       JSR CODE_0DA6BA                           ;;B9D3|B9D2+B9D2/B9D2\B9D2;
@@ -4054,7 +4054,7 @@ CODE_0DBA0A:          LDY.B !LevelLoadPos                       ;;BA0B|BA0A+BA0A
                       LSR A                                     ;;BA18|BA17+BA17/BA17\BA17;
                       LSR A                                     ;;BA19|BA18+BA18/BA18\BA18;
                       STA.B !_1                                 ;;BA1A|BA19+BA19/BA19\BA19;
-                      JSR CODE_0DA6B1                           ;;BA1C|BA1B+BA1B/BA1B\BA1B;
+                      JSR StoreLowMap16WordTo4                  ;;BA1C|BA1B+BA1B/BA1B\BA1B;
                     - JSR Sta1To6ePointer                       ;;BA1F|BA1E+BA1E/BA1E\BA1E;
                       LDA.B #$0E                                ;;BA22|BA21+BA21/BA21\BA21;
                       JSR CODE_0DA95B                           ;;BA24|BA23+BA23/BA23\BA23;
@@ -4128,7 +4128,7 @@ CODE_0DBAE0:          LDA.B !LevelLoadPos                       ;;BAE1|BAE0+BAE0
                       STA.B !_1                                 ;;BAEA|BAE9+BAE9/BAE9\BAE9;
                       LDA.B #$0F                                ;;BAEC|BAEB+BAEB/BAEB\BAEB;
                       STA.B !_0                                 ;;BAEE|BAED+BAED/BAED\BAED;
-                      JSR CODE_0DA6B1                           ;;BAF0|BAEF+BAEF/BAEF\BAEF;
+                      JSR StoreLowMap16WordTo4                  ;;BAF0|BAEF+BAEF/BAEF\BAEF;
 CODE_0DBAF2:          LDA.B !_0                                 ;;BAF3|BAF2+BAF2/BAF2\BAF2;
                       STA.B !_2                                 ;;BAF5|BAF4+BAF4/BAF4\BAF4;
                     - LDA.L DATA_0DBA7C,X                       ;;BAF7|BAF6+BAF6/BAF6\BAF6;
@@ -4166,7 +4166,7 @@ CODE_0DBB2C:          LDY.B !LevelLoadPos                       ;;BB2D|BB2C+BB2C
                       LSR A                                     ;;BB33|BB32+BB32/BB32\BB32;
                       LSR A                                     ;;BB34|BB33+BB33/BB33\BB33;
                       TAX                                       ;;BB35|BB34+BB34/BB34\BB34;
-                      JSR CODE_0DA6B1                           ;;BB36|BB35+BB35/BB35\BB35;
+                      JSR StoreLowMap16WordTo4                  ;;BB36|BB35+BB35/BB35\BB35;
                       JSR Sta1To6ePointer                       ;;BB39|BB38+BB38/BB38\BB38;
                       LDA.B #$61                                ;;BB3C|BB3B+BB3B/BB3B\BB3B;
                       JSR CODE_0DA95B                           ;;BB3E|BB3D+BB3D/BB3D\BB3D;
@@ -4395,11 +4395,11 @@ CODE_0DC190:          SEP #$30                                  ;;C190|C190+C190
                       dl CODE_0DA8C3                            ;;C1BB|C1BB+C1BB/C1BB\C1BB;
                       dl CODE_0DA8C3                            ;;C1BE|C1BE+C1BE/C1BE\C1BE;
                       dl CODE_0DA8C3                            ;;C1C1|C1C1+C1C1/C1C1\C1C1;
-                      dl CODE_0DAA26                            ;;C1C4|C1C4+C1C4/C1C4\C1C4;
-                      dl CODE_0DAAB4                            ;;C1C7|C1C7+C1C7/C1C7\C1C7;
+                      dl VertPipeObj                            ;;C1C4|C1C4+C1C4/C1C4\C1C4;
+                      dl HorzPipeObj                            ;;C1C7|C1C7+C1C7/C1C7\C1C7;
                       dl CODE_0DAB0D                            ;;C1CA|C1CA+C1CA/C1CA\C1CA;
-                      dl CODE_0DAB3E                            ;;C1CD|C1CD+C1CD/C1CD\C1CD;
-                      dl CODE_0DB075                            ;;C1D0|C1D0+C1D0/C1D0\C1D0;
+                      dl SlopeObjects                           ;;C1CD|C1CD+C1CD/C1CD\C1CD;
+                      dl EdgeObjects                            ;;C1D0|C1D0+C1D0/C1D0\C1D0;
                       dl CODE_0DB1D4                            ;;C1D3|C1D3+C1D3/C1D3\C1D3;
                       dl CODE_0DB224                            ;;C1D6|C1D6+C1D6/C1D6\C1D6;
                       dl ADDR_0DB336                            ;;C1D9|C1D9+C1D9/C1D9\C1D9;
@@ -4535,7 +4535,7 @@ CODE_0DC358:          LDY.B !LevelLoadPos                       ;;C358|C358+C358
                       LDA.B !LvlLoadObjSize                     ;;C35E|C35E+C35E/C35E\C35E;
                       AND.B #$03                                ;;C360|C360+C360/C360\C360;
                       TAX                                       ;;C362|C362+C362/C362\C362;
-                      JSR CODE_0DA6B1                           ;;C363|C363+C363/C363\C363;
+                      JSR StoreLowMap16WordTo4                  ;;C363|C363+C363/C363\C363;
                       LDA.B !LvlLoadObjSize                     ;;C366|C366+C366/C366\C366;
                       LSR A                                     ;;C368|C368+C368/C368\C368;
                       LSR A                                     ;;C369|C369+C369/C369\C369;
@@ -4600,7 +4600,7 @@ CODE_0DC3D8:          LDY.B !LevelLoadPos                       ;;C3D8|C3D8+C3D8
                       LDA.B !LvlLoadObjSize                     ;;C3DE|C3DE+C3DE/C3DE\C3DE;
                       AND.B #$03                                ;;C3E0|C3E0+C3E0/C3E0\C3E0;
                       TAX                                       ;;C3E2|C3E2+C3E2/C3E2\C3E2;
-                      JSR CODE_0DA6B1                           ;;C3E3|C3E3+C3E3/C3E3\C3E3;
+                      JSR StoreLowMap16WordTo4                  ;;C3E3|C3E3+C3E3/C3E3\C3E3;
                       LDA.B !LvlLoadObjSize                     ;;C3E6|C3E6+C3E6/C3E6\C3E6;
                       LSR A                                     ;;C3E8|C3E8+C3E8/C3E8\C3E8;
                       LSR A                                     ;;C3E9|C3E9+C3E9/C3E9\C3E9;
@@ -4692,7 +4692,7 @@ CODE_0DC478:          LDY.B !LevelLoadPos                       ;;C478|C478+C478
                       LSR A                                     ;;C484|C484+C484/C484\C484;
                       LSR A                                     ;;C485|C485+C485/C485\C485;
                       STA.B !_1                                 ;;C486|C486+C486/C486\C486;
-                      JSR CODE_0DA6B1                           ;;C488|C488+C488/C488\C488;
+                      JSR StoreLowMap16WordTo4                  ;;C488|C488+C488/C488\C488;
                       LDX.B #$00                                ;;C48B|C48B+C48B/C48B\C48B;
 CODE_0DC48D:          LDA.B !_0                                 ;;C48D|C48D+C48D/C48D\C48D;
                       STA.B !_2                                 ;;C48F|C48F+C48F/C48F\C48F;
@@ -4725,7 +4725,7 @@ CODE_0DC4C9:          LDY.B !LevelLoadPos                       ;;C4C9|C4C9+C4C9
                       AND.B #$0F                                ;;C4CD|C4CD+C4CD/C4CD\C4CD;
                       STA.B !_0                                 ;;C4CF|C4CF+C4CF/C4CF\C4CF;
                    if ver_is_hires(!_VER)             ;\   IF   ;;++++++++++++++++++++++++; E1
-                      JSR CODE_0DA6B1                           ;;                   \C4D1;
+                      JSR StoreLowMap16WordTo4                  ;;                   \C4D1;
                    endif                              ;/ ENDIF  ;;++++++++++++++++++++++++;
                       LDX.B !_0                                 ;;C4D1|C4D1+C4D1/C4D1\C4D4;
                     - JSR Sta1To6ePointer                       ;;C4D3|C4D3+C4D3/C4D3\C4D6;
@@ -4755,7 +4755,7 @@ CODE_0DC4EF:          LDY.B !LevelLoadPos                       ;;C4EF|C4EF+C4EF
                       LSR A                                     ;;C4FA|C4FA+C4FA/C4FA\C500;
                       LSR A                                     ;;C4FB|C4FB+C4FB/C4FB\C501;
                       STA.B !_0                                 ;;C4FC|C4FC+C4FC/C4FC\C502;
-                      JSR CODE_0DA6B1                           ;;C4FE|C4FE+C4FE/C4FE\C504;
+                      JSR StoreLowMap16WordTo4                  ;;C4FE|C4FE+C4FE/C4FE\C504;
                       CPX.B #$00                                ;;C501|C501+C501/C501\C507;
                       BEQ CODE_0DC51E                           ;;C503|C503+C503/C503\C509;
                       JSR CODE_0DA95D                           ;;C505|C505+C505/C505\C50B;
@@ -4820,7 +4820,7 @@ CODE_0DC58A:          LDY.B !LevelLoadPos                       ;;C58A|C58A+C58A
                       LSR A                                     ;;C596|C596+C596/C596\C59C;
                       LSR A                                     ;;C597|C597+C597/C597\C59D;
                       STA.B !_1                                 ;;C598|C598+C598/C598\C59E;
-                      JSR CODE_0DA6B1                           ;;C59A|C59A+C59A/C59A\C5A0;
+                      JSR StoreLowMap16WordTo4                  ;;C59A|C59A+C59A/C59A\C5A0;
 CODE_0DC59D:          LDX.B !_0                                 ;;C59D|C59D+C59D/C59D\C5A3;
                     - JSR StzTo6ePointer                        ;;C59F|C59F+C59F/C59F\C5A5;
                       LDA.B #$94                                ;;C5A2|C5A2+C5A2/C5A2\C5A8;
@@ -4854,7 +4854,7 @@ CODE_0DC5D8:          LDY.B !LevelLoadPos                       ;;C5D8|C5D8+C5D8
                       LSR A                                     ;;C5DE|C5DE+C5DE/C5DE\C5E4;
                       LSR A                                     ;;C5DF|C5DF+C5DF/C5DF\C5E5;
                       STA.B !_0                                 ;;C5E0|C5E0+C5E0/C5E0\C5E6;
-                      JSR CODE_0DA6B1                           ;;C5E2|C5E2+C5E2/C5E2\C5E8;
+                      JSR StoreLowMap16WordTo4                  ;;C5E2|C5E2+C5E2/C5E2\C5E8;
                       JSR Sta1To6ePointer                       ;;C5E5|C5E5+C5E5/C5E5\C5EB;
                       LDA.B #$33                                ;;C5E8|C5E8+C5E8/C5E8\C5EE;
                       JSR CODE_0DA95B                           ;;C5EA|C5EA+C5EA/C5EA\C5F0;
@@ -5082,11 +5082,11 @@ CODE_0DCD90:          SEP #$30                                  ;;CD90|CD90+CD90
                       dl CODE_0DA8C3                            ;;CDBB|CDBB+CDBB/CDBB\CDBB;
                       dl CODE_0DA8C3                            ;;CDBE|CDBE+CDBE/CDBE\CDBE;
                       dl CODE_0DA8C3                            ;;CDC1|CDC1+CDC1/CDC1\CDC1;
-                      dl CODE_0DAA26                            ;;CDC4|CDC4+CDC4/CDC4\CDC4;
-                      dl CODE_0DAAB4                            ;;CDC7|CDC7+CDC7/CDC7\CDC7;
+                      dl VertPipeObj                            ;;CDC4|CDC4+CDC4/CDC4\CDC4;
+                      dl HorzPipeObj                            ;;CDC7|CDC7+CDC7/CDC7\CDC7;
                       dl CODE_0DAB0D                            ;;CDCA|CDCA+CDCA/CDCA\CDCA;
-                      dl CODE_0DAB3E                            ;;CDCD|CDCD+CDCD/CDCD\CDCD;
-                      dl CODE_0DB075                            ;;CDD0|CDD0+CDD0/CDD0\CDD0;
+                      dl SlopeObjects                           ;;CDCD|CDCD+CDCD/CDCD\CDCD;
+                      dl EdgeObjects                            ;;CDD0|CDD0+CDD0/CDD0\CDD0;
                       dl CODE_0DB1D4                            ;;CDD3|CDD3+CDD3/CDD3\CDD3;
                       dl CODE_0DB224                            ;;CDD6|CDD6+CDD6/CDD6\CDD6;
                       dl ADDR_0DB336                            ;;CDD9|CDD9+CDD9/CDD9\CDD9;
@@ -5142,7 +5142,7 @@ CODE_0DCE67:          LDY.B !LevelLoadPos                       ;;CE67|CE67+CE67
                       ASL A                                     ;;CE6E|CE6E+CE6E/CE6E\CE6E;
                       ASL A                                     ;;CE6F|CE6F+CE6F/CE6F\CE6F;
                       TAX                                       ;;CE70|CE70+CE70/CE70\CE70;
-                      JSR CODE_0DA6B1                           ;;CE71|CE71+CE71/CE71\CE71;
+                      JSR StoreLowMap16WordTo4                  ;;CE71|CE71+CE71/CE71\CE71;
                     - JSR StzTo6ePointer                        ;;CE74|CE74+CE74/CE74\CE74;
                       LDA.L DATA_0DCE57,X                       ;;CE77|CE77+CE77/CE77\CE77;
                       JSR CODE_0DA95B                           ;;CE7B|CE7B+CE7B/CE7B\CE7B;
@@ -5292,7 +5292,7 @@ CODE_0DCF6E:          LDY.B !LevelLoadPos                       ;;CF6E|CF6E+CF6E
                       LSR A                                     ;;CF74|CF74+CF74/CF74\CF74;
                       LSR A                                     ;;CF75|CF75+CF75/CF75\CF75;
                       TAX                                       ;;CF76|CF76+CF76/CF76\CF76;
-                      JSR CODE_0DA6B1                           ;;CF77|CF77+CF77/CF77\CF77;
+                      JSR StoreLowMap16WordTo4                  ;;CF77|CF77+CF77/CF77\CF77;
 CODE_0DCF7A:          JSR StzTo6ePointer                        ;;CF7A|CF7A+CF7A/CF7A\CF7A;
                       LDA.B #$8C                                ;;CF7D|CF7D+CF7D/CF7D\CF7D;
                       JSR CODE_0DA95B                           ;;CF7F|CF7F+CF7F/CF7F\CF7F;
@@ -5366,7 +5366,7 @@ ADDR_0DCFF0:          LDY.B !LevelLoadPos                       ;;CFF0|CFF0+CFF0
                       LSR A                                     ;;CFF6|CFF6+CFF6/CFF6\CFF6;
                       LSR A                                     ;;CFF7|CFF7+CFF7/CFF7\CFF7;
                       TAX                                       ;;CFF8|CFF8+CFF8/CFF8\CFF8;
-                      JSR CODE_0DA6B1                           ;;CFF9|CFF9+CFF9/CFF9\CFF9;
+                      JSR StoreLowMap16WordTo4                  ;;CFF9|CFF9+CFF9/CFF9\CFF9;
 ADDR_0DCFFC:          JSR StzTo6ePointer                        ;;CFFC|CFFC+CFFC/CFFC\CFFC;
                       LDA.B #$8E                                ;;CFFF|CFFF+CFFF/CFFF\CFFF;
                       JSR CODE_0DA95B                           ;;D001|D001+D001/D001\D001;
@@ -5564,7 +5564,7 @@ CODE_0DD145:          LDY.B !LevelLoadPos                       ;;D145|D145+D145
                       LSR A                                     ;;D151|D151+D151/D151\D151;
                       LSR A                                     ;;D152|D152+D152/D152\D152;
                       STA.B !_1                                 ;;D153|D153+D153/D153\D153;
-                      JSR CODE_0DA6B1                           ;;D155|D155+D155/D155\D155;
+                      JSR StoreLowMap16WordTo4                  ;;D155|D155+D155/D155\D155;
 CODE_0DD158:          LDX.B !_0                                 ;;D158|D158+D158/D158\D158;
                       JSR StzTo6ePointer                        ;;D15A|D15A+D15A/D15A\D15A;
                       LDA.B #$73                                ;;D15D|D15D+D15D/D15D\D15D;
@@ -5642,7 +5642,7 @@ CODE_0DD1D9:          LDY.B !LevelLoadPos                       ;;D1D9|D1D9+D1D9
                       LSR A                                     ;;D1E4|D1E4+D1E4/D1E4\D1E4;
                       LSR A                                     ;;D1E5|D1E5+D1E5/D1E5\D1E5;
                       STA.B !_0                                 ;;D1E6|D1E6+D1E6/D1E6\D1E6;
-                      JSR CODE_0DA6B1                           ;;D1E8|D1E8+D1E8/D1E8\D1E8;
+                      JSR StoreLowMap16WordTo4                  ;;D1E8|D1E8+D1E8/D1E8\D1E8;
                       JSR StzTo6ePointer                        ;;D1EB|D1EB+D1EB/D1EB\D1EB;
                       LDA.L DATA_0DD1CB,X                       ;;D1EE|D1EE+D1EE/D1EE\D1EE;
                       JSR CODE_0DA95B                           ;;D1F2|D1F2+D1F2/D1F2\D1F2;
@@ -5691,7 +5691,7 @@ CODE_0DD24E:          LDY.B !LevelLoadPos                       ;;D24E|D24E+D24E
                       AND.B #$0F                                ;;D252|D252+D252/D252\D252;
                       STA.B !_0                                 ;;D254|D254+D254/D254\D254;
                       STA.B !_1                                 ;;D256|D256+D256/D256\D256;
-                      JSR CODE_0DA6B1                           ;;D258|D258+D258/D258\D258;
+                      JSR StoreLowMap16WordTo4                  ;;D258|D258+D258/D258\D258;
                       LDX.B #$00                                ;;D25B|D25B+D25B/D25B\D25B;
 CODE_0DD25D:          JSR StzTo6ePointer                        ;;D25D|D25D+D25D/D25D\D25D;
                       CPX.B #$00                                ;;D260|D260+D260/D260\D260;
@@ -5912,11 +5912,11 @@ CODE_0DD990:          SEP #$30                                  ;;D990|D990+D990
                       dl CODE_0DA8C3                            ;;D9BB|D9BB+D9BB/D9BB\D9BB;
                       dl CODE_0DA8C3                            ;;D9BE|D9BE+D9BE/D9BE\D9BE;
                       dl CODE_0DA8C3                            ;;D9C1|D9C1+D9C1/D9C1\D9C1;
-                      dl CODE_0DAA26                            ;;D9C4|D9C4+D9C4/D9C4\D9C4;
-                      dl CODE_0DAAB4                            ;;D9C7|D9C7+D9C7/D9C7\D9C7;
+                      dl VertPipeObj                            ;;D9C4|D9C4+D9C4/D9C4\D9C4;
+                      dl HorzPipeObj                            ;;D9C7|D9C7+D9C7/D9C7\D9C7;
                       dl CODE_0DAB0D                            ;;D9CA|D9CA+D9CA/D9CA\D9CA;
-                      dl CODE_0DAB3E                            ;;D9CD|D9CD+D9CD/D9CD\D9CD;
-                      dl CODE_0DB075                            ;;D9D0|D9D0+D9D0/D9D0\D9D0;
+                      dl SlopeObjects                           ;;D9CD|D9CD+D9CD/D9CD\D9CD;
+                      dl EdgeObjects                            ;;D9D0|D9D0+D9D0/D9D0\D9D0;
                       dl CODE_0DB1D4                            ;;D9D3|D9D3+D9D3/D9D3\D9D3;
                       dl CODE_0DB224                            ;;D9D6|D9D6+D9D6/D9D6\D9D6;
                       dl ADDR_0DB336                            ;;D9D9|D9D9+D9D9/D9D9\D9D9;
@@ -5951,7 +5951,7 @@ CODE_0DD990:          SEP #$30                                  ;;D990|D990+D990
                       dl CODE_0DB3E3                            ;;DA30|DA30+DA30/DA30\DA30;
                       dl CODE_0DB916                            ;;DA33|DA33+DA33/DA33\DA33;
                       dl CODE_0DB91E                            ;;DA36|DA36+DA36/DA36\DA36;
-                      dl CODE_0DE135                            ;;DA39|DA39+DA39/DA39\DA39;
+                      dl GroundSquareObj                        ;;DA39|DA39+DA39/DA39\DA39;
                       dl CODE_0DDF3A                            ;;DA3C|DA3C+DA3C/DA3C\DA3C;
                       dl CODE_0DDAC8                            ;;DA3F|DA3F+DA3F/DA3F\DA3F;
                       dl CODE_0DDAF2                            ;;DA42|DA42+DA42/DA42\DA42;
@@ -6005,7 +6005,7 @@ DATA_0DDA9E:          db $66,$67,$68,$69                        ;;DA9E|DA9E+DA9E
                                                                 ;;                        ;
 CODE_0DDAA2:          LDY.B !LevelLoadPos                       ;;DAA2|DAA2+DAA2/DAA2\DAA2;
                       LDX.B #$00                                ;;DAA4|DAA4+DAA4/DAA4\DAA4;
-                      JSR CODE_0DA6B1                           ;;DAA6|DAA6+DAA6/DAA6\DAA6;
+                      JSR StoreLowMap16WordTo4                  ;;DAA6|DAA6+DAA6/DAA6\DAA6;
                     - JSR Sta1To6ePointer                       ;;DAA9|DAA9+DAA9/DAA9\DAA9;
                       LDA.L DATA_0DDA9E,X                       ;;DAAC|DAAC+DAAC/DAAC\DAAC;
                       JSR CODE_0DA95B                           ;;DAB0|DAB0+DAB0/DAB0\DAB0;
@@ -6059,7 +6059,7 @@ CODE_0DDB06:          LDY.B !LevelLoadPos                       ;;DB06|DB06+DB06
                       LDA.B #$01                                ;;DB08|DB08+DB08/DB08\DB08;
                       STA.B !_2                                 ;;DB0A|DB0A+DB0A/DB0A\DB0A;
                       STA.B !_0                                 ;;DB0C|DB0C+DB0C/DB0C\DB0C;
-                      JSR CODE_0DA6B1                           ;;DB0E|DB0E+DB0E/DB0E\DB0E;
+                      JSR StoreLowMap16WordTo4                  ;;DB0E|DB0E+DB0E/DB0E\DB0E;
                       LDA.B !LvlLoadObjSize                     ;;DB11|DB11+DB11/DB11\DB11;
                       LSR A                                     ;;DB13|DB13+DB13/DB13\DB13;
                       LSR A                                     ;;DB14|DB14+DB14/DB14\DB14;
@@ -6131,7 +6131,7 @@ CODE_0DDB8F:          LDY.B !LevelLoadPos                       ;;DB8F|DB8F+DB8F
                       LDA.B #$00                                ;;DB91|DB91+DB91/DB91\DB91;
                       STA.B !_2                                 ;;DB93|DB93+DB93/DB93\DB93;
                       STA.B !_0                                 ;;DB95|DB95+DB95/DB95\DB95;
-                      JSR CODE_0DA6B1                           ;;DB97|DB97+DB97/DB97\DB97;
+                      JSR StoreLowMap16WordTo4                  ;;DB97|DB97+DB97/DB97\DB97;
                       LDA.B !LvlLoadObjSize                     ;;DB9A|DB9A+DB9A/DB9A\DB9A;
                       LSR A                                     ;;DB9C|DB9C+DB9C/DB9C\DB9C;
                       LSR A                                     ;;DB9D|DB9D+DB9D/DB9D\DB9D;
@@ -6192,7 +6192,7 @@ ADDR_0DDC02:          LDY.B !LevelLoadPos                       ;;DC02|DC02+DC02
                       LDX.B #$01                                ;;DC04|DC04+DC04/DC04\DC04;
                       STX.B !_2                                 ;;DC06|DC06+DC06/DC06\DC06;
                       STX.B !_0                                 ;;DC08|DC08+DC08/DC08\DC08;
-                      JSR CODE_0DA6B1                           ;;DC0A|DC0A+DC0A/DC0A\DC0A;
+                      JSR StoreLowMap16WordTo4                  ;;DC0A|DC0A+DC0A/DC0A\DC0A;
                       LDA.B !LvlLoadObjSize                     ;;DC0D|DC0D+DC0D/DC0D\DC0D;
                       LSR A                                     ;;DC0F|DC0F+DC0F/DC0F\DC0F;
                       LSR A                                     ;;DC10|DC10+DC10/DC10\DC10;
@@ -6239,7 +6239,7 @@ CODE_0DDC61:          LDY.B !LevelLoadPos                       ;;DC61|DC61+DC61
                       LDX.B #$00                                ;;DC63|DC63+DC63/DC63\DC63;
                       STX.B !_2                                 ;;DC65|DC65+DC65/DC65\DC65;
                       STX.B !_0                                 ;;DC67|DC67+DC67/DC67\DC67;
-                      JSR CODE_0DA6B1                           ;;DC69|DC69+DC69/DC69\DC69;
+                      JSR StoreLowMap16WordTo4                  ;;DC69|DC69+DC69/DC69\DC69;
                       LDA.B !LvlLoadObjSize                     ;;DC6C|DC6C+DC6C/DC6C\DC6C;
                       LSR A                                     ;;DC6E|DC6E+DC6E/DC6E\DC6E;
                       LSR A                                     ;;DC6F|DC6F+DC6F/DC6F\DC6F;
@@ -6281,7 +6281,7 @@ CODE_0DDCA9:          LDY.B !LevelLoadPos                       ;;DCA9|DCA9+DCA9
                       LSR A                                     ;;DCB5|DCB5+DCB5/DCB5\DCB5;
                       LSR A                                     ;;DCB6|DCB6+DCB6/DCB6\DCB6;
                       STA.B !_1                                 ;;DCB7|DCB7+DCB7/DCB7\DCB7;
-                      JSR CODE_0DA6B1                           ;;DCB9|DCB9+DCB9/DCB9\DCB9;
+                      JSR StoreLowMap16WordTo4                  ;;DCB9|DCB9+DCB9/DCB9\DCB9;
                       TXA                                       ;;DCBC|DCBC+DCBC/DCBC\DCBC;
                       LDX.B !_0                                 ;;DCBD|DCBD+DCBD/DCBD\DCBD;
                       SEC                                       ;;DCBF|DCBF+DCBF/DCBF\DCBF;
@@ -6316,7 +6316,7 @@ CODE_0DDCEA:          LDY.B !LevelLoadPos                       ;;DCEA|DCEA+DCEA
                       LDA.B !LvlLoadObjSize                     ;;DCF4|DCF4+DCF4/DCF4\DCF4;
                       AND.B #$0F                                ;;DCF6|DCF6+DCF6/DCF6\DCF6;
                       STA.B !_1                                 ;;DCF8|DCF8+DCF8/DCF8\DCF8;
-                      JSR CODE_0DA6B1                           ;;DCFA|DCFA+DCFA/DCFA\DCFA;
+                      JSR StoreLowMap16WordTo4                  ;;DCFA|DCFA+DCFA/DCFA\DCFA;
                       LDA.B !_0                                 ;;DCFD|DCFD+DCFD/DCFD\DCFD;
                       BEQ CODE_0DDD18                           ;;DCFF|DCFF+DCFF/DCFF\DCFF;
 CODE_0DDD01:          LDX.B !_1                                 ;;DD01|DD01+DD01/DD01\DD01;
@@ -6375,7 +6375,7 @@ CODE_0DDD5C:          LDY.B !LevelLoadPos                       ;;DD5C|DD5C+DD5C
                       LDA.B !LvlLoadObjSize                     ;;DD66|DD66+DD66/DD66\DD66;
                       AND.B #$0F                                ;;DD68|DD68+DD68/DD68\DD68;
                       STA.B !_1                                 ;;DD6A|DD6A+DD6A/DD6A\DD6A;
-                      JSR CODE_0DA6B1                           ;;DD6C|DD6C+DD6C/DD6C\DD6C;
+                      JSR StoreLowMap16WordTo4                  ;;DD6C|DD6C+DD6C/DD6C\DD6C;
 CODE_0DDD6F:          LDX.B !_1                                 ;;DD6F|DD6F+DD6F/DD6F\DD6F;
                     - JSR Sta1To6ePointer                       ;;DD71|DD71+DD71/DD71\DD71;
                       LDA.B #$65                                ;;DD74|DD74+DD74/DD74\DD74;
@@ -6407,7 +6407,7 @@ CODE_0DDD99:          LDY.B !LevelLoadPos                       ;;DD99|DD99+DD99
                       CLC                                       ;;DDA2|DDA2+DDA2/DDA2\DDA2;
                       ADC.B #$02                                ;;DDA3|DDA3+DDA3/DDA3\DDA3;
                       STA.B !_1                                 ;;DDA5|DDA5+DDA5/DDA5\DDA5;
-CODE_0DDDA7:          JSR CODE_0DA6B1                           ;;DDA7|DDA7+DDA7/DDA7\DDA7;
+CODE_0DDDA7:          JSR StoreLowMap16WordTo4                  ;;DDA7|DDA7+DDA7/DDA7\DDA7;
                       LDX.B !_1                                 ;;DDAA|DDAA+DDAA/DDAA\DDAA;
                       JSR Sta1To6ePointer                       ;;DDAC|DDAC+DDAC/DDAC\DDAC;
                       LDA.B #$CA                                ;;DDAF|DDAF+DDAF/DDAF\DDAF;
@@ -6498,7 +6498,7 @@ CODE_0DDE3C:          LDY.B !LevelLoadPos                       ;;DE3C|DE3C+DE3C
                       CLC                                       ;;DE45|DE45+DE45/DE45\DE45;
                       ADC.B #$02                                ;;DE46|DE46+DE46/DE46\DE46;
                       STA.B !_1                                 ;;DE48|DE48+DE48/DE48\DE48;
-CODE_0DDE4A:          JSR CODE_0DA6B1                           ;;DE4A|DE4A+DE4A/DE4A\DE4A;
+CODE_0DDE4A:          JSR StoreLowMap16WordTo4                  ;;DE4A|DE4A+DE4A/DE4A\DE4A;
                       LDX.B !_1                                 ;;DE4D|DE4D+DE4D/DE4D\DE4D;
                       JSR Sta1To6ePointer                       ;;DE4F|DE4F+DE4F/DE4F\DE4F;
                       LDA.B #$CC                                ;;DE52|DE52+DE52/DE52\DE52;
@@ -6628,7 +6628,7 @@ DATA_0DDF1A:          dw !Map16TilesHigh                        ;;DF1A|DF1A+DF1A
 CODE_0DDF3A:          LDA.B !LvlLoadObjSize                     ;;DF3A|DF3A+DF3A/DF3A\DF3A;
                       AND.B #$0F                                ;;DF3C|DF3C+DF3C/DF3C\DF3C;
                       STA.B !LvlLoadObjSize                     ;;DF3E|DF3E+DF3E/DF3E\DF3E;
-                      JSR CODE_0DA6B1                           ;;DF40|DF40+DF40/DF40\DF40;
+                      JSR StoreLowMap16WordTo4                  ;;DF40|DF40+DF40/DF40\DF40;
                       LDY.B #$50                                ;;DF43|DF43+DF43/DF43\DF43;
                       STY.B !LevelLoadPos                       ;;DF45|DF45+DF45/DF45\DF45;
                       LDA.B #$0F                                ;;DF47|DF47+DF47/DF47\DF47;
@@ -6779,7 +6779,7 @@ CODE_0DE0AE:          LDY.B !LevelLoadPos                       ;;E0AE|E0AE+E0AE
                       TAX                                       ;;E0B5|E0B5+E0B5/E0B5\E0B5;
                       LDA.L DATA_0DE0AA,X                       ;;E0B6|E0B6+E0B6/E0B6\E0B6;
                       TAX                                       ;;E0BA|E0BA+E0BA/E0BA\E0BA;
-                      JSR CODE_0DA6B1                           ;;E0BB|E0BB+E0BB/E0BB\E0BB;
+                      JSR StoreLowMap16WordTo4                  ;;E0BB|E0BB+E0BB/E0BB\E0BB;
                       LDA.B #$02                                ;;E0BE|E0BE+E0BE/E0BE\E0BE;
                       STA.B !_1                                 ;;E0C0|E0C0+E0C0/E0C0\E0C0;
                       LDA.B #$03                                ;;E0C2|E0C2+E0C2/E0C2\E0C2;
@@ -6828,13 +6828,13 @@ CODE_0DE0DB:          LDA.B #$02                                ;;E0DB|E0DB+E0DB
                       RTS                                       ;;E12B|E12B+E12B/E12B\E12B; Return
                                                                 ;;                        ;
                                                                 ;;                        ;
-DATA_0DE12C:          db $45,$50,$4D                            ;;E12C|E12C+E12C/E12C\E12C;
+GroundSqLeftTiles:    db $45,$50,$4D                            ;;E12C|E12C+E12C/E12C\E12C;
                                                                 ;;                        ;
-DATA_0DE12F:          db $00,$F0,$4E                            ;;E12F|E12F+E12F/E12F\E12F;
+GroundSqCenterTiles:  db $00,$F0,$4E                            ;;E12F|E12F+E12F/E12F\E12F;
                                                                 ;;                        ;
-DATA_0DE132:          db $48,$51,$4F                            ;;E132|E132+E132/E132\E132;
+GroundSqRightTiles:   db $48,$51,$4F                            ;;E132|E132+E132/E132\E132;
                                                                 ;;                        ;
-CODE_0DE135:          LDY.B !LevelLoadPos                       ;;E135|E135+E135/E135\E135;
+GroundSquareObj:      LDY.B !LevelLoadPos                       ;;E135|E135+E135/E135\E135;
                       LDA.B !LvlLoadObjSize                     ;;E137|E137+E137/E137\E137;
                       AND.B #$0F                                ;;E139|E139+E139/E139\E139;
                       STA.B !_0                                 ;;E13B|E13B+E13B/E13B\E13B;
@@ -6844,22 +6844,22 @@ CODE_0DE135:          LDY.B !LevelLoadPos                       ;;E135|E135+E135
                       LSR A                                     ;;E141|E141+E141/E141\E141;
                       LSR A                                     ;;E142|E142+E142/E142\E142;
                       STA.B !_1                                 ;;E143|E143+E143/E143\E143;
-                      JSR CODE_0DA6B1                           ;;E145|E145+E145/E145\E145;
+                      JSR StoreLowMap16WordTo4                  ;;E145|E145+E145/E145\E145;
                       LDX.B #$00                                ;;E148|E148+E148/E148\E148;
-CODE_0DE14A:          LDA.B !_0                                 ;;E14A|E14A+E14A/E14A\E14A;
+.draw_row:            LDA.B !_0                                 ;;E14A|E14A+E14A/E14A\E14A;
                       STA.B !_2                                 ;;E14C|E14C+E14C/E14C\E14C;
                       JSR Sta1To6ePointer                       ;;E14E|E14E+E14E/E14E\E14E;
-                      LDA.L DATA_0DE12C,X                       ;;E151|E151+E151/E151\E151;
+                      LDA.L GroundSqLeftTiles,X                 ;;E151|E151+E151/E151\E151;
                       JSR CODE_0DA95B                           ;;E155|E155+E155/E155\E155;
-                      JMP CODE_0DE165                           ;;E158|E158+E158/E158\E158;
+                      JMP .draw_center                          ;;E158|E158+E158/E158\E158;
                                                                 ;;                        ;
                     - JSR Sta1To6ePointer                       ;;E15B|E15B+E15B/E15B\E15B;
-                      LDA.L DATA_0DE12F,X                       ;;E15E|E15E+E15E/E15E\E15E;
+                      LDA.L GroundSqCenterTiles,X               ;;E15E|E15E+E15E/E15E\E15E;
                       JSR CODE_0DA95B                           ;;E162|E162+E162/E162\E162;
-CODE_0DE165:          DEC.B !_2                                 ;;E165|E165+E165/E165\E165;
+.draw_center:         DEC.B !_2                                 ;;E165|E165+E165/E165\E165;
                       BNE -                                     ;;E167|E167+E167/E167\E167;
                       JSR Sta1To6ePointer                       ;;E169|E169+E169/E169\E169;
-                      LDA.L DATA_0DE132,X                       ;;E16C|E16C+E16C/E16C\E16C;
+                      LDA.L GroundSqRightTiles,X                ;;E16C|E16C+E16C/E16C\E16C;
                       STA.B [!Map16LowPtr],Y                    ;;E170|E170+E170/E170\E170;
                       JSR CODE_0DA6BA                           ;;E172|E172+E172/E172\E172;
                       JSR CODE_0DA97D                           ;;E175|E175+E175/E175\E175;
@@ -6868,7 +6868,7 @@ CODE_0DE165:          DEC.B !_2                                 ;;E165|E165+E165
                       BMI Return0DE185                          ;;E17C|E17C+E17C/E17C\E17C;
                       BNE +                                     ;;E17E|E17E+E17E/E17E\E17E;
                       LDX.B #$02                                ;;E180|E180+E180/E180\E180;
-                    + JMP CODE_0DE14A                           ;;E182|E182+E182/E182\E182;
+                    + JMP .draw_row                             ;;E182|E182+E182/E182\E182;
                                                                 ;;                        ;
 Return0DE185:         RTS                                       ;;E185|E185+E185/E185\E185; Return
                                                                 ;;                        ;
@@ -7074,11 +7074,11 @@ CODE_0DE890:          SEP #$30                                  ;;E890|E890+E890
                       dl CODE_0DA8C3                            ;;E8BB|E8BB+E8BB/E8BB\E8BB;
                       dl CODE_0DA8C3                            ;;E8BE|E8BE+E8BE/E8BE\E8BE;
                       dl CODE_0DA8C3                            ;;E8C1|E8C1+E8C1/E8C1\E8C1;
-                      dl CODE_0DAA26                            ;;E8C4|E8C4+E8C4/E8C4\E8C4;
-                      dl CODE_0DAAB4                            ;;E8C7|E8C7+E8C7/E8C7\E8C7;
+                      dl VertPipeObj                            ;;E8C4|E8C4+E8C4/E8C4\E8C4;
+                      dl HorzPipeObj                            ;;E8C7|E8C7+E8C7/E8C7\E8C7;
                       dl CODE_0DAB0D                            ;;E8CA|E8CA+E8CA/E8CA\E8CA;
-                      dl CODE_0DAB3E                            ;;E8CD|E8CD+E8CD/E8CD\E8CD;
-                      dl CODE_0DB075                            ;;E8D0|E8D0+E8D0/E8D0\E8D0;
+                      dl SlopeObjects                           ;;E8CD|E8CD+E8CD/E8CD\E8CD;
+                      dl EdgeObjects                            ;;E8D0|E8D0+E8D0/E8D0\E8D0;
                       dl CODE_0DB1D4                            ;;E8D3|E8D3+E8D3/E8D3\E8D3;
                       dl CODE_0DB224                            ;;E8D6|E8D6+E8D6/E8D6\E8D6;
                       dl ADDR_0DB336                            ;;E8D9|E8D9+E8D9/E8D9\E8D9;
@@ -7107,7 +7107,7 @@ CODE_0DE890:          SEP #$30                                  ;;E890|E890+E890
                       dl CODE_0DB3E3                            ;;E91E|E91E+E91E/E91E\E91E;
                       dl CODE_0DF06C                            ;;E921|E921+E921/E921\E921;
                       dl ADDR_0DF066                            ;;E924|E924+E924/E924\E924;
-                      dl CODE_0DF02B                            ;;E927|E927+E927/E927\E927;
+                      dl YoshiHouseLedgeObj                     ;;E927|E927+E927/E927\E927;
                       dl CODE_0DEFA8                            ;;E92A|E92A+E92A/E92A\E92A;
                       dl CODE_0DEF67                            ;;E92D|E92D+E92D/E92D\E92D;
                       dl CODE_0DEF45                            ;;E930|E930+E930/E930\E930;
@@ -7173,7 +7173,7 @@ CODE_0DE9AA:          LDY.B !LevelLoadPos                       ;;E9AA|E9AA+E9AA
                       LDA.B #$02                                ;;E9BA|E9BA+E9BA/E9BA\E9BA;
                       STA.B !_0                                 ;;E9BC|E9BC+E9BC/E9BC\E9BC;
                       STA.B !_1                                 ;;E9BE|E9BE+E9BE/E9BE\E9BE;
-                      JSR CODE_0DA6B1                           ;;E9C0|E9C0+E9C0/E9C0\E9C0;
+                      JSR StoreLowMap16WordTo4                  ;;E9C0|E9C0+E9C0/E9C0\E9C0;
                     - JSR StzTo6ePointer                        ;;E9C3|E9C3+E9C3/E9C3\E9C3;
                       LDA.L DATA_0DE98F,X                       ;;E9C6|E9C6+E9C6/E9C6\E9C6;
                       JSR CODE_0DA95B                           ;;E9CA|E9CA+E9CA/E9CA\E9CA;
@@ -7202,7 +7202,7 @@ CODE_0DE9F5:          LDY.B !LevelLoadPos                       ;;E9F5|E9F5+E9F5
                       LDA.B #$01                                ;;E9F7|E9F7+E9F7/E9F7\E9F7;
                       STA.B !_0                                 ;;E9F9|E9F9+E9F9/E9F9\E9F9;
                       STA.B !_1                                 ;;E9FB|E9FB+E9FB/E9FB\E9FB;
-                      JSR CODE_0DA6B1                           ;;E9FD|E9FD+E9FD/E9FD\E9FD;
+                      JSR StoreLowMap16WordTo4                  ;;E9FD|E9FD+E9FD/E9FD\E9FD;
                     - JSR StzTo6ePointer                        ;;EA00|EA00+EA00/EA00\EA00;
                       LDA.L DATA_0DE9E1,X                       ;;EA03|EA03+EA03/EA03\EA03;
                       JSR CODE_0DA95B                           ;;EA07|EA07+EA07/EA07\EA07;
@@ -7235,7 +7235,7 @@ ADDR_0DEA3E:          LDY.B !LevelLoadPos                       ;;EA3E|EA3E+EA3E
                       LDA.B #$03                                ;;EA4A|EA4A+EA4A/EA4A\EA4A;
                       STA.B !_0                                 ;;EA4C|EA4C+EA4C/EA4C\EA4C;
                       STA.B !_1                                 ;;EA4E|EA4E+EA4E/EA4E\EA4E;
-                      JSR CODE_0DA6B1                           ;;EA50|EA50+EA50/EA50\EA50;
+                      JSR StoreLowMap16WordTo4                  ;;EA50|EA50+EA50/EA50\EA50;
                     - JSR StzTo6ePointer                        ;;EA53|EA53+EA53/EA53\EA53;
                       LDA.L DATA_0DEA1E,X                       ;;EA56|EA56+EA56/EA56\EA56;
                       JSR CODE_0DA95B                           ;;EA5A|EA5A+EA5A/EA5A\EA5A;
@@ -7427,7 +7427,7 @@ CODE_0DECCE:          LDY.B !LevelLoadPos                       ;;ECCD|ECCE+ECCE
                       LSR A                                     ;;ECDB|ECDC+ECDC/ECDC\ECDC;
                       LSR A                                     ;;ECDC|ECDD+ECDD/ECDD\ECDD;
                       STA.B !_1                                 ;;ECDD|ECDE+ECDE/ECDE\ECDE;
-                      JSR CODE_0DA6B1                           ;;ECDF|ECE0+ECE0/ECE0\ECE0;
+                      JSR StoreLowMap16WordTo4                  ;;ECDF|ECE0+ECE0/ECE0\ECE0;
 CODE_0DECE3:          JSR StzTo6ePointer                        ;;ECE2|ECE3+ECE3/ECE3\ECE3;
                       CPX.B #$01                                ;;ECE5|ECE6+ECE6/ECE6\ECE6;
                       BNE +                                     ;;ECE7|ECE8+ECE8/ECE8\ECE8;
@@ -7570,7 +7570,7 @@ CODE_0DEDDB:          LDY.B !LevelLoadPos                       ;;EDDA|EDDB+EDDB
                       LSR A                                     ;;EDE6|EDE7+EDE7/EDE7\EDE7;
                       LSR A                                     ;;EDE7|EDE8+EDE8/EDE8\EDE8;
                       STA.B !_1                                 ;;EDE8|EDE9+EDE9/EDE9\EDE9;
-                      JSR CODE_0DA6B1                           ;;EDEA|EDEB+EDEB/EDEB\EDEB;
+                      JSR StoreLowMap16WordTo4                  ;;EDEA|EDEB+EDEB/EDEB\EDEB;
                       LDX.B !_0                                 ;;EDED|EDEE+EDEE/EDEE\EDEE;
                       LDA.B !_1                                 ;;EDEF|EDF0+EDF0/EDF0\EDF0;
                       BEQ CODE_0DEE0B                           ;;EDF1|EDF2+EDF2/EDF2\EDF2;
@@ -7601,7 +7601,7 @@ CODE_0DEE17:          LDY.B !LevelLoadPos                       ;;EE16|EE17+EE17
                       LSR A                                     ;;EE22|EE23+EE23/EE23\EE23;
                       LSR A                                     ;;EE23|EE24+EE24/EE24\EE24;
                       STA.B !_1                                 ;;EE24|EE25+EE25/EE25\EE25;
-                      JSR CODE_0DA6B1                           ;;EE26|EE27+EE27/EE27\EE27;
+                      JSR StoreLowMap16WordTo4                  ;;EE26|EE27+EE27/EE27\EE27;
                       LDX.B !_0                                 ;;EE29|EE2A+EE2A/EE2A\EE2A;
                     - JSR Sta1To6ePointer                       ;;EE2B|EE2C+EE2C/EE2C\EE2C;
                       LDA.B #$5D                                ;;EE2E|EE2F+EE2F/EE2F\EE2F;
@@ -7632,7 +7632,7 @@ CODE_0DEE52:          LDY.B !LevelLoadPos                       ;;EE51|EE52+EE52
                       LSR A                                     ;;EE5D|EE5E+EE5E/EE5E\EE5E;
                       LSR A                                     ;;EE5E|EE5F+EE5F/EE5F\EE5F;
                       STA.B !_1                                 ;;EE5F|EE60+EE60/EE60\EE60;
-                      JSR CODE_0DA6B1                           ;;EE61|EE62+EE62/EE62\EE62;
+                      JSR StoreLowMap16WordTo4                  ;;EE61|EE62+EE62/EE62\EE62;
 CODE_0DEE65:          LDX.B !_0                                 ;;EE64|EE65+EE65/EE65\EE65;
                       BEQ CODE_0DEE74                           ;;EE66|EE67+EE67/EE67\EE67;
                     - JSR Sta1To6ePointer                       ;;EE68|EE69+EE69/EE69\EE69;
@@ -7660,7 +7660,7 @@ CODE_0DEE89:          LDY.B !LevelLoadPos                       ;;EE88|EE89+EE89
                       LSR A                                     ;;EE94|EE95+EE95/EE95\EE95;
                       LSR A                                     ;;EE95|EE96+EE96/EE96\EE96;
                       STA.B !_1                                 ;;EE96|EE97+EE97/EE97\EE97;
-                      JSR CODE_0DA6B1                           ;;EE98|EE99+EE99/EE99\EE99;
+                      JSR StoreLowMap16WordTo4                  ;;EE98|EE99+EE99/EE99\EE99;
 CODE_0DEE9C:          JSR Sta1To6ePointer                       ;;EE9B|EE9C+EE9C/EE9C\EE9C;
                       LDA.B #$5C                                ;;EE9E|EE9F+EE9F/EE9F\EE9F;
                       JSR CODE_0DA95B                           ;;EEA0|EEA1+EEA1/EEA1\EEA1;
@@ -7693,7 +7693,7 @@ CODE_0DEEC0:          LDY.B !LevelLoadPos                       ;;EEBF|EEC0+EEC0
                       LSR A                                     ;;EED1|EED2+EED2/EED2\EED2;
                       LSR A                                     ;;EED2|EED3+EED3/EED3\EED3;
                       STA.B !_1                                 ;;EED3|EED4+EED4/EED4\EED4;
-                      JSR CODE_0DA6B1                           ;;EED5|EED6+EED6/EED6\EED6;
+                      JSR StoreLowMap16WordTo4                  ;;EED5|EED6+EED6/EED6\EED6;
                       JSR CODE_0DED4A                           ;;EED8|EED9+EED9/EED9\EED9;
                       JSR CODE_0DA6BA                           ;;EEDB|EEDC+EEDC/EEDC\EEDC;
                       LDA.B !LevelLoadPos                       ;;EEDE|EEDF+EEDF/EEDF\EEDF;
@@ -7783,7 +7783,7 @@ CODE_0DEF67:          LDY.B !LevelLoadPos                       ;;EF66|EF67+EF67
                       LSR A                                     ;;EF73|EF74+EF74/EF74\EF74;
                       STA.B !_1                                 ;;EF74|EF75+EF75/EF75\EF75;
                       LDX.B !_0                                 ;;EF76|EF77+EF77/EF77\EF77;
-                      JSR CODE_0DA6B1                           ;;EF78|EF79+EF79/EF79\EF79;
+                      JSR StoreLowMap16WordTo4                  ;;EF78|EF79+EF79/EF79\EF79;
                     - JSR Sta1To6ePointer                       ;;EF7B|EF7C+EF7C/EF7C\EF7C;
                       LDA.B #$0E                                ;;EF7E|EF7F+EF7F/EF7F\EF7F;
                       JSR CODE_0DA95B                           ;;EF80|EF81+EF81/EF81\EF81;
@@ -7820,7 +7820,7 @@ CODE_0DEFA8:          LDY.B !LevelLoadPos                       ;;EFA7|EFA8+EFA8
                       LSR A                                     ;;EFB3|EFB4+EFB4/EFB4\EFB4;
                       LSR A                                     ;;EFB4|EFB5+EFB5/EFB5\EFB5;
                       STA.B !_1                                 ;;EFB5|EFB6+EFB6/EFB6\EFB6;
-                      JSR CODE_0DA6B1                           ;;EFB7|EFB8+EFB8/EFB8\EFB8;
+                      JSR StoreLowMap16WordTo4                  ;;EFB7|EFB8+EFB8/EFB8\EFB8;
                       LDA.B !_0                                 ;;EFBA|EFBB+EFBB/EFBB\EFBB;
                       STA.B !_2                                 ;;EFBC|EFBD+EFBD/EFBD\EFBD;
                       JSR Sta1To6ePointer                       ;;EFBE|EFBF+EFBF/EFBF\EFBF;
@@ -7870,7 +7870,7 @@ CODE_0DEFFE:          JSR CODE_0DA6BA                           ;;EFFD|EFFE+EFFE
                       STA.B [!Map16LowPtr],Y                    ;;F027|F028+F028/F028\F028;
                       RTS                                       ;;F029|F02A+F02A/F02A\F02A; Return
                                                                 ;;                        ;
-CODE_0DF02B:          LDY.B !LevelLoadPos                       ;;F02A|F02B+F02B/F02B\F02B;
+YoshiHouseLedgeObj:   LDY.B !LevelLoadPos                       ;;F02A|F02B+F02B/F02B\F02B;
                       LDA.B !LvlLoadObjSize                     ;;F02C|F02D+F02D/F02D\F02D;
                       AND.B #$0F                                ;;F02E|F02F+F02F/F02F\F02F;
                       STA.B !_0                                 ;;F030|F031+F031/F031\F031;
@@ -7880,7 +7880,7 @@ CODE_0DF02B:          LDY.B !LevelLoadPos                       ;;F02A|F02B+F02B
                       LSR A                                     ;;F036|F037+F037/F037\F037;
                       LSR A                                     ;;F037|F038+F038/F038\F038;
                       STA.B !_1                                 ;;F038|F039+F039/F039\F039;
-                      JSR CODE_0DA6B1                           ;;F03A|F03B+F03B/F03B\F03B;
+                      JSR StoreLowMap16WordTo4                  ;;F03A|F03B+F03B/F03B\F03B;
                       LDX.B !_0                                 ;;F03D|F03E+F03E/F03E\F03E;
                     - JSR Sta1To6ePointer                       ;;F03F|F040+F040/F040\F040;
                       LDA.B #$0F                                ;;F042|F043+F043/F043\F043;

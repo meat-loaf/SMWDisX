@@ -4957,7 +4957,7 @@ CODE_03A8E3:          LDA.B #!SFX_MAGIC                         ;;A8E7|A8E3+A8E3
                       RTS                                       ;;A931|A92D+A92D/A92D\A92D; Return
                                                                 ;;                        ;
                                                                 ;;                        ;
-DATA_03A92E:          db $00,$08,$00,$08,$00,$08,$00,$08        ;;A932|A92E+A92E/A92E\A92E;
+PeachGFXTilesXPos:    db $00,$08,$00,$08,$00,$08,$00,$08        ;;A932|A92E+A92E/A92E\A92E;
                       db $00,$08,$00,$08,$00,$08,$00,$08        ;;A93A|A936+A936/A936\A936;
                       db $00,$08,$00,$08,$00,$08,$00,$08        ;;A942|A93E+A93E/A93E\A93E;
                       db $00,$08,$00,$08,$00,$08,$00,$08        ;;A94A|A946+A946/A946\A946;
@@ -4967,7 +4967,7 @@ DATA_03A92E:          db $00,$08,$00,$08,$00,$08,$00,$08        ;;A932|A92E+A92E
                       db $08,$00,$08,$00,$08,$00,$08,$00        ;;A96A|A966+A966/A966\A966;
                       db $08,$00,$08,$00,$08,$00,$08,$00        ;;A972|A96E+A96E/A96E\A96E;
                       db $08,$00,$08,$00,$08,$00,$08,$00        ;;A97A|A976+A976/A976\A976;
-DATA_03A97E:          db $00,$00,$08,$08,$00,$00,$08,$08        ;;A982|A97E+A97E/A97E\A97E;
+PeachGFXTilesYPos:    db $00,$00,$08,$08,$00,$00,$08,$08        ;;A982|A97E+A97E/A97E\A97E;
                       db $00,$00,$08,$08,$00,$00,$08,$08        ;;A98A|A986+A986/A986\A986;
                       db $00,$00,$10,$10,$00,$00,$10,$10        ;;A992|A98E+A98E/A98E\A98E;
                       db $00,$00,$10,$10,$00,$00,$10,$10        ;;A99A|A996+A996/A996\A996;
@@ -4977,7 +4977,7 @@ DATA_03A97E:          db $00,$00,$08,$08,$00,$00,$08,$08        ;;A982|A97E+A97E
                       db $00,$00,$10,$10,$00,$00,$10,$10        ;;A9BA|A9B6+A9B6/A9B6\A9B6;
                       db $00,$00,$10,$10,$00,$00,$10,$10        ;;A9C2|A9BE+A9BE/A9BE\A9BE;
                       db $00,$00,$10,$10,$00,$00,$10,$10        ;;A9CA|A9C6+A9C6/A9C6\A9C6;
-DATA_03A9CE:          db $05,$06,$15,$16,$9D,$9E,$4E,$AE        ;;A9D2|A9CE+A9CE/A9CE\A9CE;
+PeachGFXTiles:        db $05,$06,$15,$16,$9D,$9E,$4E,$AE        ;;A9D2|A9CE+A9CE/A9CE\A9CE;
                       db $06,$05,$16,$15,$9E,$9D,$AE,$4E        ;;A9DA|A9D6+A9D6/A9D6\A9D6;
                       db $8A,$8B,$AA,$68,$83,$84,$AA,$68        ;;A9E2|A9DE+A9DE/A9DE\A9DE;
                       db $8A,$8B,$80,$81,$83,$84,$80,$81        ;;A9EA|A9E6+A9E6/A9E6\A9E6;
@@ -4987,7 +4987,7 @@ DATA_03A9CE:          db $05,$06,$15,$16,$9D,$9E,$4E,$AE        ;;A9D2|A9CE+A9CE
                       db $8A,$8B,$80,$81,$83,$84,$80,$81        ;;AA0A|AA06+AA06/AA06\AA06;
                       db $85,$86,$A5,$A6,$83,$84,$A5,$A6        ;;AA12|AA0E+AA0E/AA0E\AA0E;
                       db $82,$83,$A2,$A3,$82,$83,$A2,$A3        ;;AA1A|AA16+AA16/AA16\AA16;
-DATA_03AA1E:          db $01,$01,$01,$01,$01,$01,$01,$01        ;;AA22|AA1E+AA1E/AA1E\AA1E;
+PeachGFXProps:        db $01,$01,$01,$01,$01,$01,$01,$01        ;;AA22|AA1E+AA1E/AA1E\AA1E;
                       db $41,$41,$41,$41,$41,$41,$41,$41        ;;AA2A|AA26+AA26/AA26\AA26;
                       db $01,$01,$01,$01,$01,$01,$01,$01        ;;AA32|AA2E+AA2E/AA2E\AA2E;
                       db $01,$01,$01,$01,$01,$01,$01,$01        ;;AA3A|AA36+AA36/AA36\AA36;
@@ -5044,28 +5044,28 @@ CODE_03AA6E:          LDA.B !SpriteXPosLow,X                    ;;AA72|AA6E+AA6E
                       STA.W !OAMTileSize+$28                    ;;AAC4|AAC0+AAC0/AAC0\AAC0;
                       STA.W !OAMTileSize+$29                    ;;AAC7|AAC3+AAC3/AAC3\AAC3;
                     + LDY.B #$70                                ;;AACA|AAC6+AAC6/AAC6\AAC6;
-CODE_03AAC8:          LDA.B !_3                                 ;;AACC|AAC8+AAC8/AAC8\AAC8;
+PrincessPeachGFX:     LDA.B !_3                                 ;;AACC|AAC8+AAC8/AAC8\AAC8;
                       ASL A                                     ;;AACE|AACA+AACA/AACA\AACA;
                       ASL A                                     ;;AACF|AACB+AACB/AACB\AACB;
                       STA.B !_4                                 ;;AAD0|AACC+AACC/AACC\AACC;
                       PHX                                       ;;AAD2|AACE+AACE/AACE\AACE;
                       LDX.B #$03                                ;;AAD3|AACF+AACF/AACF\AACF;
-CODE_03AAD1:          PHX                                       ;;AAD5|AAD1+AAD1/AAD1\AAD1;
+PeachGFXLoop:         PHX                                       ;;AAD5|AAD1+AAD1/AAD1\AAD1;
                       TXA                                       ;;AAD6|AAD2+AAD2/AAD2\AAD2;
                       CLC                                       ;;AAD7|AAD3+AAD3/AAD3\AAD3;
                       ADC.B !_4                                 ;;AAD8|AAD4+AAD4/AAD4\AAD4;
                       TAX                                       ;;AADA|AAD6+AAD6/AAD6\AAD6;
                       LDA.B !_0                                 ;;AADB|AAD7+AAD7/AAD7\AAD7;
                       CLC                                       ;;AADD|AAD9+AAD9/AAD9\AAD9;
-                      ADC.W DATA_03A92E,X                       ;;AADE|AADA+AADA/AADA\AADA;
+                      ADC.W PeachGFXTilesXPos,X                 ;;AADE|AADA+AADA/AADA\AADA;
                       STA.W !OAMTileXPos+$100,Y                 ;;AAE1|AADD+AADD/AADD\AADD;
                       LDA.B !_1                                 ;;AAE4|AAE0+AAE0/AAE0\AAE0;
                       CLC                                       ;;AAE6|AAE2+AAE2/AAE2\AAE2;
-                      ADC.W DATA_03A97E,X                       ;;AAE7|AAE3+AAE3/AAE3\AAE3;
+                      ADC.W PeachGFXTilesYPos,X                 ;;AAE7|AAE3+AAE3/AAE3\AAE3;
                       STA.W !OAMTileYPos+$100,Y                 ;;AAEA|AAE6+AAE6/AAE6\AAE6;
-                      LDA.W DATA_03A9CE,X                       ;;AAED|AAE9+AAE9/AAE9\AAE9;
+                      LDA.W PeachGFXTiles,X                     ;;AAED|AAE9+AAE9/AAE9\AAE9;
                       STA.W !OAMTileNo+$100,Y                   ;;AAF0|AAEC+AAEC/AAEC\AAEC;
-                      LDA.W DATA_03AA1E,X                       ;;AAF3|AAEF+AAEF/AAEF\AAEF;
+                      LDA.W PeachGFXProps,X                     ;;AAF3|AAEF+AAEF/AAEF\AAEF;
                       PHX                                       ;;AAF6|AAF2+AAF2/AAF2\AAF2;
                       LDX.W !CurSpriteProcess                   ;;AAF7|AAF3+AAF3/AAF3\AAF3; X = Sprite index
                       CPX.B #$09                                ;;AAFA|AAF6+AAF6/AAF6\AAF6;
@@ -5087,7 +5087,7 @@ CODE_03AAD1:          PHX                                       ;;AAD5|AAD1+AAD1
                       INY                                       ;;AB12|AB0E+AB0E/AB0E\AB0E;
                       PLX                                       ;;AB13|AB0F+AB0F/AB0F\AB0F;
                       DEX                                       ;;AB14|AB10+AB10/AB10\AB10;
-                      BPL CODE_03AAD1                           ;;AB15|AB11+AB11/AB11\AB11;
+                      BPL PeachGFXLoop                          ;;AB15|AB11+AB11/AB11\AB11;
                       PLX                                       ;;AB17|AB13+AB13/AB13\AB13;
                       RTS                                       ;;AB18|AB14+AB14/AB14\AB14; Return
                                                                 ;;                        ;
@@ -5315,17 +5315,17 @@ PrincessPeach:        LDA.B !SpriteXPosLow,X                    ;;AC9B|AC97+AC97
                       LDA.B #$D0                                ;;ACD1|ACCD+ACCD/ACCD\ACCD;
                       STA.W !SpriteOAMIndex,X                   ;;ACD3|ACCF+ACCF/ACCF\ACCF;
                       TAY                                       ;;ACD6|ACD2+ACD2/ACD2\ACD2;
-                      JSR CODE_03AAC8                           ;;ACD7|ACD3+ACD3/ACD3\ACD3;
+                      JSR PrincessPeachGFX                      ;;ACD7|ACD3+ACD3/ACD3\ACD3;
                       LDY.B #$02                                ;;ACDA|ACD6+ACD6/ACD6\ACD6;
                       LDA.B #$03                                ;;ACDC|ACD8+ACD8/ACD8\ACD8;
                       JSL FinishOAMWrite                        ;;ACDE|ACDA+ACDA/ACDA\ACDA;
-                      LDA.W !SpriteMisc1558,X                   ;;ACE2|ACDE+ACDE/ACDE\ACDE;
+                      LDA.W !SpriteMisc1558,X                   ;;ACE2|ACDE+ACDE/ACDE\ACDE; > Peach's 'draw player blushing tile' timer
                       BEQ CODE_03AD18                           ;;ACE5|ACE1+ACE1/ACE1\ACE1;
                       PHX                                       ;;ACE7|ACE3+ACE3/ACE3\ACE3;
-                      LDX.B #$00                                ;;ACE8|ACE4+ACE4/ACE4\ACE4;
-                      LDA.B !Powerup                            ;;ACEA|ACE6+ACE6/ACE6\ACE6;
-                      BNE +                                     ;;ACEC|ACE8+ACE8/ACE8\ACE8;
-                      INX                                       ;;ACEE|ACEA+ACEA/ACEA\ACEA;
+                      LDX.B #$00                                ;;ACE8|ACE4+ACE4/ACE4\ACE4; \ load index into 'player blushing'
+                      LDA.B !Powerup                            ;;ACEA|ACE6+ACE6/ACE6\ACE6; | tile displacement table
+                      BNE +                                     ;;ACEC|ACE8+ACE8/ACE8\ACE8; | if small, use table index 0
+                      INX                                       ;;ACEE|ACEA+ACEA/ACEA\ACEA; / otherwise, use index 1
                     + LDY.B #$4C                                ;;ACEF|ACEB+ACEB/ACEB\ACEB;
                       LDA.B !PlayerXPosScrRel                   ;;ACF1|ACED+ACED/ACED\ACED;
                       STA.W !OAMTileXPos+$100,Y                 ;;ACF3|ACEF+ACEF/ACEF\ACEF;

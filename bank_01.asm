@@ -708,12 +708,12 @@ InitDigginChuck:      LDA.B #$30                                ;;8508|8508+8508
                       LDA.B #$04                                ;;8518|8518+8518/8518\8518;
                     + STA.B !SpriteTableC2,X                    ;;851A|851A+851A/851A\851A;
                       JSR FaceMario                             ;;851C|851C+851C/851C\851C;
-                      LDA.W DATA_018526,Y                       ;;851F|851F+851F/851F\851F;
+                      LDA.W ChuckInitialHeadPos,Y                       ;;851F|851F+851F/851F\851F;
                       STA.W !SpriteMisc151C,X                   ;;8522|8522+8522/8522\8522;
                       RTS                                       ;;8525|8525+8525/8525\8525; Return
                                                                 ;;                        ;
                                                                 ;;                        ;
-DATA_018526:          db $00,$04                                ;;8526|8526+8526/8526\8526;
+ChuckInitialHeadPos:  db $00,$04                                ;;8526|8526+8526/8526\8526;
                                                                 ;;                        ;
 InitSuperKoopa:       LDA.B #$28                                ;;8528|8528+8528/8528\8528;
                       STA.B !SpriteYSpeed,X                     ;;852A|852A+852A/852A\852A;
@@ -3510,7 +3510,7 @@ SubSprGfx0Entry1:     STA.B !_5                                 ;;9CF5|9CF5+9CF5
                       ADC.B !_1                                 ;;9D00|9D00+9D00/9D00\9D0C;
                       STA.B !_1                                 ;;9D02|9D02+9D02/9D02\9D0E;
                       LDY.B !SpriteNumber,X                     ;;9D04|9D04+9D04/9D04\9D10;
-                      LDA.W !SpriteMisc1602,X                   ;;9D06|9D06+9D06/9D06\9D12;
+                      LDA.W !SpriteMisc1602,X                   ;;9D06|9D06+9D06/9D06\9D12; animation frame for all sprites which use this routine
                       ASL A                                     ;;9D09|9D09+9D09/9D09\9D15;
                       ASL A                                     ;;9D0A|9D0A+9D0A/9D0A\9D16;
                       ADC.W SprTilemapOffset,Y                  ;;9D0B|9D0B+9D0B/9D0B\9D17;
@@ -3784,7 +3784,7 @@ SubSprGfx2Entry1:     STZ.B !_4                                 ;;9F0D|9F0D+9F0D
                       LDY.B !SpriteNumber,X                     ;;9F17|9F17+9F17/9F17\9F23;
                       LDA.W !SpriteMisc1602,X                   ;;9F19|9F19+9F19/9F19\9F25;
                       CLC                                       ;;9F1C|9F1C+9F1C/9F1C\9F28;
-                      ADC.W SprTilemapOffset,Y                  ;;9F1D|9F1D+9F1D/9F1D\9F29;
+                      ADC.W SprTilemapOffset,Y                  ;;9F1D|9F1D+9F1D/9F1D\9F29; Offset into the SprTilemap table
                       LDY.W !SpriteOAMIndex,X                   ;;9F20|9F20+9F20/9F20\9F2C; Y = Index into sprite OAM
                       TAX                                       ;;9F23|9F23+9F23/9F23\9F2F;
                       LDA.W SprTilemap,X                        ;;9F24|9F24+9F24/9F24\9F30;
