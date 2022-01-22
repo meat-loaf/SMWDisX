@@ -762,11 +762,11 @@ LevLoadContinue:      SEP #$20                                  ;;86D2|86D2+86D2
                     + RTS                                       ;;86E2|86E2+86E2/86E2\8707; /
                                                                 ;;                        ;
 LevLoadExtObj:        SEP #$30                                  ;;86E3|86E3+86E3/86E3\8708; Index (8 bit) Accum (8 bit)
-                      JSL CODE_0DA100                           ;;86E5|86E5+86E5/86E5\870A;
+                      JSL GenExtendedObj                        ;;86E5|86E5+86E5/86E5\870A; In Bank 0D
                       RTS                                       ;;86E9|86E9+86E9/86E9\870E; Return
                                                                 ;;                        ;
 LevLoadNrmObj:        SEP #$30                                  ;;86EA|86EA+86EA/86EA\870F; Index (8 bit) Accum (8 bit)
-                      JSL CODE_0DA40F                           ;;86EC|86EC+86EC/86EC\8711;
+                      JSL GenNormalObj                          ;;86EC|86EC+86EC/86EC\8711; In Bank 0D
                       RTS                                       ;;86F0|86F0+86F0/86F0\8715; Return
                                                                 ;;                        ;
 CODE_0586F1:          PHP                                       ;;86F1|86F1+86F1/86F1\8716;
