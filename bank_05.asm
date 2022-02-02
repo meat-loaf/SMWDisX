@@ -3393,7 +3393,7 @@ CODE_05B31B:          LDY.B #$1C                                ;;AED2|B31B+B2F9
                       BPL -                                     ;;AEDD|B326+B304/B326\B326;
                       RTS                                       ;;AEDF|B328+B306/B328\B328; Return
                                                                 ;;                        ;
-ADDR_05B329:          PHA                                       ;;AEE0|B329+B307/B329\B329;
+GiveCoins:            PHA                                       ;;AEE0|B329+B307/B329\B329;
                       LDA.B #!SFX_COIN                          ;;AEE1|B32A+B308/B32A\B32A;
                       STA.W !SPCIO3                             ;;AEE3|B32C+B30A/B32C\B32C; / Play sound effect
                       PLA                                       ;;AEE6|B32F+B30D/B32F\B32F;

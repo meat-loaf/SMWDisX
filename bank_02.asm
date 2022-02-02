@@ -5560,38 +5560,38 @@ CODE_02ADC9:          LDA.B !SpriteLock                         ;;ADE4|ADC9+ADC9
                       STZ.W !ScoreSpriteNumber,X                ;;ADF0|ADD5+ADD5/ADD5\ADD5;
                       RTS                                       ;;ADF3|ADD8+ADD8/ADD8\ADD8; Return
                                                                 ;;                        ;
-DATA_02ADD9:          db $01,$02,$03,$05,$05,$0A,$0F,$14        ;;ADF4|ADD9+ADD9/ADD9\ADD9;
+NotPointRewards:      db $01,$02,$03,$05,$05,$0A,$0F,$14        ;;ADF4|ADD9+ADD9/ADD9\ADD9;
                       db $19                                    ;;ADFC|ADE1+ADE1/ADE1\ADE1;
                                                                 ;;                        ;
-DATA_02ADE2:          db $04,$06                                ;;ADFD|ADE2+ADE2/ADE2\ADE2;
+TwoUpThreeUpProps:    db $04,$06                                ;;ADFD|ADE2+ADE2/ADE2\ADE2;
                                                                 ;;                        ;
                     + DEC.W !ScoreSpriteTimer,X                 ;;ADFF|ADE4+ADE4/ADE4\ADE4;
                       CMP.B #$2A                                ;;AE02|ADE7+ADE7/ADE7\ADE7;
-                      BNE CODE_02AE38                           ;;AE04|ADE9+ADE9/ADE9\ADE9;
+                      BNE DontRewardYet                         ;;AE04|ADE9+ADE9/ADE9\ADE9;
                       LDY.W !ScoreSpriteNumber,X                ;;AE06|ADEB+ADEB/ADEB\ADEB;
                       CPY.B #$0D                                ;;AE09|ADEE+ADEE/ADEE\ADEE;
-                      BCC CODE_02AE12                           ;;AE0B|ADF0+ADF0/ADF0\ADF0;
+                      BCC ScoreSpritePoints                     ;;AE0B|ADF0+ADF0/ADF0\ADF0;
                       CPY.B #$11                                ;;AE0D|ADF2+ADF2/ADF2\ADF2;
-                      BCC CODE_02AE03                           ;;AE0F|ADF4+ADF4/ADF4\ADF4;
+                      BCC ScoreSprite1Ups                       ;;AE0F|ADF4+ADF4/ADF4\ADF4;
                       PHX                                       ;;AE11|ADF6+ADF6/ADF6\ADF6;
                       PHY                                       ;;AE12|ADF7+ADF7/ADF7\ADF7;
-                      LDA.W DATA_02ADE2-$16,Y                   ;;AE13|ADF8+ADF8/ADF8\ADF8; Hey, this label might be wrong!
-                      JSL ADDR_05B329                           ;;AE16|ADFB+ADFB/ADFB\ADFB;
+                      LDA.W NotPointRewards-$0D,Y               ;;AE13|ADF8+ADF8/ADF8\ADF8;
+                      JSL GiveCoins                             ;;AE16|ADFB+ADFB/ADFB\ADFB;
                       PLY                                       ;;AE1A|ADFF+ADFF/ADFF\ADFF;
                       PLX                                       ;;AE1B|AE00+AE00/AE00\AE00;
-                      BRA CODE_02AE12                           ;;AE1C|AE01+AE01/AE01\AE01;
-                                                                ;;                        ;
-CODE_02AE03:          LDA.W DATA_02ADE2-$16,Y                   ;;AE1E|AE03+AE03/AE03\AE03; Hey, this label might be wrong!
+                      BRA ScoreSpritePoints                     ;;AE1C|AE01+AE01/AE01\AE01; This is likely erroneous (should branch over giving score),
+                                                                ;;                        ; but the score sprites that reward coins are only invocable via glitches anyway.
+ScoreSprite1Ups:      LDA.W NotPointRewards-$0D,Y               ;;AE1E|AE03+AE03/AE03\AE03;
                       CLC                                       ;;AE21|AE06+AE06/AE06\AE06;
                       ADC.W !GivePlayerLives                    ;;AE22|AE07+AE07/AE07\AE07;
                       STA.W !GivePlayerLives                    ;;AE25|AE0A+AE0A/AE0A\AE0A;
                       STZ.W !GiveLivesTimer                     ;;AE28|AE0D+AE0D/AE0D\AE0D;
                       BRA +                                     ;;AE2B|AE10+AE10/AE10\AE10;
                                                                 ;;                        ;
-CODE_02AE12:          LDA.W !PlayerTurnLvl                      ;;AE2D|AE12+AE12/AE12\AE12;
-                      ASL A                                     ;;AE30|AE15+AE15/AE15\AE15;
-                      ADC.W !PlayerTurnLvl                      ;;AE31|AE16+AE16/AE16\AE16;
-                      TAX                                       ;;AE34|AE19+AE19/AE19\AE19;
+ScoreSpritePoints:    LDA.W !PlayerTurnLvl                      ;;AE2D|AE12+AE12/AE12\AE12; \ Get index for active player's score.
+                      ASL A                                     ;;AE30|AE15+AE15/AE15\AE15; |
+                      ADC.W !PlayerTurnLvl                      ;;AE31|AE16+AE16/AE16\AE16; |
+                      TAX                                       ;;AE34|AE19+AE19/AE19\AE19; /
                       LDA.W !PlayerScore,X                      ;;AE35|AE1A+AE1A/AE1A\AE1A;
                       CLC                                       ;;AE38|AE1D+AE1D/AE1D\AE1D;
                       ADC.W PointMultiplierLo,Y                 ;;AE39|AE1E+AE1E/AE1E\AE1E;
@@ -5603,7 +5603,7 @@ CODE_02AE12:          LDA.W !PlayerTurnLvl                      ;;AE2D|AE12+AE12
                       ADC.B #$00                                ;;AE4B|AE30+AE30/AE30\AE30;
                       STA.W !PlayerScore+2,X                    ;;AE4D|AE32+AE32/AE32\AE32;
                     + LDX.W !CurSpriteProcess                   ;;AE50|AE35+AE35/AE35\AE35; X = Sprite index
-CODE_02AE38:          LDA.W !ScoreSpriteTimer,X                 ;;AE53|AE38+AE38/AE38\AE38;
+DontRewardYet:        LDA.W !ScoreSpriteTimer,X                 ;;AE53|AE38+AE38/AE38\AE38;
                       LSR A                                     ;;AE56|AE3B+AE3B/AE3B\AE3B;
                       LSR A                                     ;;AE57|AE3C+AE3C/AE3C\AE3C;
                       LSR A                                     ;;AE58|AE3D+AE3D/AE3D\AE3D;
@@ -5678,12 +5678,12 @@ CODE_02AE5B:          LDA.W !ScoreSpriteLayer,X                 ;;AE76|AE5B+AE5B
                       STA.W !OAMTileNo+4,Y                      ;;AEEB|AECE+AECE/AECE\AECE;
                       PLX                                       ;;AEEE|AED1+AED1/AED1\AED1;
                       PHY                                       ;;AEEF|AED2+AED2/AED2\AED2;
-                      LDY.W !ScoreSpriteNumber,X                ;;AEF0|AED3+AED3/AED3\AED3;
-                      CPY.B #$0E                                ;;AEF3|AED6+AED6/AED6\AED6;
-                      LDA.B #$08                                ;;AEF5|AED8+AED8/AED8\AED8;
-                      BCC +                                     ;;AEF7|AEDA+AEDA/AEDA\AEDA;
-                      LDA.W DATA_02ADD9-5,Y                     ;;AEF9|AEDC+AEDC/AEDC\AEDC; Hey, this label might be wrong!
-                    + PLY                                       ;;AEFC|AEDF+AEDF/AEDF\AEDF;
+                      LDY.W !ScoreSpriteNumber,X                ;;AEF0|AED3+AED3/AED3\AED3; \ Get score sprite number,
+                      CPY.B #$0E                                ;;AEF3|AED6+AED6/AED6\AED6; | and set processor flags
+                      LDA.B #$08                                ;;AEF5|AED8+AED8/AED8\AED8; | Use palette 4 (reds) as default,
+                      BCC +                                     ;;AEF7|AEDA+AEDA/AEDA\AEDA; | If score sprite number => 0E (2up)
+                      LDA.W TwoUpThreeUpProps-$0E,Y             ;;AEF9|AEDC+AEDC/AEDC\AEDC; | Use the values from this table instead.
+                    + PLY                                       ;;AEFC|AEDF+AEDF/AEDF\AEDF; /
                       ORA.B #$30                                ;;AEFD|AEE0+AEE0/AEE0\AEE0;
                       STA.W !OAMTileAttr,Y                      ;;AEFF|AEE2+AEE2/AEE2\AEE2;
                       STA.W !OAMTileAttr+4,Y                    ;;AF02|AEE5+AEE5/AEE5\AEE5;
@@ -13748,7 +13748,7 @@ CODE_02F0AE:          LDA.W !SpriteMisc15AC,X                   ;;F0AF|F0AE+F0AE
                       ASL A                                     ;;F0D3|F0D2+F0D2/F0D2\F0D2;
                       ORA.W !SpriteMisc157C,X                   ;;F0D4|F0D3+F0D3/F0D3\F0D3;
                       STA.B !SpriteTableC2,X                    ;;F0D7|F0D6+F0D6/F0D6\F0D6;
-CODE_02F0D8:          JMP CODE_02F110                           ;;F0D9|F0D8+F0D8/F0D8\F0D8;
+CODE_02F0D8:          JMP WigglerGFX                            ;;F0D9|F0D8+F0D8/F0D8\F0D8;
                                                                 ;;                        ;
 CODE_02F0DB:          PHX                                       ;;F0DC|F0DB+F0DB/F0DB\F0DB;
                       PHB                                       ;;F0DD|F0DC+F0DC/F0DC\F0DC;
@@ -13779,9 +13779,9 @@ DATA_02F103:          db $00,$1E,$3E,$5E,$7E                    ;;F104|F103+F103
                                                                 ;;                        ;
 DATA_02F108:          db $00,$01,$02,$01                        ;;F109|F108+F108/F108\F108;
                                                                 ;;                        ;
-WigglerTiles:         db $C4,$C6,$C8,$C6                        ;;F10D|F10C+F10C/F10C\F10C;
+WigglerBodyTiles:     db $C4,$C6,$C8,$C6                        ;;F10D|F10C+F10C/F10C\F10C;
                                                                 ;;                        ;
-CODE_02F110:          JSR GetDrawInfo2                          ;;F111|F110+F110/F110\F110;
+WigglerGFX:           JSR GetDrawInfo2                          ;;F111|F110+F110/F110\F110;
                       LDA.W !SpriteMisc1570,X                   ;;F114|F113+F113/F113\F113;
                       STA.B !_3                                 ;;F117|F116+F116/F116\F116;
                       LDA.W !SpriteOBJAttribute,X               ;;F119|F118+F118/F118\F118;
@@ -13836,11 +13836,11 @@ CODE_02F12D:          PHX                                       ;;F12E|F12D+F12D
                       STA.W !OAMTileYPos+$100,Y                 ;;F16A|F168+F168/F168\F168;
                       PLX                                       ;;F16D|F16B+F16B/F16B\F16B;
                       PHX                                       ;;F16E|F16C+F16C/F16C\F16C;
-                      LDA.B #$8C                                ;;F16F|F16D+F16D/F16D\F16D;
+                      LDA.B #$8C                                ;;F16F|F16D+F16D/F16D\F16D; Wiggler's head tiles
                       CPX.B #$00                                ;;F171|F16F+F16F/F16F\F16F;
                       BEQ +                                     ;;F173|F171+F171/F171\F171;
                       LDX.B !_6                                 ;;F175|F173+F173/F173\F173;
-                      %LorW_X(LDA,WigglerTiles)                 ;;F177|F175+F175/F175\F175;
+                      %LorW_X(LDA,WigglerBodyTiles)             ;;F177|F175+F175/F175\F175;
                     + STA.W !OAMTileNo+$100,Y                   ;;F17B|F178+F178/F178\F178;
                       PLX                                       ;;F17E|F17B+F17B/F17B\F17B;
                       LDA.B !_7                                 ;;F17F|F17C+F17C/F17C\F17C;
@@ -13878,7 +13878,7 @@ CODE_02F12D:          PHX                                       ;;F12E|F12D+F12D
                       STA.W !OAMTileXPos+$100,Y                 ;;F1B7|F1B4+F1B4/F1B4\F1B4;
                       LDA.W !OAMTileYPos+$104,Y                 ;;F1BA|F1B7+F1B7/F1B7\F1B7;
                       STA.W !OAMTileYPos+$100,Y                 ;;F1BD|F1BA+F1BA/F1BA\F1BA;
-                      LDA.B #$88                                ;;F1C0|F1BD+F1BD/F1BD\F1BD;
+                      LDA.B #$88                                ;;F1C0|F1BD+F1BD/F1BD\F1BD; Angry face tile
                       STA.W !OAMTileNo+$100,Y                   ;;F1C2|F1BF+F1BF/F1BF\F1BF;
                       LDA.W !OAMTileAttr+$104,Y                 ;;F1C5|F1C2+F1C2/F1C2\F1C2;
                       BRA +                                     ;;F1C8|F1C5+F1C5/F1C5\F1C5;

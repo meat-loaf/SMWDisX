@@ -1154,8 +1154,8 @@ GenExtendedObjLocal:  SEP #$30                                  ;;A106|A106+A106
                       dl CODE_0DE9AA                            ;;A232|A232+A232/A232\A232; 61
                       dl CODE_0DE9AA                            ;;A235|A235+A235/A235\A235; 62
                       dl CODE_0DE9AA                            ;;A238|A238+A238/A238\A238; 63
-                      dl CODE_0DE9ED                            ;;A23B|A23B+A23B/A23B\A23B; 64
-                      dl CODE_0DE9ED                            ;;A23E|A23E+A23E/A23E\A23E; 65
+                      dl GhostHouseWebExtObj                    ;;A23B|A23B+A23B/A23B\A23B; 64
+                      dl GhostHouseWebExtObj                    ;;A23E|A23E+A23E/A23E\A23E; 65
                       dl ADDR_0DEA3E                            ;;A241|A241+A241/A241\A241; 66
                       dl ADDR_0DEA3E                            ;;A244|A244+A244/A244\A244; 67
                       dl ADDR_0DB571                            ;;A247|A247+A247/A247\A247; 68
@@ -1181,7 +1181,7 @@ GenExtendedObjLocal:  SEP #$30                                  ;;A106|A106+A106
                       dl CODE_0DDA80                            ;;A283|A283+A283/A283\A283; 7C
                       dl CODE_0DDA80                            ;;A286|A286+A286/A286\A286; 7D
                       dl CODE_0DDA80                            ;;A289|A289+A289/A289\A289; 7E
-                      dl CODE_0DDAA2                            ;;A28C|A28C+A28C/A28C\A28C; 7F
+                      dl TorpedoLauncher                        ;;A28C|A28C+A28C/A28C\A28C; 7F
                       dl GhostHouseEntExtObj                    ;;A28F|A28F+A28F/A28F\A28F; 80
                       dl ADDR_0DEC68                            ;;A292|A292+A292/A292\A292; 81
                       dl CODE_0DA71B                            ;;A295|A295+A295/A295\A295; 82
@@ -1197,7 +1197,7 @@ GenExtendedObjLocal:  SEP #$30                                  ;;A106|A106+A106
                       dl CODE_0DEC8E                            ;;A2B3|A2B3+A2B3/A2B3\A2B3; 8C
                       dl CODE_0DEC8E                            ;;A2B6|A2B6+A2B6/A2B6\A2B6; 8D
                       dl YellowSwitchBlock                      ;;A2B9|A2B9+A2B9/A2B9\A2B9; 8E
-                      dl CODE_0DECC1                            ;;A2BC|A2BC+A2BC/A2BC\A2BC; 8F
+                      dl GhostHouseWinExtObj                    ;;A2BC|A2BC+A2BC/A2BC\A2BC; 8F - Background window in Ghost House
                       dl CODE_0DC31E                            ;;A2BF|A2BF+A2BF/A2BF\A2BF; 90
                       dl CODE_0DA80D                            ;;A2C2|A2C2+A2C2/A2C2\A2C2; 91
                       dl CODE_0DA80D                            ;;A2C5|A2C5+A2C5/A2C5\A2C5; 92
@@ -6001,13 +6001,13 @@ CODE_0DDA80:          LDY.B !LevelLoadPos                       ;;DA80|DA80+DA80
                       RTS                                       ;;DA9D|DA9D+DA9D/DA9D\DA9D; Return
                                                                 ;;                        ;
                                                                 ;;                        ;
-DATA_0DDA9E:          db $66,$67,$68,$69                        ;;DA9E|DA9E+DA9E/DA9E\DA9E;
+TorpedoLauncherTiles: db $66,$67,$68,$69                        ;;DA9E|DA9E+DA9E/DA9E\DA9E;
                                                                 ;;                        ;
-CODE_0DDAA2:          LDY.B !LevelLoadPos                       ;;DAA2|DAA2+DAA2/DAA2\DAA2;
+TorpedoLauncher:      LDY.B !LevelLoadPos                       ;;DAA2|DAA2+DAA2/DAA2\DAA2;
                       LDX.B #$00                                ;;DAA4|DAA4+DAA4/DAA4\DAA4;
                       JSR StoreLowMap16WordTo4                  ;;DAA6|DAA6+DAA6/DAA6\DAA6;
                     - JSR Sta1To6ePointer                       ;;DAA9|DAA9+DAA9/DAA9\DAA9;
-                      LDA.L DATA_0DDA9E,X                       ;;DAAC|DAAC+DAAC/DAAC\DAAC;
+                      LDA.L TorpedoLauncherTiles,X              ;;DAAC|DAAC+DAAC/DAAC\DAAC;
                       JSR StoreLoShiftObjRight                  ;;DAB0|DAB0+DAB0/DAB0\DAB0;
                       INX                                       ;;DAB3|DAB3+DAB3/DAB3\DAB3;
                       TXA                                       ;;DAB4|DAB4+DAB4/DAB4\DAB4;
@@ -7192,13 +7192,13 @@ CODE_0DE9AA:          LDY.B !LevelLoadPos                       ;;E9AA|E9AA+E9AA
 DATA_0DE9E1:          db $8C,$8D,$25,$8E,$90,$91,$8F,$25        ;;E9E1|E9E1+E9E1/E9E1\E9E1;
                       db $FC,$FD,$FE,$FF                        ;;E9E9|E9E9+E9E9/E9E9\E9E9;
                                                                 ;;                        ;
-CODE_0DE9ED:          LDA.B !LvlLoadObjSize                     ;;E9ED|E9ED+E9ED/E9ED\E9ED;
+GhostHouseWebExtObj:  LDA.B !LvlLoadObjSize                     ;;E9ED|E9ED+E9ED/E9ED\E9ED;
                       SEC                                       ;;E9EF|E9EF+E9EF/E9EF\E9EF;
                       SBC.B #$64                                ;;E9F0|E9F0+E9F0/E9F0\E9F0;
                       ASL A                                     ;;E9F2|E9F2+E9F2/E9F2\E9F2;
                       ASL A                                     ;;E9F3|E9F3+E9F3/E9F3\E9F3;
                       TAX                                       ;;E9F4|E9F4+E9F4/E9F4\E9F4;
-CODE_0DE9F5:          LDY.B !LevelLoadPos                       ;;E9F5|E9F5+E9F5/E9F5\E9F5;
+GHWebDrawSquare:      LDY.B !LevelLoadPos                       ;;E9F5|E9F5+E9F5/E9F5\E9F5;
                       LDA.B #$01                                ;;E9F7|E9F7+E9F7/E9F7\E9F7;
                       STA.B !_0                                 ;;E9F9|E9F9+E9F9/E9F9\E9F9;
                       STA.B !_1                                 ;;E9FB|E9FB+E9FB/E9FB\E9FB;
@@ -7406,8 +7406,8 @@ CODE_0DECA6:          LDA.B !_0                                 ;;ECA5|ECA6+ECA6
                       BPL CODE_0DECA6                           ;;ECBD|ECBE+ECBE/ECBE\ECBE;
 Return0DECC0:         RTS                                       ;;ECBF|ECC0+ECC0/ECC0\ECC0; Return
                                                                 ;;                        ;
-CODE_0DECC1:          LDX.B #$08                                ;;ECC0|ECC1+ECC1/ECC1\ECC1;
-                      JMP CODE_0DE9F5                           ;;ECC2|ECC3+ECC3/ECC3\ECC3;
+GhostHouseWinExtObj:  LDX.B #$08                                ;;ECC0|ECC1+ECC1/ECC1\ECC1;
+                      JMP GHWebDrawSquare                       ;;ECC2|ECC3+ECC3/ECC3\ECC3;
                                                                 ;;                        ;
                                                                 ;;                        ;
 DATA_0DECC6:          db $92,$5E,$82                            ;;ECC5|ECC6+ECC6/ECC6\ECC6;

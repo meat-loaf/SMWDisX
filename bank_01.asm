@@ -8295,7 +8295,7 @@ CODE_01C27F:          LDA.B !SpriteTableC2,X                    ;;C28A|C27F+C27F
                       BNE CODE_01C2A6                           ;;C29E|C293+C293/C293\C29A;
                       JSR CODE_01C4F0                           ;;C2A0|C295+C295/C295\C29C;
                       LDA.B #$05                                ;;C2A3|C298+C298/C298\C29F;
-                      JSL ADDR_05B329                           ;;C2A5|C29A+C29A/C29A\C2A1;
+                      JSL GiveCoins                             ;;C2A5|C29A+C29A/C29A\C2A1;
                       LDA.B #$03                                ;;C2A9|C29E+C29E/C29E\C2A5;
                       JSL GivePoints                            ;;C2AB|C2A0+C2A0/C2A0\C2A7;
                       BRA ADDR_01C30F                           ;;C2AF|C2A4+C2A4/C2A4\C2AB;
