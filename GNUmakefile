@@ -1,5 +1,5 @@
-ASAR = ./asar
-SHA1SUM = sha1sum
+ASAR ?= asar
+SHA1SUM ?= sha1sum
 
 # must be in sync with constants.asm
 version_id_jp  := 0
@@ -10,11 +10,17 @@ version_id_eu1 := 4
 
 roms := $(patsubst %,smw-%.smc,jp us nss eu0 eu1)
 roms_headerless :=  ${roms:%.smc=%.sfc}
+roms_ntsc := $(patsubst %,smw-%.smc,jp us)
+roms_eu := $(patsubst %,smw-%.smc,eu0 eu1)
 
 check :: all-headerless
 	${SHA1SUM} --check rom-sha1sums.txt
 
 all :: ${roms}
+
+ntsc :: ${roms_ntsc}
+
+eu :: ${roms_eu}
 
 all-headerless :: ${roms_headerless}
 
