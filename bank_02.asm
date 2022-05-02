@@ -1279,7 +1279,7 @@ CODE_028AF5:          ORA.B !PlayerXPosScrRel+1                 ;;8AF7|8AF5+8AF5
                       BCS +                                     ;;8B01|8AFF+8AFF/8AFF\8AFF;
                       JSL CODE_02858F                           ;;8B03|8B01+8B01/8B01\8B01;
                     + JSR RunMinorExtendedSprs                  ;;8B07|8B05+8B05/8B05\8B05;
-                      JSR CODE_02902D                           ;;8B0A|8B08+8B08/8B08\8B08;
+                      JSR MCoinTmrAnd4SlotSprs                  ;;8B0A|8B08+8B08/8B08\8B08;
                       JSR ScoreSprGfx                           ;;8B0D|8B0B+8B0B/8B0B\8B0B;
                       JSR RunExtendedSprites                    ;;8B10|8B0E+8B0E/8B0E\8B0E;
                       JSR CODE_0299D2                           ;;8B13|8B11+8B11/8B11\8B11;
@@ -1919,7 +1919,7 @@ CODE_028FDD:          LDY.W BrokenBlock,X                       ;;8FE3|8FDD+8FDD
                       STA.W !OAMTileSize,Y                      ;;9031|9029+9029/9029\9029;
 Return02902C:         RTS                                       ;;9034|902C+902C/902C\902C; Return
                                                                 ;;                        ;
-CODE_02902D:          LDA.W !MulticoinTimer                     ;;9035|902D+902D/902D\902D;
+MCoinTmrAnd4SlotSprs: LDA.W !MulticoinTimer                     ;;9035|902D+902D/902D\902D;
                       CMP.B #$02                                ;;9038|9030+9030/9030\9030;
                       BCC +                                     ;;903A|9032+9032/9032\9032;
                       LDA.B !SpriteLock                         ;;903C|9034+9034/9034\9034;
@@ -1927,14 +1927,14 @@ CODE_02902D:          LDA.W !MulticoinTimer                     ;;9035|902D+902D
                       DEC.W !MulticoinTimer                     ;;9040|9038+9038/9038\9038;
                     + LDX.B #$03                                ;;9043|903B+903B/903B\903B;
                     - STX.W !MinorSpriteProcIndex               ;;9045|903D+903D/903D\903D;
-                      JSR CODE_02904D                           ;;9048|9040+9040/9040\9040;
-                      JSR CODE_029398                           ;;904B|9043+9043/9043\9043;
-                      JSR CODE_0296C0                           ;;904E|9046+9046/9046\9046;
+                      JSR RunBounceSprites                      ;;9048|9040+9040/9040\9040; \ Each of these sprites types
+                      JSR RunQuakeSprites                       ;;904B|9043+9043/9043\9043; | has four slots
+                      JSR RunSmokeSprites                       ;;904E|9046+9046/9046\9046; /
                       DEX                                       ;;9051|9049+9049/9049\9049;
                       BPL -                                     ;;9052|904A+904A/904A\904A;
 Return02904C:         RTS                                       ;;9054|904C+904C/904C\904C; Return
                                                                 ;;                        ;
-CODE_02904D:          LDA.W !BounceSpriteNumber,X               ;;9055|904D+904D/904D\904D;
+RunBounceSprites:     LDA.W !BounceSpriteNumber,X               ;;9055|904D+904D/904D\904D;
                       BEQ Return02904C                          ;;9058|9050+9050/9050\9050;
                       LDY.B !SpriteLock                         ;;905A|9052+9052/9052\9052;
                       BNE +                                     ;;905C|9054+9054/9054\9054;
@@ -2328,7 +2328,7 @@ SpriteCapeHitXSpdTbl: db $F8,$08                                ;;939B|9392+9392
 CODE_029394:          STZ.W !QuakeSpriteNumber,X                ;;939D|9394+9394/9394\9394;
                     - RTS                                       ;;93A0|9397+9397/9397\9397; Return
                                                                 ;;                        ;
-CODE_029398:          LDA.W !QuakeSpriteNumber,X                ;;93A1|9398+9398/9398\9398;
+RunQuakeSprites:      LDA.W !QuakeSpriteNumber,X                ;;93A1|9398+9398/9398\9398;
                       BEQ -                                     ;;93A4|939B+939B/939B\939B;
                       DEC.W !BounceSpriteIntTimer,X             ;;93A6|939D+939D/939D\939D;
                       BEQ CODE_029394                           ;;93A9|93A0+93A0/93A0\93A0;
@@ -2717,19 +2717,19 @@ DATA_0296B8:          db $20,$24,$28,$2C                        ;;96C1|96B8+96B8
                                                                 ;;                        ;
 DATA_0296BC:          db $90,$94,$98,$9C                        ;;96C5|96BC+96BC/96BC\96BC;
                                                                 ;;                        ;
-CODE_0296C0:          LDA.W !SmokeSpriteNumber,X                ;;96C9|96C0+96C0/96C0\96C0;
-                      BEQ Return0296D7                          ;;96CC|96C3+96C3/96C3\96C3;
+RunSmokeSprites:      LDA.W !SmokeSpriteNumber,X                ;;96C9|96C0+96C0/96C0\96C0;
+                      BEQ .return                               ;;96CC|96C3+96C3/96C3\96C3;
                       AND.B #$7F                                ;;96CE|96C5+96C5/96C5\96C5;
                       JSL ExecutePtr                            ;;96D0|96C7+96C7/96C7\96C7;
                                                                 ;;                        ;
-                      dw Return0296D7                           ;;96D4|96CB+96CB/96CB\96CB;
+                      dw .return                                ;;96D4|96CB+96CB/96CB\96CB;
                       dw CODE_0296E3                            ;;96D6|96CD+96CD/96CD\96CD;
                       dw CODE_029797                            ;;96D8|96CF+96CF/96CF\96CF;
                       dw CODE_029927                            ;;96DA|96D1+96D1/96D1\96D1;
-                      dw Return0296D7                           ;;96DC|96D3+96D3/96D3\96D3;
+                      dw .return                                ;;96DC|96D3+96D3/96D3\96D3;
                       dw CODE_0298CA                            ;;96DE|96D5+96D5/96D5\96D5;
                                                                 ;;                        ;
-Return0296D7:         RTS                                       ;;96E0|96D7+96D7/96D7\96D7; Return
+.return:              RTS                                       ;;96E0|96D7+96D7/96D7\96D7; Return
                                                                 ;;                        ;
                                                                 ;;                        ;
 DATA_0296D8:          db $66,$66,$64,$62,$60,$62,$60            ;;96E1|96D8+96D8/96D8\96D8;
@@ -14924,8 +14924,8 @@ CastleBgFlameClsSpr:  LDA.B !SpriteLock                         ;;FA2A|FA16+FA16
                       JSL GetRand                               ;;FA2E|FA1A+FA1A/FA1A\FA0E; \ Get a random number, then
                       AND.B #$07                                ;;FA32|FA1E+FA1E/FA1E\FA12; | Limit to lower 3 bits..
                       TAY                                       ;;FA34|FA20+FA20/FA20\FA14; | Use this as table index.
-                      LDA.B !TrueFrame                          ;;FA35|FA21+FA21/FA21\FA15; | Based on current frame,
-                      AND.W CastleFlameUpdFrmTbl,Y              ;;FA37|FA23+FA23/FA23\FA17; | Check 'divisible' by table index (all powers of 2)
+                      LDA.B !TrueFrame                          ;;FA35|FA21+FA21/FA21\FA15; | If current frame is
+                      AND.W CastleFlameUpdFrmTbl,Y              ;;FA37|FA23+FA23/FA23\FA17; | a fourth/eighth/sixteenth frame (depending on random number)
                       BNE +                                     ;;FA3A|FA26+FA26/FA26\FA1A; | If not, don't update current frame
                       INC.W !ClusterSpriteMisc0F4A,X            ;;FA3C|FA28+FA28/FA28\FA1C; / If so, use the next graphics frame.
                     + LDY.W CastleFlameOAMSlot,X                ;;FA3F|FA2B+FA2B/FA2B\FA1F;

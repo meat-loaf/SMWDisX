@@ -3575,9 +3575,9 @@ SubSprGfx1:           LDA.W !SpriteOBJAttribute,X               ;;9D67|9D67+9D67
                       TYA                                       ;;9D78|9D78+9D78/9D78\9D84;
                       LDY.B !SpriteNumber,X                     ;;9D79|9D79+9D79/9D79\9D85;
                       CPY.B #$0F                                ;;9D7B|9D7B+9D7B/9D7B\9D87;
-                      BCS +                                     ;;9D7D|9D7D+9D7D/9D7D\9D89;
-                      ADC.B #$04                                ;;9D7F|9D7F+9D7F/9D7F\9D8B;
-                    + TAY                                       ;;9D81|9D81+9D81/9D81\9D8D;
+                      BCS +                                     ;;9D7D|9D7D+9D7D/9D7D\9D89; \ The parakoopas wings are drawn
+                      ADC.B #$04                                ;;9D7F|9D7F+9D7F/9D7F\9D8B; | in the first assigned OAM slot
+                    + TAY                                       ;;9D81|9D81+9D81/9D81\9D8D; / so it's offset here...
                       PHY                                       ;;9D82|9D82+9D82/9D82\9D8E;
                       LDY.B !SpriteNumber,X                     ;;9D83|9D83+9D83/9D83\9D8F;
                       LDA.W !SpriteMisc1602,X                   ;;9D85|9D85+9D85/9D85\9D91;
