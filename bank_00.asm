@@ -530,7 +530,7 @@ DATA_008475:          dw $0000,$0008,$0010,$0018                ;;8466|8475+8475
                       dw $0060,$0068,$0070                      ;;847E|848D+848D/848D\848D;
                       db $78                                    ;;8484|8493+8493/8493\8493;
                                                                 ;;                        ;
-CODE_008494:          LDY.B #$1E                                ;;8485|8494+8494/8494\8494;
+CompactOAMTileSz:     LDY.B #$1E                                ;;8485|8494+8494/8494\8494;
                     - LDX.W DATA_008475,Y                       ;;8487|8496+8496/8496\8496;
                       LDA.W !OAMTileSize+3,X                    ;;848A|8499+8499/8499\8499;
                       ASL A                                     ;;848D|849C+849C/849C\849C;
@@ -1572,7 +1572,7 @@ CODE_008E6F:          LDA.W !InGameTimerHundreds                ;;8E04|8E6F+8E6F
                       LDY.B #$00                                ;;8E18|8E83+8E83/8E83\8E85;
 CODE_008E85:          LDA.W !InGameTimerHundreds,Y              ;;8E1A|8E85+8E85/8E85\8E87;
                       BNE CODE_008E95                           ;;8E1D|8E88+8E88/8E88\8E8A;
-                      LDA.B #$FC                                ;;8E1F|8E8A+8E8A/8E8A\8E8C;
+                      LDA.B #$FC                                ;;8E1F|8E8A+8E8A/8E8A\8E8C; Replace leading zeros in timer with empty tile
                       STA.W !StatusBar+$1C,X                    ;;8E21|8E8C+8E8C/8E8C\8E8E;
                       INY                                       ;;8E24|8E8F+8E8F/8E8F\8E91;
                       INX                                       ;;8E25|8E90+8E90/8E90\8E92;
@@ -1949,7 +1949,7 @@ CODE_0091D0:          JSR CODE_0091E9                           ;;9165|91D0+91D0
                       SBC.B #$08                                ;;9176|91E1+91E1/91E1\91E3;
                       TAY                                       ;;9178|91E3+91E3/91E3\91E5;
                       BNE CODE_0091D0                           ;;9179|91E4+91E4/91E4\91E6;
-                      JMP CODE_008494                           ;;917B|91E6+91E6/91E6\91E8;
+                      JMP CompactOAMTileSz                      ;;917B|91E6+91E6/91E6\91E8;
                                                                 ;;                        ;
 CODE_0091E9:          LDA.W TitleTextPropTop,X                  ;;917E|91E9+91E9/91E9\91EB;
                       STA.W !OAMTileAttr+$108,Y                 ;;9181|91EC+91EC/91EC\91EE;
@@ -2367,10 +2367,10 @@ CODE_009529:          JSL CODE_0CC97E                           ;;94BE|9529+9529
                       LDA.B #$0C                                ;;94E2|954D+954D/954D\954F;
                       STA.B !PlayerAnimation                    ;;94E4|954F+954F/954F\9551;
                       JSR CODE_00C47E                           ;;94E6|9551+9551/9551\9553;
-                      JMP CODE_008494                           ;;94E9|9554+9554/9554\9556;
+                      JMP CompactOAMTileSz                      ;;94E9|9554+9554/9554\9556;
                                                                 ;;                        ;
 CODE_009557:          JSL CODE_0C938D                           ;;94EC|9557+9557/9557\9559;
-                      JMP CODE_008494                           ;;94F0|955B+955B/955B\955D;
+                      JMP CompactOAMTileSz                      ;;94F0|955B+955B/955B\955D;
                                                                 ;;                        ;
 CODE_00955E:          LDY.B #$2F                                ;;94F3|955E+955E/955E\9560;
                       JSL CODE_00BA28                           ;;94F5|9560+9560/9560\9562;
@@ -2407,7 +2407,7 @@ GameMode1F:           JSL !OAMResetRoutine                      ;;9540|95AB+95AB
                       JSL CODE_0C939A                           ;;9544|95AF+95AF/95AF\95B1;
                       INC.B !EffFrame                           ;;9548|95B3+95B3/95B3\95B5;
                       JSL CODE_05BB39                           ;;954A|95B5+95B5/95B5\95B7;
-                      JMP CODE_008494                           ;;954E|95B9+95B9/95B9\95BB;
+                      JMP CompactOAMTileSz                      ;;954E|95B9+95B9/95B9\95BB;
                                                                 ;;                        ;
 GameMode21:           JSL CODE_0C93AD                           ;;9551|95BC+95BC/95BC\95BE;
                       RTS                                       ;;9555|95C0+95C0/95C0\95C2;
@@ -2458,7 +2458,7 @@ GameMode25:           STZ.W !PlayerGfxTileCount                 ;;95C1|962C+962C
                       JSR CODE_0092ED                           ;;95C4|962F+962F/962F\9631;
                       JSL !OAMResetRoutine                      ;;95C7|9632+9632/9632\9634;
                       JSL CODE_0C93A5                           ;;95CB|9636+9636/9636\9638;
-                      JMP CODE_008494                           ;;95CF|963A+963A/963A\963C;
+                      JMP CompactOAMTileSz                      ;;95CF|963A+963A/963A\963C;
                                                                 ;;                        ;
 GameMode27:           JSR CODE_0085FA                           ;;95D2|963D+963D/963D\963F;
                       JSR Clear_1A_13D3                         ;;95D5|9640+9640/9640\9642;
@@ -2486,7 +2486,7 @@ GameMode27:           JSR CODE_0085FA                           ;;95D2|963D+963D
                       STA.B !StripeImage                        ;;960F|967A+967A/967A\967C;
                       JSR LoadScrnImage                         ;;9611|967C+967C/967C\967E;
                       JSL CODE_0CAADF                           ;;9614|967F+967F/967F\9681;
-                      JSR CODE_008494                           ;;9618|9683+9683/9683\9685;
+                      JSR CompactOAMTileSz                      ;;9618|9683+9683/9683\9685;
                       LDX.B #$14                                ;;961B|9686+9686/9686\9688;
                       LDY.B #$00                                ;;961D|9688+9688/9688\968A;
                       JMP CODE_009622                           ;;961F|968A+968A/968A\968C;
@@ -2630,7 +2630,7 @@ CODE_00979D:          CPY.B #$28                                ;;9732|979D+979D
                       SBC.B #$08                                ;;9749|97B4+97B4/97B9\97BB;
                       TAY                                       ;;974B|97B6+97B6/97BB\97BD;
                       BNE CODE_00979D                           ;;974C|97B7+97B7/97BC\97BE;
-                      JMP CODE_008494                           ;;974E|97B9+97B9/97BE\97C0;
+                      JMP CompactOAMTileSz                      ;;974E|97B9+97B9/97BE\97C0;
                                                                 ;;                        ;
 CODE_0097BC:          LDA.B #$0F                                ;;9751|97BC+97BC/97C1\97C3;
                       STA.W !Brightness                         ;;9753|97BE+97BE/97C3\97C5; Set brightness to full (RAM mirror)
@@ -4024,7 +4024,7 @@ CODE_00A11B:          LDY.B #$02                                ;;A0B9|A11B+A132
                       JSL CODE_04D6E9                           ;;A103|A165+A17C/A16A\A16C;
                       LDA.B #$F0                                ;;A107|A169+A180/A16E\A170;
                       STA.B !OAMAddress                         ;;A109|A16B+A182/A170\A172;
-                      JSR CODE_008494                           ;;A10B|A16D+A184/A172\A174;
+                      JSR CompactOAMTileSz                      ;;A10B|A16D+A184/A172\A174;
                       JSR LoadScrnImage                         ;;A10E|A170+A187/A175\A177;
                       STZ.W !OverworldProcess                   ;;A111|A173+A18A/A178\A17A;
                       JSR KeepModeActive                        ;;A114|A176+A18D/A17B\A17D;
@@ -4067,7 +4067,7 @@ GameMode0E:           JSR SetUp0DA0GM4                          ;;A15C|A1BE+A1D5
                       INC.B !EffFrame                           ;;A15F|A1C1+A1D8/A1C6\A1C8; Increase alternate frame counter
                       JSL !OAMResetRoutine                      ;;A161|A1C3+A1DA/A1C8\A1CA;
                       JSL GameMode_0E_Prim                      ;;A165|A1C7+A1DE/A1CC\A1CE; (Bank 4.asm)
-                      JMP CODE_008494                           ;;A169|A1CB+A1E2/A1D0\A1D2;
+                      JMP CompactOAMTileSz                      ;;A169|A1CB+A1E2/A1D0\A1D2;
                                                                 ;;                        ;
                                                                 ;;                        ;
 GrndShakeDispYLo:     db $FE,$00,$02,$00                        ;;A16C|A1CE+A1E5/A1D3\A1D5;
@@ -4202,7 +4202,7 @@ CODE_00A2A9:          LDA.B !Layer1YPos                         ;;A247|A2A9+A292
                       STA.B !Layer1YPos+1                       ;;A289|A2EB+A2D4/A2F0\A2F2;
                       PLA                                       ;;A28B|A2ED+A2D6/A2F2\A2F4;
                       STA.B !Layer1YPos                         ;;A28C|A2EE+A2D7/A2F3\A2F5;
-                      JMP CODE_008494                           ;;A28E|A2F0+A2D9/A2F5\A2F7;
+                      JMP CompactOAMTileSz                      ;;A28E|A2F0+A2D9/A2F5\A2F7;
                                                                 ;;                        ;
 CODE_00A2F3:          REP #$20                                  ;;A291|A2F3+A2DC/A2F8\A2FA; Accum (16 bit)
                       LDA.B !PlayerXPosNext                     ;;A293|A2F5+A2DE/A2FA\A2FC;
@@ -4529,7 +4529,7 @@ CODE_00A5B9:          JSR UploadSpriteGFX                       ;;A557|A5B9+A5A2
                       STX.W !CopyBGColor                        ;;A589|A5EB+A5D4/A5F0\A5F2;
                       SEP #$30                                  ;;A58C|A5EE+A5D7/A5F3\A5F5; Index (8 bit) Accum (8 bit)
                       JSR CODE_00919B                           ;;A58E|A5F0+A5D9/A5F5\A5F7;
-                      JSR CODE_008494                           ;;A591|A5F3+A5DC/A5F8\A5FA;
+                      JSR CompactOAMTileSz                      ;;A591|A5F3+A5DC/A5F8\A5FA;
                       JMP CODE_0093F4                           ;;A594|A5F6+A5DF/A5FB\A5FD;
                                                                 ;;                        ;
 CODE_00A5F9:          LDA.B #$E7                                ;;A597|A5F9+A5E2/A5FE\A600;
@@ -11639,7 +11639,7 @@ CODE_00ED4A:          JSR CODE_00F44D                           ;;ECEA|ED4A+ED4A
                       JMP CODE_00EDF7                           ;;ECFB|ED5B+ED5B/ED4B\ED4B;
                                                                 ;;                        ;
                     + CPY.B #$D8                                ;;ECFE|ED5E+ED5E/ED4E\ED4E; \ Check for 'slope assist' tiles
-                      BCC CODE_00ED86                           ;;ED00|ED60+ED60/ED50\ED50; | Tile numbers D8 through FA
+                      BCC CODE_00ED86                           ;;ED00|ED60+ED60/ED50\ED50; | Tile numbers D8 through FA (inclusive)
                       CPY.B #$FB                                ;;ED02|ED62+ED62/ED52\ED52; |
                       BCC +                                     ;;ED04|ED64+ED64/ED54\ED54; /
                       JMP CODE_00F629                           ;;ED06|ED66+ED66/ED56\ED56;
@@ -11651,10 +11651,10 @@ CODE_00ED4A:          JSR CODE_00F44D                           ;;ECEA|ED4A+ED4A
                       STA.B !TouchBlockYPos                     ;;ED11|ED71+ED71/ED61\ED61;
                       JSR CODE_00F461                           ;;ED13|ED73+ED73/ED63\ED63;
                       BEQ CODE_00EDE9                           ;;ED16|ED76+ED76/ED66\ED66;
-                      CPY.B #$6E                                ;;ED18|ED78+ED78/ED68\ED68;
-                      BCC CODE_00EDE9                           ;;ED1A|ED7A+ED7A/ED6A\ED6A;
-                      CPY.B #$D8                                ;;ED1C|ED7C+ED7C/ED6C\ED6C;
-                      BCS CODE_00EDE9                           ;;ED1E|ED7E+ED7E/ED6E\ED6E;
+                      CPY.B #$6E                                ;;ED18|ED78+ED78/ED68\ED68; \ if tile is between 6E and D7 (inclusive)
+                      BCC CODE_00EDE9                           ;;ED1A|ED7A+ED7A/ED6A\ED6A; | its a 'slope-like' tile
+                      CPY.B #$D8                                ;;ED1C|ED7C+ED7C/ED6C\ED6C; |
+                      BCS CODE_00EDE9                           ;;ED1E|ED7E+ED7E/ED6E\ED6E; /
                       LDA.B !PlayerYPosInBlock                  ;;ED20|ED80+ED80/ED70\ED70; Accum (8 bit)
                       ADC.B #$10                                ;;ED22|ED82+ED82/ED72\ED72;
                       STA.B !PlayerYPosInBlock                  ;;ED24|ED84+ED84/ED74\ED74;
@@ -11663,8 +11663,8 @@ CODE_00ED86:          LDA.W !ObjectTileset                      ;;ED26|ED86+ED86
                       BEQ CODE_00ED91                           ;;ED2B|ED8B+ED8B/ED7B\ED7B;
                       CMP.B #$0E                                ;;ED2D|ED8D+ED8D/ED7D\ED7D;
                       BNE CODE_00ED95                           ;;ED2F|ED8F+ED8F/ED7F\ED7F;
-CODE_00ED91:          CPY.B #$D2                                ;;ED31|ED91+ED91/ED81\ED81;
-                      BCS CODE_00EDE9                           ;;ED33|ED93+ED93/ED83\ED83;
+CODE_00ED91:          CPY.B #$D2                                ;;ED31|ED91+ED91/ED81\ED81; \ tile number known to be >= 6E and <= D7 already
+                      BCS CODE_00EDE9                           ;;ED33|ED93+ED93/ED83\ED83; / branch if lava slope (tile >= D2)
 CODE_00ED95:          TYA                                       ;;ED35|ED95+ED95/ED85\ED85;
                       SEC                                       ;;ED36|ED96+ED96/ED86\ED86;
                       SBC.B #$6E                                ;;ED37|ED97+ED97/ED87\ED87;
@@ -11936,11 +11936,11 @@ CallGroundPound:      LDA.B !GraphicsUncompPtr+2                ;;EF4E|EFAE+EFAE
                       STA.W !SPCIO3                             ;;EF58|EFB8+EFB8/EFA8\EFA8; /
                     + RTS                                       ;;EF5B|EFBB+EFBB/EFAB\EFAB; Return
                                                                 ;;                        ;
-CODE_00EFBC:          LDX.W !Map16TileNumber                    ;;EF5C|EFBC+EFBC/EFAC\EFAC;
-                      CPX.B #$CE                                ;;EF5F|EFBF+EFBF/EFAF\EFAF;
-                      BCC +                                     ;;EF61|EFC1+EFC1/EFB1\EFB1;
-                      CPX.B #$D2                                ;;EF63|EFC3+EFC3/EFB3\EFB3;
-                      BCS +                                     ;;EF65|EFC5+EFC5/EFB5\EFB5;
+CODE_00EFBC:          LDX.W !Map16TileNumber                    ;;EF5C|EFBC+EFBC/EFAC\EFAC; \ Check if current map16 tiles
+                      CPX.B #$CE                                ;;EF5F|EFBF+EFBF/EFAF\EFAF; | is the castle escalator slopes
+                      BCC +                                     ;;EF61|EFC1+EFC1/EFB1\EFB1; | (tiles 1CE through 1D1)
+                      CPX.B #$D2                                ;;EF63|EFC3+EFC3/EFB3\EFB3; |
+                      BCS +                                     ;;EF65|EFC5+EFC5/EFB5\EFB5; /
                       TXA                                       ;;EF67|EFC7+EFC7/EFB7\EFB7;
                       SEC                                       ;;EF68|EFC8+EFC8/EFB8\EFB8;
                       SBC.B #$CC                                ;;EF69|EFC9+EFC9/EFB9\EFB9;

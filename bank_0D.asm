@@ -1139,8 +1139,8 @@ GenExtendedObjLocal:  SEP #$30                                  ;;A106|A106+A106
                       dl CODE_0DCE94                            ;;A205|A205+A205/A205\A205; 52
                       dl CODE_0DCE94                            ;;A208|A208+A208/A208\A208; 53
                       dl CODE_0DCE94                            ;;A20B|A20B+A20B/A20B\A20B; 54
-                      dl CODE_0DCEC0                            ;;A20E|A20E+A20E/A20E\A20E; 55
-                      dl CODE_0DCEDA                            ;;A211|A211+A211/A211\A211; 56
+                      dl CODE_0DCEC0                            ;;A20E|A20E+A20E/A20E\A20E; 55 - horz line guide
+                      dl CODE_0DCEDA                            ;;A211|A211+A211/A211\A211; 56 - vert line guide
                       dl CODE_0DE95F                            ;;A214|A214+A214/A214\A214; 57
                       dl CODE_0DE95F                            ;;A217|A217+A217/A217\A217; 58
                       dl CODE_0DE95F                            ;;A21A|A21A+A21A/A21A\A21A; 59
@@ -1192,10 +1192,10 @@ GenExtendedObjLocal:  SEP #$30                                  ;;A106|A106+A106
                       dl GreenSwitchBlock                       ;;A2A4|A2A4+A2A4/A2A4\A2A4; 87
                       dl CODE_0DB6E3                            ;;A2A7|A2A7+A2A7/A2A7\A2A7; 88
                       dl CODE_0DB6E3                            ;;A2AA|A2AA+A2AA/A2AA\A2AA; 89
-                      dl CODE_0DEC8E                            ;;A2AD|A2AD+A2AD/A2AD\A2AD; 8A
-                      dl CODE_0DEC8E                            ;;A2B0|A2B0+A2B0/A2B0\A2B0; 8B
-                      dl CODE_0DEC8E                            ;;A2B3|A2B3+A2B3/A2B3\A2B3; 8C
-                      dl CODE_0DEC8E                            ;;A2B6|A2B6+A2B6/A2B6\A2B6; 8D
+                      dl PalaceSwitchExtObjs                    ;;A2AD|A2AD+A2AD/A2AD\A2AD; 8A
+                      dl PalaceSwitchExtObjs                    ;;A2B0|A2B0+A2B0/A2B0\A2B0; 8B
+                      dl PalaceSwitchExtObjs                    ;;A2B3|A2B3+A2B3/A2B3\A2B3; 8C
+                      dl PalaceSwitchExtObjs                    ;;A2B6|A2B6+A2B6/A2B6\A2B6; 8D
                       dl YellowSwitchBlock                      ;;A2B9|A2B9+A2B9/A2B9\A2B9; 8E
                       dl GhostHouseWinExtObj                    ;;A2BC|A2BC+A2BC/A2BC\A2BC; 8F - Background window in Ghost House
                       dl CODE_0DC31E                            ;;A2BF|A2BF+A2BF/A2BF\A2BF; 90
@@ -7379,7 +7379,7 @@ ADDR_0DEC68:          LDY.B !LevelLoadPos                       ;;EC68|EC68+EC68
 DATA_0DEC7E:          db $EC,$ED,$EE,$EF,$F0,$F1,$F2,$F3        ;;EC7E|EC7E+EC7E/EC7E\EC7E;
                       db $F4,$F5,$F6,$F7,$F8,$F9,$FA,$FB        ;;EC86|EC86+EC86/EC86\EC86;
                                                                 ;;                        ;
-CODE_0DEC8E:          LDY.B !LevelLoadPos                       ;;EC8E|EC8E+EC8E/EC8E\EC8E;
+PalaceSwitchExtObjs:  LDY.B !LevelLoadPos                       ;;EC8E|EC8E+EC8E/EC8E\EC8E;
                       LDA.B !LvlLoadObjSize                     ;;EC90|EC90+EC90/EC90\EC90;
                       SEC                                       ;;EC92|EC92+EC92/EC92\EC92;
                       SBC.B #$8A                                ;;EC93|EC93+EC93/EC93\EC93;

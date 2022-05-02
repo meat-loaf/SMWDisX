@@ -7530,16 +7530,16 @@ CODE_04F853:          JSR CODE_04F87C                           ;;F84B|F853+F853
                       JSL ExecutePtr                            ;;F853|F85B+F85B/F85B\F85B;
                                                                 ;;                        ;
                       dw Return04F828                           ;;F857|F85F+F85F/F85F\F85F;
-                      dw ADDR_04F8CC                            ;;F859|F861+F861/F861\F861;
-                      dw ADDR_04F9B8                            ;;F85B|F863+F863/F863\F863;
-                      dw CODE_04FA3E                            ;;F85D|F865+F865/F865\F865;
-                      dw ADDR_04FAF1                            ;;F85F|F867+F867/F867\F867;
-                      dw CODE_04FB37                            ;;F861|F869+F869/F869\F869;
-                      dw CODE_04FB98                            ;;F863|F86B+F86B/F86B\F86B;
-                      dw CODE_04FC46                            ;;F865|F86D+F86D/F86D\F86D;
-                      dw CODE_04FCE1                            ;;F867|F86F+F86F/F86F\F86F;
-                      dw CODE_04FD24                            ;;F869|F871+F871/F871\F871;
-                      dw CODE_04FD70                            ;;F86B|F873+F873/F873\F873;
+                      dw OWSprLakitu                            ;;F859|F861+F861/F861\F861;
+                      dw OWSprBird                              ;;F85B|F863+F863/F863\F863;
+                      dw OWSprThreeFish                         ;;F85D|F865+F865/F865\F865;
+                      dw OWSprPiranhaPlant                      ;;F85F|F867+F867/F867\F867;
+                      dw OWSprMovingCloud                       ;;F861|F869+F869/F869\F869;
+                      dw OWSprThreeKoopaKids                    ;;F863|F86B+F86B/F86B\F86B;
+                      dw OWSprTwoSmoke                          ;;F865|F86D+F86D/F86D\F86D;
+                      dw OWSprBowserSign                        ;;F867|F86F+F86F/F86F\F86F;
+                      dw OWSprBowser                            ;;F869|F871+F871/F871\F871;
+                      dw OWSprTwoBoos                           ;;F86B|F873+F873/F873\F873;
                                                                 ;;                        ;
 DATA_04F875:          db $80,$40,$20,$10,$08,$04,$02            ;;F86D|F875+F875/F875\F875;
                                                                 ;;                        ;
@@ -7575,7 +7575,7 @@ DATA_04F8C8:          db $10,$F0                                ;;F8C0|F8C8+F8C8
                                                                 ;;                        ;
 DATA_04F8CA:          db $10,$F0                                ;;F8C2|F8CA+F8CA/F8CA\F8CA;
                                                                 ;;                        ;
-ADDR_04F8CC:          JSR CODE_04FE90                           ;;F8C4|F8CC+F8CC/F8CC\F8CC;
+OWSprLakitu:          JSR CODE_04FE90                           ;;F8C4|F8CC+F8CC/F8CC\F8CC;
                       CLC                                       ;;F8C7|F8CF+F8CF/F8CF\F8CF;
                       JSR ADDR_04FE00                           ;;F8C8|F8D0+F8D0/F8D0\F8D0;
                       JSR CODE_04FE62                           ;;F8CB|F8D3+F8D3/F8D3\F8D3;
@@ -7687,7 +7687,7 @@ DATA_04F9B0:          db $00,$01,$04,$01                        ;;F9A8|F9B0+F9B0
                                                                 ;;                        ;
 DATA_04F9B4:          db $01,$07,$09,$07                        ;;F9AC|F9B4+F9B4/F9B4\F9B4;
                                                                 ;;                        ;
-ADDR_04F9B8:          CLC                                       ;;F9B0|F9B8+F9B8/F9B8\F9B8;
+OWSprBird:            CLC                                       ;;F9B0|F9B8+F9B8/F9B8\F9B8;
                       JSR ADDR_04FE00                           ;;F9B1|F9B9+F9B9/F9B9\F9B9;
                       JSR ADDR_04FEEF                           ;;F9B4|F9BC+F9BC/F9BC\F9BC;
                       SEP #$20                                  ;;F9B7|F9BF+F9BF/F9BF\F9BF; Accum (8 bit)
@@ -7754,7 +7754,7 @@ DATA_04FA37:          db $00,$00,$01                            ;;FA2F|FA37+FA37
                                                                 ;;                        ;
 DATA_04FA3A:          db $73,$72,$63,$62                        ;;FA32|FA3A+FA3A/FA3A\FA3A;
                                                                 ;;                        ;
-CODE_04FA3E:          LDA.W !OWSpriteMisc0DF5,X                 ;;FA36|FA3E+FA3E/FA3E\FA3E;
+OWSprThreeFish:       LDA.W !OWSpriteMisc0DF5,X                 ;;FA36|FA3E+FA3E/FA3E\FA3E;
                       BNE CODE_04FA83                           ;;FA39|FA41+FA41/FA41\FA41;
                       LDA.W !OverworldLayer1Tile                ;;FA3B|FA43+FA43/FA43\FA43;
                       SEC                                       ;;FA3E|FA46+FA46/FA46\FA46;
@@ -7840,7 +7840,7 @@ CODE_04FA83:          DEC.W !OWSpriteZSpeed,X                   ;;FA7B|FA83+FA83
 CODE_04FAED:          CLC                                       ;;FAE5|FAED+FAED/FAED\FAED;
                       JMP CODE_04FB0A                           ;;FAE6|FAEE+FAEE/FAEE\FAEE;
                                                                 ;;                        ;
-ADDR_04FAF1:          JSR ADDR_04FED7                           ;;FAE9|FAF1+FAF1/FAF1\FAF1;
+OWSprPiranhaPlant:    JSR ADDR_04FED7                           ;;FAE9|FAF1+FAF1/FAF1\FAF1;
                       JSR CODE_04FE62                           ;;FAEC|FAF4+FAF4/FAF4\FAF4; NOP this and the sprite doesn't appear
                       JSR CODE_04FE5B                           ;;FAEF|FAF7+FAF7/FAF7\FAF7; NOP this and the sprite stops animating.
                       LDY.B #$2A                                ;;FAF2|FAFA+FAFA/FAFA\FAFA;Tile for pirahna plant, #1
@@ -7881,7 +7881,7 @@ CODE_04FB0A:          STA.W !OAMTileNo+$40,Y                    ;;FB02|FB0A+FB0A
                       DEY                                       ;;FB2D|FB35+FB35/FB35\FB35;
                     + RTS                                       ;;FB2E|FB36+FB36/FB36\FB36; Return
                                                                 ;;                        ;
-CODE_04FB37:          LDA.B #$02                                ;;FB2F|FB37+FB37/FB37\FB37;\Overworld Sprite X Speed
+OWSprMovingCloud:     LDA.B #$02                                ;;FB2F|FB37+FB37/FB37\FB37;\Overworld Sprite X Speed
                       STA.W !OWSpriteXSpeed,X                   ;;FB31|FB39+FB39/FB39\FB39;/
                       LDA.B #$FF                                ;;FB34|FB3C+FB3C/FB3C\FB3C;\Overworld Sprite Y Speed
                       STA.W !OWSpriteYSpeed,X                   ;;FB36|FB3E+FB3E/FB3E\FB3E;/
@@ -7932,7 +7932,7 @@ DATA_04FB93:          db $01,$08                                ;;FB8B|FB93+FB93
                                                                 ;;                        ;
 DATA_04FB95:          db $02,$0F,$00                            ;;FB8D|FB95+FB95/FB95\FB95;
                                                                 ;;                        ;
-CODE_04FB98:          LDA.W !OWSpriteMisc0DF5,X                 ;;FB90|FB98+FB98/FB98\FB98;
+OWSprThreeKoopaKids:  LDA.W !OWSpriteMisc0DF5,X                 ;;FB90|FB98+FB98/FB98\FB98;
                       BNE ADDR_04FBD8                           ;;FB93|FB9B+FB9B/FB9B\FB9B;
                       LDA.W !OverworldLayer1Tile                ;;FB95|FB9D+FB9D/FB9D\FB9D;
                       SEC                                       ;;FB98|FBA0+FBA0/FBA0\FBA0;
@@ -8001,7 +8001,7 @@ DATA_04FC26:          db $01,$02,$03,$04,$03,$02,$01,$00        ;;FC1E|FC26+FC26
 DATA_04FC36:          db $FF,$FF,$FE,$FD,$FD,$FC,$FB,$FB        ;;FC2E|FC36+FC36/FC36\FC36;
                       db $FA,$F9,$F9,$F8,$F7,$F7,$F6,$F5        ;;FC36|FC3E+FC3E/FC3E\FC3E;
                                                                 ;;                        ;
-CODE_04FC46:          LDA.W !PlayerTurnOW                       ;;FC3E|FC46+FC46/FC46\FC46;
+OWSprTwoSmoke:        LDA.W !PlayerTurnOW                       ;;FC3E|FC46+FC46/FC46\FC46;
                       LSR A                                     ;;FC41|FC49+FC49/FC49\FC49;
                       LSR A                                     ;;FC42|FC4A+FC4A/FC4A\FC4A;
                       TAY                                       ;;FC43|FC4B+FC4B/FC4B\FC4B;
@@ -8082,7 +8082,7 @@ CODE_04FC8D:          PHY                                       ;;FC85|FC8D+FC8D
                                                                 ;;                        ;
                                                                 ;;                        ;
                                                                 ;;                        ;Bowser's sign code starts here.
-CODE_04FCE1:          JSR CODE_04FE62                           ;;FCD9|FCE1+FCE1/FCE1\FCE1;
+OWSprBowserSign:      JSR CODE_04FE62                           ;;FCD9|FCE1+FCE1/FCE1\FCE1;
                       LDA.B #$04                                ;;FCDC|FCE4+FCE4/FCE4\FCE4;\How many tiles to show up for Bowser's sign
                       STA.B !_4                                 ;;FCDE|FCE6+FCE6/FCE6\FCE6;/
                       LDA.B #$6F                                ;;FCE0|FCE8+FCE8/FCE8\FCE8;
@@ -8113,7 +8113,7 @@ DATA_04FD10:          db $01,$FF,$01,$FF,$01,$FF,$01,$FF        ;;FD08|FD10+FD10
 DATA_04FD1A:          db $18,$E8,$0A,$F6,$08,$F8,$03,$FD        ;;FD12|FD1A+FD1A/FD1A\FD1A;
 DATA_04FD22:          db $01,$FF                                ;;FD1A|FD22+FD22/FD22\FD22;
                                                                 ;;                        ;
-CODE_04FD24:          JSR CODE_04FE90                           ;;FD1C|FD24+FD24/FD24\FD24;
+OWSprBowser:          JSR CODE_04FE90                           ;;FD1C|FD24+FD24/FD24\FD24;
                       JSR CODE_04FE62                           ;;FD1F|FD27+FD27/FD27\FD27;
                       JSR CODE_04FE62                           ;;FD22|FD2A+FD2A/FD2A\FD2A;
                       LDA.B #$00                                ;;FD25|FD2D+FD2D/FD2D\FD2D;
@@ -8149,7 +8149,7 @@ CODE_04FD68:          TYA                                       ;;FD60|FD68+FD68
                       LDX.W !SaveFileDelete                     ;;FD64|FD6C+FD6C/FD6C\FD6C;
 Return04FD6F:         RTS                                       ;;FD67|FD6F+FD6F/FD6F\FD6F; Return
                                                                 ;;                        ;
-CODE_04FD70:          JSR CODE_04FE90                           ;;FD68|FD70+FD70/FD70\FD70;
+OWSprTwoBoos:         JSR CODE_04FE90                           ;;FD68|FD70+FD70/FD70\FD70;
                       JSR CODE_04FE62                           ;;FD6B|FD73+FD73/FD73\FD73;
                       JSR CODE_04FE62                           ;;FD6E|FD76+FD76/FD76\FD76;
                       LDY.W !PlayerTurnLvl                      ;;FD71|FD79+FD79/FD79\FD79;

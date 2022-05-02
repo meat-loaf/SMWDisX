@@ -2059,7 +2059,7 @@ FishinBooTiles1:      db $60,$60,$64,$8A,$60,$60,$AC,$AC        ;;9160|9160+9160
 FishinBooGfxProp:     db $04,$04,$0D,$09,$04,$04,$0D,$0D        ;;916A|916A+916A/916A\916A;
                       db $0D,$07                                ;;9172|9172+9172/9172\9172;
                                                                 ;;                        ;
-FishinBooTiles2:      db $CC,$CE,$CC,$CE                        ;;9174|9174+9174/9174\9174;
+FishinBooTiles2:      db $CC,$CE,$CC,$CE                        ;;9174|9174+9174/9174\9174; Tiles for fishin' boos fire
                                                                 ;;                        ;
 DATA_039178:          db $00,$00,$40,$40                        ;;9178|9178+9178/9178\9178;
                                                                 ;;                        ;
