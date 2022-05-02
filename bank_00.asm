@@ -13014,7 +13014,7 @@ CODE_00FAA3:          LDA.W !SpriteNumber,Y                     ;;FA40|FAA3+FAA3
                       LDA.W !SpriteOffscreenX,Y                 ;;FA47|FAAA+FAAA/FACC\FACC; \ If sprite on screen...
                       ORA.W !SpriteOffscreenVert,Y              ;;FA4A|FAAD+FAAD/FACF\FACF;  |
                       BNE CODE_00FAC5                           ;;FA4D|FAB0+FAB0/FAD2\FAD2;  |
-CODE_00FAB2:          LDA.W !SpriteTweakerE,Y                   ;;FA4F|FAB2+FAB2/FAD4\FAD4;  | ...and "don't turn into coin" not set,
+CODE_00FAB2:          LDA.W !SpriteTweaker1686,Y                ;;FA4F|FAB2+FAB2/FAD4\FAD4;  | ...and "don't turn into coin" not set,
                       AND.B #$20                                ;;FA52|FAB5+FAB5/FAD7\FAD7;  |
                       BNE CODE_00FAC5                           ;;FA54|FAB7+FAB7/FAD9\FAD9;  |
                       LDA.B #$10                                ;;FA56|FAB9+FAB9/FADB\FADB;  | Set coin animation timer = #$10
@@ -13023,7 +13023,7 @@ CODE_00FAB2:          LDA.W !SpriteTweakerE,Y                   ;;FA4F|FAB2+FAB2
                       STA.W !SpriteStatus,Y                     ;;FA5D|FAC0+FAC0/FAE2\FAE2;  |
                       BRA LvlEndNextSprite                      ;;FA60|FAC3+FAC3/FAE5\FAE5; /
                                                                 ;;                        ;
-CODE_00FAC5:          LDA.W !SpriteTweakerF,Y                   ;;FA62|FAC5+FAC5/FAE7\FAE7; \ If "don't erase" not set,
+CODE_00FAC5:          LDA.W !SpriteTweaker190F,Y                ;;FA62|FAC5+FAC5/FAE7\FAE7; \ If "don't erase" not set,
                       AND.B #$02                                ;;FA65|FAC8+FAC8/FAEA\FAEA;  |
                       BNE LvlEndNextSprite                      ;;FA67|FACA+FACA/FAEC\FAEC;  |
                       LDA.B #$00                                ;;FA69|FACC+FACC/FAEE\FAEE;  | Erase sprite

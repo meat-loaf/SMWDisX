@@ -724,11 +724,11 @@ InitSuperKoopaFthr:   JSR FaceMario                             ;;852E|852E+852E
                       AND.B #$10                                ;;8533|8533+8533/8533\8533;
                       BEQ +                                     ;;8535|8535+8535/8535\8535;
                       LDA.B #$10                                ;;8537|8537+8537/8537\8537; \ Can be jumped on
-                      STA.W !SpriteTweakerA,X                   ;;8539|8539+8539/8539\8539; /
+                      STA.W !SpriteTweaker1656,X                ;;8539|8539+8539/8539\8539; /
                       LDA.B #$80                                ;;853C|853C+853C/853C\853C;
-                      STA.W !SpriteTweakerB,X                   ;;853E|853E+853E/853E\853E;
+                      STA.W !SpriteTweaker1662,X                ;;853E|853E+853E/853E\853E;
                       LDA.B #$10                                ;;8541|8541+8541/8541\8541;
-                      STA.W !SpriteTweakerE,X                   ;;8543|8543+8543/8543\8543;
+                      STA.W !SpriteTweaker1686,X                ;;8543|8543+8543/8543\8543;
                       RTS                                       ;;8546|8546+8546/8546\8546; Return
                                                                 ;;                        ;
                     + INC.W !SpriteMisc1534,X                   ;;8547|8547+8547/8547\8547;
@@ -1269,14 +1269,14 @@ CODE_018931:          LDA.B !SpriteNumber,X                     ;;8931|8931+8931
                       JSR MarioSprInteractRt                    ;;8937|8937+8937/8937\8937;
                       BRA Return018951                          ;;893A|893A+893A/893A\893A;
                                                                 ;;                        ;
-CODE_01893C:          ASL.W !SpriteTweakerD,X                   ;;893C|893C+893C/893C\893C;
+CODE_01893C:          ASL.W !SpriteTweaker167A,X                ;;893C|893C+893C/893C\893C;
                       SEC                                       ;;893F|893F+893F/893F\893F;
-                      ROR.W !SpriteTweakerD,X                   ;;8940|8940+8940/8940\8940;
+                      ROR.W !SpriteTweaker167A,X                ;;8940|8940+8940/8940\8940;
                       JSR MarioSprInteractRt                    ;;8943|8943+8943/8943\8943;
                       BCC +                                     ;;8946|8946+8946/8946\8946;
                       JSR CODE_01B12A                           ;;8948|8948+8948/8948\8948;
-                    + ASL.W !SpriteTweakerD,X                   ;;894B|894B+894B/894B\894B;
-                      LSR.W !SpriteTweakerD,X                   ;;894E|894E+894E/894E\894E;
+                    + ASL.W !SpriteTweaker167A,X                ;;894B|894B+894B/894B\894B;
+                      LSR.W !SpriteTweaker167A,X                ;;894E|894E+894E/894E\894E;
 Return018951:         RTS                                       ;;8951|8951+8951/8951\8951; Return
                                                                 ;;                        ;
 CODE_018952:          LDA.W !SpriteMisc163E,X                   ;;8952|8952+8952/8952\8952;CODE RUNA T START?
@@ -1315,7 +1315,7 @@ CODE_01896B:          CMP.B #$01                                ;;896B|896B+896B
                       STA.W !SpriteTableC2,Y                    ;;89A0|89A0+89A0/89A0\89A0;
                       LDA.B #$08                                ;;89A3|89A3+89A3/89A3\89A3;
                       STA.W !SpriteMisc1564,Y                   ;;89A5|89A5+89A5/89A5\89A5;
-                      LDA.W !SpriteTweakerD,Y                   ;;89A8|89A8+89A8/89A8\89A8;
+                      LDA.W !SpriteTweaker167A,Y                   ;;89A8|89A8+89A8/89A8\89A8;
                       AND.B #$10                                ;;89AB|89AB+89AB/89AB\89AB;
                       BEQ CODE_0189B4                           ;;89AD|89AD+89AD/89AD\89AD;
                       LDA.B #$E0                                ;;89AF|89AF+89AF/89AF\89AF;
@@ -2245,7 +2245,7 @@ CODE_019140:          STZ.W !SpriteBlockOffset                  ;;9140|9140+9140
                       TYA                                       ;;91B7|91B7+91B7/91B7\91B7;
                       ADC.W !SpriteYPosHigh,X                   ;;91B8|91B8+91B8/91B8\91B8;
                       STA.W !SpriteYPosHigh,X                   ;;91BB|91BB+91BB/91BB\91BB;
-CODE_0191BE:          LDA.W !SpriteTweakerF,X                   ;;91BE|91BE+91BE/91BE\91BE; \ Branch if "Don't get stuck in walls" is not set
+CODE_0191BE:          LDA.W !SpriteTweaker190F,X                ;;91BE|91BE+91BE/91BE\91BE; \ Branch if "Don't get stuck in walls" is not set
                       BPL +                                     ;;91C1|91C1+91C1/91C1\91C1; /
                       LDA.W !SpriteBlockedDirs,X                ;;91C3|91C3+91C3/91C3\91C3; \ Branch if not touching object
                       AND.B #$03                                ;;91C6|91C6+91C6/91C6\91C6;  |
@@ -2270,14 +2270,14 @@ CODE_0191BE:          LDA.W !SpriteTweakerF,X                   ;;91BE|91BE+91BE
                       BEQ Return019210                          ;;91F3|91F3+91F3/91F3\91F3;
                    if ver_is_lores(!_VER)             ;\   IF   ;;++++++++++++++++++++++++; J, U, SS, & E0
                       ASL A                                     ;;91F5|91F5+91F5/91F5     ;
-                      LDA.W !SpriteTweakerC,X                   ;;91F6|91F6+91F6/91F6     ; \ TODO: Unknown Bit A...
+                      LDA.W !SpriteTweaker166E,X                ;;91F6|91F6+91F6/91F6     ; \ TODO: Unknown Bit A...
                       AND.B #$40                                ;;91F9|91F9+91F9/91F9     ;  | ... may be related to cape
                       ORA.W !SpriteMisc1FE2,X                   ;;91FB|91FB+91FB/91FB     ;
                       BNE Return019210                          ;;91FE|91FE+91FE/91FE     ;
                       BCS +                                     ;;9200|9200+9200/9200     ;
                    else                               ;<  ELSE  ;;------------------------; E1
                       TAY                                       ;;                   \91F5;
-                      LDA.W !SpriteTweakerC,X                   ;;                   \91F6;
+                      LDA.W !SpriteTweaker166E,X                ;;                   \91F6;
                       AND.B #$40                                ;;                   \91F9;
                       ORA.W !SpriteMisc1FE2,X                   ;;                   \91FB;
                       BNE Return019210                          ;;                   \91FE;
@@ -2323,23 +2323,23 @@ CODE_01923A:          TAY                                       ;;923A|923A+923A
                       LDA.B !SpriteNumber,X                     ;;9245|9245+9245/9245\9251; \ Branch if Yoshi
                       CMP.B #$35                                ;;9247|9247+9247/9247\9253;  |
                       BEQ CODE_019252                           ;;9249|9249+9249/9249\9255; /
-                      LDA.W !SpriteTweakerD,X                   ;;924B|924B+924B/924B\9257; \ Branch if "Process interaction every frame"
+                      LDA.W !SpriteTweaker167A,X                ;;924B|924B+924B/924B\9257; \ Branch if "Process interaction every frame"
                       AND.B #$02                                ;;924E|924E+924E/924E\925A;  | is set
                       BNE +                                     ;;9250|9250+9250/9250\925C; /
 CODE_019252:          JSR SetSpriteDyingInLava                  ;;9252|9252+9252/9252\925E;
                     + PLA                                       ;;9255|9255+9255/9255\9261;
                       ORA.B #$80                                ;;9256|9256+9256/9256\9262;
 CODE_019258:          STA.W !SpriteInLiquid,X                   ;;9258|9258+9258/9258\9264;
-CODE_01925B:          LDA.W !SpriteTweakerE,X                   ;;925B|925B+925B/925B\9267; \ 'Don't interact with objects' flag
+CODE_01925B:          LDA.W !SpriteTweaker1686,X                ;;925B|925B+925B/925B\9267; \ 'Don't interact with objects' flag
                       BMI Return019210                          ;;925E|925E+925E/925E\926A; / ...is set
                       LDA.W !TileGenerateTrackA                 ;;9260|9260+9260/9260\926C;
                       BEQ CODE_01926F                           ;;9263|9263+9263/9263\926F;
                       BIT.W !SpriteBuoyancy                     ;;9265|9265+9265/9265\9271;
                       BVS Return0192C0                          ;;9268|9268+9268/9268\9274;
-                      LDA.W !SpriteTweakerC,X                   ;;926A|926A+926A/926A\9276; \ Don't interact with Layer 2
+                      LDA.W !SpriteTweaker166E,X                ;;926A|926A+926A/926A\9276; \ Don't interact with Layer 2
                       BMI Return0192C0                          ;;926D|926D+926D/926D\9279; /
 CODE_01926F:          JSR CODE_0192C9                           ;;926F|926F+926F/926F\927B;
-                      LDA.W !SpriteTweakerF,X                   ;;9272|9272+9272/9272\927E; \ Branch if "Don't get stuck in walls" is not set
+                      LDA.W !SpriteTweaker190F,X                ;;9272|9272+9272/9272\927E; \ Branch if "Don't get stuck in walls" is not set
                       BPL +                                     ;;9275|9275+9275/9275\9281; /
                       LDA.B !SpriteXSpeed,X                     ;;9277|9277+9277/9277\9283; \ Branch if sprite has X speed...
                       ORA.W !SpriteMisc15AC,X                   ;;9279|9279+9279/9279\9285;  | ...or sprite is turning
@@ -2430,7 +2430,7 @@ CODE_019310:          CMP.B #$59                                ;;9310|9310+9310
 CODE_019323:          LDA.B !SpriteNumber,X                     ;;9323|9323+9323/9323\932F; \ Branch if sprite == Yoshi
                       CMP.B #$35                                ;;9325|9325+9325/9325\9331;  |
                       BEQ SetSpriteDyingInLava                  ;;9327|9327+9327/9327\9333; /
-                      LDA.W !SpriteTweakerD,X                   ;;9329|9329+9329/9329\9335; \ Branch if "Process interaction every frame"
+                      LDA.W !SpriteTweaker167A,X                ;;9329|9329+9329/9329\9335; \ Branch if "Process interaction every frame"
                       AND.B #$02                                ;;932C|932C+932C/932C\9338;  | is set
                       BNE CODE_01933B                           ;;932E|932E+932E/932E\933A; /
 SetSpriteDyingInLava: LDA.B #$05                                ;;9330|9330+9330/9330\933C; \ Sprite status = #$05 ???
@@ -2499,7 +2499,7 @@ CODE_0193B0:          LDA.B !_C                                 ;;93B0|93B0+93B0
                       AND.B #$0F                                ;;93B2|93B2+93B2/93B2\93BE;
                       CMP.B #$05                                ;;93B4|93B4+93B4/93B4\93C0;
                       BCS Return019424                          ;;93B6|93B6+93B6/93B6\93C2;
-CODE_0193B8:          LDA.W !SpriteTweakerE,X                   ;;93B8|93B8+93B8/93B8\93C4;
+CODE_0193B8:          LDA.W !SpriteTweaker1686,X                ;;93B8|93B8+93B8/93B8\93C4;
                       AND.B #$04                                ;;93BB|93BB+93BB/93BB\93C7;
                       BNE CODE_019414                           ;;93BD|93BD+93BD/93BD\93C9;
                       LDA.W !SpriteStatus,X                     ;;93BF|93BF+93BF/93BF\93CB; \ Return if sprite status == Killed
@@ -2565,7 +2565,7 @@ CODE_019435:          LDY.B !_F                                 ;;9435|9435+9435
                       RTS                                       ;;9440|9440+9440/9440\944C; Return
                                                                 ;;                        ;
 CODE_019441:          STY.B !_F                                 ;;9441|9441+9441/9441\944D; Can be 00-03
-                      LDA.W !SpriteTweakerA,X                   ;;9443|9443+9443/9443\944F; \ Y = $1656,x (Upper 4 bits) + $0F (Lower 2 bits)
+                      LDA.W !SpriteTweaker1656,X                ;;9443|9443+9443/9443\944F; \ Y = $1656,x (Upper 4 bits) + $0F (Lower 2 bits)
                       AND.B #$0F                                ;;9446|9446+9446/9446\9452;  |
                       ASL A                                     ;;9448|9448+9448/9448\9454;  |
                       ASL A                                     ;;9449|9449+9449/9449\9455;  |
@@ -2799,9 +2799,9 @@ CODE_019624:          LDA.B !SpriteNumber,X                     ;;9624|9624+9624
                       STA.W !SpriteMisc1540,X                   ;;963D|963D+963D/963D\9649; /
                       LDA.B #$08                                ;;9640|9640+9640/9640\964C; \ Set normal status
                       STA.W !SpriteStatus,X                     ;;9642|9642+9642/9642\964E; /
-                      LDA.W !SpriteTweakerE,X                   ;;9645|9645+9645/9645\9651; \ Set to interact with other sprites
+                      LDA.W !SpriteTweaker1686,X                ;;9645|9645+9645/9645\9651; \ Set to interact with other sprites
                       AND.B #$F7                                ;;9648|9648+9648/9648\9654;  |
-                      STA.W !SpriteTweakerE,X                   ;;964A|964A+964A/964A\9656; /
+                      STA.W !SpriteTweaker1686,X                ;;964A|964A+964A/964A\9656; /
                       RTS                                       ;;964D|964D+964D/964D\9659; Return
                                                                 ;;                        ;
                     + CMP.B #$40                                ;;964E|964E+964E/964E\965A;
@@ -2831,9 +2831,9 @@ CODE_01965C:          LDA.W !SpriteMisc1540,X                   ;;965C|965C+965C
                       CPY.B #$03                                ;;9687|9687+9687/9687\9693;
                       BNE +                                     ;;9689|9689+9689/9689\9695;
                       INC.W !SpriteMisc187B,X                   ;;968B|968B+968B/968B\9697;
-                      LDA.W !SpriteTweakerC,X                   ;;968E|968E+968E/968E\969A; \ Disable fireball/cape killing
+                      LDA.W !SpriteTweaker166E,X                ;;968E|968E+968E/968E\969A; \ Disable fireball/cape killing
                       ORA.B #$30                                ;;9691|9691+9691/9691\969D;  |
-                      STA.W !SpriteTweakerC,X                   ;;9693|9693+9693/9693\969F; /
+                      STA.W !SpriteTweaker166E,X                ;;9693|9693+9693/9693\969F; /
                       LDA.B #$0A                                ;;9696|9696+9696/9696\96A2; \ Sprite status = Kicked
                     + STA.W !SpriteStatus,X                     ;;9698|9698+9698/9698\96A4; /
                     - RTS                                       ;;969B|969B+969B/969B\96A7; Return
@@ -3139,7 +3139,7 @@ HandleSprKicked:      LDA.W !SpriteMisc187B,X                   ;;9913|9913+9913
                       BEQ +                                     ;;9916|9916+9916/9916\9922;
                       JMP CODE_0198A9                           ;;9918|9918+9918/9918\9924;
                                                                 ;;                        ;
-                    + LDA.W !SpriteTweakerD,X                   ;;991B|991B+991B/991B\9927;
+                    + LDA.W !SpriteTweaker167A,X                ;;991B|991B+991B/991B\9927;
                       AND.B #$10                                ;;991E|991E+991E/991E\992A;
                       BEQ +                                     ;;9920|9920+9920/9920\992C;
                       JSR CODE_01AA0B                           ;;9922|9922+9922/9922\992E;
@@ -3320,8 +3320,8 @@ HandleSprDyingInLava: LDA.W !SpriteMisc1558,X                   ;;9A7B|9A7B+9A7B
                       BEQ SpinJumpEraseSpr                      ;;9A7E|9A7E+9A7E/9A7E\9A8A;
                       LDA.B #$04                                ;;9A80|9A80+9A80/9A80\9A8C;
                       STA.B !SpriteYSpeed,X                     ;;9A82|9A82+9A82/9A82\9A8E;
-                      ASL.W !SpriteTweakerF,X                   ;;9A84|9A84+9A84/9A84\9A90;
-                      LSR.W !SpriteTweakerF,X                   ;;9A87|9A87+9A87/9A87\9A93;
+                      ASL.W !SpriteTweaker190F,X                ;;9A84|9A84+9A84/9A84\9A90;
+                      LSR.W !SpriteTweaker190F,X                ;;9A87|9A87+9A87/9A87\9A93;
                       LDA.B !SpriteXSpeed,X                     ;;9A8A|9A8A+9A8A/9A8A\9A96;
                       BEQ CODE_019A9D                           ;;9A8C|9A8C+9A8C/9A8C\9A98;
                       BPL CODE_019A94                           ;;9A8E|9A8E+9A8E/9A8E\9A9A;
@@ -3351,7 +3351,7 @@ HandleSprKilled:      LDA.B !SpriteNumber,X                     ;;9AA2|9AA2+9AA2
                     + CMP.B #$4C                                ;;9ABC|9ABC+9ABC/9ABC\9AC8; \ If Exploding Block Enemy
                       BNE +                                     ;;9ABE|9ABE+9ABE/9ABE\9ACA;  |
                       JSL CODE_02E463                           ;;9AC0|9AC0+9AC0/9AC0\9ACC; /
-                    + LDA.W !SpriteTweakerA,X                   ;;9AC4|9AC4+9AC4/9AC4\9AD0; \ If "disappears in puff of smoke" is set...
+                    + LDA.W !SpriteTweaker1656,X                ;;9AC4|9AC4+9AC4/9AC4\9AD0; \ If "disappears in puff of smoke" is set...
                       AND.B #$80                                ;;9AC7|9AC7+9AC7/9AC7\9AD3;  |
                       BEQ +                                     ;;9AC9|9AC9+9AC9/9AC9\9AD5;  |
 CODE_019ACB:          LDA.B #$04                                ;;9ACB|9ACB+9ACB/9ACB\9AD7;  | ...Sprite status = Spin Jump Killed...
@@ -3390,16 +3390,16 @@ CODE_019AFE:          LDA.B !SpriteNumber,X                     ;;9AFE|9AFE+9AFE
                                                                 ;;                        ;
                     + JMP SmushedGfxRt                          ;;9B10|9B10+9B10/9B10\9B1C; Call smushed gfx routine
                                                                 ;;                        ;
-HandleSpriteDeath:    LDA.W !SpriteTweakerD,X                   ;;9B13|9B13+9B13/9B13\9B1F; \ If the main routine handles the death state...
+HandleSpriteDeath:    LDA.W !SpriteTweaker167A,X                ;;9B13|9B13+9B13/9B13\9B1F; \ If the main routine handles the death state...
                       AND.B #$01                                ;;9B16|9B16+9B16/9B16\9B22;  |
                       BEQ +                                     ;;9B18|9B18+9B18/9B18\9B24;  |
                       JMP CallSpriteMain                        ;;9B1A|9B1A+9B1A/9B1A\9B26; / ...jump to the main routine
                                                                 ;;                        ;
                     + STZ.W !SpriteMisc1602,X                   ;;9B1D|9B1D+9B1D/9B1D\9B29;
-                      LDA.W !SpriteTweakerF,X                   ;;9B20|9B20+9B20/9B20\9B2C; \ Branch if "Death frame 2 tiles high"
+                      LDA.W !SpriteTweaker190F,X                ;;9B20|9B20+9B20/9B20\9B2C; \ Branch if "Death frame 2 tiles high"
                       AND.B #$20                                ;;9B23|9B23+9B23/9B23\9B2F;  | is NOT set
                       BEQ CODE_019B64                           ;;9B25|9B25+9B25/9B25\9B31; /
-                      LDA.W !SpriteTweakerB,X                   ;;9B27|9B27+9B27/9B27\9B33; \ Branch if "Use shell as death frame"
+                      LDA.W !SpriteTweaker1662,X                ;;9B27|9B27+9B27/9B27\9B33; \ Branch if "Use shell as death frame"
                       AND.B #$40                                ;;9B2A|9B2A+9B2A/9B2A\9B36;  | is set
                       BNE CODE_019B5F                           ;;9B2C|9B2C+9B2C/9B2C\9B38; /
                       LDA.B !SpriteNumber,X                     ;;9B2E|9B2E+9B2E/9B2E\9B3A; \ Branch if Lakitu
@@ -4094,7 +4094,7 @@ StunFish:             JSR SetAnimationFrame                     ;;A178|A178+A178
                       JSR SubSprGfx2Entry1                      ;;A183|A183+A183/A183\A18F;
                       RTS                                       ;;A186|A186+A186/A186\A192; Return
                                                                 ;;                        ;
-CODE_01A187:          LDA.W !SpriteTweakerD,X                   ;;A187|A187+A187/A187\A193; \ Branch if sprite changes into a shell
+CODE_01A187:          LDA.W !SpriteTweaker167A,X                ;;A187|A187+A187/A187\A193; \ Branch if sprite changes into a shell
                       AND.B #$08                                ;;A18A|A18A+A18A/A18A\A196;  |
                       BEQ CODE_01A1D0                           ;;A18C|A18C+A18C/A18C\A198; /
                       LDA.B !SpriteNumber,X                     ;;A18E|A18E+A18E/A18E\A19A;
@@ -4350,7 +4350,7 @@ GetDrawInfoBnk1:      STZ.W !SpriteOffscreenVert,X              ;;A365|A365+A365
                       LDA.W !SpriteStatus,X                     ;;A397|A397+A397/A397\A3A3; \ Branch if sprite status == Stunned
                       CMP.B #$09                                ;;A39A|A39A+A39A/A39A\A3A6;  |
                       BEQ CODE_01A3A6                           ;;A39C|A39C+A39C/A39C\A3A8; /
-                      LDA.W !SpriteTweakerF,X                   ;;A39E|A39E+A39E/A39E\A3AA; \ Branch if "Death frame 2 tiles high"
+                      LDA.W !SpriteTweaker190F,X                ;;A39E|A39E+A39E/A39E\A3AA; \ Branch if "Death frame 2 tiles high"
                       AND.B #$20                                ;;A3A1|A3A1+A3A1/A3A1\A3AD;  | is NOT set
                       BEQ CODE_01A3A6                           ;;A3A3|A3A3+A3A3/A3A3\A3AF; /
                       INY                                       ;;A3A5|A3A5+A3A5/A3A5\A3B1;
@@ -4429,8 +4429,8 @@ CODE_01A417:          LDA.W !SpriteStatus,X                     ;;A417|A417+A417
                       BCS +                                     ;;A41C|A41C+A41C/A41C\A428;  |
                       JMP CODE_01A4B0                           ;;A41E|A41E+A41E/A41E\A42A; /
                                                                 ;;                        ;
-                    + LDA.W !SpriteTweakerE,X                   ;;A421|A421+A421/A421\A42D;
-                      ORA.W !SpriteTweakerE,Y                   ;;A424|A424+A424/A424\A430;
+                    + LDA.W !SpriteTweaker1686,X                ;;A421|A421+A421/A421\A42D;
+                      ORA.W !SpriteTweaker1686,Y                   ;;A424|A424+A424/A424\A430;
                       AND.B #$08                                ;;A427|A427+A427/A427\A433;
                       ORA.W !SpriteMisc1564,X                   ;;A429|A429+A429/A429\A435;
                       ORA.W !SpriteMisc1564,Y                   ;;A42C|A42C+A42C/A42C\A438;
@@ -4457,7 +4457,7 @@ CODE_01A417:          LDA.W !SpriteStatus,X                     ;;A417|A417+A417
                       SEP #$20                                  ;;A45E|A45E+A45E/A45E\A46A; Accum (8 bit)
                       BCS CODE_01A4B0                           ;;A460|A460+A460/A460\A46C;
                       LDY.B #$00                                ;;A462|A462+A462/A462\A46E;
-                      LDA.W !SpriteTweakerB,X                   ;;A464|A464+A464/A464\A470;
+                      LDA.W !SpriteTweaker1662,X                ;;A464|A464+A464/A464\A470;
                       AND.B #$0F                                ;;A467|A467+A467/A467\A473;
                       BEQ +                                     ;;A469|A469+A469/A469\A475;
                       INY                                       ;;A46B|A46B+A46B/A46B\A477;
@@ -4470,7 +4470,7 @@ CODE_01A417:          LDA.W !SpriteStatus,X                     ;;A417|A417+A417
                       STA.B !_1                                 ;;A479|A479+A479/A479\A485;
                       LDY.W !CurSpriteProcess                   ;;A47B|A47B+A47B/A47B\A487; Y = Sprite index
                       LDX.B #$00                                ;;A47E|A47E+A47E/A47E\A48A;
-                      LDA.W !SpriteTweakerB,Y                   ;;A480|A480+A480/A480\A48C;
+                      LDA.W !SpriteTweaker1662,Y                   ;;A480|A480+A480/A480\A48C;
                       AND.B #$0F                                ;;A483|A483+A483/A483\A48F;
                       BEQ +                                     ;;A485|A485+A485/A485\A491;
                       INX                                       ;;A487|A487+A487/A487\A493;
@@ -4606,7 +4606,7 @@ CODE_01A56D:          LDA.B !SpriteXPosLow,X                    ;;A56E|A56D+A56D
                       ROL A                                     ;;A57A|A579+A579/A579\A585;
                       AND.B #$01                                ;;A57B|A57A+A57A/A57A\A586;
                       STA.B !_0                                 ;;A57D|A57C+A57C/A57C\A588;
-                      LDA.W !SpriteTweakerE,Y                   ;;A57F|A57E+A57E/A57E\A58A;
+                      LDA.W !SpriteTweaker1686,Y                   ;;A57F|A57E+A57E/A57E\A58A;
                       AND.B #$10                                ;;A582|A581+A581/A581\A58D;
                       BNE +                                     ;;A584|A583+A583/A583\A58F;
                       LDY.W !CurSpriteProcess                   ;;A586|A585+A585/A585\A591; Y = Sprite index
@@ -4621,7 +4621,7 @@ CODE_01A56D:          LDA.B !SpriteXPosLow,X                    ;;A56E|A56D+A56D
                       BNE +                                     ;;A59B|A59A+A59A/A59A\A5A6;
                       LDA.B #$08                                ;;A59D|A59C+A59C/A59C\A5A8; \ Set turning timer
                       STA.W !SpriteMisc15AC,Y                   ;;A59F|A59E+A59E/A59E\A5AA; /
-                    + LDA.W !SpriteTweakerE,X                   ;;A5A2|A5A1+A5A1/A5A1\A5AD;
+                    + LDA.W !SpriteTweaker1686,X                ;;A5A2|A5A1+A5A1/A5A1\A5AD;
                       AND.B #$10                                ;;A5A5|A5A4+A5A4/A5A4\A5B0;
                       BNE Return01A5C3                          ;;A5A7|A5A6+A5A6/A5A6\A5B2;
                       LDA.W !SpriteMisc157C,X                   ;;A5A9|A5A8+A5A8/A5A8\A5B4;
@@ -4789,7 +4789,7 @@ CODE_01A6D9:          STY.B !_0                                 ;;A6DB|A6D9+A6D9
                       LDA.W !SpriteBlockedDirs,Y                ;;A6E2|A6E0+A6E0/A6E0\A6EC; \ Branch if not on ground
                       AND.B #$04                                ;;A6E5|A6E3+A6E3/A6E3\A6EF;  |
                       BEQ Return01A72D                          ;;A6E7|A6E5+A6E5/A6E5\A6F1; /
-                      LDA.W !SpriteTweakerA,X                   ;;A6E9|A6E7+A6E7/A6E7\A6F3; \ Return if doesn't kick/hop into shells
+                      LDA.W !SpriteTweaker1656,X                ;;A6E9|A6E7+A6E7/A6E7\A6F3; \ Return if doesn't kick/hop into shells
                       AND.B #$40                                ;;A6EC|A6EA+A6EA/A6EA\A6F6;  |
                       BEQ Return01A72D                          ;;A6EE|A6EC+A6EC/A6EC\A6F8; /
                       LDA.W !SpriteMisc1558,Y                   ;;A6F0|A6EE+A6EE/A6EE\A6FA;
@@ -4913,7 +4913,7 @@ MarioSprInteract:     PHB                                       ;;A7DE|A7DC+A7DC
                       PLB                                       ;;A7E4|A7E2+A7E2/A7E2\A7EE;
                       RTL                                       ;;A7E5|A7E3+A7E3/A7E3\A7EF; Return
                                                                 ;;                        ;
-MarioSprInteractRt:   LDA.W !SpriteTweakerD,X                   ;;A7E6|A7E4+A7E4/A7E4\A7F0; \ Branch if "Process interaction every frame" is set
+MarioSprInteractRt:   LDA.W !SpriteTweaker167A,X                ;;A7E6|A7E4+A7E4/A7E4\A7F0; \ Branch if "Process interaction every frame" is set
                       AND.B #$20                                ;;A7E9|A7E7+A7E7/A7E7\A7F3;  |
                       BNE ProcessInteract                       ;;A7EB|A7E9+A7E9/A7E9\A7F5; /
                       TXA                                       ;;A7ED|A7EB+A7EB/A7EB\A7F7; \ Otherwise, return every other frame
@@ -4949,7 +4949,7 @@ CODE_01A80F:          LDA.B !PlayerAnimation                    ;;A811|A80F+A80F
                       JSL GetSpriteClippingA                    ;;A82A|A828+A828/A828\A834;
                       JSL CheckForContact                       ;;A82E|A82C+A82C/A82C\A838;
                       BCC ReturnNoContact2                      ;;A832|A830+A830/A830\A83C; No contact, return
-                      LDA.W !SpriteTweakerD,X                   ;;A834|A832+A832/A832\A83E; \ Branch if sprite uses default Mario interaction
+                      LDA.W !SpriteTweaker167A,X                ;;A834|A832+A832/A832\A83E; \ Branch if sprite uses default Mario interaction
                       BPL +                                     ;;A837|A835+A835/A835\A841; /
                       SEC                                       ;;A839|A837+A837/A837\A843; Contact, return
                       RTS                                       ;;A83A|A838+A838/A838\A844; Return
@@ -4959,7 +4959,7 @@ DATA_01A839:          db $F0,$10                                ;;A83B|A839+A839
                                                                 ;;                        ;
                     + LDA.W !InvinsibilityTimer                 ;;A83D|A83B+A83B/A83B\A847; \ Branch if Mario doesn't have star
                       BEQ CODE_01A87E                           ;;A840|A83E+A83E/A83E\A84A; /
-                      LDA.W !SpriteTweakerD,X                   ;;A842|A840+A840/A840\A84C; \ Branch if "Process interaction every frame" is set
+                      LDA.W !SpriteTweaker167A,X                ;;A842|A840+A840/A840\A84C; \ Branch if "Process interaction every frame" is set
                       AND.B #$02                                ;;A845|A843+A843/A843\A84F;  |
                       BNE CODE_01A87E                           ;;A847|A845+A845/A845\A851; /
 CODE_01A847:          JSL DisplayContactGfxS                    ;;A849|A847+A847/A847\A853;
@@ -5013,7 +5013,7 @@ CODE_01A895:          CLC                                       ;;A897|A895+A895
                       BMI CODE_01A8E6                           ;;A8B0|A8AE+A8AE/A8AE\A8BA;
                       LDA.B !PlayerYSpeed                       ;;A8B2|A8B0+A8B0/A8B0\A8BC;
                       BPL CODE_01A8C0                           ;;A8B4|A8B2+A8B2/A8B2\A8BE;
-                      LDA.W !SpriteTweakerF,X                   ;;A8B6|A8B4+A8B4/A8B4\A8C0; \ TODO: Branch if Unknown Bit 11 is set
+                      LDA.W !SpriteTweaker190F,X                ;;A8B6|A8B4+A8B4/A8B4\A8C0; \ TODO: Branch if Unknown Bit 11 is set
                       AND.B #$10                                ;;A8B9|A8B7+A8B7/A8B7\A8C3;  |
                       BNE CODE_01A8C0                           ;;A8BB|A8B9+A8B9/A8B9\A8C5; /
                       LDA.W !SpriteStompCounter                 ;;A8BD|A8BB+A8BB/A8BB\A8C7;
@@ -5022,7 +5022,7 @@ CODE_01A8C0:          JSR IsOnGround                            ;;A8C2|A8C0+A8C0
                       BEQ CODE_01A8C9                           ;;A8C5|A8C3+A8C3/A8C3\A8CF;
                       LDA.B !PlayerInAir                        ;;A8C7|A8C5+A8C5/A8C5\A8D1;
                       BEQ CODE_01A8E6                           ;;A8C9|A8C7+A8C7/A8C7\A8D3;
-CODE_01A8C9:          LDA.W !SpriteTweakerA,X                   ;;A8CB|A8C9+A8C9/A8C9\A8D5; \ Branch if can be jumped on
+CODE_01A8C9:          LDA.W !SpriteTweaker1656,X                ;;A8CB|A8C9+A8C9/A8C9\A8D5; \ Branch if can be jumped on
                       AND.B #$10                                ;;A8CE|A8CC+A8CC/A8CC\A8D8;  |
                       BNE CODE_01A91C                           ;;A8D0|A8CE+A8CE/A8CE\A8DA; /
                       LDA.W !SpinJumpFlag                       ;;A8D2|A8D0+A8D0/A8D0\A8DC;
@@ -5036,7 +5036,7 @@ CODE_01A8D8:          LDA.B #!SFX_SPLAT                         ;;A8DA|A8D8+A8D8
                                                                 ;;                        ;
 CODE_01A8E6:          LDA.W !PlayerSlopePose                    ;;A8E8|A8E6+A8E6/A8E6\A8F2;
                       BEQ +                                     ;;A8EB|A8E9+A8E9/A8E9\A8F5;
-                      LDA.W !SpriteTweakerF,X                   ;;A8ED|A8EB+A8EB/A8EB\A8F7; \ Branch if "Takes 5 fireballs to kill"...
+                      LDA.W !SpriteTweaker190F,X                ;;A8ED|A8EB+A8EB/A8EB\A8F7; \ Branch if "Takes 5 fireballs to kill"...
                       AND.B #$04                                ;;A8F0|A8EE+A8EE/A8EE\A8FA;  | ...is set
                       BNE +                                     ;;A8F2|A8F0+A8F0/A8F0\A8FC; /
                       JSR PlayKickSfx                           ;;A8F4|A8F2+A8F2/A8F2\A8FE;
@@ -5047,7 +5047,7 @@ CODE_01A8E6:          LDA.W !PlayerSlopePose                    ;;A8E8|A8E6+A8E6
                       BNE Return01A91B                          ;;A8FE|A8FC+A8FC/A8FC\A908; /
                       LDA.W !PlayerRidingYoshi                  ;;A900|A8FE+A8FE/A8FE\A90A;
                       BNE Return01A91B                          ;;A903|A901+A901/A901\A90D;
-                      LDA.W !SpriteTweakerE,X                   ;;A905|A903+A903/A903\A90F;
+                      LDA.W !SpriteTweaker1686,X                ;;A905|A903+A903/A903\A90F;
                       AND.B #$10                                ;;A908|A906+A906/A906\A912;
                       BNE +                                     ;;A90A|A908+A908/A908\A914;
                       JSR SubHorizPosBnk1                       ;;A90C|A90A+A90A/A90A\A916;
@@ -5088,7 +5088,7 @@ CODE_01A947:          JSR CODE_01A8D8                           ;;A949|A947+A947
                                                                 ;;                        ;
 CODE_01A95D:          JSR CODE_01AB46                           ;;A95F|A95D+A95D/A95D\A969;
                       LDY.B !SpriteNumber,X                     ;;A962|A960+A960/A960\A96C;
-                      LDA.W !SpriteTweakerE,X                   ;;A964|A962+A962/A962\A96E;
+                      LDA.W !SpriteTweaker1686,X                ;;A964|A962+A962/A962\A96E;
                       AND.B #$40                                ;;A967|A965+A965/A965\A971;
                       BEQ CODE_01A9BE                           ;;A969|A967+A967/A967\A973;
                       CPY.B #$72                                ;;A96B|A969+A969/A969\A975;
@@ -5141,7 +5141,7 @@ CODE_01A9BE:          LDA.B !SpriteNumber,X                     ;;A9C0|A9BE+A9BE
                       BCS CODE_01A9CC                           ;;A9C7|A9C5+A9C5/A9C5\A9D1;
                       LDA.W !FlightPhase                        ;;A9C9|A9C7+A9C7/A9C7\A9D3;
                       BNE CODE_01A9D3                           ;;A9CC|A9CA+A9CA/A9CA\A9D6;
-CODE_01A9CC:          LDA.W !SpriteTweakerA,X                   ;;A9CE|A9CC+A9CC/A9CC\A9D8; \ Branch if doesn't die when jumped on
+CODE_01A9CC:          LDA.W !SpriteTweaker1656,X                ;;A9CE|A9CC+A9CC/A9CC\A9D8; \ Branch if doesn't die when jumped on
                       AND.B #$20                                ;;A9D1|A9CF+A9CF/A9CF\A9DB;  |
                       BEQ +                                     ;;A9D3|A9D1+A9D1/A9D1\A9DD; /
 CODE_01A9D3:          LDA.B #$03                                ;;A9D5|A9D3+A9D3/A9D3\A9DF; \ Sprite status = Smushed
@@ -5152,7 +5152,7 @@ CODE_01A9D3:          LDA.B #$03                                ;;A9D5|A9D3+A9D3
                       STZ.B !SpriteYSpeed,X                     ;;A9E1|A9DF+A9DF/A9DF\A9EB; /
                       RTS                                       ;;A9E3|A9E1+A9E1/A9E1\A9ED; Return
                                                                 ;;                        ;
-                    + LDA.W !SpriteTweakerB,X                   ;;A9E4|A9E2+A9E2/A9E2\A9EE; \ Branch if Tweaker bit...
+                    + LDA.W !SpriteTweaker1662,X                ;;A9E4|A9E2+A9E2/A9E2\A9EE; \ Branch if Tweaker bit...
                       AND.B #$80                                ;;A9E7|A9E5+A9E5/A9E5\A9F1;  | ..."Falls straight down when killed"...
                       BEQ CODE_01AA01                           ;;A9E9|A9E7+A9E7/A9E7\A9F3; / ...is NOT set.
                       LDA.B #$02                                ;;A9EB|A9E9+A9E9/A9E9\A9F5; \ Sprite status = Falling off screen
@@ -5206,7 +5206,7 @@ CODE_01AA42:          LDA.W !SpinJumpFlag                       ;;AA44|AA42+AA42
                       BEQ +                                     ;;AA4A|AA48+AA48/AA48\AA54;
                       LDA.B !PlayerYSpeed                       ;;AA4C|AA4A+AA4A/AA4A\AA56;
                       BMI +                                     ;;AA4E|AA4C+AA4C/AA4C\AA58;
-                      LDA.W !SpriteTweakerA,X                   ;;AA50|AA4E+AA4E/AA4E\AA5A; \ Branch if can't be jumped on
+                      LDA.W !SpriteTweaker1656,X                ;;AA50|AA4E+AA4E/AA4E\AA5A; \ Branch if can't be jumped on
                       AND.B #$10                                ;;AA53|AA51+AA51/AA51\AA5D;  |
                       BEQ +                                     ;;AA55|AA53+AA53/AA53\AA5F; /
                       JMP CODE_01A924                           ;;AA57|AA55+AA55/AA55\AA61;
@@ -5289,8 +5289,8 @@ CODE_01AAB7:          STZ.W !SpriteMisc154C,X                   ;;AABA|AAB7+AAB7
                       LDA.B !SpriteNumber,X                     ;;AAF4|AAF1+AAF1/AAF1\AAFD;
                       CMP.B #$3E                                ;;AAF6|AAF3+AAF3/AAF3\AAFF;
                       BNE Return01AB2C                          ;;AAF8|AAF5+AAF5/AAF5\AB01;
-                      ASL.W !SpriteTweakerD,X                   ;;AAFA|AAF7+AAF7/AAF7\AB03;
-                      LSR.W !SpriteTweakerD,X                   ;;AAFD|AAFA+AAFA/AAFA\AB06;
+                      ASL.W !SpriteTweaker167A,X                ;;AAFA|AAF7+AAF7/AAF7\AB03;
+                      LSR.W !SpriteTweaker167A,X                ;;AAFD|AAFA+AAFA/AAFA\AB06;
                       LDA.B #!SFX_SWITCH                        ;;AB00|AAFD+AAFD/AAFD\AB09;
                       STA.W !SPCIO0                             ;;AB02|AAFF+AAFF/AAFF\AB0B; / Play sound effect
                       LDA.W !MusicBackup                        ;;AB05|AB02+AB02/AB02\AB0E;
@@ -5470,7 +5470,7 @@ SubOffscreen0Bnk1:    STZ.B !_3                                 ;;AC34|AC31+AC31
                       ADC.B #$00                                ;;AC49|AC46+AC46/AC46\AC52;  |
                       CMP.B #$02                                ;;AC4B|AC48+AC48/AC48\AC54;  |
                       BPL OffScrEraseSprite                     ;;AC4D|AC4A+AC4A/AC4A\AC56; /    ...erase the sprite
-                      LDA.W !SpriteTweakerD,X                   ;;AC4F|AC4C+AC4C/AC4C\AC58; \ if "process offscreen" flag is set, return
+                      LDA.W !SpriteTweaker167A,X                ;;AC4F|AC4C+AC4C/AC4C\AC58; \ if "process offscreen" flag is set, return
                       AND.B #$04                                ;;AC52|AC4F+AC4F/AC4F\AC5B;  |
                       BNE Return01ACA4                          ;;AC54|AC51+AC51/AC51\AC5D; /
                       LDA.B !TrueFrame                          ;;AC56|AC53+AC53/AC53\AC5F;
@@ -5513,7 +5513,7 @@ OffScrEraseSprite:    LDA.B !SpriteNumber,X                     ;;AC83|AC80+AC80
                     + STZ.W !SpriteStatus,X                     ;;ACA4|ACA1+ACA1/ACA1\ACAD; Erase sprite
 Return01ACA4:         RTS                                       ;;ACA7|ACA4+ACA4/ACA4\ACB0;
                                                                 ;;                        ;
-VerticalLevel:        LDA.W !SpriteTweakerD,X                   ;;ACA8|ACA5+ACA5/ACA5\ACB1; \ If "process offscreen" flag is set, return
+VerticalLevel:        LDA.W !SpriteTweaker167A,X                ;;ACA8|ACA5+ACA5/ACA5\ACB1; \ If "process offscreen" flag is set, return
                       AND.B #$04                                ;;ACAB|ACA8+ACA8/ACA8\ACB4;  |
                       BNE Return01ACA4                          ;;ACAD|ACAA+ACAA/ACAA\ACB6; /
                       LDA.B !TrueFrame                          ;;ACAF|ACAC+ACAC/ACAC\ACB8; \ Return every other frame
@@ -6517,7 +6517,7 @@ CODE_01B4B0:          SEC                                       ;;B4B1|B4B0+B4B0
 CODE_01B4B2:          CLC                                       ;;B4B3|B4B2+B4B2/B4B2\B4B9;
                       RTS                                       ;;B4B4|B4B3+B4B3/B4B3\B4BA; Return
                                                                 ;;                        ;
-CODE_01B4B4:          LDA.W !SpriteTweakerF,X                   ;;B4B5|B4B4+B4B4/B4B4\B4BB; \ Branch if "Make Platform Passable" is set
+CODE_01B4B4:          LDA.W !SpriteTweaker190F,X                ;;B4B5|B4B4+B4B4/B4B4\B4BB; \ Branch if "Make Platform Passable" is set
                       LSR A                                     ;;B4B8|B4B7+B4B7/B4B7\B4BE;  |
                       BCS CODE_01B4B2                           ;;B4B9|B4B8+B4B8/B4B8\B4BF; /
                       LDA.B #$00                                ;;B4BB|B4BA+B4BA/B4BA\B4C1;
@@ -8112,7 +8112,7 @@ DATA_01C0A5:          db $10,$F0                                ;;C0B0|C0A5+C0A5
                       JSL CODE_07F252                           ;;C12A|C11F+C11F/C11F\C126;
                       BRA +                                     ;;C12E|C123+C123/C123\C12A;
                                                                 ;;                        ;
-CODE_01C125:          STZ.W !SpriteTweakerE,X                   ;;C130|C125+C125/C125\C12C;
+CODE_01C125:          STZ.W !SpriteTweaker1686,X                ;;C130|C125+C125/C125\C12C;
                     + JSL TriggerGoalTape                       ;;C133|C128+C128/C128\C12F;
 Return01C12C:         RTS                                       ;;C137|C12C+C12C/C12C\C133; Return
                                                                 ;;                        ;
@@ -8315,9 +8315,9 @@ CODE_01C2AF:          CMP.B #$80                                ;;C2BA|C2AF+C2AF
                       STA.B !PlayerYSpeed                       ;;C2C9|C2BE+C2BE/C2BE\C2C5;
                       STZ.B !SpriteYSpeed,X                     ;;C2CB|C2C0+C2C0/C2C0\C2C7; Sprite Y Speed = 0
                       STZ.W !SpriteMisc1540,X                   ;;C2CD|C2C2+C2C2/C2C2\C2C9;
-                      LDA.W !SpriteTweakerD,X                   ;;C2D0|C2C5+C2C5/C2C5\C2CC; \ Use default interation with Mario
+                      LDA.W !SpriteTweaker167A,X                ;;C2D0|C2C5+C2C5/C2C5\C2CC; \ Use default interation with Mario
                       AND.B #$7F                                ;;C2D3|C2C8+C2C8/C2C8\C2CF;  |
-                      STA.W !SpriteTweakerD,X                   ;;C2D5|C2CA+C2CA/C2CA\C2D1; /
+                      STA.W !SpriteTweaker167A,X                ;;C2D5|C2CA+C2CA/C2CA\C2D1; /
                       RTS                                       ;;C2D8|C2CD+C2CD/C2CD\C2D4; Return
                                                                 ;;                        ;
 CODE_01C2CE:          CMP.B #$7D                                ;;C2D9|C2CE+C2CE/C2CE\C2D5;
@@ -10817,7 +10817,7 @@ InitLineRope:         CPX.B #$06                                ;;D6C5|D6C4+D6C4
                       BCC +                                     ;;D6C7|D6C6+D6C6/D6CD\D6D4;
                       LDA.W !SpriteMemorySetting                ;;D6C9|D6C8+D6C8/D6CF\D6D6;
                       BEQ +                                     ;;D6CC|D6CB+D6CB/D6D2\D6D9;
-                      INC.W !SpriteTweakerB,X                   ;;D6CE|D6CD+D6CD/D6D4\D6DB;
+                      INC.W !SpriteTweaker1662,X                ;;D6CE|D6CD+D6CD/D6D4\D6DB;
                       BRA +                                     ;;D6D1|D6D0+D6D0/D6D7\D6DE;
                                                                 ;;                        ;
 InitLinePlat:         LDA.B !SpriteXPosLow,X                    ;;D6D3|D6D2+D6D2/D6D9\D6E0;
@@ -10825,7 +10825,7 @@ InitLinePlat:         LDA.B !SpriteXPosLow,X                    ;;D6D3|D6D2+D6D2
                       EOR.B #$10                                ;;D6D7|D6D6+D6D6/D6DD\D6E4;
                       STA.W !SpriteMisc1602,X                   ;;D6D9|D6D8+D6D8/D6DF\D6E6;
                       BEQ +                                     ;;D6DC|D6DB+D6DB/D6E2\D6E9;
-                      INC.W !SpriteTweakerB,X                   ;;D6DE|D6DD+D6DD/D6E4\D6EB;
+                      INC.W !SpriteTweaker1662,X                ;;D6DE|D6DD+D6DD/D6E4\D6EB;
                     + INC.W !SpriteMisc1540,X                   ;;D6E1|D6E0+D6E0/D6E7\D6EE;
                       JSR LineFuzzy_Plats                       ;;D6E4|D6E3+D6E3/D6EA\D6F1;
                       JSR LineFuzzy_Plats                       ;;D6E7|D6E6+D6E6/D6ED\D6F4;
@@ -14170,7 +14170,7 @@ DATA_01F2DC:          db $00,$F8,$08                            ;;F2DF|F2DC+F2DC
                                                                 ;;                        ;
 CODE_01F2DF:          LDA.B #!SFX_SPIT                          ;;F2E2|F2DF+F2DF/F2DF\F2DF; \ Play sound effect
                       STA.W !SPCIO0                             ;;F2E4|F2E1+F2E1/F2E1\F2E1; /
-                      LDA.W !SpriteTweakerE,Y                   ;;F2E7|F2E4+F2E4/F2E4\F2E4; \ Return if sprite doesn't spawn a new one
+                      LDA.W !SpriteTweaker1686,Y                   ;;F2E7|F2E4+F2E4/F2E4\F2E4; \ Return if sprite doesn't spawn a new one
                       AND.B #$40                                ;;F2EA|F2E7+F2E7/F2E7\F2E7;  |
                       BEQ +                                     ;;F2EC|F2E9+F2E9/F2E9\F2E9; /
                       PHX                                       ;;F2EE|F2EB+F2EB/F2EB\F2EB; \ Load sprite to spawn and store it
@@ -14227,7 +14227,7 @@ CODE_01F344:          STZ.W !SpriteMisc151C,X                   ;;F347|F344+F344
                       STZ.W !SpriteMisc1594,X                   ;;F34A|F347+F347/F347\F347;
                       LDY.W !SpriteMisc160E,X                   ;;F34D|F34A+F34A/F34A\F34A;
                       BMI CODE_01F370                           ;;F350|F34D+F34D/F34D\F34D;
-                      LDA.W !SpriteTweakerE,Y                   ;;F352|F34F+F34F/F34F\F34F;
+                      LDA.W !SpriteTweaker1686,Y                   ;;F352|F34F+F34F/F34F\F34F;
                       AND.B #$02                                ;;F355|F352+F352/F352\F352;
                       BEQ CODE_01F373                           ;;F357|F354+F354/F354\F354;
                       LDA.B #$07                                ;;F359|F356+F356/F356\F356; \ Sprite status = Unused (todo: look here)
@@ -14259,9 +14259,9 @@ CODE_01F373:          LDA.B #$00                                ;;F376|F373+F373
                       BNE +                                     ;;F393|F390+F390/F390\F390;
                       LDA.B #$74                                ;;F395|F392+F392/F392\F392; \ Sprite = Mushroom
                       STA.W !SpriteNumber,Y                     ;;F397|F394+F394/F394\F394; /
-                      LDA.W !SpriteTweakerD,Y                   ;;F39A|F397+F397/F397\F397; \ Set "Gives powerup when eaten" bit
+                      LDA.W !SpriteTweaker167A,Y                   ;;F39A|F397+F397/F397\F397; \ Set "Gives powerup when eaten" bit
                       ORA.B #$40                                ;;F39D|F39A+F39A/F39A\F39A;  |
-                      STA.W !SpriteTweakerD,Y                   ;;F39F|F39C+F39C/F39C\F39C; /
+                      STA.W !SpriteTweaker167A,Y                   ;;F39F|F39C+F39C/F39C\F39C; /
                     + LDA.W !SpriteNumber,Y                     ;;F3A2|F39F+F39F/F39F\F39F; \ Branch if not Changing Item
                       CMP.B #$81                                ;;F3A5|F3A2+F3A2/F3A2\F3A2;  |
                       BNE +                                     ;;F3A7|F3A4+F3A4/F3A4\F3A4; /
@@ -14279,7 +14279,7 @@ CODE_01F373:          LDA.B #$00                                ;;F376|F373+F373
                       STA.W !SpriteNumber,Y                     ;;F3BA|F3B7+F3B7/F3B7\F3B7;
                     + PHA                                       ;;F3BD|F3BA+F3BA/F3BA\F3BA;
                       LDY.B !_0                                 ;;F3BE|F3BB+F3BB/F3BB\F3BB;
-                      LDA.W !SpriteTweakerD,Y                   ;;F3C0|F3BD+F3BD/F3BD\F3BD;
+                      LDA.W !SpriteTweaker167A,Y                   ;;F3C0|F3BD+F3BD/F3BD\F3BD;
                       ASL A                                     ;;F3C3|F3C0+F3C0/F3C0\F3C0;
                       ASL A                                     ;;F3C4|F3C1+F3C1/F3C1\F3C1;
                       PLA                                       ;;F3C5|F3C2+F3C2/F3C2\F3C2;
@@ -14443,10 +14443,10 @@ CODE_01F4C3:          LDA.W !SpriteMisc151C,X                   ;;F4C6|F4C3+F4C3
                       STA.W !SpriteYPosHigh,Y                   ;;F4E7|F4E4+F4E4/F4E4\F4E4;
                       LDA.B #$FC                                ;;F4EA|F4E7+F4E7/F4E7\F4E7;
                       STA.B !_0                                 ;;F4EC|F4E9+F4E9/F4E9\F4E9;
-                      LDA.W !SpriteTweakerB,Y                   ;;F4EE|F4EB+F4EB/F4EB\F4EB;
+                      LDA.W !SpriteTweaker1662,Y                   ;;F4EE|F4EB+F4EB/F4EB\F4EB;
                       AND.B #$40                                ;;F4F1|F4EE+F4EE/F4EE\F4EE;
                       BNE +                                     ;;F4F3|F4F0+F4F0/F4F0\F4F0;
-                      LDA.W !SpriteTweakerF,Y                   ;;F4F5|F4F2+F4F2/F4F2\F4F2; \ Branch if "Death frame 2 tiles high"
+                      LDA.W !SpriteTweaker190F,Y                ;;F4F5|F4F2+F4F2/F4F2\F4F2; \ Branch if "Death frame 2 tiles high"
                       AND.B #$20                                ;;F4F8|F4F5+F4F5/F4F5\F4F5;  | is NOT set
                       BEQ +                                     ;;F4FA|F4F7+F4F7/F4F7\F4F7; /
                       LDA.B #$F8                                ;;F4FC|F4F9+F4F9/F4F9\F4F9;
@@ -14532,7 +14532,7 @@ TryEatSprite:         PHX                                       ;;F591|F58E+F58E
                       PLX                                       ;;F597|F594+F594/F594\F594;
                       JSL CheckForContact                       ;;F598|F595+F595/F595\F595;
                       BCC Return01F609                          ;;F59C|F599+F599/F599\F599;
-                      LDA.W !SpriteTweakerE,Y                   ;;F59E|F59B+F59B/F59B\F59B; \ If sprite inedible
+                      LDA.W !SpriteTweaker1686,Y                   ;;F59E|F59B+F59B/F59B\F59B; \ If sprite inedible
                       LSR A                                     ;;F5A1|F59E+F59E/F59E\F59E;  |
                       BCC +                                     ;;F5A2|F59F+F59F/F59F\F59F;  |
                       LDA.B #!SFX_BONK                          ;;F5A4|F5A1+F5A1/F5A1\F5A1;  | Play sound effect
@@ -14610,7 +14610,7 @@ CODE_01F62B:          STY.W !SpriteInterIndex                   ;;F62E|F62B+F62B
                       LDA.W !SpriteStatus,Y                     ;;F64D|F64A+F64A/F64A\F64A;
                       CMP.B #$09                                ;;F650|F64D+F64D/F64D\F64D;
                       BEQ +                                     ;;F652|F64F+F64F/F64F\F64F;
-                      LDA.W !SpriteTweakerD,Y                   ;;F654|F651+F651/F651\F651;
+                      LDA.W !SpriteTweaker167A,Y                   ;;F654|F651+F651/F651\F651;
                       AND.B #$02                                ;;F657|F654+F654/F654\F654;
                       ORA.W !SpriteOnYoshiTongue,Y              ;;F659|F656+F656/F656\F656;
                       ORA.W !SpriteBehindScene,Y                ;;F65C|F659+F659/F659\F659;
@@ -15065,19 +15065,19 @@ CODE_01F9CE:          LDA.B !SpriteNumber,X                     ;;F9D1|F9CE+F9CE
                       CMP.B #$08                                ;;F9E0|F9DD+F9DD/F9DD\F9DD;
                       BCS CODE_01FA09                           ;;F9E2|F9DF+F9DF/F9DF\F9DF;
                       PHA                                       ;;F9E4|F9E1+F9E1/F9E1\F9E1;
-                      LDA.W !SpriteTweakerB,X                   ;;F9E5|F9E2+F9E2/F9E2\F9E2;
+                      LDA.W !SpriteTweaker1662,X                ;;F9E5|F9E2+F9E2/F9E2\F9E2;
                       PHA                                       ;;F9E8|F9E5+F9E5/F9E5\F9E5;
-                      LDA.W !SpriteTweakerD,X                   ;;F9E9|F9E6+F9E6/F9E6\F9E6;
+                      LDA.W !SpriteTweaker167A,X                ;;F9E9|F9E6+F9E6/F9E6\F9E6;
                       PHA                                       ;;F9EC|F9E9+F9E9/F9E9\F9E9;
                       ORA.B #$80                                ;;F9ED|F9EA+F9EA/F9EA\F9EA;
-                      STA.W !SpriteTweakerD,X                   ;;F9EF|F9EC+F9EC/F9EC\F9EC;
+                      STA.W !SpriteTweaker167A,X                ;;F9EF|F9EC+F9EC/F9EC\F9EC;
                       LDA.B #$0C                                ;;F9F2|F9EF+F9EF/F9EF\F9EF;
-                      STA.W !SpriteTweakerB,X                   ;;F9F4|F9F1+F9F1/F9F1\F9F1;
+                      STA.W !SpriteTweaker1662,X                ;;F9F4|F9F1+F9F1/F9F1\F9F1;
                       JSR InvisSolidBlkRtBnk1                   ;;F9F7|F9F4+F9F4/F9F4\F9F4;
                       PLA                                       ;;F9FA|F9F7+F9F7/F9F7\F9F7;
-                      STA.W !SpriteTweakerD,X                   ;;F9FB|F9F8+F9F8/F9F8\F9F8;
+                      STA.W !SpriteTweaker167A,X                ;;F9FB|F9F8+F9F8/F9F8\F9F8;
                       PLA                                       ;;F9FE|F9FB+F9FB/F9FB\F9FB;
-                      STA.W !SpriteTweakerB,X                   ;;F9FF|F9FC+F9FC/F9FC\F9FC;
+                      STA.W !SpriteTweaker1662,X                ;;F9FF|F9FC+F9FC/F9FC\F9FC;
                       PLA                                       ;;FA02|F9FF+F9FF/F9FF\F9FF;
                       LDY.B #$01                                ;;FA03|FA00+FA00/FA00\FA00;
                       CMP.B #$04                                ;;FA05|FA02+FA02/FA02\FA02;

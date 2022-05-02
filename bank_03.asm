@@ -1220,8 +1220,8 @@ CODE_038A57:          JSL InvisBlkMainRt                        ;;8A57|8A57+8A57
                       STZ.B !SpriteYSpeed,X                     ;;8A66|8A66+8A66/8A66\8A66; Sprite Y Speed = 0
                     + RTS                                       ;;8A68|8A68+8A68/8A68\8A68; Return
                                                                 ;;                        ;
-CODE_038A69:          ASL.W !SpriteTweakerD,X                   ;;8A69|8A69+8A69/8A69\8A69;
-                      LSR.W !SpriteTweakerD,X                   ;;8A6C|8A6C+8A6C/8A6C\8A6C;
+CODE_038A69:          ASL.W !SpriteTweaker167A,X                ;;8A69|8A69+8A69/8A69\8A69;
+                      LSR.W !SpriteTweaker167A,X                ;;8A6C|8A6C+8A6C/8A6C\8A6C;
                       JSL MarioSprInteract                      ;;8A6F|8A6F+8A6F/8A6F\8A6F;
                       STZ.W !SpriteMisc1602,X                   ;;8A73|8A73+8A73/8A73\8A73;
                       LDA.B !SpriteYSpeed,X                     ;;8A76|8A76+8A76/8A76\8A76;
@@ -2560,7 +2560,7 @@ RexInAir:             LDA.W !SpriteMisc1FE2,X                   ;;9569|9569+9569
                                                                 ;;                        ;
                     + LDA.B #$0C                                ;;95C1|95C1+95C1/95C1\95C1; \ Time to show semi-squashed Rex = $0C
                       STA.W !SpriteMisc1FE2,X                   ;;95C3|95C3+95C3/95C3\95C3; /
-                      STZ.W !SpriteTweakerB,X                   ;;95C6|95C6+95C6/95C6\95C6; Change clipping area for squashed Rex
+                      STZ.W !SpriteTweaker1662,X                ;;95C6|95C6+95C6/95C6\95C6; Change clipping area for squashed Rex
                       RTS                                       ;;95C9|95C9+95C9/95C9\95C9; Return
                                                                 ;;                        ;
 RexWins:              LDA.W !IFrameTimer                        ;;95CA|95CA+95CA/95CA\95CA; \ If mario is invincible...
@@ -3150,7 +3150,7 @@ CODE_039910:          LDA.W !SpriteStatus,X                     ;;9910|9910+9910
                       LDA.B !PlayerYSpeed                       ;;9A54|9A54+9A54/9A54\9A54;  |
                       BPL HitPlatSide                           ;;9A56|9A56+9A56/9A56\9A56; /
                       LDA.B #$29                                ;;9A58|9A58+9A58/9A58\9A58; ??Something about boosting mario on platform??
-                      STA.W !SpriteTweakerB,X                   ;;9A5A|9A5A+9A5A/9A5A\9A5A;
+                      STA.W !SpriteTweaker1662,X                ;;9A5A|9A5A+9A5A/9A5A\9A5A;
                       LDA.B #$0F                                ;;9A5D|9A5D+9A5D/9A5D\9A5D; \ Time to bounce platform = 0F
                       STA.W !SpriteMisc1564,X                   ;;9A5F|9A5F+9A5F/9A5F\9A5F; /
                       LDA.B #$10                                ;;9A62|9A62+9A62/9A62\9A62; \ Set mario's y speed to rebound down off platform
@@ -4817,10 +4817,10 @@ CODE_03A7F6:          LDA.B #!SFX_FIRESPIT                      ;;A7FA|A7F6+A7F6
                       TYX                                       ;;A824|A820+A820/A820\A820;
                       JSL InitSpriteTables                      ;;A825|A821+A821/A821\A821;
                       INC.B !SpriteTableC2,X                    ;;A829|A825+A825/A825\A825;
-                      ASL.W !SpriteTweakerE,X                   ;;A82B|A827+A827/A827\A827;
-                      LSR.W !SpriteTweakerE,X                   ;;A82E|A82A+A82A/A82A\A82A;
+                      ASL.W !SpriteTweaker1686,X                ;;A82B|A827+A827/A827\A827;
+                      LSR.W !SpriteTweaker1686,X                ;;A82E|A82A+A82A/A82A\A82A;
                       LDA.B #$39                                ;;A831|A82D+A82D/A82D\A82D;
-                      STA.W !SpriteTweakerB,X                   ;;A833|A82F+A82F/A82F\A82F;
+                      STA.W !SpriteTweaker1662,X                ;;A833|A82F+A82F/A82F\A82F;
                       PLX                                       ;;A836|A832+A832/A832\A832;
                       PLA                                       ;;A837|A833+A833/A833\A833;
                       LSR A                                     ;;A838|A834+A834/A834\A834;
@@ -5789,7 +5789,7 @@ CODE_03B078:          LDA.B !Mode7XScale                        ;;B074|B078+B078
                       LDA.W !SpriteMisc154C,X                   ;;B08A|B08E+B08E/B08E\B08E;
                       BNE Return03B0DB                          ;;B08D|B091+B091/B091\B091;
                       LDA.B #$24                                ;;B08F|B093+B093/B093\B093;
-                      STA.W !SpriteTweakerB,X                   ;;B091|B095+B095/B095\B095;
+                      STA.W !SpriteTweaker1662,X                ;;B091|B095+B095/B095\B095;
                       JSL MarioSprInteract                      ;;B094|B098+B098/B098\B098;
                       BCC CODE_03B0BD                           ;;B098|B09C+B09C/B09C\B09C;
                       JSR CODE_03B0D6                           ;;B09A|B09E+B09E/B09E\B09E;
@@ -5805,11 +5805,11 @@ CODE_03B0B3:          LDA.W DATA_03B074,Y                       ;;B0AF|B0B3+B0B3
                     + STA.B !PlayerXSpeed                       ;;B0B2|B0B6+B0B6/B0B6\B0B6;
                       LDA.B #!SFX_BONK                          ;;B0B4|B0B8+B0B8/B0B8\B0B8; \ Play sound effect
                       STA.W !SPCIO0                             ;;B0B6|B0BA+B0BA/B0BA\B0BA; /
-CODE_03B0BD:          INC.W !SpriteTweakerB,X                   ;;B0B9|B0BD+B0BD/B0BD\B0BD;
+CODE_03B0BD:          INC.W !SpriteTweaker1662,X                ;;B0B9|B0BD+B0BD/B0BD\B0BD;
                       JSL MarioSprInteract                      ;;B0BC|B0C0+B0C0/B0C0\B0C0;
                       BCC +                                     ;;B0C0|B0C4+B0C4/B0C4\B0C4;
                       JSR CODE_03B0D2                           ;;B0C2|B0C6+B0C6/B0C6\B0C6;
-                    + INC.W !SpriteTweakerB,X                   ;;B0C5|B0C9+B0C9/B0C9\B0C9;
+                    + INC.W !SpriteTweaker1662,X                ;;B0C5|B0C9+B0C9/B0C9\B0C9;
                       JSL MarioSprInteract                      ;;B0C8|B0CC+B0CC/B0CC\B0CC;
                       BCC Return03B0DB                          ;;B0CC|B0D0+B0D0/B0D0\B0D0;
 CODE_03B0D2:          JSL HurtMario                             ;;B0CE|B0D2+B0D2/B0D2\B0D2;
@@ -5835,11 +5835,11 @@ CODE_03B0F3:          PHX                                       ;;B0EF|B0F3+B0F3
                       JSL GetSpriteClippingB                    ;;B0F1|B0F5+B0F5/B0F5\B0F5;
                       PLX                                       ;;B0F5|B0F9+B0F9/B0F9\B0F9;
                       LDA.B #$24                                ;;B0F6|B0FA+B0FA/B0FA\B0FA;
-                      STA.W !SpriteTweakerB,X                   ;;B0F8|B0FC+B0FC/B0FC\B0FC;
+                      STA.W !SpriteTweaker1662,X                ;;B0F8|B0FC+B0FC/B0FC\B0FC;
                       JSL GetSpriteClippingA                    ;;B0FB|B0FF+B0FF/B0FF\B0FF;
                       JSL CheckForContact                       ;;B0FF|B103+B103/B103\B103;
                       BCS CODE_03B142                           ;;B103|B107+B107/B107\B107;
-                      INC.W !SpriteTweakerB,X                   ;;B105|B109+B109/B109\B109;
+                      INC.W !SpriteTweaker1662,X                ;;B105|B109+B109/B109\B109;
                       JSL GetSpriteClippingA                    ;;B108|B10C+B10C/B10C\B10C;
                       JSL CheckForContact                       ;;B10C|B110+B110/B110\B110;
                       BCC Return03B160                          ;;B110|B114+B114/B114\B114;
@@ -6448,7 +6448,7 @@ CODE_03B680:          INX                                       ;;B680|B680+B680
 GetSpriteClippingA:   PHY                                       ;;B69F|B69F+B69F/B69F\B69F;
                       PHX                                       ;;B6A0|B6A0+B6A0/B6A0\B6A0;
                       TXY                                       ;;B6A1|B6A1+B6A1/B6A1\B6A1; Y = Sprite index
-                      LDA.W !SpriteTweakerB,X                   ;;B6A2|B6A2+B6A2/B6A2\B6A2; \ X = Clipping table index
+                      LDA.W !SpriteTweaker1662,X                ;;B6A2|B6A2+B6A2/B6A2\B6A2; \ X = Clipping table index
                       AND.B #$3F                                ;;B6A5|B6A5+B6A5/B6A5\B6A5;  |
                       TAX                                       ;;B6A7|B6A7+B6A7/B6A7\B6A7; /
                       STZ.B !_F                                 ;;B6A8|B6A8+B6A8/B6A8\B6A8; \
@@ -6482,7 +6482,7 @@ GetSpriteClippingA:   PHY                                       ;;B69F|B69F+B69F
 GetSpriteClippingB:   PHY                                       ;;B6E5|B6E5+B6E5/B6E5\B6E5;
                       PHX                                       ;;B6E6|B6E6+B6E6/B6E6\B6E6;
                       TXY                                       ;;B6E7|B6E7+B6E7/B6E7\B6E7; Y = Sprite index
-                      LDA.W !SpriteTweakerB,X                   ;;B6E8|B6E8+B6E8/B6E8\B6E8; \ X = Clipping table index
+                      LDA.W !SpriteTweaker1662,X                ;;B6E8|B6E8+B6E8/B6E8\B6E8; \ X = Clipping table index
                       AND.B #$3F                                ;;B6EB|B6EB+B6EB/B6EB\B6EB;  |
                       TAX                                       ;;B6ED|B6ED+B6ED/B6ED\B6ED; /
                       STZ.B !_F                                 ;;B6EE|B6EE+B6EE/B6EE\B6EE; \
@@ -6572,7 +6572,7 @@ GetDrawInfoBnk3:      STZ.W !SpriteOffscreenVert,X              ;;B760|B760+B760
                       STA.W !SpriteWayOffscreenX,X              ;;B78B|B78B+B78B/B78B\B78B;  |
                       BNE CODE_03B7CF                           ;;B78E|B78E+B78E/B78E\B78E; /
                       LDY.B #$00                                ;;B790|B790+B790/B790\B790; \ set up loop:
-                      LDA.W !SpriteTweakerB,X                   ;;B792|B792+B792/B792\B792;  |
+                      LDA.W !SpriteTweaker1662,X                ;;B792|B792+B792/B792\B792;  |
                       AND.B #$20                                ;;B795|B795+B795/B795\B795;  | if not smushed (1662 & 0x20), go through loop twice
                       BEQ CODE_03B79A                           ;;B797|B797+B797/B797\B797;  | else, go through loop once
                       INY                                       ;;B799|B799+B799/B799\B799; /
@@ -6688,7 +6688,7 @@ SubOffscreen0Bnk3:    STZ.B !_3                                 ;;B85D|B85D+B85D
                       ADC.B #$00                                ;;B872|B872+B872/B872\B872;  |
                       CMP.B #$02                                ;;B874|B874+B874/B874\B874;  |
                       BPL OffScrEraseSprBnk3                    ;;B876|B876+B876/B876\B876; /    ...erase the sprite
-                      LDA.W !SpriteTweakerD,X                   ;;B878|B878+B878/B878\B878; \ if "process offscreen" flag is set, return
+                      LDA.W !SpriteTweaker167A,X                ;;B878|B878+B878/B878\B878; \ if "process offscreen" flag is set, return
                       AND.B #$04                                ;;B87B|B87B+B87B/B87B\B87B;  |
                       BNE Return03B8C2                          ;;B87D|B87D+B87D/B87D\B87D; /
                       LDA.B !TrueFrame                          ;;B87F|B87F+B87F/B87F\B87F;
@@ -6725,7 +6725,7 @@ OffScrEraseSprBnk3:   LDA.W !SpriteStatus,X                     ;;B8AC|B8AC+B8AC
                     + STZ.W !SpriteStatus,X                     ;;B8BF|B8BF+B8BF/B8BF\B8BF;
 Return03B8C2:         RTS                                       ;;B8C2|B8C2+B8C2/B8C2\B8C2; Return
                                                                 ;;                        ;
-VerticalLevelBnk3:    LDA.W !SpriteTweakerD,X                   ;;B8C3|B8C3+B8C3/B8C3\B8C3; \ If "process offscreen" flag is set, return
+VerticalLevelBnk3:    LDA.W !SpriteTweaker167A,X                ;;B8C3|B8C3+B8C3/B8C3\B8C3; \ If "process offscreen" flag is set, return
                       AND.B #$04                                ;;B8C6|B8C6+B8C6/B8C6\B8C6;  |
                       BNE Return03B8C2                          ;;B8C8|B8C8+B8C8/B8C8\B8C8; /
                       LDA.B !TrueFrame                          ;;B8CA|B8CA+B8CA/B8CA\B8CA; \ Return every other frame
@@ -8139,7 +8139,7 @@ CODE_03CBB3:          JSL FindFreeSprSlot                       ;;CBB3|CBB3+CBB3
 CODE_03CC09:          PHB                                       ;;CC09|CC09+CC09/CC09\CC09; Wrapper
                       PHK                                       ;;CC0A|CC0A+CC0A/CC0A\CC0A;
                       PLB                                       ;;CC0B|CC0B+CC0B/CC0B\CC0B;
-                      STZ.W !SpriteTweakerB,X                   ;;CC0C|CC0C+CC0C/CC0C\CC0C;
+                      STZ.W !SpriteTweaker1662,X                ;;CC0C|CC0C+CC0C/CC0C\CC0C;
                       JSR CODE_03CC14                           ;;CC0F|CC0F+CC0F/CC0F\CC0F;
                       PLB                                       ;;CC12|CC12+CC12/CC12\CC12;
                       RTL                                       ;;CC13|CC13+CC13/CC13\CC13; Return

@@ -64,9 +64,9 @@ BombExplosionY:       db $F8,$FE,$06,$06,$FE,$FA,$02,$08        ;;807C|807C+807C
 ExplodeBombRt:        JSR ExplodeBombSubRt                      ;;8086|8086+8086/8086\8086;BOMB
                       RTL                                       ;;8089|8089+8089/8089\8089; Return
                                                                 ;;                        ;
-ExplodeBombSubRt:     STZ.W !SpriteTweakerA,X                   ;;808A|808A+808A/808A\808A; Make sprite unstompable
+ExplodeBombSubRt:     STZ.W !SpriteTweaker1656,X                ;;808A|808A+808A/808A\808A; Make sprite unstompable
                       LDA.B #$11                                ;;808D|808D+808D/808D\808D; \ Set new clipping area for explosion
-                      STA.W !SpriteTweakerB,X                   ;;808F|808F+808F/808F\808F; /
+                      STA.W !SpriteTweaker1662,X                ;;808F|808F+808F/808F\808F; /
                       JSR GetDrawInfo2                          ;;8092|8092+8092/8092\8092;
                       LDA.B !SpriteLock                         ;;8095|8095+8095/8095\8095; \ Increase frame count if sprites not locked
                       BNE +                                     ;;8097|8097+8097/8097\8097;  |
@@ -176,7 +176,7 @@ ExplodeKillSpr:       PHX                                       ;;8150|8150+8150
                       JSL GetSpriteClippingA                    ;;8157|8157+8157/8157\8157;  |
                       JSL CheckForContact                       ;;815B|815B+815B/815B\815B;  |
                       BCC +                                     ;;815F|815F+815F/815F\815F; /
-                      LDA.W !SpriteTweakerD,Y                   ;;8161|8161+8161/8161\8161; \ Return if sprite is invincible
+                      LDA.W !SpriteTweaker167A,Y                   ;;8161|8161+8161/8161\8161; \ Return if sprite is invincible
                       AND.B #$02                                ;;8164|8164+8164/8164\8164;  | to explosions
                       BNE +                                     ;;8166|8166+8166/8166\8166; /
                       LDA.B #$02                                ;;8168|8168+8168/8168\8168; \ Sprite status = Killed
@@ -1164,7 +1164,7 @@ CODE_028A11:          LDA.B #$3E                                ;;8A13|8A11+8A11
                     + STA.B !SpriteYSpeed,X                     ;;8A1A|8A18+8A18/8A18\8A18;
                       LDA.B #$2C                                ;;8A1C|8A1A+8A1A/8A1A\8A1A;
                       STA.W !SpriteMisc154C,X                   ;;8A1E|8A1C+8A1C/8A1C\8A1C;
-                      LDA.W !SpriteTweakerF,X                   ;;8A21|8A1F+8A1F/8A1F\8A1F;
+                      LDA.W !SpriteTweaker190F,X                ;;8A21|8A1F+8A1F/8A1F\8A1F;
                       BPL +                                     ;;8A24|8A22+8A22/8A22\8A22;
                       LDA.B #$10                                ;;8A26|8A24+8A24/8A24\8A24;
                       STA.W !SpriteMisc15AC,X                   ;;8A28|8A26+8A26/8A26\8A26;
@@ -2344,7 +2344,7 @@ CODE_0293B0:          STX.W !CurSpriteProcess                   ;;93B9|93B0+93B0
                       BEQ CODE_0293F7                           ;;93C1|93B8+93B8/93B8\93B8;
                       CMP.B #$08                                ;;93C3|93BA+93BA/93BA\93BA;
                       BCC CODE_0293F7                           ;;93C5|93BC+93BC/93BC\93BC;
-                      LDA.W !SpriteTweakerC,X                   ;;93C7|93BE+93BE/93BE\93BE;
+                      LDA.W !SpriteTweaker166E,X                ;;93C7|93BE+93BE/93BE\93BE;
                       AND.B #$20                                ;;93CA|93C1+93C1/93C1\93C1;
                       ORA.W !SpriteOnYoshiTongue,X              ;;93CC|93C3+93C3/93C3\93C3;
                       ORA.W !SpriteMisc154C,X                   ;;93CF|93C6+93C6/93C6\93C6;
@@ -2395,7 +2395,7 @@ CapeSprHit:           LDA.B #$08                                ;;940D|9404+9404
                                                                 ;;                        ;
 CapeHitNotRoulette:   CMP.B #$2D                                ;;9430|9427+9427/9427\9427; \ A contains sprite number...
                       BEQ CapeSprHitCont                        ;;9432|9429+9429/9429\9429; / Branch if baby yoshi (#$2D): notably has below tweaker bit set
-                      LDA.W !SpriteTweakerD,X                   ;;9434|942B+942B/942B\942B; \ Branch if sprite is
+                      LDA.W !SpriteTweaker167A,X                ;;9434|942B+942B/942B\942B; \ Branch if sprite is
                       AND.B #$02                                ;;9437|942E+942E/942E\942E; | immune to star power, cape spin, fire,
                       BNE CapeSprHitSetXYSpeed                  ;;9439|9430+9430/9430\9430; / or being hit from below by a block
                       LDA.W !SpriteStatus,X                     ;;943B|9432+9432/9432\9432; \ Load sprite status
@@ -2422,13 +2422,13 @@ CapeSprHitCont:       STZ.W !SpriteMisc1558,X                   ;;9451|9448+9448
                       BNE +                                     ;;946D|9464+9464/9464\9464; / branch
                       LDA.B #$1F                                ;;946F|9466+9466/9466\9466; \ Set the Timer for Lakitu's cloud
                       STA.W !SpriteMisc1540+9                   ;;9471|9468+9468/9468\9468; / ...It seems to be in a hardcoded slot
-                    + LDA.W !SpriteTweakerB,X                   ;;9474|946B+946B/946B\946B; \ Branch if sprite 'falls straight down when killed'
+                    + LDA.W !SpriteTweaker1662,X                ;;9474|946B+946B/946B\946B; \ Branch if sprite 'falls straight down when killed'
                       AND.B #$80                                ;;9477|946E+946E/946E\946E; |
                       BNE CapeSprHitSetXYSpeed                  ;;9479|9470+9470/9470\9470; /
-                      LDA.W !SpriteTweakerA,X                   ;;947B|9472+9472/9472\9472; \ Branch if can't be jumped on
+                      LDA.W !SpriteTweaker1656,X                ;;947B|9472+9472/9472\9472; \ Branch if can't be jumped on
                       AND.B #$10                                ;;947E|9475+9475/9475\9475;  |
                       BEQ CapeSprHitSetXYSpeed                  ;;9480|9477+9477/9477\9477; /
-                      LDA.W !SpriteTweakerA,X                   ;;9482|9479+9479/9479\9479; \ Branch if dies when jumped on
+                      LDA.W !SpriteTweaker1656,X                ;;9482|9479+9479/9479\9479; \ Branch if dies when jumped on
                       AND.B #$20                                ;;9485|947C+947C/947C\947C;  |
                       BNE CapeSprHitSetXYSpeed                  ;;9487|947E+947E/947E\947E; /
                       LDA.B #$09                                ;;9489|9480+9480/9480\9480; \ Sprite status = Carryable
@@ -2436,7 +2436,7 @@ CapeSprHitCont:       STZ.W !SpriteMisc1558,X                   ;;9451|9448+9448
                       ASL.W !SpriteOBJAttribute,X               ;;948E|9485+9485/9485\9485;
                       SEC                                       ;;9491|9488+9488/9488\9488;
                       ROR.W !SpriteOBJAttribute,X               ;;9492|9489+9489/9489\9489;
-                      LDA.W !SpriteTweakerE,X                   ;;9495|948C+948C/948C\948C; \ Branch if 'Spawns a new sprite' bit is not set
+                      LDA.W !SpriteTweaker1686,X                ;;9495|948C+948C/948C\948C; \ Branch if 'Spawns a new sprite' bit is not set
                       AND.B #$40                                ;;9498|948F+948F/948F\948F; |
                       BEQ CapeSprHitSetXYSpeed                  ;;949A|9491+9491/9491\9491; /
                       PHX                                       ;;949C|9493+9493/9493\9493; \ Use the current sprite number
@@ -2475,7 +2475,7 @@ KillSprLoopStart:     LDA.W !SpriteStatus,X                     ;;94D7|94CE+94CE
                       LDA.W !SpriteBlockedDirs,X                ;;94DE|94D5+94D5/94D5\94D5; \ Skip current sprite if not on ground
                       AND.B #$04                                ;;94E1|94D8+94D8/94D8\94D8;  |
                       BEQ +                                     ;;94E3|94DA+94DA/94DA\94DA; /
-                      LDA.W !SpriteTweakerC,X                   ;;94E5|94DC+94DC/94DC\94DC; \ Skip current sprite if...
+                      LDA.W !SpriteTweaker166E,X                ;;94E5|94DC+94DC/94DC\94DC; \ Skip current sprite if...
                       AND.B #$20                                ;;94E8|94DF+94DF/94DF\94DF;  | ...can't be killed by cape...
                       ORA.W !SpriteOnYoshiTongue,X              ;;94EA|94E1+94E1/94E1\94E1;  | ...or sprite being eaten...
                       ORA.W !SpriteMisc154C,X                   ;;94ED|94E4+94E4/94E4\94E4;  | ...or interaction disabled
@@ -3978,7 +3978,7 @@ FireRtLoopStart:      STX.W !CurSpriteProcess                   ;;A0CA|A0BA+A0BA
                       LDA.W !SpriteStatus,X                     ;;A0CD|A0BD+A0BD/A0BD\A0BD; \ Skip current sprite if status < 8
                       CMP.B #$08                                ;;A0D0|A0C0+A0C0/A0C0\A0C0;  |
                       BCC FireRtNextSprite                      ;;A0D2|A0C2+A0C2/A0C2\A0C2; /
-                      LDA.W !SpriteTweakerD,X                   ;;A0D4|A0C4+A0C4/A0C4\A0C4; \ Skip current sprite if...
+                      LDA.W !SpriteTweaker167A,X                ;;A0D4|A0C4+A0C4/A0C4\A0C4; \ Skip current sprite if...
                       AND.B #$02                                ;;A0D7|A0C7+A0C7/A0C7\A0C7;  | ...invincible to fire/cape/etc
                       ORA.W !SpriteOnYoshiTongue,X              ;;A0D9|A0C9+A0C9/A0C9\A0C9;  | ...sprite being eaten...
                       ORA.W !SpriteBehindScene,X                ;;A0DC|A0CC+A0CC/A0CC\A0CC;  | ...interactions disabled...
@@ -3995,10 +3995,10 @@ FireRtLoopStart:      STX.W !CurSpriteProcess                   ;;A0CA|A0BA+A0BA
                       TYX                                       ;;A0F9|A0E9+A0E9/A0E9\A0E9;  |
                       JSR CODE_02A045                           ;;A0FA|A0EA+A0EA/A0EA\A0EA;  | ...?
                       PLX                                       ;;A0FD|A0ED+A0ED/A0ED\A0ED; /
-                    + LDA.W !SpriteTweakerC,X                   ;;A0FE|A0EE+A0EE/A0EE\A0EE; \ Skip sprite if fire killing is disabled
+                    + LDA.W !SpriteTweaker166E,X                ;;A0FE|A0EE+A0EE/A0EE\A0EE; \ Skip sprite if fire killing is disabled
                       AND.B #$10                                ;;A101|A0F1+A0F1/A0F1\A0F1;  |
                       BNE FireRtNextSprite                      ;;A103|A0F3+A0F3/A0F3\A0F3; /
-                      LDA.W !SpriteTweakerF,X                   ;;A105|A0F5+A0F5/A0F5\A0F5; \ Branch if takes 1 fireball to kill
+                      LDA.W !SpriteTweaker190F,X                ;;A105|A0F5+A0F5/A0F5\A0F5; \ Branch if takes 1 fireball to kill
                       AND.B #$08                                ;;A108|A0F8+A0F8/A0F8\A0F8;  |
                       BEQ TurnSpriteToCoin                      ;;A10A|A0FA+A0FA/A0FA\A0FA; /
                       INC.W !SpriteMisc1528,X                   ;;A10C|A0FC+A0FC/A0FC\A0FC; Increase times Chuck hit by fireball
@@ -4988,7 +4988,7 @@ CODE_02A918:          LDA.W !SpriteStatus,X                     ;;A932|A918+A918
                       CMP.B #$7B                                ;;A93E|A924+A924/A924\A924;
                       BNE CODE_02A936                           ;;A940|A926+A926/A926\A926;
                       LDX.B !_F                                 ;;A942|A928+A928/A928\A928;
-ADDR_02A92A:          LDA.W !SpriteTweakerD,X                   ;;A944|A92A+A92A/A92A\A92A;
+ADDR_02A92A:          LDA.W !SpriteTweaker167A,X                ;;A944|A92A+A92A/A92A\A92A;
                       AND.B #$02                                ;;A947|A92D+A92D/A92D\A92D;
                       BEQ CODE_02A93C                           ;;A949|A92F+A92F/A92F\A92F;
                       DEX                                       ;;A94B|A931+A931/A931\A931;
@@ -6609,7 +6609,7 @@ PokeyLoopStart:       LSR A                                     ;;B643|B643+B643
                       BPL PokeyLoopStart                        ;;B648|B648+B648/B648\B648;  |
                       PLX                                       ;;B64A|B64A+B64A/B64A\B64A; /
                       LDA.W PokeyClipIndex,Y                    ;;B64B|B64B+B64B/B64B\B64B; \ Update the index into the clipping table
-                      STA.W !SpriteTweakerB,X                   ;;B64E|B64E+B64E/B64E\B64E; /
+                      STA.W !SpriteTweaker1662,X                ;;B64E|B64E+B64E/B64E\B64E; /
                       PLB                                       ;;B651|B651+B651/B651\B651;
                       RTL                                       ;;B652|B652+B652/B652\B652; Return
                                                                 ;;                        ;
@@ -7059,7 +7059,7 @@ CODE_02B9BD:          LDA.B #$02                                ;;B9C0|B9BD+B9BD
 CODE_02B9C4:          LDA.W !SpriteStatus,Y                     ;;B9C7|B9C4+B9C4/B9C4\B9C4;
                       CMP.B #$08                                ;;B9CA|B9C7+B9C7/B9C7\B9C7;
                       BCC +                                     ;;B9CC|B9C9+B9C9/B9C9\B9C9;
-                      LDA.W !SpriteTweakerF,Y                   ;;B9CE|B9CB+B9CB/B9CB\B9CB;
+                      LDA.W !SpriteTweaker190F,Y                ;;B9CE|B9CB+B9CB/B9CB\B9CB;
                       AND.B #$40                                ;;B9D1|B9CE+B9CE/B9CE\B9CE;
                       BNE +                                     ;;B9D3|B9D0+B9D0/B9D0\B9D0;
                       JSR CODE_02B9D9                           ;;B9D5|B9D2+B9D2/B9D2\B9D2;
@@ -7202,13 +7202,13 @@ CODE_02BAC0:          LDA.B #$08                                ;;BAC3|BAC0+BAC0
                       TYX                                       ;;BAEA|BAE7+BAE7/BAE7\BAE7;
                       JSL InitSpriteTables                      ;;BAEB|BAE8+BAE8/BAE8\BAE8; Reset sprite tables
                       INC.W !SpriteMisc160E,X                   ;;BAEF|BAEC+BAEC/BAEC\BAEC; ?
-                      LDA.W !SpriteTweakerB,X                   ;;BAF2|BAEF+BAEF/BAEF\BAEF; \ Change the index into sprite clipping table
+                      LDA.W !SpriteTweaker1662,X                ;;BAF2|BAEF+BAEF/BAEF\BAEF; \ Change the index into sprite clipping table
                       AND.B #$F0                                ;;BAF5|BAF2+BAF2/BAF2\BAF2;  | to "resize" the sprite
                       ORA.B #$0C                                ;;BAF7|BAF4+BAF4/BAF4\BAF4;  |
-                      STA.W !SpriteTweakerB,X                   ;;BAF9|BAF6+BAF6/BAF6\BAF6; /
-                      LDA.W !SpriteTweakerD,X                   ;;BAFC|BAF9+BAF9/BAF9\BAF9; \ No longer gives powerup when eaten
+                      STA.W !SpriteTweaker1662,X                ;;BAF9|BAF6+BAF6/BAF6\BAF6; /
+                      LDA.W !SpriteTweaker167A,X                ;;BAFC|BAF9+BAF9/BAF9\BAF9; \ No longer gives powerup when eaten
                       AND.B #$BF                                ;;BAFF|BAFC+BAFC/BAFC\BAFC;  |
-                      STA.W !SpriteTweakerD,X                   ;;BB01|BAFE+BAFE/BAFE\BAFE; /
+                      STA.W !SpriteTweaker167A,X                ;;BB01|BAFE+BAFE/BAFE\BAFE; /
                       PLX                                       ;;BB04|BB01+BB01/BB01\BB01;
                       LDA.B #$04                                ;;BB05|BB02+BB02/BB02\BB02; \ Block to generate = Tree behind berry
                       STA.B !Map16TileGenerate                  ;;BB07|BB04+BB04/BB04\BB04; /
@@ -9747,7 +9747,7 @@ SubOffscreen0Bnk2:    STZ.B !_3                                 ;;D041|D025+D025
                       ADC.B #$00                                ;;D05C|D040+D040/D040\D040;  |
                       CMP.B #$02                                ;;D05E|D042+D042/D042\D042;  |
                       BPL OffScrEraseSprBnk2                    ;;D060|D044+D044/D044\D044; /    ...erase the sprite
-                      LDA.W !SpriteTweakerD,X                   ;;D062|D046+D046/D046\D046; \ if "process offscreen" flag is set, return
+                      LDA.W !SpriteTweaker167A,X                ;;D062|D046+D046/D046\D046; \ if "process offscreen" flag is set, return
                       AND.B #$04                                ;;D065|D049+D049/D049\D049;  |
                       BNE Return02D090                          ;;D067|D04B+D04B/D04B\D04B; /
 CODE_02D04D:          LDA.B !TrueFrame                          ;;D069|D04D+D04D/D04D\D04D;
@@ -9784,7 +9784,7 @@ OffScrEraseSprBnk2:   LDA.W !SpriteStatus,X                     ;;D096|D07A+D07A
                     + STZ.W !SpriteStatus,X                     ;;D0A9|D08D+D08D/D08D\D08D; Erase sprite
 Return02D090:         RTS                                       ;;D0AC|D090+D090/D090\D090; Return
                                                                 ;;                        ;
-VerticalLevelBnk2:    LDA.W !SpriteTweakerD,X                   ;;D0AD|D091+D091/D091\D091; \ If "process offscreen" flag is set, return
+VerticalLevelBnk2:    LDA.W !SpriteTweaker167A,X                ;;D0AD|D091+D091/D091\D091; \ If "process offscreen" flag is set, return
                       AND.B #$04                                ;;D0B0|D094+D094/D094\D094;  |
                       BNE Return02D090                          ;;D0B2|D096+D096/D096\D096; /
                       LDA.B !TrueFrame                          ;;D0B4|D098+D098/D098\D098; \ Return every other frame
@@ -10209,7 +10209,7 @@ GetDrawInfo2:         STZ.W !SpriteOffscreenVert,X              ;;D394|D378+D378
                       STA.W !SpriteWayOffscreenX,X              ;;D3BF|D3A3+D3A3/D3A3\D3A3;
                       BNE CODE_02D3E7                           ;;D3C2|D3A6+D3A6/D3A6\D3A6;
                       LDY.B #$00                                ;;D3C4|D3A8+D3A8/D3A8\D3A8;
-                      LDA.W !SpriteTweakerB,X                   ;;D3C6|D3AA+D3AA/D3AA\D3AA;
+                      LDA.W !SpriteTweaker1662,X                ;;D3C6|D3AA+D3AA/D3AA\D3AA;
                       AND.B #$20                                ;;D3C9|D3AD+D3AD/D3AD\D3AD;
                       BEQ CODE_02D3B2                           ;;D3CB|D3AF+D3AF/D3AF\D3AF;
                       INY                                       ;;D3CD|D3B1+D3B1/D3B1\D3B1;
@@ -12993,7 +12993,7 @@ CODE_02EA50:          TYA                                       ;;EA50|EA50+EA50
                       BEQ CODE_02EA86                           ;;EA73|EA73+EA73/EA73\EA73;
                       CMP.B #$1D                                ;;EA75|EA75+EA75/EA75\EA75;
                       BCC CODE_02EA83                           ;;EA77|EA77+EA77/EA77\EA77;
-                      LDA.W !SpriteTweakerE,Y                   ;;EA79|EA79+EA79/EA79\EA79;
+                      LDA.W !SpriteTweaker1686,Y                   ;;EA79|EA79+EA79/EA79\EA79;
                       AND.B #$03                                ;;EA7C|EA7C+EA7C/EA7C\EA7C;
                       ORA.W !YoshiGrowingTimer                  ;;EA7E|EA7E+EA7E/EA7E\EA7E;
                       BNE CODE_02EA86                           ;;EA81|EA81+EA81/EA81\EA81;

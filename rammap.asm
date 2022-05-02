@@ -729,11 +729,11 @@ incsrc "hardware_registers.asm"
 !SpriteBehindScene = $7E1632
 !SpriteMisc163E = $7E163E
 !SpriteInLiquid = $7E164A
-!SpriteTweakerA = $7E1656
-!SpriteTweakerB = $7E1662
-!SpriteTweakerC = $7E166E
-!SpriteTweakerD = $7E167A
-!SpriteTweakerE = $7E1686
+!SpriteTweaker1656 = $7E1656
+!SpriteTweaker1662 = $7E1662
+!SpriteTweaker166E = $7E166E
+!SpriteTweaker167A = $7E167A
+!SpriteTweaker1686 = $7E1686
 !SpriteMemorySetting = $7E1692
 !Map16TileNumber = $7E1693
 !SpriteBlockOffset = $7E1694
@@ -912,7 +912,7 @@ incsrc "hardware_registers.asm"
 !DirectCoinTimer = $7E190C
 !FinalCutscene = $7E190D
 !SpriteBuoyancy = $7E190E
-!SpriteTweakerF = $7E190F
+!SpriteTweaker190F = $7E190F
 !Empty191B = $7E191B
 !YoshiHasKey = $7E191C
 !SumoClustOverwrite = $7E191D
