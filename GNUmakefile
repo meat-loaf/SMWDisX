@@ -45,7 +45,7 @@ lvl_not_jp := ${lvl_jp:%_J.bin=%_U.bin}
 lvl_not_nss := ${lvl_ss:%_SS.bin=%_U.bin}
 lvl_common := $(filter-out ${lvl_jp} ${lvl_not_jp} ${lvl_nss} ${lvl_not_nss},$(wildcard lvl/*/*.bin))
 
-${roms}: *.asm sfx/*.bin samples/*.brr
+${roms}: *.asm sfx/*.bin samples/*.brr col/**/*.pal
 smw-jp.smc:  gfx/j/*.bin ${lvl_common} ${lvl_jp} ${lvl_not_nss}
 smw-us.smc:  gfx/u/*.bin ${lvl_common} ${lvl_not_jp} ${lvl_not_nss}
 smw-nss.smc: gfx/u/*.bin ${lvl_common} ${lvl_not_jp} ${lvl_nss}
