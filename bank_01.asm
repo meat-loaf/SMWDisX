@@ -104,7 +104,7 @@ CODE_01808C:          PHB                                       ;;808C|808C+808C
                       STZ.W !CurrentYoshiSlot                   ;;80A4|80A4+80A4/80A4\80A4;
                       LDX.B #$0B                                ;;80A7|80A7+80A7/80A7\80A7;
                     - STX.W !CurSpriteProcess                   ;;80A9|80A9+80A9/80A9\80A9;
-                      JSR AllocSprOAM                           ;;80AC|80AC+80AC/80AC\80AC;
+                      JSR AllocSprOAMDecTmrs                    ;;80AC|80AC+80AC/80AC\80AC;
                       JSR HandleSprite                          ;;80AF|80AF+80AF/80AF\80AF;
                       DEX                                       ;;80B2|80B2+80B2/80B2\80B2;
                       BPL -                                     ;;80B3|80B3+80B3/80B3\80B3;
@@ -122,7 +122,7 @@ IsSprOffScreen:       LDA.W !SpriteOffscreenX,X                 ;;80CB|80CB+80CB
                       ORA.W !SpriteOffscreenVert,X              ;;80CE|80CE+80CE/80CE\80CE; /
                       RTS                                       ;;80D1|80D1+80D1/80D1\80D1; Return
                                                                 ;;                        ;
-AllocSprOAM:          PHX                                       ;;80D2|80D2+80D2/80D2\80D2; In all sprite routines, X = current sprite
+AllocSprOAMDecTmrs:   PHX                                       ;;80D2|80D2+80D2/80D2\80D2; In all sprite routines, X = current sprite
                       TXA                                       ;;80D3|80D3+80D3/80D3\80D3;
                       LDX.W !SpriteMemorySetting                ;;80D4|80D4+80D4/80D4\80D4; $1692 = Current Sprite memory settings
                       CLC                                       ;;80D7|80D7+80D7/80D7\80D7; \
@@ -132,9 +132,9 @@ AllocSprOAM:          PHX                                       ;;80D2|80D2+80D2
                       PLX                                       ;;80E1|80E1+80E1/80E1\80E1; /
                       STA.W !SpriteOAMIndex,X                   ;;80E2|80E2+80E2/80E2\80E2; Current sprite's OAM index
                       LDA.W !SpriteStatus,X                     ;;80E5|80E5+80E5/80E5\80E5; If  (something related to current sprite) is 0
-                      BEQ Return018126                          ;;80E8|80E8+80E8/80E8\80E8; do not decrement these counters
+                      BEQ .ret                                  ;;80E8|80E8+80E8/80E8\80E8; do not decrement these counters
                       LDA.B !SpriteLock                         ;;80EA|80EA+80EA/80EA\80EA; Lock sprites timer
-                      BNE Return018126                          ;;80EC|80EC+80EC/80EC\80EC; if sprites locked, do not decrement counters
+                      BNE .ret                                  ;;80EC|80EC+80EC/80EC\80EC; if sprites locked, do not decrement counters
                       LDA.W !SpriteMisc1540,X                   ;;80EE|80EE+80EE/80EE\80EE; \ Decrement a bunch of sprite counter tables
                       BEQ +                                     ;;80F1|80F1+80F1/80F1\80F1;  |
                       DEC.W !SpriteMisc1540,X                   ;;80F3|80F3+80F3/80F3\80F3;  |Do not decrement any individual counter if it's already at zero
@@ -154,9 +154,9 @@ AllocSprOAM:          PHX                                       ;;80D2|80D2+80D2
                       BEQ +                                     ;;8119|8119+8119/8119\8119;  |
                       DEC.W !SpriteMisc15AC,X                   ;;811B|811B+811B/811B\811B;  |
                     + LDA.W !SpriteMisc163E,X                   ;;811E|811E+811E/811E\811E;  |
-                      BEQ Return018126                          ;;8121|8121+8121/8121\8121;  |
+                      BEQ .ret                                  ;;8121|8121+8121/8121\8121;  |
                       DEC.W !SpriteMisc163E,X                   ;;8123|8123+8123/8123\8123;  |
-Return018126:         RTS                                       ;;8126|8126+8126/8126\8126; / Return
+.ret:                 RTS                                       ;;8126|8126+8126/8126\8126; / Return
                                                                 ;;                        ;
 HandleSprite:         LDA.W !SpriteStatus,X                     ;;8127|8127+8127/8127\8127; Call a routine based on the sprite's status
                       BEQ EraseSprite                           ;;812A|812A+812A/812A\812A; Routine for status 0 hardcoded, maybe for performance
@@ -6236,7 +6236,7 @@ DATA_01B268:          db $FF,$01                                ;;B268|B268+B268
                                                                 ;;                        ;
 DATA_01B26A:          db $F0,$10                                ;;B26A|B26A+B26A/B26A\B271;
                                                                 ;;                        ;
-Platforms:            JSR PlatformsGFX                          ;;B26C|B26C+B26C/B26C\B273;
+Platforms:            JSR PlatformsGfx                          ;;B26C|B26C+B26C/B26C\B273;
                       LDA.B !SpriteLock                         ;;B26F|B26F+B26F/B26F\B276; \ Branch if sprites locked
                       BNE Return01B2C2                          ;;B271|B271+B271/B271\B278; /
                       LDA.W !SpriteMisc1540,X                   ;;B273|B273+B273/B273\B27A;
@@ -6277,18 +6277,18 @@ CODE_01B2B0:          JSR SubSprYPosNoGrvty                     ;;B2B0|B2B0+B2B0
 Return01B2C2:         RTS                                       ;;B2C2|B2C2+B2C2/B2C2\B2C9; Return
                                                                 ;;                        ;
                                                                 ;;                        ;
-DATA_01B2C3:          db $00,$01,$00,$01,$00,$00,$00,$00        ;;B2C3|B2C3+B2C3/B2C3\B2CA;
+PlatformsGfxToUse:    db $00,$01,$00,$01,$00,$00,$00,$00        ;;B2C3|B2C3+B2C3/B2C3\B2CA;
                       db $01,$01,$00,$00,$00,$00                ;;B2CB|B2CB+B2CB/B2CB\B2D2;
                                                                 ;;                        ;
-PlatformsGFX:         LDA.B !SpriteNumber,X                     ;;B2D1|B2D1+B2D1/B2D1\B2D8;
+PlatformsGfx:         LDA.B !SpriteNumber,X                     ;;B2D1|B2D1+B2D1/B2D1\B2D8;
                       SEC                                       ;;B2D3|B2D3+B2D3/B2D3\B2DA;
                       SBC.B #$55                                ;;B2D4|B2D4+B2D4/B2D4\B2DB;
                       TAY                                       ;;B2D6|B2D6+B2D6/B2D6\B2DD;
-                      LDA.W DATA_01B2C3,Y                       ;;B2D7|B2D7+B2D7/B2D7\B2DE;
-                      BEQ CODE_01B2DF                           ;;B2DA|B2DA+B2DA/B2DA\B2E1;
-                      JMP CODE_01B395                           ;;B2DC|B2DC+B2DC/B2DC\B2E3;
+                      LDA.W PlatformsGfxToUse,Y                 ;;B2D7|B2D7+B2D7/B2D7\B2DE;
+                      BEQ WoodCheckerPlatGfx                    ;;B2DA|B2DA+B2DA/B2DA\B2E1;
+                      JMP GrassRockPlatGfx                      ;;B2DC|B2DC+B2DC/B2DC\B2E3;
                                                                 ;;                        ;
-CODE_01B2DF:          JSR GetDrawInfoBnk1                       ;;B2DF|B2DF+B2DF/B2DF\B2E6;
+WoodCheckerPlatGfx:   JSR GetDrawInfoBnk1                       ;;B2DF|B2DF+B2DF/B2DF\B2E6;
                       LDA.W !SpriteMisc1602,X                   ;;B2E2|B2E2+B2E2/B2E2\B2E9;
                       STA.B !_1                                 ;;B2E5|B2E5+B2E5/B2E5\B2EC;
                       LDA.B !SpriteYPosLow,X                    ;;B2E7|B2E7+B2E7/B2E7\B2EE;
@@ -6321,8 +6321,8 @@ CODE_01B2DF:          JSR GetDrawInfoBnk1                       ;;B2DF|B2DF+B2DF
                       ADC.B #$10                                ;;B321|B321+B321/B321\B328;
                       STA.W !OAMTileXPos+$110,Y                 ;;B323|B323+B323/B323\B32A;
                     + LDX.W !CurSpriteProcess                   ;;B326|B326+B326/B326\B32D; X = Sprite index
-                      LDA.B !_1                                 ;;B329|B329+B329/B329\B330;
-                      BEQ CODE_01B344                           ;;B32B|B32B+B32B/B32B\B332;
+                      LDA.B !_1                                 ;;B329|B329+B329/B329\B330; Flag to draw checkered platform
+                      BEQ .drawWoodPlat                         ;;B32B|B32B+B32B/B32B\B332;
                       LDA.B #$EA                                ;;B32D|B32D+B32D/B32D\B334;
                       STA.W !OAMTileNo+$100,Y                   ;;B32F|B32F+B32F/B32F\B336;
                       LDA.B #$EB                                ;;B332|B332+B332/B332\B339;
@@ -6331,9 +6331,9 @@ CODE_01B2DF:          JSR GetDrawInfoBnk1                       ;;B2DF|B2DF+B2DF
                       STA.W !OAMTileNo+$10C,Y                   ;;B33A|B33A+B33A/B33A\B341;
                       LDA.B #$EC                                ;;B33D|B33D+B33D/B33D\B344;
                       STA.W !OAMTileNo+$110,Y                   ;;B33F|B33F+B33F/B33F\B346;
-                      BRA +                                     ;;B342|B342+B342/B342\B349;
+                      BRA .tilesDone                            ;;B342|B342+B342/B342\B349;
                                                                 ;;                        ;
-CODE_01B344:          LDA.B #$60                                ;;B344|B344+B344/B344\B34B;
+.drawWoodPlat:        LDA.B #$60                                ;;B344|B344+B344/B344\B34B;
                       STA.W !OAMTileNo+$100,Y                   ;;B346|B346+B346/B346\B34D;
                       LDA.B #$61                                ;;B349|B349+B349/B349\B350;
                       STA.W !OAMTileNo+$104,Y                   ;;B34B|B34B+B34B/B34B\B352;
@@ -6341,17 +6341,17 @@ CODE_01B344:          LDA.B #$60                                ;;B344|B344+B344
                       STA.W !OAMTileNo+$10C,Y                   ;;B351|B351+B351/B351\B358;
                       LDA.B #$62                                ;;B354|B354+B354/B354\B35B;
                       STA.W !OAMTileNo+$110,Y                   ;;B356|B356+B356/B356\B35D;
-                    + LDA.B !SpriteProperties                   ;;B359|B359+B359/B359\B360;
+.tilesDone:           LDA.B !SpriteProperties                   ;;B359|B359+B359/B359\B360;
                       ORA.W !SpriteOBJAttribute,X               ;;B35B|B35B+B35B/B35B\B362;
                       STA.W !OAMTileAttr+$100,Y                 ;;B35E|B35E+B35E/B35E\B365;
                       STA.W !OAMTileAttr+$104,Y                 ;;B361|B361+B361/B361\B368;
                       STA.W !OAMTileAttr+$108,Y                 ;;B364|B364+B364/B364\B36B;
                       STA.W !OAMTileAttr+$10C,Y                 ;;B367|B367+B367/B367\B36E;
                       STA.W !OAMTileAttr+$110,Y                 ;;B36A|B36A+B36A/B36A\B371;
-                      LDA.B !_1                                 ;;B36D|B36D+B36D/B36D\B374;
-                      BNE +                                     ;;B36F|B36F+B36F/B36F\B376;
-                      LDA.B #$62                                ;;B371|B371+B371/B371\B378;
-                      STA.W !OAMTileNo+$108,Y                   ;;B373|B373+B373/B373\B37A;
+                      LDA.B !_1                                 ;;B36D|B36D+B36D/B36D\B374; \ If we're a wooden platform, patch up the end tile,
+                      BNE +                                     ;;B36F|B36F+B36F/B36F\B376; | as they're shorter.
+                      LDA.B #$62                                ;;B371|B371+B371/B371\B378; |
+                      STA.W !OAMTileNo+$108,Y                   ;;B373|B373+B373/B373\B37A; /
                     + LDA.B #$04                                ;;B376|B376+B376/B376\B37D;
                       LDY.B !_1                                 ;;B378|B378+B378/B378\B37F;
                       BNE DoFinOAMWrite16x16                    ;;B37A|B37A+B37A/B37A\B381;
@@ -6366,15 +6366,15 @@ GrassRockPlatTiles:   db $CB,$E4,$CC,$E5,$CC,$E5,$CC,$E4        ;;B383|B383+B383
                       db $85,$88,$86,$89,$86,$89,$86,$88        ;;B38C|B38C+B38C/B38C\B393; Tiles for the floating rock
                       db $85                                    ;;B394|B394+B394/B394\B39B;
                                                                 ;;                        ;
-CODE_01B395:          JSR GetDrawInfoBnk1                       ;;B395|B395+B395/B395\B39C;
-                      PHY                                       ;;B398|B398+B398/B398\B39F;
+GrassRockPlatGfx:     JSR GetDrawInfoBnk1                       ;;B395|B395+B395/B395\B39C;
+                      PHY                                       ;;B398|B398+B398/B398\B39F; Push OAM Index
                       LDY.B #$00                                ;;B399|B399+B399/B399\B3A0;
                       LDA.B !SpriteNumber,X                     ;;B39B|B39B+B39B/B39B\B3A2;
                       CMP.B #$5E                                ;;B39D|B39D+B39D/B39D\B3A4;
                       BNE +                                     ;;B39F|B39F+B39F/B39F\B3A6;
                       INY                                       ;;B3A1|B3A1+B3A1/B3A1\B3A8;
-                    + STY.B !_0                                 ;;B3A2|B3A2+B3A2/B3A2\B3A9;
-                      PLY                                       ;;B3A4|B3A4+B3A4/B3A4\B3AB;
+                    + STY.B !_0                                 ;;B3A2|B3A2+B3A2/B3A2\B3A9; $00 = flag for wider platform
+                      PLY                                       ;;B3A4|B3A4+B3A4/B3A4\B3AB; Pull OAM Index
                       LDA.B !SpriteYPosLow,X                    ;;B3A5|B3A5+B3A5/B3A5\B3AC;
                       SEC                                       ;;B3A7|B3A7+B3A7/B3A7\B3AE;
                       SBC.B !Layer1YPos                         ;;B3A8|B3A8+B3A8/B3A8\B3AF;
@@ -6393,14 +6393,14 @@ CODE_01B395:          JSR GetDrawInfoBnk1                       ;;B395|B395+B395
                       BEQ +                                     ;;B3C8|B3C8+B3C8/B3C8\B3CF;
                       STA.W !OAMTileYPos+$114,Y                 ;;B3CA|B3CA+B3CA/B3CA\B3D1;
                       STA.W !OAMTileYPos+$11C,Y                 ;;B3CD|B3CD+B3CD/B3CD\B3D4;
-                    + LDA.B #$08                                ;;B3D0|B3D0+B3D0/B3D0\B3D7;
-                      LDX.B !_0                                 ;;B3D2|B3D2+B3D2/B3D2\B3D9;
-                      BNE +                                     ;;B3D4|B3D4+B3D4/B3D4\B3DB;
-                      LDA.B #$04                                ;;B3D6|B3D6+B3D6/B3D6\B3DD;
-                    + STA.B !_1                                 ;;B3D8|B3D8+B3D8/B3D8\B3DF;
-                      DEC A                                     ;;B3DA|B3DA+B3DA/B3DA\B3E1;
-                      STA.B !_2                                 ;;B3DB|B3DB+B3DB/B3DB\B3E2;
-                      LDX.W !CurSpriteProcess                   ;;B3DD|B3DD+B3DD/B3DD\B3E4; X = Sprite index
+                    + LDA.B #$08                                ;;B3D0|B3D0+B3D0/B3D0\B3D7; \ If wide platform, draw 9 tiles...
+                      LDX.B !_0                                 ;;B3D2|B3D2+B3D2/B3D2\B3D9; |
+                      BNE +                                     ;;B3D4|B3D4+B3D4/B3D4\B3DB; |
+                      LDA.B #$04                                ;;B3D6|B3D6+B3D6/B3D6\B3DD; / Otherwise, draw 5.
+                    + STA.B !_1                                 ;;B3D8|B3D8+B3D8/B3D8\B3DF; Store number of tiles to draw.
+                      DEC A                                     ;;B3DA|B3DA+B3DA/B3DA\B3E1; \
+                      STA.B !_2                                 ;;B3DB|B3DB+B3DB/B3DB\B3E2; / Store index to start flipping tiles horizontally.
+                      LDX.W !CurSpriteProcess                   ;;B3DD|B3DD+B3DD/B3DD\B3E4;
                       LDA.W !SpriteOBJAttribute,X               ;;B3E0|B3E0+B3E0/B3E0\B3E7;
                       STA.B !_3                                 ;;B3E3|B3E3+B3E3/B3E3\B3EA;
                       LDA.B !SpriteNumber,X                     ;;B3E5|B3E5+B3E5/B3E5\B3EC;
@@ -6408,7 +6408,7 @@ CODE_01B395:          JSR GetDrawInfoBnk1                       ;;B395|B395+B395
                       LDA.B #$00                                ;;B3E9|B3E9+B3E9/B3E9\B3F0; Used to index GrassRockPlatTiles - Grass platforms
                       BCS +                                     ;;B3EB|B3EB+B3EB/B3EB\B3F2;
                       LDA.B #$09                                ;;B3ED|B3ED+B3ED/B3ED\B3F4; Used to index GrassRockPlatTiles - Rock platforms
-                    + PHA                                       ;;B3EF|B3EF+B3EF/B3EF\B3F6;
+                    + PHA                                       ;;B3EF|B3EF+B3EF/B3EF\B3F6; Push starting index to tile table
                       LDA.B !SpriteXPosLow,X                    ;;B3F0|B3F0+B3F0/B3F0\B3F7;
                       SEC                                       ;;B3F2|B3F2+B3F2/B3F2\B3F9;
                       SBC.B !Layer1XPos                         ;;B3F3|B3F3+B3F3/B3F3\B3FA;
@@ -6416,19 +6416,19 @@ CODE_01B395:          JSR GetDrawInfoBnk1                       ;;B395|B395+B395
 CODE_01B3F6:          STA.W !OAMTileXPos+$100,Y                 ;;B3F6|B3F6+B3F6/B3F6\B3FD;
                       CLC                                       ;;B3F9|B3F9+B3F9/B3F9\B400;
                       ADC.B #$08                                ;;B3FA|B3FA+B3FA/B3FA\B401;
-                      PHA                                       ;;B3FC|B3FC+B3FC/B3FC\B403;
+                      PHA                                       ;;B3FC|B3FC+B3FC/B3FC\B403; Push next tile x-position
                       %LorW_X(LDA,GrassRockPlatTiles)           ;;B3FD|B3FD+B3FD/B3FD\B404;
                       STA.W !OAMTileNo+$100,Y                   ;;B401|B400+B400/B400\B407;
                       LDA.B !SpriteProperties                   ;;B404|B403+B403/B403\B40A;
                       ORA.B !_3                                 ;;B406|B405+B405/B405\B40C;
-                      PHX                                       ;;B408|B407+B407/B407\B40E;
+                      PHX                                       ;;B408|B407+B407/B407\B40E; Push tile index
                       LDX.B !_1                                 ;;B409|B408+B408/B408\B40F;
                       CPX.B !_2                                 ;;B40B|B40A+B40A/B40A\B411;
-                      PLX                                       ;;B40D|B40C+B40C/B40C\B413;
+                      PLX                                       ;;B40D|B40C+B40C/B40C\B413; Pull tile index
                       BCS +                                     ;;B40E|B40D+B40D/B40D\B414;
                       ORA.B #$40                                ;;B410|B40F+B40F/B40F\B416;
                     + STA.W !OAMTileAttr+$100,Y                 ;;B412|B411+B411/B411\B418;
-                      PLA                                       ;;B415|B414+B414/B414\B41B;
+                      PLA                                       ;;B415|B414+B414/B414\B41B; Pull next tile x-position
                       INY                                       ;;B416|B415+B415/B415\B41C;
                       INY                                       ;;B417|B416+B416/B416\B41D;
                       INY                                       ;;B418|B417+B417/B417\B41E;
@@ -6586,7 +6586,7 @@ CODE_01B520:          INY                                       ;;B521|B520+B520
                                                                 ;;                        ;
 OrangePlatform:       LDA.B !SpriteTableC2,X                    ;;B537|B536+B536/B536\B53D;
                       BEQ Platforms2                            ;;B539|B538+B538/B538\B53F;
-                      JSR PlatformsGFX                          ;;B53B|B53A+B53A/B53A\B541;
+                      JSR PlatformsGfx                          ;;B53B|B53A+B53A/B53A\B541;
                       LDA.B !SpriteLock                         ;;B53E|B53D+B53D/B53D\B544; \ Branch if sprites locked
                       BNE +                                     ;;B540|B53F+B53F/B53F\B546; /
                       JSR SubSprXPosNoGrvty                     ;;B542|B541+B541/B541\B548;
@@ -6727,7 +6727,7 @@ CODE_01B64E:          JSR SubOffscreen0Bnk1                     ;;B64F|B64E+B64E
                       LDA.B !SpriteNumber,X                     ;;B652|B651+B651/B651\B658;
                       CMP.B #$A4                                ;;B654|B653+B653/B653\B65A;
                       BEQ CODE_01B666                           ;;B656|B655+B655/B655\B65C;
-                      JMP PlatformsGFX                          ;;B658|B657+B657/B657\B65E;
+                      JMP PlatformsGfx                          ;;B658|B657+B657/B657\B65E;
                                                                 ;;                        ;
                                                                 ;;                        ;
 DATA_01B65A:          db $F8,$08,$F8,$08                        ;;B65B|B65A+B65A/B65A\B661;
@@ -11200,7 +11200,7 @@ CODE_01D9A7:          LDA.B !SpriteNumber,X                     ;;D9A8|D9A7+D9A7
                       BCC CODE_01D9D0                           ;;D9B0|D9AF+D9AF/D9B6\D9BD;PLATFORM!
                       CMP.B #$68                                ;;D9B2|D9B1+D9B1/D9B8\D9BF;
                       BNE CODE_01D9BA                           ;;D9B4|D9B3+D9B3/D9BA\D9C1;
-                      JSR CODE_01DBD4                           ;;D9B6|D9B5+D9B5/D9BC\D9C3;
+                      JSR LineGuidedFuzzyGfx                    ;;D9B6|D9B5+D9B5/D9BC\D9C3;
                       BRA CODE_01D9C1                           ;;D9B9|D9B8+D9B8/D9BF\D9C6;
                                                                 ;;                        ;
 CODE_01D9BA:          CMP.B #$67                                ;;D9BB|D9BA+D9BA/D9C1\D9C8;
@@ -11342,7 +11342,7 @@ CODE_01DAA2:          LDY.B #$18                                ;;DAA3|DAA2+DAA2
                       PHA                                       ;;DACA|DAC9+DAC9/DAD0\DAD7;
                       SBC.B #$00                                ;;DACB|DACA+DACA/DAD1\DAD8;
                       STA.W !SpriteXPosHigh,X                   ;;DACD|DACC+DACC/DAD3\DADA;
-                      JSR CODE_01B2DF                           ;;DAD0|DACF+DACF/DAD6\DADD;DRAW GFX  .  RELIES ON NEW POSITIONS MADE UP THERE.
+                      JSR WoodCheckerPlatGfx                    ;;DAD0|DACF+DACF/DAD6\DADD;DRAW GFX  .  RELIES ON NEW POSITIONS MADE UP THERE.
                       PLA                                       ;;DAD3|DAD2+DAD2/DAD9\DAE0;RESTORE POSITIONS
                       STA.W !SpriteXPosHigh,X                   ;;DAD4|DAD3+DAD3/DADA\DAE1;
                       PLA                                       ;;DAD7|DAD6+DAD6/DADD\DAE4;
@@ -11475,7 +11475,7 @@ CODE_01DBA2:          JSR GetDrawInfoBnk1                       ;;DBA3|DBA2+DBA2
 CODE_01DBD0:          LDA.B #$03                                ;;DBD1|DBD0+DBD0/DBD7\DBDE;
                       BRA +                                     ;;DBD3|DBD2+DBD2/DBD9\DBE0;
                                                                 ;;                        ;
-CODE_01DBD4:          JSR SubSprGfx2Entry1                      ;;DBD5|DBD4+DBD4/DBDB\DBE2;
+LineGuidedFuzzyGfx:   JSR SubSprGfx2Entry1                      ;;DBD5|DBD4+DBD4/DBDB\DBE2;
                       LDY.W !SpriteOAMIndex,X                   ;;DBD8|DBD7+DBD7/DBDE\DBE5; Y = Index into sprite OAM
                       LDA.W !OAMTileXPos+$100,Y                 ;;DBDB|DBDA+DBDA/DBE1\DBE8;
                       SEC                                       ;;DBDE|DBDD+DBDD/DBE4\DBEB;

@@ -362,7 +362,7 @@ CODE_038398:          PHB                                       ;;8398|8398+8398
                                                                 ;;                        ;
 CODE_0383A0:          LDA.B !SpriteNumber,X                     ;;83A0|83A0+83A0/83A0\83A0;
                       CMP.B #$37                                ;;83A2|83A2+83A2/83A2\83A2;
-                      BNE CODE_0383C2                           ;;83A4|83A4+83A4/83A4\83A4;
+                      BNE BigBooGfx                             ;;83A4|83A4+83A4/83A4\83A4;
                       LDA.B #$00                                ;;83A6|83A6+83A6/83A6\83A6;
                       LDY.B !SpriteTableC2,X                    ;;83A8|83A8+83A8/83A8\83A8;
                       BEQ +                                     ;;83AA|83AA+83AA/83AA\83AA;
@@ -378,7 +378,7 @@ CODE_0383A0:          LDA.B !SpriteNumber,X                     ;;83A0|83A0+83A0
                       JSL GenericSprGfxRt2                      ;;83BD|83BD+83BD/83BD\83BD;
                       RTS                                       ;;83C1|83C1+83C1/83C1\83C1; Return
                                                                 ;;                        ;
-CODE_0383C2:          JSR GetDrawInfoBnk3                       ;;83C2|83C2+83C2/83C2\83C2;
+BigBooGfx:            JSR GetDrawInfoBnk3                       ;;83C2|83C2+83C2/83C2\83C2;
                       LDA.W !SpriteMisc1602,X                   ;;83C5|83C5+83C5/83C5\83C5;
                       STA.B !_6                                 ;;83C8|83C8+83C8/83C8\83C8;
                       ASL A                                     ;;83CA|83CA+83CA/83CA\83CA;
@@ -393,7 +393,7 @@ CODE_0383C2:          JSR GetDrawInfoBnk3                       ;;83C2|83C2+83C2
                       LDA.W !SpriteOBJAttribute,X               ;;83D9|83D9+83D9/83D9\83D9;
                       STA.B !_5                                 ;;83DC|83DC+83DC/83DC\83DC;
                       LDX.B #$00                                ;;83DE|83DE+83DE/83DE\83DE;
-CODE_0383E0:          PHX                                       ;;83E0|83E0+83E0/83E0\83E0;
+.draw_loop:           PHX                                       ;;83E0|83E0+83E0/83E0\83E0;
                       LDX.B !_2                                 ;;83E1|83E1+83E1/83E1\83E1;
                       LDA.W BigBooTiles,X                       ;;83E3|83E3+83E3/83E3\83E3;
                       STA.W !OAMTileNo+$100,Y                   ;;83E6|83E6+83E6/83E6\83E6;
@@ -435,7 +435,7 @@ CODE_0383E0:          PHX                                       ;;83E0|83E0+83E0
                       INC.B !_2                                 ;;8426|8426+8426/8426\8426;
                       INX                                       ;;8428|8428+8428/8428\8428;
                       CPX.B #$14                                ;;8429|8429+8429/8429\8429;
-                      BNE CODE_0383E0                           ;;842B|842B+842B/842B\842B;
+                      BNE .draw_loop                            ;;842B|842B+842B/842B\842B;
                       LDX.W !CurSpriteProcess                   ;;842D|842D+842D/842D\842D; X = Sprite index
                       LDA.W !SpriteMisc1602,X                   ;;8430|8430+8430/8430\8430;
                       CMP.B #$03                                ;;8433|8433+8433/8433\8433;
@@ -808,7 +808,7 @@ Return038733:         RTS                                       ;;8733|8733+8733
                                                                 ;;                        ;
 LavaPlatTiles:        db $85,$86,$85                            ;;8734|8734+8734/8734\8734;
                                                                 ;;                        ;
-DATA_038737:          db $43,$03,$03                            ;;8737|8737+8737/8737\8737;
+LavaPlatProps:        db $43,$03,$03                            ;;8737|8737+8737/8737\8737;
                                                                 ;;                        ;
 CODE_03873A:          JSR GetDrawInfoBnk3                       ;;873A|873A+873A/873A\873A;
                       PHX                                       ;;873D|873D+873D/873D\873D;
@@ -822,7 +822,7 @@ CODE_03873A:          JSR GetDrawInfoBnk3                       ;;873A|873A+873A
                       STA.W !OAMTileYPos+$100,Y                 ;;874C|874C+874C/874C\874C;
                       LDA.W LavaPlatTiles,X                     ;;874F|874F+874F/874F\874F;
                       STA.W !OAMTileNo+$100,Y                   ;;8752|8752+8752/8752\8752;
-                      LDA.W DATA_038737,X                       ;;8755|8755+8755/8755\8755;
+                      LDA.W LavaPlatProps,X                     ;;8755|8755+8755/8755\8755;
                       ORA.B !SpriteProperties                   ;;8758|8758+8758/8758\8758;
                       STA.W !OAMTileAttr+$100,Y                 ;;875A|875A+875A/875A\875A;
                       INY                                       ;;875D|875D+875D/875D\875D;
