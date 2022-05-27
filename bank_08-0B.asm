@@ -163,6 +163,6 @@ GFX30:                incbin "gfx/u/GFX30_comp.bin"             ;;    |F3BB+F3BB
 GFX31:                incbin "gfx/u/GFX31_comp.bin"             ;;    |F800+F800/F800     ; Special Beaten Enemies
                    endif                              ;/ ENDIF  ;;++++++++++++++++++++++++;
                                                                 ;;                        ;
-                      padbyte $FF : pad $8C8000                 ;;FE82|FD0D+FD0D/FD0D\FD9B; asar bug thinks its FastROM when bankcross check is disabled
+                      %insert_empty($17E,$2F3,$2F3,$2F3,$265)   ;;FE82|FD0D+FD0D/FD0D\FD9B;
                                                                 ;;                        ;
                       check bankcross on                        ;;                        ;

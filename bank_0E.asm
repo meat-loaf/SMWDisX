@@ -7085,4 +7085,4 @@ MusicBank2_End:       dw $0000,!SPCEngine                       ;;F0EF|F0D7+F0D7
                       db $00,$00,$00,$00,$00,$00,$00,$00        ;;    |F0E8+F0E8/F0E8\F0E8;
                    endif                              ;/ ENDIF  ;;++++++++++++++++++++++++;
                                                                 ;;                        ;
-                      padbyte $FF : pad $0F8000                 ;;F100|F0F0+F0F0/F0F0\F0F0;
+                      %insert_empty($F00,$F10,$F10,$F10,$F10)   ;;F100|F0F0+F0F0/F0F0\F0F0;

@@ -57,4 +57,4 @@ SampleData_End:       dw $0000,!SPCEngine                       ;;EF78|EF78+EF78
                       db $00,$00,$00,$00,$00,$00,$00,$00        ;;EF80|EF80+EF80/EF80\EF80;
                       db $00,$00,$00,$00,$00,$00,$00,$00        ;;EF88|EF88+EF88/EF88\EF88;
                                                                 ;;                        ;
-                      padbyte $FF : pad $108000                 ;;EF90|EF90+EF90/EF90\EF90;
+                   %insert_empty($1070,$1070,$1070,$1070,$1070) ;;EF90|EF90+EF90/EF90\EF90;

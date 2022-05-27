@@ -8440,4 +8440,4 @@ ADDR_04FF73:          STZ.W !HW_WRDIV                           ;;FF6B|FF73+FF73
                       STA.W !OWSpriteZSpeed,X                   ;;FFA5|FFAD+FFAD/FFAD\FFAD;
                       RTS                                       ;;FFA8|FFB0+FFB0/FFB0\FFB0; Return
                                                                 ;;                        ;
-                      padbyte $FF : pad $058000                 ;;FFA9|FFB1+FFB1/FFB1\FFB1;
+                      %insert_empty($57,$4F,$4F,$4F,$4F)        ;;FFA9|FFB1+FFB1/FFB1\FFB1;

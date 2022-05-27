@@ -1016,4 +1016,4 @@ CODE_07FC52:          LDA.B #$10                                ;;FC52|FC52+FC52
                       STA.W !ExtSpriteMisc176F,Y                ;;FC8C|FC8C+FC8C/FC8C\FC8C;
                       RTL                                       ;;FC8F|FC8F+FC8F/FC8F\FC8F; Return
                                                                 ;;                        ;
-                      padbyte $FF : pad $088000                 ;;FC90|FC90+FC90/FC90\FC90;
+                      %insert_empty($370,$370,$370,$370,$370)   ;;FC90|FC90+FC90/FC90\FC90;

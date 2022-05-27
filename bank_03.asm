@@ -10917,4 +10917,4 @@ MusicBank3_End:       dw $0000,!SPCEngine                       ;;FDCA|FDCA+FDCA
                       db $00,$00,$00,$00,$00,$00,$00,$00        ;;FDD3|FDD3+FDD3/FDD3\FDD3;
                       db $00,$00,$00,$00,$00                    ;;FDDB|FDDB+FDDB/FDDB\FDDB;
                                                                 ;;                        ;
-                      padbyte $FF : pad $048000                 ;;FDE0|FDE0+FDE0/FDE0\FDE0;
+                      %insert_empty($220,$220,$220,$220,$220)   ;;FDE0|FDE0+FDE0/FDE0\FDE0;

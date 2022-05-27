@@ -8671,4 +8671,4 @@ SpecEneNameStripe0B:  db $FF,$FF                                ;;    |FE9B+FE9B
 SpecEneNameStripe0C:  db $FF,$FF                                ;;    |FE9D+FE9D/FE9D\FE9D;
                    endif                              ;/ ENDIF  ;;++++++++++++++++++++++++;
                                                                 ;;                        ;
-                      padbyte $FF : pad $0E8000                 ;;FCEB|FE9F+FE9F/FE9F\FE9F;
+                      %insert_empty($315,$161,$161,$161,$161)   ;;FCEB|FE9F+FE9F/FE9F\FE9F;

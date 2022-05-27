@@ -7642,4 +7642,4 @@ OWL1TileData:         db $00,$00,$00                            ;;F7DF|F7DF+F7DF
                       db $00,$00,$00,$00,$00,$00,$00,$00        ;;FFD2|FFD2+FFD2/FFD2\FFD2;
                       db $00,$00,$00,$00,$00                    ;;FFDA|FFDA+FFDA/FFDA\FFDA;
                                                                 ;;                        ;
-                      padbyte $FF : pad $0D8000                 ;;FFE0|FFE0+FFE0/FFE0\FFE0;
+                      %insert_empty($21,$21,$21,$21,$21)        ;;FFE0|FFE0+FFE0/FFE0\FFE0;

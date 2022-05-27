@@ -15635,4 +15635,4 @@ ADDR_02FFDD:          LDA.B #$18                                ;;FFF6|FFDD+FFDD
                     + STA.B !SpriteYSpeed,X                     ;;FFF8|FFDF+FFDF/FFD9\FFCD;
                       RTS                                       ;;FFFA|FFE1+FFE1/FFDB\FFCF; Return
                                                                 ;;                        ;
-                      padbyte $FF : pad $038000                 ;;FFFB|FFE2+FFE2/FFDC\FFD0;
+                      %insert_empty($05,$1E,$1E,$24,$30)        ;;FFFB|FFE2+FFE2/FFDC\FFD0;

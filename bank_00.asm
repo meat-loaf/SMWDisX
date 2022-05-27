@@ -13624,4 +13624,4 @@ CODE_00FF73:          LDA.W #$0100                              ;;FF10|FF73+FF73
                       SEP #$20                                  ;;FF2D|FF90+FF90/FFB2\FFB2; Accum (8 bit)
                       RTL                                       ;;FF2F|FF92+FF92/FFB4\FFB4; Return
                                                                 ;;                        ;
-                      padbyte $FF : pad $00FFC0                 ;;FF30|FF93+FF93/FFB5\FFB5;
+                      %insert_empty($90,$2D,$2D,$0B,$0B)        ;;FF30|FF93+FF93/FFB5\FFB5;

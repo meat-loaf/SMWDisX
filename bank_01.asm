@@ -15735,4 +15735,4 @@ CODE_01FF98:          LDA.B !SpriteXPosLow,X                    ;;FF9B|FF98+FF98
                       PLX                                       ;;FFC0|FFBD+FFBD/FFBD\FFBD;
                       RTS                                       ;;FFC1|FFBE+FFBE/FFBE\FFBE; Return
                                                                 ;;                        ;
-                      padbyte $FF : pad $028000                 ;;FFC2|FFBF+FFBF/FFBF\FFBF;
+                      %insert_empty($3E,$41,$41,$41,$41)        ;;FFC2|FFBF+FFBF/FFBF\FFBF;
