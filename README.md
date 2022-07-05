@@ -3,20 +3,16 @@
 This disassembly will focus on code readability and the ability to assemble any of the four console releases of the original game (J, U, E 1.0, & E 1.1). It also assembles the Super System arcade version of the game.
 
 # How to Assemble
-You'll need the assembler, Asar v1.61 (you can find it [here](https://www.smwcentral.net/?p=section&s=tools)).
-1. Click the big green "Clone or download" button and select zip file.
-2. Unzip that somewhere, and stick asar.exe in the folder with PATCH.bat.
-3. Open smw.asm and change the variable !_VER to correspond to the version of the game you want to assemble.
-4. Run the bat file. The assembled ROM will be called "smw.smc."
-5. If you provide a ROM of each version of the game and call them "comparison_J.smc", etc., the batch file will also check the assembled ROM to see if it matches any exactly.
+You'll need the assembler, Asar v1.61 (you can find it [here](https://www.smwcentral.net/?p=section&s=tools)). You can also find the current master branch [here](https://github.com/RPGHacker/asar). Work is in progress to eliminate warnings for version 1.81.
 
-On Linux, steps are the same but use asar instead of asar.exe and PATCH.sh instead of PATCH.bat.
+After cloning the repository, you can simply run `make`, which will build all versions. If you dont have asar installed in your PATH, you can edit the makefile.
+
+On windows, you can install `make` in your path, and run `make` or simply use the `PATCH.bat` script.
+
+The makefile validates the checksum of the resultant output files, so it is usefull to ensure any changes haven't modified the output image.
 
 # Status
-All 5 versions assemble and play exactly like they should. The only difference at the moment is the PAL & SS versions' empty space patterns, since they don't just use a $FF fill. Either I have bad dumps of these two versions, or there is no pattern to which bits are flipped in these areas. It *looks* like it alternates between $FF and $00 every $20 bytes but there is some other weirdness going on. I won't include these in the disassembly until I can find a clean way of doing it. I was hoping to write a macro that pulled the empty space pattern from a separate file, but Asar won't allow variable input to the `incbin` command.
-
-# Contribution
-Anyone can contribute as long as they follow the format rules below. This isn't like a personal project or anything. Just make sure every commit that the ROM will properly assemble.
+All 5 versions assemble and play exactly like they should. The only current oustanding issue is the SS version's checksum, which (in the original image) is inverted.
 
 # Format
 I'm focusing on readability so its important that everything is nice and consistent.
@@ -30,8 +26,6 @@ I'm focusing on readability so its important that everything is nice and consist
    - Exceptions are single instructions with either different addressing modes (use the applicable macro) or different constant operands (use the `con` function).
 8. Spaces not tabs.
 9. Probably more things that I'll add as I think of them.
-10. I'm using the semicolon to the left of the program counter as a marker of whether I have cleaned up that area of code yet. If there are two semicolons, that line still needs work.
-11. Don't allow variable names to be a prefix of another variable's name. This way you can Ctrl+F a variable name and you won't get similarly named variables. (This is why scratch RAM starts with an underscore.) Generally this means short names are bad.
 
 # Bugs
 The assembler Asar is an open source project still under development. Some bugs exist which require the disassembly to go against formatting protocol in order to assembly correctly. Here is a list of things I've run into to remind myself to go back and fix if the bugs are ever fixed:
