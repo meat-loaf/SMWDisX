@@ -1183,7 +1183,7 @@ GenExtendedObjLocal:  SEP #$30                                  ;;A106|A106+A106
                       dl CODE_0DDA80                            ;;A289|A289+A289/A289\A289; 7E
                       dl TorpedoLauncher                        ;;A28C|A28C+A28C/A28C\A28C; 7F
                       dl GhostHouseEntExtObj                    ;;A28F|A28F+A28F/A28F\A28F; 80
-                      dl ADDR_0DEC68                            ;;A292|A292+A292/A292\A292; 81
+                      dl AniWeedExtObj                          ;;A292|A292+A292/A292\A292; 81
                       dl CODE_0DA71B                            ;;A295|A295+A295/A295\A295; 82
                       dl CODE_0DA760                            ;;A298|A298+A298/A298\A298; 83
                       dl CODE_0DC2E9                            ;;A29B|A29B+A29B/A29B\A29B; 84
@@ -7363,11 +7363,11 @@ CODE_0DEC5C:          LDY.B !LevelLoadPos                       ;;EC5C|EC5C+EC5C
                       STA.B [!Map16LowPtr],Y                    ;;EC63|EC63+EC63/EC63\EC63;
                       RTS                                       ;;EC65|EC65+EC65/EC65\EC65; Return
                                                                 ;;                        ;
-ADDR_0DEC66:          CMP.B #$CA                                ;;EC66|EC66+EC66/EC66\EC66;
-ADDR_0DEC68:          LDY.B !LevelLoadPos                       ;;EC68|EC68+EC68/EC68\EC68;
+AniWeedExtObjTiles:   db $C9,$CA                                ;;EC66|EC66+EC66/EC66\EC66;
+AniWeedExtObj:        LDY.B !LevelLoadPos                       ;;EC68|EC68+EC68/EC68\EC68;
                       LDX.B #$00                                ;;EC6A|EC6A+EC6A/EC6A\EC6A;
                     - JSR StzTo6ePointer                        ;;EC6C|EC6C+EC6C/EC6C\EC6C;
-                      LDA.L ADDR_0DEC66,X                       ;;EC6F|EC6F+EC6F/EC6F\EC6F;
+                      LDA.L AniWeedExtObjTiles,X                ;;EC6F|EC6F+EC6F/EC6F\EC6F;
                       STA.B [!Map16LowPtr],Y                    ;;EC73|EC73+EC73/EC73\EC73;
                       JSR ShiftObjDown                          ;;EC75|EC75+EC75/EC75\EC75;
                       INX                                       ;;EC78|EC78+EC78/EC78\EC78;

@@ -3607,8 +3607,8 @@ DinoGfxRt:            JSR GetDrawInfoBnk3                       ;;9E49|9E49+9E49
                       LDA.W !SpriteMisc1602,X                   ;;9E51|9E51+9E51/9E51\9E51;
                       STA.B !_4                                 ;;9E54|9E54+9E54/9E54\9E54;
                       LDA.B !SpriteNumber,X                     ;;9E56|9E56+9E56/9E56\9E56;
-                      CMP.B #$6F                                ;;9E58|9E58+9E58/9E58\9E58;
-                      BEQ CODE_039EA9                           ;;9E5A|9E5A+9E5A/9E5A\9E5A;
+                      CMP.B #$6F                                ;;9E58|9E58+9E58/9E58\9E58; \ Branch if sprite is Dino Torch
+                      BEQ DinoTorchGfx                          ;;9E5A|9E5A+9E5A/9E5A\9E5A; /
                       PHX                                       ;;9E5C|9E5C+9E5C/9E5C\9E5C;
                       LDX.B #$03                                ;;9E5D|9E5D+9E5D/9E5D\9E5D;
 CODE_039E5F:          STX.B !_F                                 ;;9E5F|9E5F+9E5F/9E5F\9E5F;
@@ -3651,7 +3651,7 @@ CODE_039E5F:          STX.B !_F                                 ;;9E5F|9E5F+9E5F
                       JSL FinishOAMWrite                        ;;9EA8|9EA4+9EA4/9EA4\9EA4;
                       RTS                                       ;;9EAC|9EA8+9EA8/9EA8\9EA8; Return
                                                                 ;;                        ;
-CODE_039EA9:          LDA.W !SpriteMisc151C,X                   ;;9EAD|9EA9+9EA9/9EA9\9EA9;
+DinoTorchGfx:         LDA.W !SpriteMisc151C,X                   ;;9EAD|9EA9+9EA9/9EA9\9EA9;
                       STA.B !_3                                 ;;9EB0|9EAC+9EAC/9EAC\9EAC;
                       LDA.W !SpriteMisc1602,X                   ;;9EB2|9EAE+9EAE/9EAE\9EAE;
                       STA.B !_4                                 ;;9EB5|9EB1+9EB1/9EB1\9EB1;

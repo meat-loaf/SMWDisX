@@ -5054,7 +5054,7 @@ CODE_01A8E6:          LDA.W !PlayerSlopePose                    ;;A8E8|A8E6+A8E6
                       TYA                                       ;;A90F|A90D+A90D/A90D\A919;
                       STA.W !SpriteMisc157C,X                   ;;A910|A90E+A90E/A90E\A91A;
                     + LDA.B !SpriteNumber,X                     ;;A913|A911+A911/A911\A91D;
-                      CMP.B #$53                                ;;A915|A913+A913/A913\A91F;
+                      CMP.B #$53                                ;;A915|A913+A913/A913\A91F; Throw block sprite
                       BEQ Return01A91B                          ;;A917|A915+A915/A915\A921;
                       JSL HurtMario                             ;;A919|A917+A917/A917\A923;
 Return01A91B:         RTS                                       ;;A91D|A91B+A91B/A91B\A927; Return
@@ -5855,12 +5855,12 @@ ThwompGfxProp:        db $03,$43,$03,$43,$03                    ;;AF4F|AF4F+AF4F
                                                                 ;;                        ;
 ThwompGfx:            JSR GetDrawInfoBnk1                       ;;AF54|AF54+AF54/AF54\AF5B;
                       LDA.W !SpriteMisc1528,X                   ;;AF57|AF57+AF57/AF57\AF5E;
-                      STA.B !_2                                 ;;AF5A|AF5A+AF5A/AF5A\AF61;
-                      PHX                                       ;;AF5C|AF5C+AF5C/AF5C\AF63;
-                      LDX.B #$03                                ;;AF5D|AF5D+AF5D/AF5D\AF64;
-                      CMP.B #$00                                ;;AF5F|AF5F+AF5F/AF5F\AF66;
-                      BEQ CODE_01AF64                           ;;AF61|AF61+AF61/AF61\AF68;
-                      INX                                       ;;AF63|AF63+AF63/AF63\AF6A;
+                      STA.B !_2                                 ;;AF5A|AF5A+AF5A/AF5A\AF61;; $02 = face animation frame
+                      PHX                                       ;;AF5C|AF5C+AF5C/AF5C\AF63;; push sprite index
+                      LDX.B #$03                                ;;AF5D|AF5D+AF5D/AF5D\AF64;; x = loop count
+                      CMP.B #$00                                ;;AF5F|AF5F+AF5F/AF5F\AF66;; \ face animation frame == 0? (normal)
+                      BEQ CODE_01AF64                           ;;AF61|AF61+AF61/AF61\AF68;; | skip increment if so
+                      INX                                       ;;AF63|AF63+AF63/AF63\AF6A;; /
 CODE_01AF64:          LDA.B !_0                                 ;;AF64|AF64+AF64/AF64\AF6B;
                       CLC                                       ;;AF66|AF66+AF66/AF66\AF6D;
                       ADC.W ThwompDispX,X                       ;;AF67|AF67+AF67/AF67\AF6E;
@@ -5873,14 +5873,14 @@ CODE_01AF64:          LDA.B !_0                                 ;;AF64|AF64+AF64
                       ORA.B !SpriteProperties                   ;;AF79|AF79+AF79/AF79\AF80;
                       STA.W !OAMTileAttr+$100,Y                 ;;AF7B|AF7B+AF7B/AF7B\AF82;
                       LDA.W ThwompTiles,X                       ;;AF7E|AF7E+AF7E/AF7E\AF85;
-                      CPX.B #$04                                ;;AF81|AF81+AF81/AF81\AF88;
-                      BNE CODE_01AF8F                           ;;AF83|AF83+AF83/AF83\AF8A;
-                      PHX                                       ;;AF85|AF85+AF85/AF85\AF8C;
-                      LDX.B !_2                                 ;;AF86|AF86+AF86/AF86\AF8D;
-                      CPX.B #$02                                ;;AF88|AF88+AF88/AF88\AF8F;
-                      BNE +                                     ;;AF8A|AF8A+AF8A/AF8A\AF91;
-                      LDA.B #$CA                                ;;AF8C|AF8C+AF8C/AF8C\AF93;
-                    + PLX                                       ;;AF8E|AF8E+AF8E/AF8E\AF95;
+                      CPX.B #$04                                ;;AF81|AF81+AF81/AF81\AF88;; \ branch if x is not 4. this branch is always take if the face tile
+                      BNE CODE_01AF8F                           ;;AF83|AF83+AF83/AF83\AF8A;; / isn't 'normal', INX above causes this to draw the face otherwise)
+                      PHX                                       ;;AF85|AF85+AF85/AF85\AF8C;; push loop index
+                      LDX.B !_2                                 ;;AF86|AF86+AF86/AF86\AF8D;; load face animation frame
+                      CPX.B #$02                                ;;AF88|AF88+AF88/AF88\AF8F;; if face animation != 2 (angry)
+                      BNE +                                     ;;AF8A|AF8A+AF8A/AF8A\AF91;; skip (5th entry in ThwompTiles is the 'glaring' face, already in A)
+                      LDA.B #$CA                                ;;AF8C|AF8C+AF8C/AF8C\AF93;; load face tile (angry)
+                    + PLX                                       ;;AF8E|AF8E+AF8E/AF8E\AF95;; pull loop index
 CODE_01AF8F:          STA.W !OAMTileNo+$100,Y                   ;;AF8F|AF8F+AF8F/AF8F\AF96;
                       INY                                       ;;AF92|AF92+AF92/AF92\AF99;
                       INY                                       ;;AF93|AF93+AF93/AF93\AF9A;
@@ -5888,10 +5888,10 @@ CODE_01AF8F:          STA.W !OAMTileNo+$100,Y                   ;;AF8F|AF8F+AF8F
                       INY                                       ;;AF95|AF95+AF95/AF95\AF9C;
                       DEX                                       ;;AF96|AF96+AF96/AF96\AF9D;
                       BPL CODE_01AF64                           ;;AF97|AF97+AF97/AF97\AF9E;
-                      PLX                                       ;;AF99|AF99+AF99/AF99\AFA0;
-                      LDA.B #$04                                ;;AF9A|AF9A+AF9A/AF9A\AFA1;
-                      JMP DoFinOAMWrite16x16                    ;;AF9C|AF9C+AF9C/AF9C\AFA3;
-                                                                ;;                        ;
+                      PLX                                       ;;AF99|AF99+AF99/AF99\AFA0; pull sprite index
+                      LDA.B #$04                                ;;AF9A|AF9A+AF9A/AF9A\AFA1; \ i believe this abuses a property of the oam allocator to avoid drawing a
+                      JMP DoFinOAMWrite16x16                    ;;AF9C|AF9C+AF9C/AF9C\AFA3; / garbage tile when drawing the 'normal' face: the immediate tile after is not allocated,
+                                                                ;;                        ;   so should always be offscreen when not set up here?
 Thwimp:               LDA.W !SpriteStatus,X                     ;;AF9F|AF9F+AF9F/AF9F\AFA6;
                       CMP.B #$08                                ;;AFA2|AFA2+AFA2/AFA2\AFA9;
                       BNE CODE_01B006                           ;;AFA4|AFA4+AFA4/AFA4\AFAB;

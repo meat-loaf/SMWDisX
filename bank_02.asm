@@ -154,7 +154,7 @@ CODE_0280ED:          LDA.B !_0                                 ;;80ED|80ED+80ED
                       BPL CODE_0280C4                           ;;8130|8130+8130/8130\8130;
                       LDY.B #$00                                ;;8132|8132+8132/8132\8132;
                       LDA.B #$04                                ;;8134|8134+8134/8134\8134;
-                      JMP CODE_02B7A7                           ;;8136|8136+8136/8136\8136;
+                      JMP CallFinOAMWriteBank2                  ;;8136|8136+8136/8136\8136;
                                                                 ;;                        ;
 ExplodeSprites:       LDY.B #$09                                ;;8139|8139+8139/8139\8139; \ Loop over sprites:
 ExplodeLoopStart:     CPY.W !CurSpriteProcess                   ;;813B|813B+813B/813B\813B;  | Don't attempt to kill self
@@ -1283,7 +1283,7 @@ CODE_028AF5:          ORA.B !PlayerXPosScrRel+1                 ;;8AF7|8AF5+8AF5
                       JSR ScoreSprGfx                           ;;8B0D|8B0B+8B0B/8B0B\8B0B;
                       JSR RunExtendedSprites                    ;;8B10|8B0E+8B0E/8B0E\8B0E;
                       JSR CODE_0299D2                           ;;8B13|8B11+8B11/8B11\8B11;
-                      JSR CODE_02B387                           ;;8B16|8B14+8B14/8B14\8B14;
+                      JSR RunShooters                           ;;8B16|8B14+8B14/8B14\8B14;
                       JSR CallGenerator                         ;;8B19|8B17+8B17/8B17\8B17;
                       JSR CODE_0294F5                           ;;8B1C|8B1A+8B1A/8B1A\8B1A;
                       JSR LoadSprFromLevel                      ;;8B1F|8B1D+8B1D/8B1D\8B1D;
@@ -5336,7 +5336,7 @@ CODE_02ABC7:          LDA.B [!SpriteDataPtr],Y                  ;;ABE2|ABC7+ABC7
                       INX                                       ;;AC09|ABEE+ABEE/ABEE\ABEE;
                       JMP LoadSpriteLoopStrt                    ;;AC0A|ABEF+ABEF/ABEF\ABEF;
                                                                 ;;                        ;
-CODE_02ABF2:          LDX.B #$3F                                ;;AC0D|ABF2+ABF2/ABF2\ABF2;
+CODE_02ABF2:          LDX.B #$3F                                ;;AC0D|ABF2+ABF2/ABF2\ABF2; This should be $7F: the table is 128 bytes long. In the original SMW it never comes up, though.
                     - STZ.W !SpriteLoadStatus,X                 ;;AC0F|ABF4+ABF4/ABF4\ABF4; Allow sprite to be reloaded by level loading routine
                       DEX                                       ;;AC12|ABF7+ABF7/ABF7\ABF7;
                       BPL -                                     ;;AC13|ABF8+ABF8/ABF8\ABF8;
@@ -6272,26 +6272,26 @@ GenParaEnemy:         LDA.B !EffFrame                           ;;B346|B329+B329
                       STA.W !SpriteYPosHigh,X                   ;;B3A0|B383+B383/B383\B383;
 Return02B386:         RTS                                       ;;B3A3|B386+B386/B386\B386; Return
                                                                 ;;                        ;
-CODE_02B387:          LDA.B !SpriteLock                         ;;B3A4|B387+B387/B387\B387;
+RunShooters:          LDA.B !SpriteLock                         ;;B3A4|B387+B387/B387\B387;
                       BNE Return02B3AA                          ;;B3A6|B389+B389/B389\B389;
                       LDX.B #$07                                ;;B3A8|B38B+B38B/B38B\B38B;
-CODE_02B38D:          STX.W !CurSpriteProcess                   ;;B3AA|B38D+B38D/B38D\B38D;
+.loopNextShooterSlot: STX.W !CurSpriteProcess                   ;;B3AA|B38D+B38D/B38D\B38D;
                       LDA.W !ShooterNumber,X                    ;;B3AD|B390+B390/B390\B390;
-                      BEQ CODE_02B3A7                           ;;B3B0|B393+B393/B393\B393;
+                      BEQ .shooterNext                          ;;B3B0|B393+B393/B393\B393;
                       LDY.W !ShooterTimer,X                     ;;B3B2|B395+B395/B395\B395;
-                      BEQ CODE_02B3A4                           ;;B3B5|B398+B398/B398\B398;
+                      BEQ .shooterDoShoot                       ;;B3B5|B398+B398/B398\B398;
                       PHA                                       ;;B3B7|B39A+B39A/B39A\B39A;
                       LDA.B !TrueFrame                          ;;B3B8|B39B+B39B/B39B\B39B;
                       LSR A                                     ;;B3BA|B39D+B39D/B39D\B39D;
                       BCC +                                     ;;B3BB|B39E+B39E/B39E\B39E;
                       DEC.W !ShooterTimer,X                     ;;B3BD|B3A0+B3A0/B3A0\B3A0;
                     + PLA                                       ;;B3C0|B3A3+B3A3/B3A3\B3A3;
-CODE_02B3A4:          JSR CODE_02B3AB                           ;;B3C1|B3A4+B3A4/B3A4\B3A4;
-CODE_02B3A7:          DEX                                       ;;B3C4|B3A7+B3A7/B3A7\B3A7;
-                      BPL CODE_02B38D                           ;;B3C5|B3A8+B3A8/B3A8\B3A8;
+.shooterDoShoot:      JSR ShooterShoot                          ;;B3C1|B3A4+B3A4/B3A4\B3A4;
+.shooterNext:         DEX                                       ;;B3C4|B3A7+B3A7/B3A7\B3A7;
+                      BPL .loopNextShooterSlot                  ;;B3C5|B3A8+B3A8/B3A8\B3A8;
 Return02B3AA:         RTS                                       ;;B3C7|B3AA+B3AA/B3AA\B3AA; Return
                                                                 ;;                        ;
-CODE_02B3AB:          DEC A                                     ;;B3C8|B3AB+B3AB/B3AB\B3AB;
+ShooterShoot:         DEC A                                     ;;B3C8|B3AB+B3AB/B3AB\B3AB;
                       JSL ExecutePtr                            ;;B3C9|B3AC+B3AC/B3AC\B3AC;
                                                                 ;;                        ;
                       dw ShootBullet                            ;;B3CD|B3B0+B3B0/B3B0\B3B0; 00 - Bullet Bill shooter
@@ -6777,7 +6777,7 @@ CODE_02B781:          LDA.B !_1                                 ;;B781|B781+B781
                       PLX                                       ;;B7A2|B7A2+B7A2/B7A2\B7A2;
                       LDA.B #$04                                ;;B7A3|B7A3+B7A3/B7A3\B7A3;
                       LDY.B #$02                                ;;B7A5|B7A5+B7A5/B7A5\B7A5;
-CODE_02B7A7:          JSL FinishOAMWrite                        ;;B7A7|B7A7+B7A7/B7A7\B7A7;
+CallFinOAMWriteBank2: JSL FinishOAMWrite                        ;;B7A7|B7A7+B7A7/B7A7\B7A7;
                       RTS                                       ;;B7AB|B7AB+B7AB/B7AB\B7AB; Return
                                                                 ;;                        ;
 CODE_02B7AC:          LDY.B #$09                                ;;B7AC|B7AC+B7AC/B7AC\B7AC;
@@ -6994,7 +6994,7 @@ TorpedoGfxRt:         JSR GetDrawInfo2                          ;;B8F7|B8F7+B8F7
                     + STA.W !OAMTileNo+$104,Y                   ;;B947|B944+B944/B944\B944;
                       LDA.B #$01                                ;;B94A|B947+B947/B947\B947;
                       LDY.B #$02                                ;;B94C|B949+B949/B949\B949;
-                      JMP CODE_02B7A7                           ;;B94E|B94B+B94B/B94B\B94B;
+                      JMP CallFinOAMWriteBank2                  ;;B94E|B94B+B94B/B94B\B94B;
                                                                 ;;                        ;
                                                                 ;;                        ;
 DATA_02B94E:          db $F4,$1C                                ;;B951|B94E+B94E/B94E\B94E;
@@ -7409,7 +7409,7 @@ CODE_02BC3C:          CLC                                       ;;BC3F|BC3C+BC3C
                       STA.W !OAMTileAttr+$108,Y                 ;;BC88|BC85+BC85/BC85\BC85;
                       LDA.B #$02                                ;;BC8B|BC88+BC88/BC88\BC88;
                       LDY.B #$02                                ;;BC8D|BC8A+BC8A/BC8A\BC8A;
-                      JMP CODE_02B7A7                           ;;BC8F|BC8C+BC8C/BC8C\BC8C;
+                      JMP CallFinOAMWriteBank2                  ;;BC8F|BC8C+BC8C/BC8C\BC8C;
                                                                 ;;                        ;
                                                                 ;;                        ;
 WallFollowXSpdTbl:    db $08,$00,$F8,$00,$F8,$00,$08,$00        ;;BC92|BC8F+BC8F/BC8F\BC8F;
@@ -7421,7 +7421,7 @@ DATA_02BCB7:          db $00,$02,$00,$02,$00,$02,$00,$02        ;;BCBA|BCB7+BCB7
                       db $05,$04,$05,$04,$05,$04,$05,$04        ;;BCC2|BCBF+BCBF/BCBF\BCBF;
 DATA_02BCC7:          db $00,$C0,$C0,$00,$40,$80,$80,$40        ;;BCCA|BCC7+BCC7/BCC7\BCC7;
                       db $80,$C0,$40,$00,$C0,$80,$00,$40        ;;BCD2|BCCF+BCCF/BCCF\BCCF;
-DATA_02BCD7:          db $00,$01,$02,$01                        ;;BCDA|BCD7+BCD7/BCD7\BCD7;
+UrchinAniFrameIndex:  db $00,$01,$02,$01                        ;;BCDA|BCD7+BCD7/BCD7\BCD7;
                                                                 ;;                        ;
 WallFollowersMain:    JSL SprSprInteract                        ;;BCDE|BCDB+BCDB/BCDB\BCDB;
                       JSL GetRand                               ;;BCE2|BCDF+BCDF/BCDF\BCDF;
@@ -7463,7 +7463,7 @@ CODE_02BD23:          CMP.B #$A5                                ;;BD26|BD23+BD23
                       JSR CODE_02BE4E                           ;;BD2A|BD27+BD27/BD27\BD27;
                       BRA CODE_02BD2F                           ;;BD2D|BD2A+BD2A/BD2A\BD2A;
                                                                 ;;                        ;
-CODE_02BD2C:          JSR CODE_02BF5C                           ;;BD2F|BD2C+BD2C/BD2C\BD2C;
+CODE_02BD2C:          JSR UrchinGfxRt                           ;;BD2F|BD2C+BD2C/BD2C\BD2C;
 CODE_02BD2F:          LDA.W !SpriteStatus,X                     ;;BD32|BD2F+BD2F/BD2F\BD2F;
                       CMP.B #$08                                ;;BD35|BD32+BD32/BD32\BD32;
                       BEQ +                                     ;;BD37|BD34+BD34/BD34\BD34;
@@ -7691,7 +7691,7 @@ CODE_02BEB5:          JSR GetDrawInfo2                          ;;BEB8|BEB5+BEB5
                       PHA                                       ;;BEFF|BEFC+BEFC/BEFC\BEFC;
                       LDY.B #$02                                ;;BF00|BEFD+BEFD/BEFD\BEFD;
                       LDA.B #$03                                ;;BF02|BEFF+BEFF/BEFF\BEFF;
-                      JSR CODE_02B7A7                           ;;BF04|BF01+BF01/BF01\BF01;
+                      JSR CallFinOAMWriteBank2                  ;;BF04|BF01+BF01/BF01\BF01;
                       PLA                                       ;;BF07|BF04+BF04/BF04\BF04;
                       STA.B !_1                                 ;;BF08|BF05+BF05/BF05\BF05;
                       PLA                                       ;;BF0A|BF07+BF07/BF07\BF07;
@@ -7725,7 +7725,7 @@ CODE_02BEB5:          JSR GetDrawInfo2                          ;;BEB8|BEB5+BEB5
                       PLX                                       ;;BF44|BF41+BF41/BF41\BF41;
                       LDY.B #$00                                ;;BF45|BF42+BF42/BF42\BF42;
                       LDA.B #$00                                ;;BF47|BF44+BF44/BF44\BF44;
-                      JMP CODE_02B7A7                           ;;BF49|BF46+BF46/BF46\BF46;
+                      JMP CallFinOAMWriteBank2                  ;;BF49|BF46+BF46/BF46\BF46;
                                                                 ;;                        ;
                                                                 ;;                        ;
 DATA_02BF49:          db $08,$00,$10,$00,$10                    ;;BF4C|BF49+BF49/BF49\BF49;
@@ -7736,16 +7736,16 @@ DATA_02BF53:          db $37,$37,$77,$B7,$F7                    ;;BF56|BF53+BF53
                                                                 ;;                        ;
 UrchinTiles:          db $C4,$C6,$C8,$C6                        ;;BF5B|BF58+BF58/BF58\BF58;
                                                                 ;;                        ;
-CODE_02BF5C:          LDA.W !SpriteMisc163E,X                   ;;BF5F|BF5C+BF5C/BF5C\BF5C;
+UrchinGfxRt:          LDA.W !SpriteMisc163E,X                   ;;BF5F|BF5C+BF5C/BF5C\BF5C; > 'Auto-decrement' table
                       BNE +                                     ;;BF62|BF5F+BF5F/BF5F\BF5F;
-                      INC.W !SpriteMisc1528,X                   ;;BF64|BF61+BF61/BF61\BF61;
-                      LDA.B #$0C                                ;;BF67|BF64+BF64/BF64\BF64;
-                      STA.W !SpriteMisc163E,X                   ;;BF69|BF66+BF66/BF66\BF66;
+                      INC.W !SpriteMisc1528,X                   ;;BF64|BF61+BF61/BF61\BF61; > Update body animation frame index
+                      LDA.B #$0C                                ;;BF67|BF64+BF64/BF64\BF64; \ Update body animation every 14th frame
+                      STA.W !SpriteMisc163E,X                   ;;BF69|BF66+BF66/BF66\BF66; /
                     + LDA.W !SpriteMisc1528,X                   ;;BF6C|BF69+BF69/BF69\BF69;
                       AND.B #$03                                ;;BF6F|BF6C+BF6C/BF6C\BF6C;
                       TAY                                       ;;BF71|BF6E+BF6E/BF6E\BF6E;
-                      LDA.W DATA_02BCD7,Y                       ;;BF72|BF6F+BF6F/BF6F\BF6F;
-                      STA.W !SpriteMisc1602,X                   ;;BF75|BF72+BF72/BF72\BF72;
+                      LDA.W UrchinAniFrameIndex,Y               ;;BF72|BF6F+BF6F/BF6F\BF6F; \ Update the actual animaition frame used
+                      STA.W !SpriteMisc1602,X                   ;;BF75|BF72+BF72/BF72\BF72; /
                       JSR GetDrawInfo2                          ;;BF78|BF75+BF75/BF75\BF75;
                       STZ.B !_5                                 ;;BF7B|BF78+BF78/BF78\BF78;
                       LDA.W !SpriteMisc1602,X                   ;;BF7D|BF7A+BF7A/BF7A\BF7A;
@@ -7763,8 +7763,8 @@ CODE_02BF84:          LDX.B !_5                                 ;;BF87|BF84+BF84
                       STA.W !OAMTileYPos+$100,Y                 ;;BF9A|BF95+BF95/BF95\BF95;
                       %LorW_X(LDA,DATA_02BF53)                  ;;BF9D|BF98+BF98/BF98\BF98;
                       STA.W !OAMTileAttr+$100,Y                 ;;BFA1|BF9B+BF9B/BF9B\BF9B;
-                      CPX.B #$00                                ;;BFA4|BF9E+BF9E/BF9E\BF9E;
-                      BNE CODE_02BFAC                           ;;BFA6|BFA0+BFA0/BFA0\BFA0;
+                      CPX.B #$00                                ;;BFA4|BF9E+BF9E/BF9E\BF9E; \ Check if we're drawing
+                      BNE CODE_02BFAC                           ;;BFA6|BFA0+BFA0/BFA0\BFA0; / the eye tile.
                       LDA.B #$CA                                ;;BFA8|BFA2+BFA2/BFA2\BFA2;
                       LDX.B !_3                                 ;;BFAA|BFA4+BFA4/BFA4\BFA4;
                       BEQ +                                     ;;BFAC|BFA6+BFA6/BFA6\BFA6;
@@ -7784,7 +7784,7 @@ CODE_02BFAC:          LDX.B !_2                                 ;;BFB2|BFAC+BFAC
                       BNE CODE_02BF84                           ;;BFC5|BFBE+BFBE/BFBE\BFBE;
                       LDX.W !CurSpriteProcess                   ;;BFC7|BFC0+BFC0/BFC0\BFC0; X = Sprite index
                       LDY.B #$02                                ;;BFCA|BFC3+BFC3/BFC3\BFC3;
-                      JMP CODE_02C82B                           ;;BFCC|BFC5+BFC5/BFC5\BFC5;
+                      JMP CODE_02C82B                           ;;BFCC|BFC5+BFC5/BFC5\BFC5; Chargin' Chuck's FinishOAMWrite call (draws 5 tiles)
                                                                 ;;                        ;
                                                                 ;;                        ;
 DATA_02BFC8:          db $10,$F0                                ;;BFCF|BFC8+BFC8/BFC8\BFC8;
@@ -8837,7 +8837,7 @@ ChuckGraphics:        JSR GetDrawInfo2                          ;;C821|C81A+C81A
                       JSR CODE_02CBA1                           ;;C82D|C826+C826/C826\C826;
                       LDY.B #$FF                                ;;C830|C829+C829/C829\C829;
 CODE_02C82B:          LDA.B #$04                                ;;C832|C82B+C82B/C82B\C82B;
-                      JMP CODE_02B7A7                           ;;C834|C82D+C82D/C82D\C82D;
+                      JMP CallFinOAMWriteBank2                  ;;C834|C82D+C82D/C82D\C82D;
                                                                 ;;                        ;
                                                                 ;;                        ;
 DATA_02C830:          db $F8,$F8,$F8,$00,$00,$FE,$00,$00        ;;C837|C830+C830/C830\C830;
@@ -9442,7 +9442,7 @@ CODE_02CD91:          LDA.B !_0                                 ;;CDAB|CD91+CD91
                       PLX                                       ;;CDD6|CDBC+CDBC/CDBC\CDBC;
                       LDY.B #$00                                ;;CDD7|CDBD+CDBD/CDBD\CDBD;
                       LDA.B #$07                                ;;CDD9|CDBF+CDBF/CDBF\CDBF;
-                      JMP CODE_02B7A7                           ;;CDDB|CDC1+CDC1/CDC1\CDC1;
+                      JMP CallFinOAMWriteBank2                  ;;CDDB|CDC1+CDC1/CDC1\CDC1;
                                                                 ;;                        ;
                       RTS                                       ;;CDDE|CDC4+CDC4/CDC4\CDC4; Return
                                                                 ;;                        ;
@@ -9620,7 +9620,7 @@ CODE_02CEFC:          LDA.B !_4                                 ;;CF16|CEFC+CEFC
                                                                 ;;                        ;
                     + LDY.B #$00                                ;;CF66|CF4A+CF4A/CF4A\CF4A;
                       LDA.B #$04                                ;;CF68|CF4C+CF4C/CF4C\CF4C;
-                      JMP CODE_02B7A7                           ;;CF6A|CF4E+CF4E/CF4E\CF4E;
+                      JMP CallFinOAMWriteBank2                  ;;CF6A|CF4E+CF4E/CF4E\CF4E;
                                                                 ;;                        ;
                     - RTS                                       ;;CF6D|CF51+CF51/CF51\CF51; Return
                                                                 ;;                        ;
@@ -10418,7 +10418,7 @@ StompSFX2:            db !SFX_STOMP1                            ;;D580|D580+D580
                       db !SFX_STOMP6                            ;;D585|D585+D585/D585\D585;
                       db !SFX_STOMP7                            ;;D586|D586+D586/D586\D586;
                                                                 ;;                        ;
-CODE_02D587:          JSR CODE_02D5E4                           ;;D587|D587+D587/D587\D587;
+BanzaiBillRt:         JSR BanzaiBillGfxRt                       ;;D587|D587+D587/D587\D587;
                       LDA.W !SpriteStatus,X                     ;;D58A|D58A+D58A/D58A\D58A;
                       CMP.B #$02                                ;;D58D|D58D+D58D/D58D\D58D;
                       BEQ +                                     ;;D58F|D58F+D58F/D58F\D58F;
@@ -10432,29 +10432,29 @@ CODE_02D587:          JSR CODE_02D5E4                           ;;D587|D587+D587
                     + RTS                                       ;;D5A3|D5A3+D5A3/D5A3\D5A3; Return
                                                                 ;;                        ;
                                                                 ;;                        ;
-DATA_02D5A4:          db $00,$10,$20,$30,$00,$10,$20,$30        ;;D5A4|D5A4+D5A4/D5A4\D5A4;
+BanzaiBillTileXOff:   db $00,$10,$20,$30,$00,$10,$20,$30        ;;D5A4|D5A4+D5A4/D5A4\D5A4;
                       db $00,$10,$20,$30,$00,$10,$20,$30        ;;D5AC|D5AC+D5AC/D5AC\D5AC;
-DATA_02D5B4:          db $00,$00,$00,$00,$10,$10,$10,$10        ;;D5B4|D5B4+D5B4/D5B4\D5B4;
+BanzaiBillTileYOff:   db $00,$00,$00,$00,$10,$10,$10,$10        ;;D5B4|D5B4+D5B4/D5B4\D5B4;
                       db $20,$20,$20,$20,$30,$30,$30,$30        ;;D5BC|D5BC+D5BC/D5BC\D5BC;
 BanzaiBillTiles:      db $80,$82,$84,$86,$A0,$88,$CE,$EE        ;;D5C4|D5C4+D5C4/D5C4\D5C4;
                       db $C0,$C2,$CE,$EE,$8E,$AE,$84,$86        ;;D5CC|D5CC+D5CC/D5CC\D5CC;
-DATA_02D5D4:          db $33,$33,$33,$33,$33,$33,$33,$33        ;;D5D4|D5D4+D5D4/D5D4\D5D4;
+BanzaiBillTileProps:  db $33,$33,$33,$33,$33,$33,$33,$33        ;;D5D4|D5D4+D5D4/D5D4\D5D4;
                       db $33,$33,$33,$33,$33,$33,$B3,$B3        ;;D5DC|D5DC+D5DC/D5DC\D5DC;
                                                                 ;;                        ;
-CODE_02D5E4:          JSR GetDrawInfo2                          ;;D5E4|D5E4+D5E4/D5E4\D5E4;
+BanzaiBillGfxRt:      JSR GetDrawInfo2                          ;;D5E4|D5E4+D5E4/D5E4\D5E4;
                       PHX                                       ;;D5E7|D5E7+D5E7/D5E7\D5E7;
                       LDX.B #$0F                                ;;D5E8|D5E8+D5E8/D5E8\D5E8;
                     - LDA.B !_0                                 ;;D5EA|D5EA+D5EA/D5EA\D5EA;
                       CLC                                       ;;D5EC|D5EC+D5EC/D5EC\D5EC;
-                      ADC.W DATA_02D5A4,X                       ;;D5ED|D5ED+D5ED/D5ED\D5ED;
+                      ADC.W BanzaiBillTileXOff,X                ;;D5ED|D5ED+D5ED/D5ED\D5ED;
                       STA.W !OAMTileXPos+$100,Y                 ;;D5F0|D5F0+D5F0/D5F0\D5F0;
                       LDA.B !_1                                 ;;D5F3|D5F3+D5F3/D5F3\D5F3;
                       CLC                                       ;;D5F5|D5F5+D5F5/D5F5\D5F5;
-                      ADC.W DATA_02D5B4,X                       ;;D5F6|D5F6+D5F6/D5F6\D5F6;
+                      ADC.W BanzaiBillTileYOff,X                 ;;D5F6|D5F6+D5F6/D5F6\D5F6;
                       STA.W !OAMTileYPos+$100,Y                 ;;D5F9|D5F9+D5F9/D5F9\D5F9;
                       LDA.W BanzaiBillTiles,X                   ;;D5FC|D5FC+D5FC/D5FC\D5FC;
                       STA.W !OAMTileNo+$100,Y                   ;;D5FF|D5FF+D5FF/D5FF\D5FF;
-                      LDA.W DATA_02D5D4,X                       ;;D602|D602+D602/D602\D602;
+                      LDA.W BanzaiBillTileProps,X               ;;D602|D602+D602/D602\D602;
                       STA.W !OAMTileAttr+$100,Y                 ;;D605|D605+D605/D605\D605;
                       INY                                       ;;D608|D608+D608/D608\D608;
                       INY                                       ;;D609|D609+D609/D609\D609;
@@ -10465,22 +10465,22 @@ CODE_02D5E4:          JSR GetDrawInfo2                          ;;D5E4|D5E4+D5E4
                       PLX                                       ;;D60F|D60F+D60F/D60F\D60F;
                       LDY.B #$02                                ;;D610|D610+D610/D610\D610;
                       LDA.B #$0F                                ;;D612|D612+D612/D612\D612;
-                      JMP CODE_02B7A7                           ;;D614|D614+D614/D614\D614;
+                      JMP CallFinOAMWriteBank2                  ;;D614|D614+D614/D614\D614;
                                                                 ;;                        ;
 Banzai_Rotating:      PHB                                       ;;D617|D617+D617/D617\D617;
                       PHK                                       ;;D618|D618+D618/D618\D618;
                       PLB                                       ;;D619|D619+D619/D619\D619;
                       LDA.B !SpriteNumber,X                     ;;D61A|D61A+D61A/D61A\D61A;
                       CMP.B #$9F                                ;;D61C|D61C+D61C/D61C\D61C;
-                      BNE CODE_02D625                           ;;D61E|D61E+D61E/D61E\D61E;
-                      JSR CODE_02D587                           ;;D620|D620+D620/D620\D620;
+                      BNE GreySpinPlat                          ;;D61E|D61E+D61E/D61E\D61E;
+                      JSR BanzaiBillRt                          ;;D620|D620+D620/D620\D620;
                       BRA +                                     ;;D623|D623+D623/D623\D623;
                                                                 ;;                        ;
-CODE_02D625:          JSR CODE_02D62A                           ;;D625|D625+D625/D625\D625;
+GreySpinPlat:         JSR GreySpinPlatRt                        ;;D625|D625+D625/D625\D625;
                     + PLB                                       ;;D628|D628+D628/D628\D628;
                       RTL                                       ;;D629|D629+D629/D629\D629; Return
                                                                 ;;                        ;
-CODE_02D62A:          JSR SubOffscreen3Bnk2                     ;;D62A|D62A+D62A/D62A\D62A;
+GreySpinPlatRt:       JSR SubOffscreen3Bnk2                     ;;D62A|D62A+D62A/D62A\D62A;
                       LDA.B !SpriteLock                         ;;D62D|D62D+D62D/D62D\D62D;
                       BNE CODE_02D653                           ;;D62F|D62F+D62F/D62F\D62F;
                       LDA.B !SpriteXPosLow,X                    ;;D631|D631+D631/D631\D631;
@@ -10660,11 +10660,11 @@ CODE_02D750:          JSL MarioSprInteract                      ;;D750|D750+D750
                       STA.B !_A                                 ;;D79A|D79A+D79A/D79A\D79A;
                       LDA.B !SpriteYPosLow,X                    ;;D79C|D79C+D79C/D79C\D79C;
                       STA.B !_B                                 ;;D79E|D79E+D79E/D79E\D79E;
-                      LDA.B !SpriteNumber,X                     ;;D7A0|D7A0+D7A0/D7A0\D7A0;
-                      TAX                                       ;;D7A2|D7A2+D7A2/D7A2\D7A2;
-                      LDA.B #$E8                                ;;D7A3|D7A3+D7A3/D7A3\D7A3;
-                      CPX.B #$9E                                ;;D7A5|D7A5+D7A5/D7A5\D7A5;
-                      BEQ +                                     ;;D7A7|D7A7+D7A7/D7A7\D7A7;
+                      LDA.B !SpriteNumber,X                     ;;D7A0|D7A0+D7A0/D7A0\D7A0; \ This sprite number check is completely
+                      TAX                                       ;;D7A2|D7A2+D7A2/D7A2\D7A2; | unecessary, the Banzai Bill (sprite 9E)
+                      LDA.B #$E8                                ;;D7A3|D7A3+D7A3/D7A3\D7A3; | code never executes any of this. Maybe
+                      CPX.B #$9E                                ;;D7A5|D7A5+D7A5/D7A5\D7A5; | it used to be a completely different
+                      BEQ +                                     ;;D7A7|D7A7+D7A7/D7A7\D7A7; / sprite?
                       LDA.B #$A2                                ;;D7A9|D7A9+D7A9/D7A9\D7A9;
                     + STA.B !_8                                 ;;D7AB|D7AB+D7AB/D7AB\D7AB;
                       LDX.B #$01                                ;;D7AD|D7AD+D7AD/D7AD\D7AD;
@@ -10713,11 +10713,11 @@ CODE_02D750:          JSL MarioSprInteract                      ;;D750|D750+D750
                       PLX                                       ;;D7F8|D7F8+D7F8/D7F8\D7F8;
                       LDY.B #$02                                ;;D7F9|D7F9+D7F9/D7F9\D7F9;
                       LDA.B #$05                                ;;D7FB|D7FB+D7FB/D7FB\D7FB;
-                      JMP CODE_02B7A7                           ;;D7FD|D7FD+D7FD/D7FD\D7FD;
+                      JMP CallFinOAMWriteBank2                  ;;D7FD|D7FD+D7FD/D7FD\D7FD;
                                                                 ;;                        ;
-DoNothingBank2:       NOP                                       ;;D800|D800+D800/D800\D800;
-                      NOP                                       ;;D801|D801+D801/D801\D801;
-                      NOP                                       ;;D802|D802+D802/D802\D802;
+DoNothingBank2:       NOP                                       ;;D800|D800+D800/D800\D800; This routine is used to waste time
+                      NOP                                       ;;D801|D801+D801/D801\D801; for mult/div registers. Interestingly.
+                      NOP                                       ;;D802|D802+D802/D802\D802; it's a lot longer than it needs to be.
                       NOP                                       ;;D803|D803+D803/D803\D803;
                       NOP                                       ;;D804|D804+D804/D804\D804;
                       NOP                                       ;;D805|D805+D805/D805\D805;
@@ -10755,7 +10755,7 @@ CODE_02D813:          JSR GetDrawInfo2                          ;;D813|D813+D813
                       RTS                                       ;;D83F|D83F+D83F/D83F\D83F; Return
                                                                 ;;                        ;
                                                                 ;;                        ;
-DATA_02D840:          db $00,$F0,$00,$10                        ;;D840|D840+D840/D840\D840;
+WoodPlatformXOffs:    db $00,$F0,$00,$10                        ;;D840|D840+D840/D840\D840;
                                                                 ;;                        ;
 WoodPlatformTiles:    db $A2,$60,$61,$62                        ;;D844|D844+D844/D844\D844;
                                                                 ;;                        ;
@@ -10764,7 +10764,7 @@ CODE_02D848:          JSR GetDrawInfo2                          ;;D848|D848+D848
                       LDX.B #$03                                ;;D84C|D84C+D84C/D84C\D84C;
                     - LDA.B !_0                                 ;;D84E|D84E+D84E/D84E\D84E;
                       CLC                                       ;;D850|D850+D850/D850\D850;
-                      ADC.W DATA_02D840,X                       ;;D851|D851+D851/D851\D851;
+                      ADC.W WoodPlatformXOffs,X                 ;;D851|D851+D851/D851\D851;
                       STA.W !OAMTileXPos+$100,Y                 ;;D854|D854+D854/D854\D854;
                       LDA.B !_1                                 ;;D857|D857+D857/D857\D857;
                       STA.W !OAMTileYPos+$100,Y                 ;;D859|D859+D859/D859\D859;
@@ -11015,7 +11015,7 @@ CODE_02DA37:          PHY                                       ;;DA37|DA37+DA37
                       PLX                                       ;;DA4A|DA4A+DA4A/DA4A\DA4A;
                       LDY.B #$FF                                ;;DA4B|DA4B+DA4B/DA4B\DA4B;
                       LDA.B #$04                                ;;DA4D|DA4D+DA4D/DA4D\DA4D;
-                      JMP CODE_02B7A7                           ;;DA4F|DA4F+DA4F/DA4F\DA4F;
+                      JMP CallFinOAMWriteBank2                  ;;DA4F|DA4F+DA4F/DA4F\DA4F;
                                                                 ;;                        ;
 HammerBrotherMain:    PHB                                       ;;DA52|DA52+DA52/DA52\DA52;
                       PHK                                       ;;DA53|DA53+DA53/DA53\DA53;
@@ -11139,7 +11139,7 @@ CODE_02DB08:          LDA.B !_0                                 ;;DB08|DB08+DB08
 CODE_02DB44:          PLX                                       ;;DB44|DB44+DB44/DB44\DB44;
                       LDY.B #$FF                                ;;DB45|DB45+DB45/DB45\DB45;
                       LDA.B #$03                                ;;DB47|DB47+DB47/DB47\DB47;
-                      JMP CODE_02B7A7                           ;;DB49|DB49+DB49/DB49\DB49;
+                      JMP CallFinOAMWriteBank2                  ;;DB49|DB49+DB49/DB49\DB49;
                                                                 ;;                        ;
 FlyingPlatformMain:   PHB                                       ;;DB4C|DB4C+DB4C/DB4C\DB4C;
                       PHK                                       ;;DB4D|DB4D+DB4D/DB4D\DB4D;
@@ -11523,7 +11523,7 @@ CODE_02DE5B:          PHX                                       ;;DE5B|DE5B+DE5B
                       PLX                                       ;;DEA0|DEA0+DEA0/DEA0\DEA0;
                       LDY.B #$FF                                ;;DEA1|DEA1+DEA1/DEA1\DEA1;
                       LDA.B #$03                                ;;DEA3|DEA3+DEA3/DEA3\DEA3;
-                      JMP CODE_02B7A7                           ;;DEA5|DEA5+DEA5/DEA5\DEA5;
+                      JMP CallFinOAMWriteBank2                  ;;DEA5|DEA5+DEA5/DEA5\DEA5;
                                                                 ;;                        ;
 SumosLightningMain:   PHB                                       ;;DEA8|DEA8+DEA8/DEA8\DEA8;
                       PHK                                       ;;DEA9|DEA9+DEA9/DEA9\DEA9;
@@ -11742,7 +11742,7 @@ VolcanoLotusGfx:      JSR MushroomScaleGfx                      ;;E00B|E00B+E00B
                       STA.W !SpriteOAMIndex,X                   ;;E067|E067+E067/E067\E067;
                       LDY.B #$00                                ;;E06A|E06A+E06A/E06A\E06A;
                       LDA.B #$01                                ;;E06C|E06C+E06C/E06C\E06C;
-                      JMP CODE_02B7A7                           ;;E06E|E06E+E06E/E06E\E06E;
+                      JMP CallFinOAMWriteBank2                  ;;E06E|E06E+E06E/E06E\E06E;
                                                                 ;;                        ;
                                                                 ;;                        ;
 DATA_02E071:          db $10,$F0,$06,$FA                        ;;E071|E071+E071/E071\E071;
@@ -12178,7 +12178,7 @@ CODE_02E3F5:          PLA                                       ;;E3F5|E3F5+E3F5
                       PLX                                       ;;E40F|E40F+E40F/E40F\E40F;
                       LDY.B #$02                                ;;E410|E410+E410/E410\E410;
                       LDA.B #$0F                                ;;E412|E412+E412/E412\E412;
-                      JMP CODE_02B7A7                           ;;E414|E414+E414/E414\E414;
+                      JMP CallFinOAMWriteBank2                  ;;E414|E414+E414/E414\E414;
                                                                 ;;                        ;
 ExplodingBlkMain:     PHB                                       ;;E417|E417+E417/E417\E417;
                       PHK                                       ;;E418|E418+E418/E418\E418;
@@ -12378,7 +12378,7 @@ MushroomScaleGfx:     JSR GetDrawInfo2                          ;;E57E|E57E+E57E
                       STA.W !OAMTileAttr+$104,Y                 ;;E5AA|E5AA+E5AA/E5AA\E5AA;
                       LDA.B #$01                                ;;E5AD|E5AD+E5AD/E5AD\E5AD;
                       LDY.B #$02                                ;;E5AF|E5AF+E5AF/E5AF\E5AF;
-                      JMP CODE_02B7A7                           ;;E5B1|E5B1+E5B1/E5B1\E5B1;
+                      JMP CallFinOAMWriteBank2                  ;;E5B1|E5B1+E5B1/E5B1\E5B1;
                                                                 ;;                        ;
 MovingLedgeMain:      PHB                                       ;;E5B4|E5B4+E5B4/E5B4\E5B4;
                       PHK                                       ;;E5B5|E5B5+E5B5/E5B5\E5B5;
@@ -12466,7 +12466,7 @@ CODE_02E637:          JSR GetDrawInfo2                          ;;E637|E637+E637
                       PLX                                       ;;E65E|E65E+E65E/E65E\E65E;
                       LDA.B #$03                                ;;E65F|E65F+E65F/E65F\E65F;
                       LDY.B #$02                                ;;E661|E661+E661/E661\E661;
-                      JMP CODE_02B7A7                           ;;E663|E663+E663/E663\E663;
+                      JMP CallFinOAMWriteBank2                  ;;E663|E663+E663/E663\E663;
                                                                 ;;                        ;
                                                                 ;;                        ;
 DATA_02E666:          db $00,$08,$18,$20                        ;;E666|E666+E666/E666\E666;
@@ -12514,7 +12514,7 @@ CODE_02E67A:          JSR GetDrawInfo2                          ;;E67A|E67A+E67A
                       STA.W !OAMTileAttr+$104,Y                 ;;E6B8|E6B8+E6B8/E6B8\E6B8;
                       LDA.B #$01                                ;;E6BB|E6BB+E6BB/E6BB\E6BB;
                       LDY.B #$02                                ;;E6BD|E6BD+E6BD/E6BD\E6BD;
-                      JSR CODE_02B7A7                           ;;E6BF|E6BF+E6BF/E6BF\E6BF;
+                      JSR CallFinOAMWriteBank2                  ;;E6BF|E6BF+E6BF/E6BF\E6BF;
                       LDA.W !SpriteOffscreenX,X                 ;;E6C2|E6C2+E6C2/E6C2\E6C2;
                       BNE +                                     ;;E6C5|E6C5+E6C5/E6C5\E6C5;
                       LDY.W !SpriteOAMIndex,X                   ;;E6C7|E6C7+E6C7/E6C7\E6C7; Y = Index into sprite OAM
@@ -12559,7 +12559,7 @@ CODE_02E67A:          JSR GetDrawInfo2                          ;;E67A|E67A+E67A
                       PLX                                       ;;E717|E717+E717/E717\E717;
                       LDA.B #$07                                ;;E718|E718+E718/E718\E718;
                       LDY.B #$00                                ;;E71A|E71A+E71A/E71A\E71A;
-                      JMP CODE_02B7A7                           ;;E71C|E71C+E71C/E71C\E71C;
+                      JMP CallFinOAMWriteBank2                  ;;E71C|E71C+E71C/E71C\E71C;
                                                                 ;;                        ;
 SwimJumpFishMain:     PHB                                       ;;E71F|E71F+E71F/E71F\E71F;
                       PHK                                       ;;E720|E720+E720/E720\E720;
@@ -12821,7 +12821,7 @@ CODE_02E902:          JSR GetDrawInfo2                          ;;E902|E902+E902
                       STA.W !OAMTileAttr+$104,Y                 ;;E92B|E92B+E92B/E92B\E92B;
 CODE_02E92E:          LDA.B #$01                                ;;E92E|E92E+E92E/E92E\E92E;
                       LDY.B #$02                                ;;E930|E930+E930/E930\E930;
-                      JMP CODE_02B7A7                           ;;E932|E932+E932/E932\E932;
+                      JMP CallFinOAMWriteBank2                  ;;E932|E932+E932/E932\E932;
                                                                 ;;                        ;
 PipeLakituMain:       PHB                                       ;;E935|E935+E935/E935\E935;
                       PHK                                       ;;E936|E936+E936/E936\E936;
@@ -13322,7 +13322,7 @@ CODE_02ED4D:          LDA.W DATA_02EC96,X                       ;;ED4D|ED4D+ED4D
                       PLX                                       ;;ED77|ED77+ED77/ED77\ED77;
                       LDY.B #$FF                                ;;ED78|ED78+ED78/ED78\ED78;
                       LDA.B #$03                                ;;ED7A|ED7A+ED7A/ED7A\ED7A;
-                      JMP CODE_02B7A7                           ;;ED7C|ED7C+ED7C/ED7C\ED7C;
+                      JMP CallFinOAMWriteBank2                  ;;ED7C|ED7C+ED7C/ED7C\ED7C;
                                                                 ;;                        ;
                                                                 ;;                        ;
 FloatSkullPlatXOff:   db $10,$20,$30                            ;;ED7F|ED7F+ED7F/ED7F\ED7F;
@@ -13564,7 +13564,7 @@ CoinCloudGfx:         LDA.W !SpriteOAMIndex,X                   ;;EF1D|EF1C+EF1C
                       STA.W !OAMTileAttr+$100,Y                 ;;EF5D|EF5C+EF5C/EF5C\EF5C;
                       LDY.B #$00                                ;;EF60|EF5F+EF5F/EF5F\EF5F;
                       LDA.B #$00                                ;;EF62|EF61+EF61/EF61\EF61;
-                      JSR CODE_02B7A7                           ;;EF64|EF63+EF63/EF63\EF63;
+                      JSR CallFinOAMWriteBank2                  ;;EF64|EF63+EF63/EF63\EF63;
                       RTS                                       ;;EF67|EF66+EF66/EF66\EF66; Return
                                                                 ;;                        ;
 CoinGameSpawnSpr:     LDA.W !GameCloudCoinCount                 ;;EF68|EF67+EF67/EF67\EF67;
@@ -13630,9 +13630,9 @@ CoinGameSpawnExtCoin: LDA.W !SpriteMisc1570,X                   ;;EFAB|EFAA+EFAA
                       RTS                                       ;;EFEA|EFE9+EFE9/EFE9\EFE9; Return
                                                                 ;;                        ;
                                                                 ;;                        ;
-DATA_02EFEA:          db $00,$80,$00,$80                        ;;EFEB|EFEA+EFEA/EFEA\EFEA;
+WigglerSegBuffOffLo:  db $00,$80,$00,$80                        ;;EFEB|EFEA+EFEA/EFEA\EFEA;
                                                                 ;;                        ;
-DATA_02EFEE:          db $00,$00,$01,$01                        ;;EFEF|EFEE+EFEE/EFEE\EFEE;
+WigglerSegBuffOffHi:  db $00,$00,$01,$01                        ;;EFEF|EFEE+EFEE/EFEE\EFEE;
                                                                 ;;                        ;
 WigglerInit:          PHB                                       ;;EFF3|EFF2+EFF2/EFF2\EFF2;
                       PHK                                       ;;EFF4|EFF3+EFF3/EFF3\EFF3;
@@ -13659,10 +13659,10 @@ InitWigglerSgmtPtr:   TXA                                       ;;F012|F011+F011
                       TAY                                       ;;F015|F014+F014/F014\F014;
                       LDA.B #!WigglerTable                      ;;F016|F015+F015/F015\F015;
                       CLC                                       ;;F018|F017+F017/F017\F017;
-                      ADC.W DATA_02EFEA,Y                       ;;F019|F018+F018/F018\F018;
+                      ADC.W WigglerSegBuffOffLo,Y               ;;F019|F018+F018/F018\F018;
                       STA.B !WigglerSegmentPtr                  ;;F01C|F01B+F01B/F01B\F01B;
                       LDA.B #!WigglerTable>>8                   ;;F01E|F01D+F01D/F01D\F01D;
-                      ADC.W DATA_02EFEE,Y                       ;;F020|F01F+F01F/F01F\F01F;
+                      ADC.W WigglerSegBuffOffHi,Y               ;;F020|F01F+F01F/F01F\F01F;
                       STA.B !WigglerSegmentPtr+1                ;;F023|F022+F022/F022\F022;
                       LDA.B #!WigglerTable>>16                  ;;F025|F024+F024/F024\F024;
                       STA.B !WigglerSegmentPtr+2                ;;F027|F026+F026/F026\F026;
@@ -13910,7 +13910,7 @@ CODE_02F1C7:          PHX                                       ;;F1CA|F1C7+F1C7
                       STA.W !OAMTileSize+$40,Y                  ;;F1FB|F1F8+F1F8/F1F8\F1F8;
                       LDA.B #$05                                ;;F1FE|F1FB+F1FB/F1FB\F1FB;
                       LDY.B #$FF                                ;;F200|F1FD+F1FD/F1FD\F1FD;
-                      JSR CODE_02B7A7                           ;;F202|F1FF+F1FF/F1FF\F1FF; FinshOAMWrite call
+                      JSR CallFinOAMWriteBank2                  ;;F202|F1FF+F1FF/F1FF\F1FF; FinshOAMWrite call
                       LDA.B !SpriteXPosLow,X                    ;;F205|F202+F202/F202\F202;
                       STA.B !_0                                 ;;F207|F204+F204/F204\F204;
                       LDA.W !SpriteYPosHigh,X                   ;;F209|F206+F206/F206\F206;

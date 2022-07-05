@@ -13232,7 +13232,7 @@ CODE_00FC7A:          LDA.B #!SFX_YOSHIDRUMON                   ;;FC17|FC7A+FC7A
                       BNE +                                     ;;FC21|FC84+FC84/FCA6\FCA6;
                       LDX.B #$05                                ;;FC23|FC86+FC86/FCA8\FCA8;
                       LDA.W !SpriteMemorySetting                ;;FC25|FC88+FC88/FCAA\FCAA;
-                      CMP.B #$0A                                ;;FC28|FC8B+FC8B/FCAD\FCAD;
+                      CMP.B #$0A                                ;;FC28|FC8B+FC8B/FCAD\FCAD;; sprite memory setting for wigglers
                       BEQ +                                     ;;FC2A|FC8D+FC8D/FCAF\FCAF;
                       JSL FindFreeSprSlot                       ;;FC2C|FC8F+FC8F/FCB1\FCB1; \ X = First free sprite slot, #$03 if none free
                       TYX                                       ;;FC30|FC93+FC93/FCB5\FCB5;  |
