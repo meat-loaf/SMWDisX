@@ -1528,7 +1528,7 @@ DATA_008E06:          db $B7,$C3                                ;;8D9B|8E06+8E06
                       db $C2,$C4                                ;;8DAB|8E16+8E16/8E16\8E18;
                       db $B7,$C5                                ;;8DAD|8E18+8E18/8E18\8E1A;
                                                                 ;;                        ;
-CODE_008E1A:          LDA.W !EndLevelTimer                      ;;8DAF|8E1A+8E1A/8E1A\8E1C; \
+StatBarUpdCounters:   LDA.W !EndLevelTimer                      ;;8DAF|8E1A+8E1A/8E1A\8E1C; \
                       ORA.B !SpriteLock                         ;;8DB2|8E1D+8E1D/8E1D\8E1F;  |If level is ending or sprites are locked,
                       BNE CODE_008E6F                           ;;8DB4|8E1F+8E1F/8E1F\8E21; / branch to $8E6F
                       LDA.W !IRQNMICommand                      ;;8DB6|8E21+8E21/8E21\8E23;
@@ -1579,24 +1579,24 @@ CODE_008E85:          LDA.W !InGameTimerHundreds,Y              ;;8E1A|8E85+8E85
                       CPY.B #$02                                ;;8E26|8E91+8E91/8E91\8E93;
                       BNE CODE_008E85                           ;;8E28|8E93+8E93/8E93\8E95;
 CODE_008E95:          LDX.B #$03                                ;;8E2A|8E95+8E95/8E95\8E97;
-CODE_008E97:          LDA.W !PlayerScore+2,X                    ;;8E2C|8E97+8E97/8E97\8E99;
+CODE_008E97:          LDA.W !PlayerScore+2,X                    ;;8E2C|8E97+8E97/8E97\8E99; Conversion for both Mario's and Luigi's score
                       STA.B !_0                                 ;;8E2F|8E9A+8E9A/8E9A\8E9C;
                       STZ.B !_1                                 ;;8E31|8E9C+8E9C/8E9C\8E9E;
-                      REP #$20                                  ;;8E33|8E9E+8E9E/8E9E\8EA0; 16 bit A ; Accum (16 bit)
+                      REP #$20                                  ;;8E33|8E9E+8E9E/8E9E\8EA0;
                       LDA.W !PlayerScore,X                      ;;8E35|8EA0+8EA0/8EA0\8EA2;
                       SEC                                       ;;8E38|8EA3+8EA3/8EA3\8EA5;
                       SBC.W #$423F                              ;;8E39|8EA4+8EA4/8EA4\8EA6;
                       LDA.B !_0                                 ;;8E3C|8EA7+8EA7/8EA7\8EA9;
                       SBC.W #$000F                              ;;8E3E|8EA9+8EA9/8EA9\8EAB;
                       BCC +                                     ;;8E41|8EAC+8EAC/8EAC\8EAE;
-                      SEP #$20                                  ;;8E43|8EAE+8EAE/8EAE\8EB0; 8 bit A ; Accum (8 bit)
+                      SEP #$20                                  ;;8E43|8EAE+8EAE/8EAE\8EB0;
                       LDA.B #$0F                                ;;8E45|8EB0+8EB0/8EB0\8EB2;
                       STA.W !PlayerScore+2,X                    ;;8E47|8EB2+8EB2/8EB2\8EB4;
                       LDA.B #$42                                ;;8E4A|8EB5+8EB5/8EB5\8EB7;
                       STA.W !PlayerScore+1,X                    ;;8E4C|8EB7+8EB7/8EB7\8EB9;
                       LDA.B #$3F                                ;;8E4F|8EBA+8EBA/8EBA\8EBC;
                       STA.W !PlayerScore,X                      ;;8E51|8EBC+8EBC/8EBC\8EBE;
-                    + SEP #$20                                  ;;8E54|8EBF+8EBF/8EBF\8EC1; 8 bit A ; Accum (8 bit)
+                    + SEP #$20                                  ;;8E54|8EBF+8EBF/8EBF\8EC1;
                       DEX                                       ;;8E56|8EC1+8EC1/8EC1\8EC3;
                       DEX                                       ;;8E57|8EC2+8EC2/8EC2\8EC4;
                       DEX                                       ;;8E58|8EC3+8EC3/8EC3\8EC5;
@@ -1719,22 +1719,22 @@ CODE_008FAF:          LDA.W !StatusBar+$25,X                    ;;8F44|8FAF+8FAF
                       STA.W !StatusBar,X                        ;;8F67|8FD2+8FD2/8FD2\8FD4;
                       DEX                                       ;;8F6A|8FD5+8FD5/8FD5\8FD7;
                       BPL -                                     ;;8F6B|8FD6+8FD6/8FD6\8FD8;
-CODE_008FD8:          LDA.W !DragonCoinsShown                   ;;8F6D|8FD8+8FD8/8FD8\8FDA;
-                      CMP.B #$05                                ;;8F70|8FDB+8FDB/8FDB\8FDD;
-                      BCC +                                     ;;8F72|8FDD+8FDD/8FDD\8FDF;
-                      LDA.B #$00                                ;;8F74|8FDF+8FDF/8FDF\8FE1;
+CODE_008FD8:          LDA.W !DragonCoinsShown                   ;;8F6D|8FD8+8FD8/8FD8\8FDA; \ If all 5 dragon coins are collected
+                      CMP.B #$05                                ;;8F70|8FDB+8FDB/8FDB\8FDD; |
+                      BCC +                                     ;;8F72|8FDD+8FDD/8FDD\8FDF; |
+                      LDA.B #$00                                ;;8F74|8FDF+8FDF/8FDF\8FE1; / Draw no coins
                     + DEC A                                     ;;8F76|8FE1+8FE1/8FE1\8FE3;
-                      STA.B !_0                                 ;;8F77|8FE2+8FE2/8FE2\8FE4;
-                      LDX.B #$00                                ;;8F79|8FE4+8FE4/8FE4\8FE6;
-CODE_008FE6:          LDY.B #$FC                                ;;8F7B|8FE6+8FE6/8FE6\8FE8;
-                      LDA.B !_0                                 ;;8F7D|8FE8+8FE8/8FE8\8FEA;
-                      BMI +                                     ;;8F7F|8FEA+8FEA/8FEA\8FEC;
-                      LDY.B #$2E                                ;;8F81|8FEC+8FEC/8FEC\8FEE;
-                    + TYA                                       ;;8F83|8FEE+8FEE/8FEE\8FF0;
-                      STA.W !StatusBar+6,X                      ;;8F84|8FEF+8FEF/8FEF\8FF1;
-                      DEC.B !_0                                 ;;8F87|8FF2+8FF2/8FF2\8FF4;
-                      INX                                       ;;8F89|8FF4+8FF4/8FF4\8FF6;
-                      CPX.B #$04                                ;;8F8A|8FF5+8FF5/8FF5\8FF7;
+                      STA.B !_0                                 ;;8F77|8FE2+8FE2/8FE2\8FE4; $00 = number of coins to draw - 1
+                      LDX.B #$00                                ;;8F79|8FE4+8FE4/8FE4\8FE6; X: loop counter
+CODE_008FE6:          LDY.B #$FC                                ;;8F7B|8FE6+8FE6/8FE6\8FE8; \ Y = Empty tile index
+                      LDA.B !_0                                 ;;8F7D|8FE8+8FE8/8FE8\8FEA; |
+                      BMI +                                     ;;8F7F|8FEA+8FEA/8FEA\8FEC; | If $00 >= 0,
+                      LDY.B #$2E                                ;;8F81|8FEC+8FEC/8FEC\8FEE; | Y = Coin tile index
+                    + TYA                                       ;;8F83|8FEE+8FEE/8FEE\8FF0; /
+                      STA.W !StatusBar+6,X                      ;;8F84|8FEF+8FEF/8FEF\8FF1; Store tile index to status bar counter
+                      DEC.B !_0                                 ;;8F87|8FF2+8FF2/8FF2\8FF4; Decrement remaining number of coins to draw
+                      INX                                       ;;8F89|8FF4+8FF4/8FF4\8FF6; \ Iterate 4 times total
+                      CPX.B #$04                                ;;8F8A|8FF5+8FF5/8FF5\8FF7; /
                       BNE CODE_008FE6                           ;;8F8C|8FF7+8FF7/8FF7\8FF9;
                       RTS                                       ;;8F8E|8FF9+8FF9/8FF9\8FFB;
                                                                 ;;                        ;
@@ -2704,7 +2704,7 @@ CODE_009860:          JSL CODE_00E2BD                           ;;97F5|9860+9860
                       JSR CODE_00A2F3                           ;;97F9|9864+9864/9869\986B;
                       JSR CODE_00C593                           ;;97FC|9867+9867/986C\986E;
                       STZ.B !PlayerYSpeed                       ;;97FF|986A+986A/986F\9871; Y speed = 0
-                      JSL CODE_01808C                           ;;9801|986C+986C/9871\9873;
+                      JSL RunSprites                            ;;9801|986C+986C/9871\9873;
                       JSL !OAMResetRoutine                      ;;9805|9870+9870/9875\9877;
                       RTS                                       ;;9809|9874+9874/9879\987B;
                                                                 ;;                        ;
@@ -2794,7 +2794,7 @@ CODE_009925:          STZ.B !PlayerYPosNext+1                   ;;98BA|9925+9925
                       STA.B !Mode7CenterY                       ;;98D5|9940+9940/9945\9947;
                       SEP #$20                                  ;;98D7|9942+9942/9947\9949; Accum (8 bit)
                       JSR CODE_00AE15                           ;;98D9|9944+9944/9949\994B;
-                      JSL CODE_01808C                           ;;98DC|9947+9947/994C\994E;
+                      JSL RunSprites                            ;;98DC|9947+9947/994C\994E;
                       LDA.W !IRQNMICommand                      ;;98E0|994B+994B/9950\9952;
                       LSR A                                     ;;98E3|994E+994E/9953\9955;
                       LDX.B #con($C0,$C0,$C0,$C0,$D0)           ;;98E4|994F+994F/9954\9956;
@@ -4192,11 +4192,11 @@ CODE_00A2A9:          LDA.B !Layer1YPos                         ;;A247|A2A9+A292
                       STA.W !ScreenShakeYOffset+1               ;;A26C|A2CE+A2B7/A2D3\A2D5;  |
                       ADC.B !Layer1YPos+1                       ;;A26F|A2D1+A2BA/A2D6\A2D8;  |
                       STA.B !Layer1YPos+1                       ;;A271|A2D3+A2BC/A2D8\A2DA; /
-                    + JSR CODE_008E1A                           ;;A273|A2D5+A2BE/A2DA\A2DC;
+                    + JSR StatBarUpdCounters                    ;;A273|A2D5+A2BE/A2DA\A2DC;
                       JSL CODE_00E2BD                           ;;A276|A2D8+A2C1/A2DD\A2DF;
                       JSR CODE_00A2F3                           ;;A27A|A2DC+A2C5/A2E1\A2E3;
                       JSR CODE_00C47E                           ;;A27D|A2DF+A2C8/A2E4\A2E6;
-                      JSL CODE_01808C                           ;;A280|A2E2+A2CB/A2E7\A2E9;
+                      JSL RunSprites                            ;;A280|A2E2+A2CB/A2E7\A2E9;
                       JSL CODE_028AB1                           ;;A284|A2E6+A2CF/A2EB\A2ED;
                       PLA                                       ;;A288|A2EA+A2D3/A2EF\A2F1;
                       STA.B !Layer1YPos+1                       ;;A289|A2EB+A2D4/A2F0\A2F2;
@@ -4517,7 +4517,7 @@ CODE_00A5B9:          JSR UploadSpriteGFX                       ;;A557|A5B9+A5A2
                       JSR CODE_009860                           ;;A56A|A5CC+A5B5/A5D1\A5D3;
                     + JSR CODE_00922F                           ;;A56D|A5CF+A5B8/A5D4\A5D6;
                       JSR KeepModeActive                        ;;A570|A5D2+A5BB/A5D7\A5D9;
-                      JSR CODE_008E1A                           ;;A573|A5D5+A5BE/A5DA\A5DC;
+                      JSR StatBarUpdCounters                    ;;A573|A5D5+A5BE/A5DA\A5DC;
                       REP #$30                                  ;;A576|A5D8+A5C1/A5DD\A5DF; Index (16 bit) Accum (16 bit)
                       PHB                                       ;;A578|A5DA+A5C3/A5DF\A5E1;
                       LDX.W #!MainPalette                       ;;A579|A5DB+A5C4/A5E0\A5E2;
@@ -7959,7 +7959,7 @@ CODE_00CA20:          STX.W !CutsceneID                         ;;C9C0|CA20+CA20
                       LDY.B #$18                                ;;C9C3|CA23+CA23/CA16\CA16;
 CODE_00CA25:          STY.W !GameMode                           ;;C9C5|CA25+CA25/CA18\CA18;
                       INC.W !CreditsScreenNumber                ;;C9C8|CA28+CA28/CA1B\CA1B;
-CODE_00CA2B:          LDA.B #$01                                ;;C9CB|CA2B+CA2B/CA1E\CA1E;
+SetMidwayFlag:        LDA.B #$01                                ;;C9CB|CA2B+CA2B/CA1E\CA1E;
                       STA.W !MidwayFlag                         ;;C9CD|CA2D+CA2D/CA20\CA20;
 Return00CA30:         RTS                                       ;;C9D0|CA30+CA30/CA23\CA23; Return
                                                                 ;;                        ;
@@ -10970,7 +10970,7 @@ CODE_00EA32:          STZ.B !PlayerXSpeed                       ;;E9D2|EA32+EA32
                       BMI CODE_00EA65                           ;;E9F3|EA53+EA53/EA43\EA43;
                       LSR.B !GraphicsCompPtr                    ;;E9F5|EA55+EA55/EA45\EA45;
                       BCC Return00EAA5                          ;;E9F7|EA57+EA57/EA47\EA47;
-                      JSR CODE_00FDA5                           ;;E9F9|EA59+EA59/EA49\EA49;
+                      JSR PlayerEnterWater                      ;;E9F9|EA59+EA59/EA49\EA49;
                       STZ.B !PlayerYSpeed                       ;;E9FC|EA5C+EA5C/EA4C\EA4C;
 CODE_00EA5E:          LDA.B #$01                                ;;E9FE|EA5E+EA5E/EA4E\EA4E;
                       STA.B !PlayerInWater                      ;;EA00|EA60+EA60/EA50\EA50;
@@ -11000,7 +11000,7 @@ CODE_00EA65:          LSR.B !GraphicsCompPtr                    ;;EA05|EA65+EA65
                     + LDA.B !PlayerBlockedDir                   ;;EA32|EA92+EA92/EA82\EA82;
                       AND.B #$08                                ;;EA34|EA94+EA94/EA84\EA84;
                       BNE CODE_00EA62                           ;;EA36|EA96+EA96/EA86\EA86;
-                      JSR CODE_00FDA5                           ;;EA38|EA98+EA98/EA88\EA88;
+                      JSR PlayerEnterWater                      ;;EA38|EA98+EA98/EA88\EA88;
                       LDA.B #$0B                                ;;EA3B|EA9B+EA9B/EA8B\EA8B;
                       STA.B !PlayerInAir                        ;;EA3D|EA9D+EA9D/EA8D\EA8D;
                       LDA.B #$AA                                ;;EA3F|EA9F+EA9F/EA8F\EA8F;
@@ -12014,7 +12014,7 @@ CODE_00F2C2:          CPY.B #$06                                ;;F262|F2C2+F2C2
                       TSB.B !GraphicsCompPtr                    ;;F266|F2C6+F2C6/F2B6\F2B6;
                       RTS                                       ;;F268|F2C8+F2C8/F2B8\F2B8; Return
                                                                 ;;                        ;
-CODE_00F2C9:          CPY.B #$38                                ;;F269|F2C9+F2C9/F2B9\F2B9;
+CODE_00F2C9:          CPY.B #$38                                ;;F269|F2C9+F2C9/F2B9\F2B9; Midway point Map16 low byte
                       BNE CODE_00F2EE                           ;;F26B|F2CB+F2CB/F2BB\F2BB;
                       LDA.B #$02                                ;;F26D|F2CD+F2CD/F2BD\F2BD; \ Block to generate = #$02
                       STA.B !Map16TileGenerate                  ;;F26F|F2CF+F2CF/F2BF\F2BF; /
@@ -12022,7 +12022,7 @@ CODE_00F2C9:          CPY.B #$38                                ;;F269|F2C9+F2C9
                       JSR CODE_00FD5A                           ;;F275|F2D5+F2D5/F2C5\F2C5;
                       LDA.W !DisableMidway                      ;;F278|F2D8+F2D8/F2C8\F2C8;
                       BEQ +                                     ;;F27B|F2DB+F2DB/F2CB\F2CB;
-                      JSR CODE_00CA2B                           ;;F27D|F2DD+F2DD/F2CD\F2CD;
+                      JSR SetMidwayFlag                         ;;F27D|F2DD+F2DD/F2CD\F2CD;
                     + LDA.B !Powerup                            ;;F280|F2E0+F2E0/F2D0\F2D0;
                       BNE +                                     ;;F282|F2E2+F2E2/F2D2\F2D2;
                       LDA.B #$01                                ;;F284|F2E4+F2E4/F2D4\F2D4;
@@ -12031,12 +12031,12 @@ CODE_00F2C9:          CPY.B #$38                                ;;F269|F2C9+F2C9
                       STA.W !SPCIO0                             ;;F28A|F2EA+F2EA/F2DA\F2DA; / Play sound effect
                       RTS                                       ;;F28D|F2ED+F2ED/F2DD\F2DD; Return
                                                                 ;;                        ;
-CODE_00F2EE:          CPY.B #$06                                ;;F28E|F2EE+F2EE/F2DE\F2DE;
-                      BEQ CODE_00F2FC                           ;;F290|F2F0+F2F0/F2E0\F2E0;
-                      CPY.B #$07                                ;;F292|F2F2+F2F2/F2E2\F2E2;
-                      BCC CODE_00F309                           ;;F294|F2F4+F2F4/F2E4\F2E4;
-                      CPY.B #$1D                                ;;F296|F2F6+F2F6/F2E6\F2E6;
-                      BCS CODE_00F309                           ;;F298|F2F8+F2F8/F2E8\F2E8;
+CODE_00F2EE:          CPY.B #$06                                ;;F28E|F2EE+F2EE/F2DE\F2DE; \ Branch if map16 is vine
+                      BEQ CODE_00F2FC                           ;;F290|F2F0+F2F0/F2E0\F2E0; /
+                      CPY.B #$07                                ;;F292|F2F2+F2F2/F2E2\F2E2; \ Branch if map16 < 7
+                      BCC CODE_00F309                           ;;F294|F2F4+F2F4/F2E4\F2E4; /
+                      CPY.B #$1D                                ;;F296|F2F6+F2F6/F2E6\F2E6; \ Branch if map16 is < $1D
+                      BCS CODE_00F309                           ;;F298|F2F8+F2F8/F2E8\F2E8; / (and >=7, as above): climbing net tiles
                       ORA.B #$80                                ;;F29A|F2FA+F2FA/F2EA\F2EA;
 CODE_00F2FC:          CMP.B #$01                                ;;F29C|F2FC+F2FC/F2EC\F2EC;
                       BNE +                                     ;;F29E|F2FE+F2FE/F2EE\F2EE;
@@ -13374,7 +13374,7 @@ DATA_00FD9D:          db $08,$FC,$10,$04                        ;;FD3A|FD9D+FD9D
                                                                 ;;                        ;
 DATA_00FDA1:          db $00,$FF,$00,$00                        ;;FD3E|FDA1+FDA1/FDC3\FDC3;
                                                                 ;;                        ;
-CODE_00FDA5:          LDA.B !PlayerInAir                        ;;FD42|FDA5+FDA5/FDC7\FDC7;
+PlayerEnterWater:     LDA.B !PlayerInAir                        ;;FD42|FDA5+FDA5/FDC7\FDC7;
                       BEQ CODE_00FDB3                           ;;FD44|FDA7+FDA7/FDC9\FDC9;
                       LDY.B #$0B                                ;;FD46|FDA9+FDA9/FDCB\FDCB;
 CODE_00FDAB:          LDA.W !MinExtSpriteNumber,Y               ;;FD48|FDAB+FDAB/FDCD\FDCD;

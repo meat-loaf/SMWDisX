@@ -1055,7 +1055,7 @@ GenExtendedObjLocal:  SEP #$30                                  ;;A106|A106+A106
                       JSL ExecutePtrLong                        ;;A10B|A10B+A10B/A10B\A10B;
                                                                 ;;                        ;
                       dl ScreenExitExtObj                       ;;A10F|A10F+A10F/A10F\A10F; 00
-                      dl CODE_0DA53D                            ;;A112|A112+A112/A112\A112; 01
+                      dl ScreenJumpExtObj                       ;;A112|A112+A112/A112\A112; 01
                       dl $000000                                ;;A115|A115+A115/A115\A115; 02
                       dl $000000                                ;;A118|A118+A118/A118\A118; 03
                       dl $000000                                ;;A11B|A11B+A11B/A11B\A11B; 04
@@ -1184,14 +1184,14 @@ GenExtendedObjLocal:  SEP #$30                                  ;;A106|A106+A106
                       dl TorpedoLauncher                        ;;A28C|A28C+A28C/A28C\A28C; 7F
                       dl GhostHouseEntExtObj                    ;;A28F|A28F+A28F/A28F\A28F; 80
                       dl AniWeedExtObj                          ;;A292|A292+A292/A292\A292; 81
-                      dl CODE_0DA71B                            ;;A295|A295+A295/A295\A295; 82
-                      dl CODE_0DA760                            ;;A298|A298+A298/A298\A298; 83
-                      dl CODE_0DC2E9                            ;;A29B|A29B+A29B/A29B\A29B; 84
-                      dl CODE_0DEC33                            ;;A29E|A29E+A29E/A29E\A29E; 85
-                      dl CODE_0DA7E7                            ;;A2A1|A2A1+A2A1/A2A1\A2A1; 86
+                      dl BiggerBushExtObj                       ;;A295|A295+A295/A295\A295; 82
+                      dl BigBushExtObj                          ;;A298|A298+A298/A298\A298; 83
+                      dl CastleEntranceExtObj                   ;;A29B|A29B+A29B/A29B\A29B; 84
+                      dl YoshisHouseExtObj                      ;;A29E|A29E+A29E/A29E\A29E; 85
+                      dl GoalArrowSignExtObj                    ;;A2A1|A2A1+A2A1/A2A1\A2A1; 86
                       dl GreenSwitchBlock                       ;;A2A4|A2A4+A2A4/A2A4\A2A4; 87
-                      dl CODE_0DB6E3                            ;;A2A7|A2A7+A2A7/A2A7\A2A7; 88
-                      dl CODE_0DB6E3                            ;;A2AA|A2AA+A2AA/A2AA\A2AA; 89
+                      dl TreeBranchExtObjs                      ;;A2A7|A2A7+A2A7/A2A7\A2A7; 88
+                      dl TreeBranchExtObjs                      ;;A2AA|A2AA+A2AA/A2AA\A2AA; 89
                       dl PalaceSwitchExtObjs                    ;;A2AD|A2AD+A2AD/A2AD\A2AD; 8A
                       dl PalaceSwitchExtObjs                    ;;A2B0|A2B0+A2B0/A2B0\A2B0; 8B
                       dl PalaceSwitchExtObjs                    ;;A2B3|A2B3+A2B3/A2B3\A2B3; 8C
@@ -1429,7 +1429,7 @@ ScreenExitExtObj:     LDY.B #$00                                ;;A512|A512+A512
                       STA.W !UseSecondaryExit                   ;;A539|A539+A539/A539\A539;
                       RTS                                       ;;A53C|A53C+A53C/A53C\A53C; Return
                                                                 ;;                        ;
-CODE_0DA53D:          LDA.B !_A                                 ;;A53D|A53D+A53D/A53D\A53D;
+ScreenJumpExtObj:     LDA.B !_A                                 ;;A53D|A53D+A53D/A53D\A53D;
                       AND.B #$1F                                ;;A53F|A53F+A53F/A53F\A53F;
                       STA.W !LevelLoadObject                    ;;A541|A541+A541/A541\A541;
                       STA.W !LevelLoadObjectTile                ;;A544|A544+A544/A544\A544;
@@ -1650,7 +1650,7 @@ DATA_0DA6EE:          db $25,$25,$25,$4B,$4D,$4E,$25,$25        ;;A6ED|A6EE+A6EE
                       db $51,$4A,$60,$25,$5A,$49,$49,$49        ;;A70D|A70E+A70E/A70E\A70E;
                       db $53,$4A,$4A,$4A,$63                    ;;A715|A716+A716/A716\A716;
                                                                 ;;                        ;
-CODE_0DA71B:          LDY.B !LevelLoadPos                       ;;A71A|A71B+A71B/A71B\A71B;
+BiggerBushExtObj:     LDY.B !LevelLoadPos                       ;;A71A|A71B+A71B/A71B\A71B;
                       LDA.B #$08                                ;;A71C|A71D+A71D/A71D\A71D;
                       STA.B !_0                                 ;;A71E|A71F+A71F/A71F\A71F;
                       LDA.B #$04                                ;;A720|A721+A721/A721\A721;
@@ -1676,7 +1676,7 @@ DATA_0DA748:          db $25,$25,$4B,$4C,$25,$25,$25,$54        ;;A747|A748+A748
                       db $49,$5F,$63,$25,$25,$57,$49,$52        ;;A74F|A750+A750/A750\A750;
                       db $4A,$5D,$5A,$49,$49,$49,$4F,$60        ;;A757|A758+A758/A758\A758;
                                                                 ;;                        ;
-CODE_0DA760:          LDY.B !LevelLoadPos                       ;;A75F|A760+A760/A760\A760;
+BigBushExtObj:        LDY.B !LevelLoadPos                       ;;A75F|A760+A760/A760\A760;
                       LDA.B #$05                                ;;A761|A762+A762/A762\A762;
                       STA.B !_0                                 ;;A763|A764+A764/A764\A764;
                       LDA.B #$03                                ;;A765|A766+A766/A766\A766;
@@ -1739,7 +1739,7 @@ CODE_0DA7C8:          LDA.B #$03                                ;;A7C7|A7C8+A7C8
                                                                 ;;                        ;
 DATA_0DA7E3:          db $66,$67,$68,$69                        ;;A7E2|A7E3+A7E3/A7E3\A7E3;
                                                                 ;;                        ;
-CODE_0DA7E7:          LDY.B !LevelLoadPos                       ;;A7E6|A7E7+A7E7/A7E7\A7E7;
+GoalArrowSignExtObj:  LDY.B !LevelLoadPos                       ;;A7E6|A7E7+A7E7/A7E7\A7E7;
                       LDX.B #$00                                ;;A7E8|A7E9+A7E9/A7E9\A7E9;
                       JSR StoreLowMap16WordTo4                  ;;A7EA|A7EB+A7EB/A7EB\A7EB;
                     - JSR StzTo6ePointer                        ;;A7ED|A7EE+A7EE/A7EE\A7EE;
@@ -3651,15 +3651,15 @@ CODE_0DB6C3:          LDY.B !LevelLoadPos                       ;;B6C2|B6C3+B6C3
                       RTS                                       ;;B6DF|B6E0+B6E0/B6E0\B6E0; Return
                                                                 ;;                        ;
                                                                 ;;                        ;
-DATA_0DB6E1:          db $C1,$C2                                ;;B6E0|B6E1+B6E1/B6E1\B6E1;
+TreeBranchTiles:      db $C1,$C2                                ;;B6E0|B6E1+B6E1/B6E1\B6E1;
                                                                 ;;                        ;
-CODE_0DB6E3:          LDY.B !LevelLoadPos                       ;;B6E2|B6E3+B6E3/B6E3\B6E3;
+TreeBranchExtObjs:    LDY.B !LevelLoadPos                       ;;B6E2|B6E3+B6E3/B6E3\B6E3;
                       LDA.B !LvlLoadObjSize                     ;;B6E4|B6E5+B6E5/B6E5\B6E5;
                       SEC                                       ;;B6E6|B6E7+B6E7/B6E7\B6E7;
                       SBC.B #$88                                ;;B6E7|B6E8+B6E8/B6E8\B6E8;
                       TAX                                       ;;B6E9|B6EA+B6EA/B6EA\B6EA;
                       JSR StzTo6ePointer                        ;;B6EA|B6EB+B6EB/B6EB\B6EB;
-                      LDA.L DATA_0DB6E1,X                       ;;B6ED|B6EE+B6EE/B6EE\B6EE;
+                      LDA.L TreeBranchTiles,X                   ;;B6ED|B6EE+B6EE/B6EE\B6EE;
                       STA.B [!Map16LowPtr],Y                    ;;B6F1|B6F2+B6F2/B6F2\B6F2;
                       RTS                                       ;;B6F3|B6F4+B6F4/B6F4\B6F4; Return
                                                                 ;;                        ;
@@ -4475,7 +4475,7 @@ DATA_0DC26B:          db $73,$74,$75,$73,$74,$74,$7B,$79        ;;C26B|C26B+C26B
                       db $83,$84,$84,$85,$7E,$25,$79,$7A        ;;C2DB|C2DB+C2DB/C2DB\C2DB;
                       db $7B,$83,$84,$84,$85,$80                ;;C2E3|C2E3+C2E3/C2E3\C2E3;
                                                                 ;;                        ;
-CODE_0DC2E9:          LDY.B !LevelLoadPos                       ;;C2E9|C2E9+C2E9/C2E9\C2E9;
+CastleEntranceExtObj: LDY.B !LevelLoadPos                       ;;C2E9|C2E9+C2E9/C2E9\C2E9;
                       LDX.B #$00                                ;;C2EB|C2EB+C2EB/C2EB\C2EB;
 CODE_0DC2ED:          LDA.B #$08                                ;;C2ED|C2ED+C2ED/C2ED\C2ED;
                       STA.B !_0                                 ;;C2EF|C2EF+C2EF/C2EF\C2EF;
@@ -7338,7 +7338,7 @@ DATA_0DEB93:          db $25,$25,$25,$25,$25,$25,$25,$25        ;;EB93|EB93+EB93
                       db $E5,$E5,$E6,$DD,$E5,$E5,$DD,$E5        ;;EC23|EC23+EC23/EC23\EC23;
                       db $E5,$DD,$E5,$E7,$E8,$E9,$E5,$E5        ;;EC2B|EC2B+EC2B/EC2B\EC2B;
                                                                 ;;                        ;
-CODE_0DEC33:          LDY.B !LevelLoadPos                       ;;EC33|EC33+EC33/EC33\EC33;
+YoshisHouseExtObj:    LDY.B !LevelLoadPos                       ;;EC33|EC33+EC33/EC33\EC33;
                       LDX.B #$00                                ;;EC35|EC35+EC35/EC35\EC35;
 CODE_0DEC37:          LDA.B #$0F                                ;;EC37|EC37+EC37/EC37\EC37;
                       STA.B !_0                                 ;;EC39|EC39+EC39/EC39\EC39;

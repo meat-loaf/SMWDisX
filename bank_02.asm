@@ -1282,7 +1282,7 @@ CODE_028AF5:          ORA.B !PlayerXPosScrRel+1                 ;;8AF7|8AF5+8AF5
                       JSR MCoinTmrAnd4SlotSprs                  ;;8B0A|8B08+8B08/8B08\8B08;
                       JSR ScoreSprGfx                           ;;8B0D|8B0B+8B0B/8B0B\8B0B;
                       JSR RunExtendedSprites                    ;;8B10|8B0E+8B0E/8B0E\8B0E;
-                      JSR CODE_0299D2                           ;;8B13|8B11+8B11/8B11\8B11;
+                      JSR RunSpinningCoinSprs                   ;;8B13|8B11+8B11/8B11\8B11;
                       JSR RunShooters                           ;;8B16|8B14+8B14/8B14\8B14;
                       JSR CallGenerator                         ;;8B19|8B17+8B17/8B17\8B17;
                       JSR CODE_0294F5                           ;;8B1C|8B1A+8B1A/8B1A\8B1A;
@@ -3105,23 +3105,23 @@ CODE_02999F:          LDY.W DATA_0296BC,X                       ;;99A9|999F+999F
                       STA.W !OAMTileSize+$40,Y                  ;;99D9|99CE+99CE/99CE\99CE;
                       RTS                                       ;;99DC|99D1+99D1/99D1\99D1; Return
                                                                 ;;                        ;
-CODE_0299D2:          LDX.B #$03                                ;;99DD|99D2+99D2/99D2\99D2;
-CODE_0299D4:          STX.W !CurSpriteProcess                   ;;99DF|99D4+99D4/99D4\99D4;
+RunSpinningCoinSprs:  LDX.B #$03                                ;;99DD|99D2+99D2/99D2\99D2;
+.next:                STX.W !CurSpriteProcess                   ;;99DF|99D4+99D4/99D4\99D4;
                       LDA.W !CoinSpriteExists,X                 ;;99E2|99D7+99D7/99D7\99D7;
                       BEQ +                                     ;;99E5|99DA+99DA/99DA\99DA;
-                      JSR CODE_0299F1                           ;;99E7|99DC+99DC/99DC\99DC;
+                      JSR RunSpinningCoin                       ;;99E7|99DC+99DC/99DC\99DC;
                     + DEX                                       ;;99EA|99DF+99DF/99DF\99DF;
-                      BPL CODE_0299D4                           ;;99EB|99E0+99E0/99E0\99E0;
+                      BPL .next                                 ;;99EB|99E0+99E0/99E0\99E0;
                       RTS                                       ;;99ED|99E2+99E2/99E2\99E2; Return
                                                                 ;;                        ;
-CODE_0299E3:          LDA.B #$00                                ;;99EE|99E3+99E3/99E3\99E3;
+KillSpinningCoin:     LDA.B #$00                                ;;99EE|99E3+99E3/99E3\99E3;
                       STA.W !CoinSpriteExists,X                 ;;99F0|99E5+99E5/99E5\99E5;
                       RTS                                       ;;99F3|99E8+99E8/99E8\99E8; Return
                                                                 ;;                        ;
                                                                 ;;                        ;
 DATA_0299E9:          db $30,$38,$40,$48,$EC,$EA,$E8,$EC        ;;99F4|99E9+99E9/99E9\99E9;
                                                                 ;;                        ;
-CODE_0299F1:          LDA.B !SpriteLock                         ;;99FC|99F1+99F1/99F1\99F1;
+RunSpinningCoin:      LDA.B !SpriteLock                         ;;99FC|99F1+99F1/99F1\99F1;
                       BNE +                                     ;;99FE|99F3+99F3/99F3\99F3;
                       JSR CODE_02B58E                           ;;9A00|99F5+99F5/99F5\99F5;
                       LDA.W !CoinSpriteYSpeed,X                 ;;9A03|99F8+99F8/99F8\99F8;
@@ -3130,7 +3130,7 @@ CODE_0299F1:          LDA.B !SpriteLock                         ;;99FC|99F1+99F1
                       STA.W !CoinSpriteYSpeed,X                 ;;9A09|99FE+99FE/99FE\99FE;
                       CMP.B #$20                                ;;9A0C|9A01+9A01/9A01\9A01;
                       BMI +                                     ;;9A0E|9A03+9A03/9A03\9A03;
-                      JMP CODE_029AA8                           ;;9A10|9A05+9A05/9A05\9A05;
+                      JMP SpinCoinToScoreSpr                    ;;9A10|9A05+9A05/9A05\9A05;
                                                                 ;;                        ;
                     + LDA.W !CoinSpriteLayer,X                  ;;9A13|9A08+9A08/9A08\9A08;
                       ASL A                                     ;;9A16|9A0B+9A0B/9A0B\9A0B;
@@ -3151,7 +3151,7 @@ CODE_0299F1:          LDA.B !SpriteLock                         ;;99FC|99F1+99F1
                       SEC                                       ;;9A37|9A2C+9A2C/9A2C\9A2C;
                       SBC.B !_3                                 ;;9A38|9A2D+9A2D/9A2D\9A2D;
                       CMP.B #$F8                                ;;9A3A|9A2F+9A2F/9A2F\9A2F;
-                      BCS CODE_0299E3                           ;;9A3C|9A31+9A31/9A31\9A31;
+                      BCS KillSpinningCoin                      ;;9A3C|9A31+9A31/9A31\9A31;
                       STA.B !_0                                 ;;9A3E|9A33+9A33/9A33\9A33;
                       LDA.W !CoinSpriteYPosLow,X                ;;9A40|9A35+9A35/9A35\9A35;
                       SEC                                       ;;9A43|9A38+9A38/9A38\9A38;
@@ -3185,7 +3185,7 @@ CODE_0299F1:          LDA.B !SpriteLock                         ;;99FC|99F1+99F1
 Return029A6D:         RTS                                       ;;9A78|9A6D+9A6D/9A6D\9A6D; Return
                                                                 ;;                        ;
                                                                 ;;                        ;
-                      db $EA,$FA,$EA                            ;;9A79|9A6E+9A6E/9A6E\9A6E;
+SpinCoin8x8Tiles:     db $EA,$FA,$EA                            ;;9A79|9A6E+9A6E/9A6E\9A6E;
                                                                 ;;                        ;
                     + LDY.B !_F                                 ;;9A7C|9A71+9A71/9A71\9A71;
                       PHX                                       ;;9A7E|9A73+9A73/9A73\9A73;
@@ -3199,7 +3199,7 @@ Return029A6D:         RTS                                       ;;9A78|9A6D+9A6D
                       CLC                                       ;;9A8D|9A82+9A82/9A82\9A82;
                       ADC.B #$08                                ;;9A8E|9A83+9A83/9A83\9A83;
                       STA.W !OAMTileYPos+4,Y                    ;;9A90|9A85+9A85/9A85\9A85;
-                      LDA.L Return029A6D,X                      ;;9A93|9A88+9A88/9A88\9A88;
+                      LDA.L SpinCoin8x8Tiles-1,X                ;;9A93|9A88+9A88/9A88\9A88;
                       STA.W !OAMTileNo,Y                        ;;9A97|9A8C+9A8C/9A8C\9A8C;
                       STA.W !OAMTileNo+4,Y                      ;;9A9A|9A8F+9A8F/9A8F\9A8F;
                       LDA.W !OAMTileAttr,Y                      ;;9A9D|9A92+9A92/9A92\9A92;
@@ -3215,7 +3215,7 @@ Return029A6D:         RTS                                       ;;9A78|9A6D+9A6D
                       PLX                                       ;;9AB1|9AA6+9AA6/9AA6\9AA6;
                       RTS                                       ;;9AB2|9AA7+9AA7/9AA7\9AA7; Return
                                                                 ;;                        ;
-CODE_029AA8:          JSL CODE_02AD34                           ;;9AB3|9AA8+9AA8/9AA8\9AA8; Find next usable location in score sprite table
+SpinCoinToScoreSpr:   JSL CODE_02AD34                           ;;9AB3|9AA8+9AA8/9AA8\9AA8; Find next usable location in score sprite table
                       LDA.B #$01                                ;;9AB7|9AAC+9AAC/9AAC\9AAC;
                       STA.W !ScoreSpriteNumber,Y                ;;9AB9|9AAE+9AAE/9AAE\9AAE; add a "10" score sprite
                       LDA.W !CoinSpriteYPosLow,X                ;;9ABC|9AB1+9AB1/9AB1\9AB1;
@@ -3231,7 +3231,7 @@ CODE_029AA8:          JSL CODE_02AD34                           ;;9AB3|9AA8+9AA8
                       LDA.W !CoinSpriteLayer,X                  ;;9AD9|9ACE+9ACE/9ACE\9ACE;
                       STA.W !ScoreSpriteLayer,Y                 ;;9ADC|9AD1+9AD1/9AD1\9AD1;
                       JSR CODE_029ADA                           ;;9ADF|9AD4+9AD4/9AD4\9AD4;
-                      JMP CODE_0299E3                           ;;9AE2|9AD7+9AD7/9AD7\9AD7; Puts #$00 into $17D0 and returns
+                      JMP KillSpinningCoin                      ;;9AE2|9AD7+9AD7/9AD7\9AD7; Puts #$00 into $17D0 and returns
                                                                 ;;                        ;
 CODE_029ADA:          LDY.B #$03                                ;;9AE5|9ADA+9ADA/9ADA\9ADA; for (c=3;c>=0;c--)
 CODE_029ADC:          LDA.W !SmokeSpriteNumber,Y                ;;9AE7|9ADC+9ADC/9ADC\9ADC; {
@@ -4252,8 +4252,8 @@ Hammer:               LDA.B !SpriteLock                         ;;A302|A2EF+A2EF
                     + JSR CODE_02A3F6                           ;;A319|A306+A306/A306\A306;
                       INC.W !ExtSpriteMisc1765,X                ;;A31C|A309+A309/A309\A309;
 CODE_02A30C:          LDA.W !ExtSpriteNumber,X                  ;;A31F|A30C+A30C/A30C\A30C;
-                      CMP.B #$0B                                ;;A322|A30F+A30F/A30F\A30F;
-                      BNE CODE_02A317                           ;;A324|A311+A311/A311\A311;
+                      CMP.B #$0B                                ;;A322|A30F+A30F/A30F\A30F; \ Piranha fireball GFX routine
+                      BNE CODE_02A317                           ;;A324|A311+A311/A311\A311; /
                       JSR CODE_02A178                           ;;A326|A313+A313/A313\A313;
                       RTS                                       ;;A329|A316+A316/A316\A316; Return
                                                                 ;;                        ;
@@ -4778,7 +4778,7 @@ CODE_02A751:          PHB                                       ;;A76B|A751+A751
                       JSR CODE_02AC5C                           ;;A771|A757+A757/A757\A757;
                       LDA.W !IRQNMICommand                      ;;A774|A75A+A75A/A75A\A75A;
                       BMI +                                     ;;A777|A75D+A75D/A75D\A75D;
-                      JSL CODE_01808C                           ;;A779|A75F+A75F/A75F\A75F;
+                      JSL RunSprites                            ;;A779|A75F+A75F/A75F\A75F;
                     + LDA.W !CarryYoshiThruLvls                 ;;A77D|A763+A763/A763\A763;
                       BEQ +                                     ;;A780|A766+A766/A766\A766;
                       LDA.W !RemoveYoshiFlag                    ;;A782|A768+A768/A768\A768;
@@ -7787,9 +7787,9 @@ CODE_02BFAC:          LDX.B !_2                                 ;;BFB2|BFAC+BFAC
                       JMP CODE_02C82B                           ;;BFCC|BFC5+BFC5/BFC5\BFC5; Chargin' Chuck's FinishOAMWrite call (draws 5 tiles)
                                                                 ;;                        ;
                                                                 ;;                        ;
-DATA_02BFC8:          db $10,$F0                                ;;BFCF|BFC8+BFC8/BFC8\BFC8;
+RipVanFishMaxSpeed:   db $10,$F0                                ;;BFCF|BFC8+BFC8/BFC8\BFC8;
                                                                 ;;                        ;
-DATA_02BFCA:          db $01,$FF                                ;;BFD1|BFCA+BFCA/BFCA\BFCA;
+RipVanFishAccel:      db $01,$FF                                ;;BFD1|BFCA+BFCA/BFCA\BFCA;
                                                                 ;;                        ;
                     - RTL                                       ;;BFD3|BFCC+BFCC/BFCC\BFCC; Return
                                                                 ;;                        ;
@@ -7894,17 +7894,17 @@ CODE_02C095:          LDA.B !TrueFrame                          ;;C09C|C095+C095
                       BNE CODE_02C0BB                           ;;C0A0|C099+C099/C099\C099;
                       JSR SubHorizPosBnk2                       ;;C0A2|C09B+C09B/C09B\C09B;
                       LDA.B !SpriteXSpeed,X                     ;;C0A5|C09E+C09E/C09E\C09E;
-                      CMP.W DATA_02BFC8,Y                       ;;C0A7|C0A0+C0A0/C0A0\C0A0;
+                      CMP.W RipVanFishMaxSpeed,Y                ;;C0A7|C0A0+C0A0/C0A0\C0A0;
                       BEQ +                                     ;;C0AA|C0A3+C0A3/C0A3\C0A3;
                       CLC                                       ;;C0AC|C0A5+C0A5/C0A5\C0A5;
-                      ADC.W DATA_02BFCA,Y                       ;;C0AD|C0A6+C0A6/C0A6\C0A6;
+                      ADC.W RipVanFishAccel,Y                   ;;C0AD|C0A6+C0A6/C0A6\C0A6;
                       STA.B !SpriteXSpeed,X                     ;;C0B0|C0A9+C0A9/C0A9\C0A9;
                     + JSR SubVertPosBnk2                        ;;C0B2|C0AB+C0AB/C0AB\C0AB;
                       LDA.B !SpriteYSpeed,X                     ;;C0B5|C0AE+C0AE/C0AE\C0AE;
-                      CMP.W DATA_02BFC8,Y                       ;;C0B7|C0B0+C0B0/C0B0\C0B0;
+                      CMP.W RipVanFishMaxSpeed,Y                ;;C0B7|C0B0+C0B0/C0B0\C0B0;
                       BEQ CODE_02C0BB                           ;;C0BA|C0B3+C0B3/C0B3\C0B3;
                       CLC                                       ;;C0BC|C0B5+C0B5/C0B5\C0B5;
-                      ADC.W DATA_02BFCA,Y                       ;;C0BD|C0B6+C0B6/C0B6\C0B6;
+                      ADC.W RipVanFishAccel,Y                   ;;C0BD|C0B6+C0B6/C0B6\C0B6;
                       STA.B !SpriteYSpeed,X                     ;;C0C0|C0B9+C0B9/C0B9\C0B9;
 CODE_02C0BB:          LDY.B #$00                                ;;C0C2|C0BB+C0BB/C0BB\C0BB;
                       LDA.W !SpriteMisc1570,X                   ;;C0C4|C0BD+C0BD/C0BD\C0BD;
@@ -9127,7 +9127,7 @@ CODE_02CB39:          STZ.W !OAMTileSize+$40,X                  ;;CB51|CB39+CB39
                       RTS                                       ;;CB58|CB40+CB40/CB40\CB40; Return
                                                                 ;;                        ;
                                                                 ;;                        ;
-                      db $FA,$0A,$06,$00,$00,$01,$0E,$FE        ;;CB59|CB41+CB41/CB41\CB41;
+ChuckBaseballOffs:    db $FA,$0A,$06,$00,$00,$01,$0E,$FE        ;;CB59|CB41+CB41/CB41\CB41;
                       db $02,$00,$00,$09,$08,$F4,$F4,$00        ;;CB61|CB49+CB49/CB49\CB49;
                       db $00,$F4                                ;;CB69|CB51+CB51/CB51\CB51;
                                                                 ;;                        ;
@@ -9144,10 +9144,10 @@ CODE_02CB53:          PHX                                       ;;CB6B|CB53+CB53
                       TAY                                       ;;CB7C|CB64+CB64/CB64\CB64;
                       LDA.B !_0                                 ;;CB7D|CB65+CB65/CB65\CB65;
                       CLC                                       ;;CB7F|CB67+CB67/CB67\CB67;
-                      ADC.W CODE_02CB2D,X                       ;;CB80|CB68+CB68/CB68\CB68;
+                      ADC.W ChuckBaseballOffs-$14,X             ;;CB80|CB68+CB68/CB68\CB68;
                       STA.W !OAMTileXPos+$100,Y                 ;;CB83|CB6B+CB6B/CB6B\CB6B;
                       LDX.B !_2                                 ;;CB86|CB6E+CB6E/CB6E\CB6E;
-                      LDA.W CODE_02CB39,X                       ;;CB88|CB70+CB70/CB70\CB70;
+                      LDA.W ChuckBaseballOffs-$08,X             ;;CB88|CB70+CB70/CB70\CB70;
                       BEQ +                                     ;;CB8B|CB73+CB73/CB73\CB73;
                       CLC                                       ;;CB8D|CB75+CB75/CB75\CB75;
                       ADC.B !_1                                 ;;CB8E|CB76+CB76/CB76\CB76;
@@ -10472,15 +10472,15 @@ Banzai_Rotating:      PHB                                       ;;D617|D617+D617
                       PLB                                       ;;D619|D619+D619/D619\D619;
                       LDA.B !SpriteNumber,X                     ;;D61A|D61A+D61A/D61A\D61A;
                       CMP.B #$9F                                ;;D61C|D61C+D61C/D61C\D61C;
-                      BNE GreySpinPlat                          ;;D61E|D61E+D61E/D61E\D61E;
+                      BNE GreySpinPlatBnC                       ;;D61E|D61E+D61E/D61E\D61E;
                       JSR BanzaiBillRt                          ;;D620|D620+D620/D620\D620;
                       BRA +                                     ;;D623|D623+D623/D623\D623;
                                                                 ;;                        ;
-GreySpinPlat:         JSR GreySpinPlatRt                        ;;D625|D625+D625/D625\D625;
+GreySpinPlatBnC:      JSR GreySpinPlatBnCRt                     ;;D625|D625+D625/D625\D625;
                     + PLB                                       ;;D628|D628+D628/D628\D628;
                       RTL                                       ;;D629|D629+D629/D629\D629; Return
                                                                 ;;                        ;
-GreySpinPlatRt:       JSR SubOffscreen3Bnk2                     ;;D62A|D62A+D62A/D62A\D62A;
+GreySpinPlatBnCRt:    JSR SubOffscreen3Bnk2                     ;;D62A|D62A+D62A/D62A\D62A;
                       LDA.B !SpriteLock                         ;;D62D|D62D+D62D/D62D\D62D;
                       BNE CODE_02D653                           ;;D62F|D62F+D62F/D62F\D62F;
                       LDA.B !SpriteXPosLow,X                    ;;D631|D631+D631/D631\D631;
@@ -10614,7 +10614,7 @@ CODE_02D73D:          LDA.W !SpriteMisc160E,X                   ;;D73D|D73D+D73D
                       PHX                                       ;;D745|D745+D745/D745\D745;
                       JSL CODE_00E2BD                           ;;D746|D746+D746/D746\D746;
                       PLX                                       ;;D74A|D74A+D74A/D74A\D74A;
-                    + JSR CODE_02D848                           ;;D74B|D74B+D74B/D74B\D74B;
+                    + JSR GreyRotPlatGfx                        ;;D74B|D74B+D74B/D74B\D74B;
                       BRA +                                     ;;D74E|D74E+D74E/D74E\D74E;
                                                                 ;;                        ;
 CODE_02D750:          JSL MarioSprInteract                      ;;D750|D750+D750/D750\D750;
@@ -10660,11 +10660,11 @@ CODE_02D750:          JSL MarioSprInteract                      ;;D750|D750+D750
                       STA.B !_A                                 ;;D79A|D79A+D79A/D79A\D79A;
                       LDA.B !SpriteYPosLow,X                    ;;D79C|D79C+D79C/D79C\D79C;
                       STA.B !_B                                 ;;D79E|D79E+D79E/D79E\D79E;
-                      LDA.B !SpriteNumber,X                     ;;D7A0|D7A0+D7A0/D7A0\D7A0; \ This sprite number check is completely
-                      TAX                                       ;;D7A2|D7A2+D7A2/D7A2\D7A2; | unecessary, the Banzai Bill (sprite 9E)
-                      LDA.B #$E8                                ;;D7A3|D7A3+D7A3/D7A3\D7A3; | code never executes any of this. Maybe
-                      CPX.B #$9E                                ;;D7A5|D7A5+D7A5/D7A5\D7A5; | it used to be a completely different
-                      BEQ +                                     ;;D7A7|D7A7+D7A7/D7A7\D7A7; / sprite?
+                      LDA.B !SpriteNumber,X                     ;;D7A0|D7A0+D7A0/D7A0\D7A0;
+                      TAX                                       ;;D7A2|D7A2+D7A2/D7A2\D7A2;
+                      LDA.B #$E8                                ;;D7A3|D7A3+D7A3/D7A3\D7A3;
+                      CPX.B #$9E                                ;;D7A5|D7A5+D7A5/D7A5\D7A5; \ Check if we're the rotating platform (sprite A0)
+                      BEQ +                                     ;;D7A7|D7A7+D7A7/D7A7\D7A7; / or the ball 'n' chain
                       LDA.B #$A2                                ;;D7A9|D7A9+D7A9/D7A9\D7A9;
                     + STA.B !_8                                 ;;D7AB|D7AB+D7AB/D7AB\D7AB;
                       LDX.B #$01                                ;;D7AD|D7AD+D7AD/D7AD\D7AD;
@@ -10759,7 +10759,7 @@ WoodPlatformXOffs:    db $00,$F0,$00,$10                        ;;D840|D840+D840
                                                                 ;;                        ;
 WoodPlatformTiles:    db $A2,$60,$61,$62                        ;;D844|D844+D844/D844\D844;
                                                                 ;;                        ;
-CODE_02D848:          JSR GetDrawInfo2                          ;;D848|D848+D848/D848\D848;
+GreyRotPlatGfx:       JSR GetDrawInfo2                          ;;D848|D848+D848/D848\D848;
                       PHX                                       ;;D84B|D84B+D84B/D84B\D84B;
                       LDX.B #$03                                ;;D84C|D84C+D84C/D84C\D84C;
                     - LDA.B !_0                                 ;;D84E|D84E+D84E/D84E\D84E;
@@ -11020,11 +11020,11 @@ CODE_02DA37:          PHY                                       ;;DA37|DA37+DA37
 HammerBrotherMain:    PHB                                       ;;DA52|DA52+DA52/DA52\DA52;
                       PHK                                       ;;DA53|DA53+DA53/DA53\DA53;
                       PLB                                       ;;DA54|DA54+DA54/DA54\DA54;
-                      JSR CODE_02DA5A                           ;;DA55|DA55+DA55/DA55\DA55;
+                      JSR HammerBrotherMainRt                   ;;DA55|DA55+DA55/DA55\DA55;
                       PLB                                       ;;DA58|DA58+DA58/DA58\DA58;
 Return02DA59:         RTL                                       ;;DA59|DA59+DA59/DA59\DA59; Return
                                                                 ;;                        ;
-CODE_02DA5A:          STZ.W !SpriteMisc157C,X                   ;;DA5A|DA5A+DA5A/DA5A\DA5A;
+HammerBrotherMainRt:  STZ.W !SpriteMisc157C,X                   ;;DA5A|DA5A+DA5A/DA5A\DA5A;
                       LDA.W !SpriteStatus,X                     ;;DA5D|DA5D+DA5D/DA5D\DA5D;
                       CMP.B #$02                                ;;DA60|DA60+DA60/DA60\DA60;
                       BNE +                                     ;;DA62|DA62+DA62/DA62\DA62;
@@ -11310,11 +11310,11 @@ CODE_02DC5D:          STX.B !_6                                 ;;DC5D|DC5D+DC5D
 SumoBrotherMain:      PHB                                       ;;DCAF|DCAF+DCAF/DCAF\DCAF;
                       PHK                                       ;;DCB0|DCB0+DCB0/DCB0\DCB0;
                       PLB                                       ;;DCB1|DCB1+DCB1/DCB1\DCB1;
-                      JSR CODE_02DCB7                           ;;DCB2|DCB2+DCB2/DCB2\DCB2;
+                      JSR SumoBroMainRt                         ;;DCB2|DCB2+DCB2/DCB2\DCB2;
                       PLB                                       ;;DCB5|DCB5+DCB5/DCB5\DCB5;
                       RTL                                       ;;DCB6|DCB6+DCB6/DCB6\DCB6; Return
                                                                 ;;                        ;
-CODE_02DCB7:          JSR SumoBroGfx                            ;;DCB7|DCB7+DCB7/DCB7\DCB7;
+SumoBroMainRt:        JSR SumoBroGfxRt                          ;;DCB7|DCB7+DCB7/DCB7\DCB7;
                       LDA.B !SpriteLock                         ;;DCBA|DCBA+DCBA/DCBA\DCBA;
                       BNE Return02DCE9                          ;;DCBC|DCBC+DCBC/DCBC\DCBC;
                       LDA.W !SpriteStatus,X                     ;;DCBE|DCBE+DCBE/DCBE\DCBE;
@@ -11464,7 +11464,7 @@ SumoBrosTileSize:     db $00,$00,$02,$02,$00,$00,$02,$02        ;;DE26|DE26+DE26
                       db $02,$02,$02,$02,$02,$02,$02,$02        ;;DE2E|DE2E+DE2E/DE2E\DE2E;
                       db $02,$02,$02,$02,$02,$02,$02,$02        ;;DE36|DE36+DE36/DE36\DE36;
                                                                 ;;                        ;
-SumoBroGfx:           JSR GetDrawInfo2                          ;;DE3E|DE3E+DE3E/DE3E\DE3E;
+SumoBroGfxRt:         JSR GetDrawInfo2                          ;;DE3E|DE3E+DE3E/DE3E\DE3E;
                       LDA.W !SpriteMisc157C,X                   ;;DE41|DE41+DE41/DE41\DE41;
                       LSR A                                     ;;DE44|DE44+DE44/DE44\DE44;
                       ROR A                                     ;;DE45|DE45+DE45/DE45\DE45;
@@ -12449,13 +12449,13 @@ CODE_02E637:          JSR GetDrawInfo2                          ;;E637|E637+E637
                       LDX.B #$03                                ;;E63B|E63B+E63B/E63B\E63B;
                     - LDA.B !_0                                 ;;E63D|E63D+E63D/E63D\E63D;
                       CLC                                       ;;E63F|E63F+E63F/E63F\E63F;
-                      ADC.W DATA_02E666,X                       ;;E640|E640+E640/E640\E640;
+                      ADC.W MovingHoleXOffs,X                   ;;E640|E640+E640/E640\E640;
                       STA.W !OAMTileXPos+$100,Y                 ;;E643|E643+E643/E643\E643;
                       LDA.B !_1                                 ;;E646|E646+E646/E646\E646;
                       STA.W !OAMTileYPos+$100,Y                 ;;E648|E648+E648/E648\E648;
                       LDA.W MovingHoleTiles,X                   ;;E64B|E64B+E64B/E64B\E64B;
                       STA.W !OAMTileNo+$100,Y                   ;;E64E|E64E+E64E/E64E\E64E;
-                      LDA.W DATA_02E66E,X                       ;;E651|E651+E651/E651\E651;
+                      LDA.W MovingHoleTileProps,X               ;;E651|E651+E651/E651\E651;
                       STA.W !OAMTileAttr+$100,Y                 ;;E654|E654+E654/E654\E654;
                       INY                                       ;;E657|E657+E657/E657\E657;
                       INY                                       ;;E658|E658+E658/E658\E658;
@@ -12469,11 +12469,11 @@ CODE_02E637:          JSR GetDrawInfo2                          ;;E637|E637+E637
                       JMP CallFinOAMWriteBank2                  ;;E663|E663+E663/E663\E663;
                                                                 ;;                        ;
                                                                 ;;                        ;
-DATA_02E666:          db $00,$08,$18,$20                        ;;E666|E666+E666/E666\E666;
+MovingHoleXOffs:      db $00,$08,$18,$20                        ;;E666|E666+E666/E666\E666;
                                                                 ;;                        ;
 MovingHoleTiles:      db $EB,$EA,$EA,$EB                        ;;E66A|E66A+E66A/E66A\E66A;
                                                                 ;;                        ;
-DATA_02E66E:          db $71,$31,$31,$31                        ;;E66E|E66E+E66E/E66E\E66E;
+MovingHoleTileProps:  db $71,$31,$31,$31                        ;;E66E|E66E+E66E/E66E\E66E;
                                                                 ;;                        ;
 FishinLakituGfx:      PHB                                       ;;E672|E672+E672/E672\E672; Wrapper
                       PHK                                       ;;E673|E673+E673/E673\E673;
@@ -12726,7 +12726,7 @@ CODE_02E845:          LDA.W !SpriteMisc1534,X                   ;;E845|E845+E845
                       SBC.B #$00                                ;;E857|E857+E857/E857\E857;
                       STA.W !SpriteXPosHigh,X                   ;;E859|E859+E859/E859\E859;
                       LDY.B #$03                                ;;E85C|E85C+E85C/E85C\E85C;
-                      JSR GrowingPipeGfx                        ;;E85E|E85E+E85E/E85E\E85E;
+                      JSR GrowingPipeDrawtile                   ;;E85E|E85E+E85E/E85E\E85E;
                       PLA                                       ;;E861|E861+E861/E861\E861;
                       STA.W !SpriteXPosHigh,X                   ;;E862|E862+E862/E862\E862;
                       PLA                                       ;;E865|E865+E865/E865\E865;
@@ -12765,12 +12765,12 @@ CODE_02E8A2:          LDA.W DATA_02E835,Y                       ;;E8A2|E8A2+E8A2
                       LDA.B !SpriteYPosLow,X                    ;;E8A9|E8A9+E8A9/E8A9\E8A9;
                       AND.B #$0F                                ;;E8AB|E8AB+E8AB/E8AB\E8AB;
                       BNE +                                     ;;E8AD|E8AD+E8AD/E8AD\E8AD;
-                      JSR GrowingPipeGfx                        ;;E8AF|E8AF+E8AF/E8AF\E8AF;
+                      JSR GrowingPipeDrawtile                   ;;E8AF|E8AF+E8AF/E8AF\E8AF;
                     + JSR UpdateYPosNoGrvty                     ;;E8B2|E8B2+E8B2/E8B2\E8B2;
 CODE_02E8B5:          JSL InvisBlkMainRt                        ;;E8B5|E8B5+E8B5/E8B5\E8B5;
                       RTS                                       ;;E8B9|E8B9+E8B9/E8B9\E8B9; Return
                                                                 ;;                        ;
-GrowingPipeGfx:       LDA.W GrowingPipeTiles1,Y                 ;;E8BA|E8BA+E8BA/E8BA\E8BA;
+GrowingPipeDrawtile:  LDA.W GrowingPipeTiles1,Y                 ;;E8BA|E8BA+E8BA/E8BA\E8BA;
                       STA.W !TileGenerateTrackA                 ;;E8BD|E8BD+E8BD/E8BD\E8BD;
                       LDA.W GrowingPipeTiles2,Y                 ;;E8C0|E8C0+E8C0/E8C0\E8C0;
                       STA.W !TileGenerateTrackB                 ;;E8C3|E8C3+E8C3/E8C3\E8C3;

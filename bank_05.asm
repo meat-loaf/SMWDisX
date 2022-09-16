@@ -474,8 +474,8 @@ SpecialLevTable:      db $00,$00,$00,$00,$00,$00,$00,$00        ;;8497|8497+8497
                       db $00,$C0,$00,$80,$00,$00,$00,$00        ;;849F|849F+849F/849F\84C4; 80: Iggy/Larry level ; C0: Morton/Ludwig/Roy level
                       db $C1,$00,$00,$00,$00,$00,$00,$00        ;;84A7|84A7+84A7/84A7\84CC; C1: Bowser level
                       db $00,$00,$00,$00,$00,$00,$00,$00        ;;84AF|84AF+84AF/84AF\84D4;
-LevXYPPCCCTtbl:       db $20,$20,$20,$30,$30,$30,$30,$30        ;;84B7|84B7+84B7/84B7\84DC; XYPPCCCT settings for each level mode ; (The XYPPCCCT setting appears to be XORed with nearly all
-                      db $30,$30,$30,$30,$30,$30,$20,$20        ;;84BF|84BF+84BF/84BF\84E4; sprites' XYPPCCCT settings)
+LevYXPPCCCTtbl:       db $20,$20,$20,$30,$30,$30,$30,$30        ;;84B7|84B7+84B7/84B7\84DC; YXPPCCCT settings for each level mode ; (The YXPPCCCT setting is ORed with nearly all
+                      db $30,$30,$30,$30,$30,$30,$20,$20        ;;84BF|84BF+84BF/84BF\84E4; sprites' YXPPCCCT settings)
                       db $30,$30,$30,$30,$30,$30,$30,$30        ;;84C7|84C7+84C7/84C7\84EC;
                       db $30,$30,$30,$30,$30,$30,$30,$30        ;;84CF|84CF+84CF/84CF\84F4;
 TimerTable:           db $00,$02,$03,$04                        ;;84D7|84D7+84D7/84D7\84FC;
@@ -507,7 +507,7 @@ CODE_0584E3:          LDY.B #$00                                ;;84E3|84E3+84E3
                       AND.B #$1F                                ;;84F9|84F9+84F9/84F9\851E; \Get level mode
                       STA.W !LevelModeSetting                   ;;84FB|84FB+84FB/84FB\8520; /
                       TAX                                       ;;84FE|84FE+84FE/84FE\8523;
-                      LDA.L LevXYPPCCCTtbl,X                    ;;84FF|84FF+84FF/84FF\8524; \Get XYPPCCCT settings from table
+                      LDA.L LevYXPPCCCTtbl,X                    ;;84FF|84FF+84FF/84FF\8524; \Get YXPPCCCT settings from table
                       STA.B !SpriteProperties                   ;;8503|8503+8503/8503\8528; /
                       LDA.L LevMainScrnTbl,X                    ;;8505|8505+8505/8505\852A; \Get main screen setting from table
                       STA.W !ThroughMain                        ;;8509|8509+8509/8509\852E; /
