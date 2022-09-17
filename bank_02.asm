@@ -7974,7 +7974,7 @@ DATA_02C132:          db $30,$20,$0A,$30                        ;;C139|C132+C132
                                                                 ;;                        ;
 DATA_02C136:          db $05,$0E,$0F,$10                        ;;C13D|C136+C136/C136\C136;
                                                                 ;;                        ;
-CODE_02C13A:          LDA.W !SpriteMisc1558,X                   ;;C141|C13A+C13A/C13A\C13A;
+ChuckDiggin:          LDA.W !SpriteMisc1558,X                   ;;C141|C13A+C13A/C13A\C13A;
                       BEQ CODE_02C156                           ;;C144|C13D+C13D/C13D\C13D;
                       CMP.B #$01                                ;;C146|C13F+C13F/C13F\C13F;
                       BNE +                                     ;;C148|C141+C141/C141\C141;
@@ -8068,7 +8068,7 @@ ChucksMain:           PHB                                       ;;C1FC|C1F5+C1F5
                       PLB                                       ;;C1FE|C1F7+C1F7/C1F7\C1F7;
                       LDA.W !SpriteMisc187B,X                   ;;C1FF|C1F8+C1F8/C1F8\C1F8;
                       PHA                                       ;;C202|C1FB+C1FB/C1FB\C1FB;
-                      JSR CODE_02C22C                           ;;C203|C1FC+C1FC/C1FC\C1FC;
+                      JSR ChucksMainRt                          ;;C203|C1FC+C1FC/C1FC\C1FC;
                       PLA                                       ;;C206|C1FF+C1FF/C1FF\C1FF;
                       BNE +                                     ;;C207|C200+C200/C200\C200;
                       CMP.W !SpriteMisc187B,X                   ;;C209|C202+C202/C202\C202;
@@ -8083,7 +8083,7 @@ ChucksMain:           PHB                                       ;;C1FC|C1F5+C1F5
                                                                 ;;                        ;
 ChuckDeadHeadFrame:   db $01,$02,$03,$02                        ;;C21A|C213+C213/C213\C213; 'slightly right', 'towards screen', 'slightly left', 'towards screen'
                                                                 ;;                        ;
-                    - LDA.B !EffFrame                           ;;C21E|C217+C217/C217\C217; \ the 'head shake' death animation
+ChuckDead:            LDA.B !EffFrame                           ;;C21E|C217+C217/C217\C217; \ the 'head shake' death animation
                       LSR A                                     ;;C220|C219+C219/C219\C219; |
                       LSR A                                     ;;C221|C21A+C21A/C21A\C21A; |
                       AND.B #$03                                ;;C222|C21B+C21B/C21B\C21B; | Update once every 4 frames
@@ -8098,9 +8098,9 @@ DATA_02C228:          db $40,$10                                ;;C22F|C228+C228
                                                                 ;;                        ;
 DATA_02C22A:          db $03,$01                                ;;C231|C22A+C22A/C22A\C22A;
                                                                 ;;                        ;
-CODE_02C22C:          LDA.W !SpriteStatus,X                     ;;C233|C22C+C22C/C22C\C22C; \ If sprite status not #$08
+ChucksMainRt:         LDA.W !SpriteStatus,X                     ;;C233|C22C+C22C/C22C\C22C; \ If sprite status not #$08
                       CMP.B #$08                                ;;C236|C22F+C22F/C22F\C22F; | Do the 'head shake falling
-                      BNE -                                     ;;C238|C231+C231/C231\C231; / off screen' animation
+                      BNE ChuckDead                             ;;C238|C231+C231/C231\C231; / off screen' animation
                       LDA.W !SpriteMisc15AC,X                   ;;C23A|C233+C233/C233\C233;
                       BEQ +                                     ;;C23D|C236+C236/C236\C236;
                       LDA.B #$05                                ;;C23F|C238+C238/C238\C238;
@@ -8121,7 +8121,7 @@ CODE_02C22C:          LDA.W !SpriteStatus,X                     ;;C233|C22C+C22C
                       RTS                                       ;;C261|C25A+C25A/C25A\C25A; Return
                                                                 ;;                        ;
                     + JSR SubOffscreen0Bnk2                     ;;C262|C25B+C25B/C25B\C25B;
-                      JSR CODE_02C79D                           ;;C265|C25E+C25E/C25E\C25E;
+                      JSR ChuckInteract                         ;;C265|C25E+C25E/C25E\C25E;
                       JSL SprSprInteract                        ;;C268|C261+C261/C261\C261;
                       JSL CODE_019138                           ;;C26C|C265+C265/C265\C265;
                       LDA.W !SpriteBlockedDirs,X                ;;C270|C269+C269/C269\C269;
@@ -8134,57 +8134,57 @@ CODE_02C22C:          LDA.W !SpriteStatus,X                     ;;C233|C22C+C22C
                       BEQ CODE_02C2F4                           ;;C280|C279+C279/C279\C279; /
                       LDA.W !SpriteOffscreenX,X                 ;;C282|C27B+C27B/C27B\C27B;
                       ORA.W !SpriteOffscreenVert,X              ;;C285|C27E+C27E/C27E\C27E;
-                      BNE CODE_02C2E4                           ;;C288|C281+C281/C281\C281;
+                      BNE ChuckJumpIfOnGrnd                     ;;C288|C281+C281/C281\C281;
                       LDA.W !SpriteMisc187B,X                   ;;C28A|C283+C283/C283\C283;
-                      BEQ CODE_02C2E4                           ;;C28D|C286+C286/C286\C286;
+                      BEQ ChuckJumpIfOnGrnd                     ;;C28D|C286+C286/C286\C286;
                       LDA.B !SpriteXPosLow,X                    ;;C28F|C288+C288/C288\C288;
                       SEC                                       ;;C291|C28A+C28A/C28A\C28A;
                       SBC.B !Layer1XPos                         ;;C292|C28B+C28B/C28B\C28B;
                       CLC                                       ;;C294|C28D+C28D/C28D\C28D;
                       ADC.B #$14                                ;;C295|C28E+C28E/C28E\C28E;
                       CMP.B #$1C                                ;;C297|C290+C290/C290\C290;
-                      BCC CODE_02C2E4                           ;;C299|C292+C292/C292\C292;
-                      LDA.W !SpriteBlockedDirs,X                ;;C29B|C294+C294/C294\C294; \ Branch if on ground
-                      AND.B #$40                                ;;C29E|C297+C297/C297\C297;  |
-                      BNE CODE_02C2E4                           ;;C2A0|C299+C299/C299\C299; /
+                      BCC ChuckJumpIfOnGrnd                     ;;C299|C292+C292/C292\C292;
+                      LDA.W !SpriteBlockedDirs,X                ;;C29B|C294+C294/C294\C294; \ Branch if touching layer 2
+                      AND.B #$40                                ;;C29E|C297+C297/C297\C297; | from the side
+                      BNE ChuckJumpIfOnGrnd                     ;;C2A0|C299+C299/C299\C299; /
                       LDA.W !Map16TileDestroy                   ;;C2A2|C29B+C29B/C29B\C29B;
-                      CMP.B #$2E                                ;;C2A5|C29E+C29E/C29E\C29E;
+                      CMP.B #$2E                                ;;C2A5|C29E+C29E/C29E\C29E; Throw block tile number low byte
                       BEQ CODE_02C2A6                           ;;C2A7|C2A0+C2A0/C2A0\C2A0;
-                      CMP.B #$1E                                ;;C2A9|C2A2+C2A2/C2A2\C2A2;
-                      BNE CODE_02C2E4                           ;;C2AB|C2A4+C2A4/C2A4\C2A4;
+                      CMP.B #$1E                                ;;C2A9|C2A2+C2A2/C2A2\C2A2; Turn block tile number low byte
+                      BNE ChuckJumpIfOnGrnd                     ;;C2AB|C2A4+C2A4/C2A4\C2A4;
 CODE_02C2A6:          LDA.W !SpriteBlockedDirs,X                ;;C2AD|C2A6+C2A6/C2A6\C2A6; \ Branch if not on ground
                       AND.B #$04                                ;;C2B0|C2A9+C2A9/C2A9\C2A9;  |
                       BEQ CODE_02C2F7                           ;;C2B2|C2AB+C2AB/C2AB\C2AB; /
-                      LDA.B !TouchBlockXPos+1                   ;;C2B4|C2AD+C2AD/C2AD\C2AD;
-                      PHA                                       ;;C2B6|C2AF+C2AF/C2AF\C2AF;
-                      LDA.B !TouchBlockXPos                     ;;C2B7|C2B0+C2B0/C2B0\C2B0;
-                      PHA                                       ;;C2B9|C2B2+C2B2/C2B2\C2B2;
-                      LDA.B !TouchBlockYPos+1                   ;;C2BA|C2B3+C2B3/C2B3\C2B3;
-                      PHA                                       ;;C2BC|C2B5+C2B5/C2B5\C2B5;
-                      LDA.B !TouchBlockYPos                     ;;C2BD|C2B6+C2B6/C2B6\C2B6;
-                      PHA                                       ;;C2BF|C2B8+C2B8/C2B8\C2B8;
-                      JSL ShatterBlock                          ;;C2C0|C2B9+C2B9/C2B9\C2B9;
-                      LDA.B #$02                                ;;C2C4|C2BD+C2BD/C2BD\C2BD; \ Block to generate = #$02
+                      LDA.B !TouchBlockXPos+1                   ;;C2B4|C2AD+C2AD/C2AD\C2AD; \ Preserve block touch points
+                      PHA                                       ;;C2B6|C2AF+C2AF/C2AF\C2AF; |
+                      LDA.B !TouchBlockXPos                     ;;C2B7|C2B0+C2B0/C2B0\C2B0; |
+                      PHA                                       ;;C2B9|C2B2+C2B2/C2B2\C2B2; |
+                      LDA.B !TouchBlockYPos+1                   ;;C2BA|C2B3+C2B3/C2B3\C2B3; |
+                      PHA                                       ;;C2BC|C2B5+C2B5/C2B5\C2B5; |
+                      LDA.B !TouchBlockYPos                     ;;C2BD|C2B6+C2B6/C2B6\C2B6; |
+                      PHA                                       ;;C2BF|C2B8+C2B8/C2B8\C2B8; /
+                      JSL ShatterBlock                          ;;C2C0|C2B9+C2B9/C2B9\C2B9; Spawn the 'broken brick piece' minor extended sprites, with SFX
+                      LDA.B #$02                                ;;C2C4|C2BD+C2BD/C2BD\C2BD; \ Generate an empty tile (Tile $25)
                       STA.B !Map16TileGenerate                  ;;C2C6|C2BF+C2BF/C2BF\C2BF; /
-                      JSL GenerateTile                          ;;C2C8|C2C1+C2C1/C2C1\C2C1;
-                      PLA                                       ;;C2CC|C2C5+C2C5/C2C5\C2C5;
-                      SEC                                       ;;C2CD|C2C6+C2C6/C2C6\C2C6;
-                      SBC.B #$10                                ;;C2CE|C2C7+C2C7/C2C7\C2C7;
-                      STA.B !TouchBlockYPos                     ;;C2D0|C2C9+C2C9/C2C9\C2C9;
-                      PLA                                       ;;C2D2|C2CB+C2CB/C2CB\C2CB;
-                      SBC.B #$00                                ;;C2D3|C2CC+C2CC/C2CC\C2CC;
-                      STA.B !TouchBlockYPos+1                   ;;C2D5|C2CE+C2CE/C2CE\C2CE;
-                      PLA                                       ;;C2D7|C2D0+C2D0/C2D0\C2D0;
-                      STA.B !TouchBlockXPos                     ;;C2D8|C2D1+C2D1/C2D1\C2D1;
-                      PLA                                       ;;C2DA|C2D3+C2D3/C2D3\C2D3;
-                      STA.B !TouchBlockXPos+1                   ;;C2DB|C2D4+C2D4/C2D4\C2D4;
-                      JSL ShatterBlock                          ;;C2DD|C2D6+C2D6/C2D6\C2D6;
-                      LDA.B #$02                                ;;C2E1|C2DA+C2DA/C2DA\C2DA; \ Block to generate = #$02
+                      JSL GenerateTile                          ;;C2C8|C2C1+C2C1/C2C1\C2C1; \ The chuck's object clipping interacts,
+                      PLA                                       ;;C2CC|C2C5+C2C5/C2C5\C2C5; | essentially, with the 'bottom' tile of
+                      SEC                                       ;;C2CD|C2C6+C2C6/C2C6\C2C6; | a 32x16 column of blocks.
+                      SBC.B #$10                                ;;C2CE|C2C7+C2C7/C2C7\C2C7; | As a result, this code
+                      STA.B !TouchBlockYPos                     ;;C2D0|C2C9+C2C9/C2C9\C2C9; | Indiscriminately destroys the tile
+                      PLA                                       ;;C2D2|C2CB+C2CB/C2CB\C2CB; | above the one the chuck interacted with,
+                      SBC.B #$00                                ;;C2D3|C2CC+C2CC/C2CC\C2CC; | no matter what it is.
+                      STA.B !TouchBlockYPos+1                   ;;C2D5|C2CE+C2CE/C2CE\C2CE; |
+                      PLA                                       ;;C2D7|C2D0+C2D0/C2D0\C2D0; | In the original game, this is never a problem
+                      STA.B !TouchBlockXPos                     ;;C2D8|C2D1+C2D1/C2D1\C2D1; | due to how the levels are set up, however.
+                      PLA                                       ;;C2DA|C2D3+C2D3/C2D3\C2D3; |
+                      STA.B !TouchBlockXPos+1                   ;;C2DB|C2D4+C2D4/C2D4\C2D4; /
+                      JSL ShatterBlock                          ;;C2DD|C2D6+C2D6/C2D6\C2D6; Spawn the 'broken brick piece' minor extended sprites, with SFX
+                      LDA.B #$02                                ;;C2E1|C2DA+C2DA/C2DA\C2DA; \ Generate an empty tile (Tile $25)
                       STA.B !Map16TileGenerate                  ;;C2E3|C2DC+C2DC/C2DC\C2DC; /
                       JSL GenerateTile                          ;;C2E5|C2DE+C2DE/C2DE\C2DE;
                       BRA CODE_02C2F4                           ;;C2E9|C2E2+C2E2/C2E2\C2E2;
                                                                 ;;                        ;
-CODE_02C2E4:          LDA.W !SpriteBlockedDirs,X                ;;C2EB|C2E4+C2E4/C2E4\C2E4; \ Branch if not on ground
+ChuckJumpIfOnGrnd:    LDA.W !SpriteBlockedDirs,X                ;;C2EB|C2E4+C2E4/C2E4\C2E4; \ Branch if not on ground
                       AND.B #$04                                ;;C2EE|C2E7+C2E7/C2E7\C2E7;  |
                       BEQ CODE_02C2F7                           ;;C2F0|C2E9+C2E9/C2E9\C2E9; /
                       LDA.B #$C0                                ;;C2F2|C2EB+C2EB/C2EB\C2EB;
@@ -8226,21 +8226,21 @@ CODE_02C2F7:          LDA.W !SpriteBlockedDirs,X                ;;C2FE|C2F7+C2F7
                       LDA.B !SpriteTableC2,X                    ;;C33D|C336+C336/C336\C336;
                       JSL ExecutePtr                            ;;C33F|C338+C338/C338\C338; Chargin' Chuck phase pointers
                                                                 ;;                        ;
-                      dw CODE_02C63B                            ;;C343|C33C+C33C/C33C\C33C;
-                      dw CODE_02C6A7                            ;;C345|C33E+C33E/C33E\C33E;
-                      dw CODE_02C726                            ;;C347|C340+C340/C340\C340;
-                      dw CODE_02C74A                            ;;C349|C342+C342/C342\C342;
-                      dw CODE_02C13A                            ;;C34B|C344+C344/C344\C344;
-                      dw CODE_02C582                            ;;C34D|C346+C346/C346\C346;
-                      dw CODE_02C53C                            ;;C34F|C348+C348/C348\C348;
-                      dw CODE_02C564                            ;;C351|C34A+C34A/C34A\C34A;
-                      dw CODE_02C4E3                            ;;C353|C34C+C34C/C34C\C34C;
-                      dw CODE_02C4BD                            ;;C355|C34E+C34E/C34E\C34E;
-                      dw CODE_02C3CB                            ;;C357|C350+C350/C350\C350;
-                      dw CODE_02C356                            ;;C359|C352+C352/C352\C352;
-                      dw CODE_02C37B                            ;;C35B|C354+C354/C354\C354;
+                      dw ChuckLookSideToSide                    ;;C343|C33C+C33C/C33C\C33C;
+                      dw ChuckChargin                           ;;C345|C33E+C33E/C33E\C33E;
+                      dw ChuckPrepareCharge                     ;;C347|C340+C340/C340\C340;
+                      dw ChuckHurt                              ;;C349|C342+C342/C342\C342;
+                      dw ChuckDiggin                            ;;C34B|C344+C344/C344\C344;
+                      dw ChuckPrepareJump                       ;;C34D|C346+C346/C346\C346;
+                      dw ChuckJump                              ;;C34F|C348+C348/C348\C348;
+                      dw ChuckLand                              ;;C351|C34A+C34A/C34A\C34A;
+                      dw ChuckClappin                           ;;C353|C34C+C34C/C34C\C34C;
+                      dw ChuckPuntin                            ;;C355|C34E+C34E/C34E\C34E;
+                      dw ChuckPitchin                           ;;C357|C350+C350/C350\C350;
+                      dw ChuckPrepareWhistle                    ;;C359|C352+C352/C352\C352;
+                      dw ChuckWhistlin                          ;;C35B|C354+C354/C354\C354;
                                                                 ;;                        ;
-CODE_02C356:          LDA.B #$03                                ;;C35D|C356+C356/C356\C356;
+ChuckPrepareWhistle:  LDA.B #$03                                ;;C35D|C356+C356/C356\C356;
                       STA.W !SpriteMisc1602,X                   ;;C35F|C358+C358/C358\C358;
                       LDA.W !SpriteInLiquid,X                   ;;C362|C35B+C35B/C35B\C35B;
                       BEQ +                                     ;;C365|C35E+C35E/C35E\C35E;
@@ -8257,7 +8257,7 @@ CODE_02C356:          LDA.B #$03                                ;;C35D|C356+C356
                                                                 ;;                        ;
 DATA_02C373:          db $05,$05,$05,$02,$02,$06,$06,$06        ;;C37A|C373+C373/C373\C373;
                                                                 ;;                        ;
-CODE_02C37B:          LDA.B !EffFrame                           ;;C382|C37B+C37B/C37B\C37B;
+ChuckWhistlin:        LDA.B !EffFrame                           ;;C382|C37B+C37B/C37B\C37B;
                       AND.B #$3F                                ;;C384|C37D+C37D/C37D\C37D;
                       BNE +                                     ;;C386|C37F+C37F/C37F\C37F;
                       LDA.B #!SFX_WHISTLE                       ;;C388|C381+C381/C381\C381; \ Play sound effect
@@ -8296,7 +8296,7 @@ DATA_02C3B7:          db $18,$19,$14,$14                        ;;C3BE|C3B7+C3B7
 DATA_02C3BB:          db $18,$18,$18,$18,$17,$17,$17,$17        ;;C3C2|C3BB+C3BB/C3BB\C3BB;
                       db $17,$17,$16,$15,$15,$16,$16,$16        ;;C3CA|C3C3+C3C3/C3C3\C3C3;
                                                                 ;;                        ;
-CODE_02C3CB:          LDA.W !SpriteMisc1534,X                   ;;C3D2|C3CB+C3CB/C3CB\C3CB;
+ChuckPitchin:         LDA.W !SpriteMisc1534,X                   ;;C3D2|C3CB+C3CB/C3CB\C3CB;
                       BNE CODE_02C43A                           ;;C3D5|C3CE+C3CE/C3CE\C3CE;
                       JSR SubVertPosBnk2                        ;;C3D7|C3D0+C3D0/C3D0\C3D0;
                       LDA.B !_E                                 ;;C3DA|C3D3+C3D3/C3D3\C3D3;
@@ -8418,7 +8418,7 @@ CODE_02C479:          LDA.B #$0D                                ;;C480|C479+C479
                                                                 ;;                        ;
 DATA_02C4B5:          db $00,$00,$11,$11,$11,$11,$00,$00        ;;C4BC|C4B5+C4B5/C4B5\C4B5;
                                                                 ;;                        ;
-CODE_02C4BD:          STZ.W !SpriteMisc1602,X                   ;;C4C4|C4BD+C4BD/C4BD\C4BD;
+ChuckPuntin:          STZ.W !SpriteMisc1602,X                   ;;C4C4|C4BD+C4BD/C4BD\C4BD;
                       TXA                                       ;;C4C7|C4C0+C4C0/C4C0\C4C0;
                       ASL A                                     ;;C4C8|C4C1+C4C1/C4C1\C4C1;
                       ASL A                                     ;;C4C9|C4C2+C4C2/C4C2\C4C2;
@@ -8440,7 +8440,7 @@ CODE_02C4BD:          STZ.W !SpriteMisc1602,X                   ;;C4C4|C4BD+C4BD
                       STA.W !SpriteMisc1602,X                   ;;C4E6|C4DF+C4DF/C4DF\C4DF;
                     + RTS                                       ;;C4E9|C4E2+C4E2/C4E2\C4E2; Return
                                                                 ;;                        ;
-CODE_02C4E3:          JSR CODE_02C556                           ;;C4EA|C4E3+C4E3/C4E3\C4E3;
+ChuckClappin:         JSR CODE_02C556                           ;;C4EA|C4E3+C4E3/C4E3\C4E3;
                       LDA.B #$06                                ;;C4ED|C4E6+C4E6/C4E6\C4E6;
                       LDY.B !SpriteYSpeed,X                     ;;C4EF|C4E8+C4E8/C4E8\C4E8;
                       CPY.B #$F0                                ;;C4F1|C4EA+C4EA/C4EA\C4EA;
@@ -8479,7 +8479,7 @@ CODE_02C536:          LDA.B #!SFX_SPRING                        ;;C53D|C536+C536
                       STA.W !SPCIO3                             ;;C53F|C538+C538/C538\C538; /
                     + RTS                                       ;;C542|C53B+C53B/C53B\C53B; Return
                                                                 ;;                        ;
-CODE_02C53C:          LDA.B #$06                                ;;C543|C53C+C53C/C53C\C53C;
+ChuckJump:            LDA.B #$06                                ;;C543|C53C+C53C/C53C\C53C;
                       STA.W !SpriteMisc1602,X                   ;;C545|C53E+C53E/C53E\C53E;
                       LDA.W !SpriteBlockedDirs,X                ;;C548|C541+C541/C541\C541; \ Branch if not on ground
                       AND.B #$04                                ;;C54B|C544+C544/C544\C544;  |
@@ -8498,7 +8498,7 @@ CODE_02C556:          JSR SubHorizPosBnk2                       ;;C55D|C556+C556
                       STA.W !SpriteMisc151C,X                   ;;C567|C560+C560/C560\C560;
                       RTS                                       ;;C56A|C563+C563/C563\C563; Return
                                                                 ;;                        ;
-CODE_02C564:          LDA.B #$03                                ;;C56B|C564+C564/C564\C564;
+ChuckLand:            LDA.B #$03                                ;;C56B|C564+C564/C564\C564;
                       STA.W !SpriteMisc1602,X                   ;;C56D|C566+C566/C566\C566;
                       LDA.W !SpriteMisc1540,X                   ;;C570|C569+C569/C569\C569;
                       BNE CODE_02C579                           ;;C573|C56C+C56C/C56C\C56C;
@@ -8516,7 +8516,7 @@ DATA_02C57E:          db $10,$F0                                ;;C585|C57E+C57E
                                                                 ;;                        ;
 DATA_02C580:          db $20,$E0                                ;;C587|C580+C580/C580\C580;
                                                                 ;;                        ;
-CODE_02C582:          JSR CODE_02C556                           ;;C589|C582+C582/C582\C582;
+ChuckPrepareJump:     JSR CODE_02C556                           ;;C589|C582+C582/C582\C582;
                       LDA.W !SpriteMisc1540,X                   ;;C58C|C585+C585/C585\C585;
                       BEQ CODE_02C602                           ;;C58F|C588+C588/C588\C588;
                       CMP.B #$01                                ;;C591|C58A+C58A/C58A\C58A;
@@ -8601,7 +8601,7 @@ DATA_02C62E:          db $00,$00,$00,$00,$01,$02,$03,$04        ;;C635|C62E+C62E
                                                                 ;;                        ;
 DATA_02C639:          db $00,$04                                ;;C640|C639+C639/C639\C639;
                                                                 ;;                        ;
-CODE_02C63B:          LDA.B #$03                                ;;C642|C63B+C63B/C63B\C63B;
+ChuckLookSideToSide:  LDA.B #$03                                ;;C642|C63B+C63B/C63B\C63B;
                       STA.W !SpriteMisc1602,X                   ;;C644|C63D+C63D/C63D\C63D;
                       STZ.W !SpriteMisc187B,X                   ;;C647|C640+C640/C640\C640;
                       LDA.W !SpriteMisc1540,X                   ;;C64A|C643+C643/C643\C643;
@@ -8656,7 +8656,7 @@ DATA_02C69F:          db $10,$F0,$18,$E8                        ;;C6A6|C69F+C69F
                                                                 ;;                        ;
 DATA_02C6A3:          db $12,$13,$12,$13                        ;;C6AA|C6A3+C6A3/C6A3\C6A3;
                                                                 ;;                        ;
-CODE_02C6A7:          LDA.W !SpriteBlockedDirs,X                ;;C6AE|C6A7+C6A7/C6A7\C6A7; \ Branch if not on ground
+ChuckChargin:         LDA.W !SpriteBlockedDirs,X                ;;C6AE|C6A7+C6A7/C6A7\C6A7; \ Branch if not on ground
                       AND.B #$04                                ;;C6B1|C6AA+C6AA/C6AA\C6AA;  |
                       BEQ +                                     ;;C6B3|C6AC+C6AC/C6AC\C6AC; /
                       LDA.W !SpriteMisc163E,X                   ;;C6B5|C6AE+C6AE/C6AE\C6AE;
@@ -8714,7 +8714,7 @@ CODE_02C713:          LDA.B !TrueFrame                          ;;C71A|C713+C713
                       STA.W !SpriteMisc1602,X                   ;;C729|C722+C722/C722\C722;
                       RTS                                       ;;C72C|C725+C725/C725\C725; Return
                                                                 ;;                        ;
-CODE_02C726:          LDA.B #$03                                ;;C72D|C726+C726/C726\C726;
+ChuckPrepareCharge:   LDA.B #$03                                ;;C72D|C726+C726/C726\C726;
                       STA.W !SpriteMisc1602,X                   ;;C72F|C728+C728/C728\C728;
                       LDA.W !SpriteMisc1540,X                   ;;C732|C72B+C72B/C72B\C72B;
                       BNE +                                     ;;C735|C72E+C72E/C72E\C72E;
@@ -8730,7 +8730,7 @@ DATA_02C73D:          db $0A,$0B,$0A,$0C,$0D,$0C                ;;C744|C73D+C73D
                                                                 ;;                        ;
 DATA_02C743:          db $0C,$10,$10,$04,$08,$10,$18            ;;C74A|C743+C743/C743\C743;
                                                                 ;;                        ;
-CODE_02C74A:          LDY.W !SpriteMisc1570,X                   ;;C751|C74A+C74A/C74A\C74A;
+ChuckHurt:            LDY.W !SpriteMisc1570,X                   ;;C751|C74A+C74A/C74A\C74A;
                       LDA.W !SpriteMisc1540,X                   ;;C754|C74D+C74D/C74D\C74D;
                       BNE CODE_02C760                           ;;C757|C750+C750/C750\C750;
                       INC.W !SpriteMisc1570,X                   ;;C759|C752+C752/C752\C752;
@@ -8773,17 +8773,17 @@ CODE_02C794:          LDA.B #$0C                                ;;C79B|C794+C794
                                                                 ;;                        ;
                       db $F0,$10                                ;;C7A0|C799+C799/C799\C799;
                                                                 ;;                        ;
-DATA_02C79B:          db $20,$E0                                ;;C7A2|C79B+C79B/C79B\C79B;
+ChuckPlayerBounceSpd: db $20,$E0                                ;;C7A2|C79B+C79B/C79B\C79B;
                                                                 ;;                        ;
-CODE_02C79D:          LDA.W !SpriteMisc1564,X                   ;;C7A4|C79D+C79D/C79D\C79D;
-                      BNE Return02C80F                          ;;C7A7|C7A0+C7A0/C7A0\C7A0;
+ChuckInteract:        LDA.W !SpriteMisc1564,X                   ;;C7A4|C79D+C79D/C79D\C79D;
+                      BNE .return                               ;;C7A7|C7A0+C7A0/C7A0\C7A0;
                       JSL MarioSprInteract                      ;;C7A9|C7A2+C7A2/C7A2\C7A2;
-                      BCC Return02C80F                          ;;C7AD|C7A6+C7A6/C7A6\C7A6;
+                      BCC .return                               ;;C7AD|C7A6+C7A6/C7A6\C7A6;
                       LDA.W !InvinsibilityTimer                 ;;C7AF|C7A8+C7A8/C7A8\C7A8; \ Branch if Mario doesn't have star
-                      BEQ +                                     ;;C7B2|C7AB+C7AB/C7AB\C7AB; /
+                      BEQ .noStar                               ;;C7B2|C7AB+C7AB/C7AB\C7AB; /
                       LDA.B #$D0                                ;;C7B4|C7AD+C7AD/C7AD\C7AD;
                       STA.B !SpriteYSpeed,X                     ;;C7B6|C7AF+C7AF/C7AF\C7AF;
-CODE_02C7B1:          STZ.B !SpriteXSpeed,X                     ;;C7B8|C7B1+C7B1/C7B1\C7B1; Sprite X Speed = 0
+.killZeroXSpeed:      STZ.B !SpriteXSpeed,X                     ;;C7B8|C7B1+C7B1/C7B1\C7B1; Sprite X Speed = 0
                       LDA.B #$02                                ;;C7BA|C7B3+C7B3/C7B3\C7B3; \ Sprite status = Killed
                       STA.W !SpriteStatus,X                     ;;C7BC|C7B5+C7B5/C7B5\C7B5; /
                       LDA.B #!SFX_KICK                          ;;C7BF|C7B8+C7B8/C7B8\C7B8; \ Play sound effect
@@ -8792,10 +8792,10 @@ CODE_02C7B1:          STZ.B !SpriteXSpeed,X                     ;;C7B8|C7B1+C7B1
                       JSL GivePoints                            ;;C7C6|C7BF+C7BF/C7BF\C7BF;
                       RTS                                       ;;C7CA|C7C3+C7C3/C7C3\C7C3; Return
                                                                 ;;                        ;
-                    + JSR SubVertPosBnk2                        ;;C7CB|C7C4+C7C4/C7C4\C7C4;
+.noStar:              JSR SubVertPosBnk2                        ;;C7CB|C7C4+C7C4/C7C4\C7C4;
                       LDA.B !_E                                 ;;C7CE|C7C7+C7C7/C7C7\C7C7;
                       CMP.B #$EC                                ;;C7D0|C7C9+C7C9/C7C9\C7C9;
-                      BPL CODE_02C810                           ;;C7D2|C7CB+C7CB/C7CB\C7CB;
+                      BPL .chuckWins                            ;;C7D2|C7CB+C7CB/C7CB\C7CB;
                       LDA.B #$05                                ;;C7D4|C7CD+C7CD/C7CD\C7CD;
                       STA.W !SpriteMisc1564,X                   ;;C7D6|C7CF+C7CF/C7CF\C7CF;
                       LDA.B #!SFX_SPLAT                         ;;C7D9|C7D2+C7D2/C7D2\C7D2; \ Play sound effect
@@ -8805,15 +8805,15 @@ CODE_02C7B1:          STZ.B !SpriteXSpeed,X                     ;;C7B8|C7B1+C7B1
                       STZ.W !SpriteMisc163E,X                   ;;C7E6|C7DF+C7DF/C7DF\C7DF;
                       LDA.B !SpriteTableC2,X                    ;;C7E9|C7E2+C7E2/C7E2\C7E2;
                       CMP.B #$03                                ;;C7EB|C7E4+C7E4/C7E4\C7E4;
-                      BEQ Return02C80F                          ;;C7ED|C7E6+C7E6/C7E6\C7E6;
+                      BEQ .return                               ;;C7ED|C7E6+C7E6/C7E6\C7E6;
                       INC.W !SpriteMisc1528,X                   ;;C7EF|C7E8+C7E8/C7E8\C7E8; Increase Chuck stomp count
                       LDA.W !SpriteMisc1528,X                   ;;C7F2|C7EB+C7EB/C7EB\C7EB; \ Kill Chuck if stomp count >= 3
                       CMP.B #$03                                ;;C7F5|C7EE+C7EE/C7EE\C7EE;  |
-                      BCC CODE_02C7F6                           ;;C7F7|C7F0+C7F0/C7F0\C7F0;  |
+                      BCC .notDeadYet                           ;;C7F7|C7F0+C7F0/C7F0\C7F0;  |
                       STZ.B !SpriteYSpeed,X                     ;;C7F9|C7F2+C7F2/C7F2\C7F2;  | Sprite Y Speed = 0
-                      BRA CODE_02C7B1                           ;;C7FB|C7F4+C7F4/C7F4\C7F4; /
+                      BRA .killZeroXSpeed                       ;;C7FB|C7F4+C7F4/C7F4\C7F4; /
                                                                 ;;                        ;
-CODE_02C7F6:          LDA.B #!SFX_ENEMYHURT                     ;;C7FD|C7F6+C7F6/C7F6\C7F6; \ Play sound effect
+.notDeadYet:          LDA.B #!SFX_ENEMYHURT                     ;;C7FD|C7F6+C7F6/C7F6\C7F6; \ Play sound effect
                       STA.W !SPCIO3                             ;;C7FF|C7F8+C7F8/C7F8\C7F8; /
                       LDA.B #$03                                ;;C802|C7FB+C7FB/C7FB\C7FB;
                       STA.B !SpriteTableC2,X                    ;;C804|C7FD+C7FD/C7FD\C7FD;
@@ -8821,20 +8821,20 @@ CODE_02C7F6:          LDA.B #!SFX_ENEMYHURT                     ;;C7FD|C7F6+C7F6
                       STA.W !SpriteMisc1540,X                   ;;C808|C801+C801/C801\C801;
                       STZ.W !SpriteMisc1570,X                   ;;C80B|C804+C804/C804\C804;
                       JSR SubHorizPosBnk2                       ;;C80E|C807+C807/C807\C807;
-                      LDA.W DATA_02C79B,Y                       ;;C811|C80A+C80A/C80A\C80A;
+                      LDA.W ChuckPlayerBounceSpd,Y              ;;C811|C80A+C80A/C80A\C80A;
                       STA.B !PlayerXSpeed                       ;;C814|C80D+C80D/C80D\C80D;
-Return02C80F:         RTS                                       ;;C816|C80F+C80F/C80F\C80F; Return
+.return:              RTS                                       ;;C816|C80F+C80F/C80F\C80F;
                                                                 ;;                        ;
-CODE_02C810:          LDA.W !PlayerRidingYoshi                  ;;C817|C810+C810/C810\C810;
-                      BNE +                                     ;;C81A|C813+C813/C813\C813;
+.chuckWins:           LDA.W !PlayerRidingYoshi                  ;;C817|C810+C810/C810\C810;
+                      BNE .onYoshi                              ;;C81A|C813+C813/C813\C813;
                       JSL HurtMario                             ;;C81C|C815+C815/C815\C815;
-                    + RTS                                       ;;C820|C819+C819/C819\C819; Return
+.onYoshi:             RTS                                       ;;C820|C819+C819/C819\C819;
                                                                 ;;                        ;
 ChuckGraphics:        JSR GetDrawInfo2                          ;;C821|C81A+C81A/C81A\C81A;
                       JSR ChuckHeadGFXRt                        ;;C824|C81D+C81D/C81D\C81D;
                       JSR ChuckBodyGFXRt                        ;;C827|C820+C820/C820\C820;
-                      JSR CODE_02CA9D                           ;;C82A|C823+C823/C823\C823;
-                      JSR CODE_02CBA1                           ;;C82D|C826+C826/C826\C826;
+                      JSR ChuckAncillaryGFXRt                   ;;C82A|C823+C823/C823\C823; Clappin' chuck's clappin' hands, Pitchin' chuck's baseball, Chargin' Chucks shoulder tile
+                      JSR ChuckDigginGFXRt                      ;;C82D|C826+C826/C826\C826;
                       LDY.B #$FF                                ;;C830|C829+C829/C829\C829;
 CODE_02C82B:          LDA.B #$04                                ;;C832|C82B+C82B/C82B\C82B;
                       JMP CallFinOAMWriteBank2                  ;;C834|C82D+C82D/C82D\C82D;
@@ -9030,45 +9030,45 @@ ChuckBodyGFXRt:       STZ.B !_6                                 ;;CA32|CA27+CA27
                       RTS                                       ;;CAA5|CA92+CA92/CA92\CA92; Return
                                                                 ;;                        ;
                                                                 ;;                        ;
-DATA_02CA93:          db $FA,$00                                ;;CAA6|CA93+CA93/CA93\CA93;
+ClappinHandsXOff1:    db $FA,$00                                ;;CAA6|CA93+CA93/CA93\CA93;
                                                                 ;;                        ;
-DATA_02CA95:          db $0E,$00                                ;;CAA8|CA95+CA95/CA95\CA95;
+ClappinHandsXOff2:    db $0E,$00                                ;;CAA8|CA95+CA95/CA95\CA95;
                                                                 ;;                        ;
-ClappinChuckTiles:    db $0C,$44                                ;;CAAA|CA97+CA97/CA97\CA97;
+ClappinHandsTiles:    db $0C,$44                                ;;CAAA|CA97+CA97/CA97\CA97;
                                                                 ;;                        ;
-DATA_02CA99:          db $F8,$F0                                ;;CAAC|CA99+CA99/CA99\CA99;
+ClappinHandsYOff:     db $F8,$F0                                ;;CAAC|CA99+CA99/CA99\CA99;
                                                                 ;;                        ;
-DATA_02CA9B:          db $00,$02                                ;;CAAE|CA9B+CA9B/CA9B\CA9B;
+ClappinHandsTileSize: db $00,$02                                ;;CAAE|CA9B+CA9B/CA9B\CA9B;
                                                                 ;;                        ;
-CODE_02CA9D:          LDA.B !_4                                 ;;CAB0|CA9D+CA9D/CA9D\CA9D;
+ChuckAncillaryGFXRt:  LDA.B !_4                                 ;;CAB0|CA9D+CA9D/CA9D\CA9D;
                       CMP.B #$14                                ;;CAB2|CA9F+CA9F/CA9F\CA9F;
-                      BCC +                                     ;;CAB4|CAA1+CAA1/CAA1\CAA1;
-                      JMP CODE_02CB53                           ;;CAB6|CAA3+CAA3/CAA3\CAA3;
+                      BCC ChuckDrawClapHands                    ;;CAB4|CAA1+CAA1/CAA1\CAA1;
+                      JMP ChuckDrawBaseball                     ;;CAB6|CAA3+CAA3/CAA3\CAA3;
                                                                 ;;                        ;
-                    + CMP.B #$12                                ;;CAB9|CAA6+CAA6/CAA6\CAA6;
-                      BEQ CODE_02CAFC                           ;;CABB|CAA8+CAA8/CAA8\CAA8;
+ChuckDrawClapHands:   CMP.B #$12                                ;;CAB9|CAA6+CAA6/CAA6\CAA6;
+                      BEQ ChuckDrawShoulder                     ;;CABB|CAA8+CAA8/CAA8\CAA8;
                       CMP.B #$13                                ;;CABD|CAAA+CAAA/CAAA\CAAA;
-                      BEQ CODE_02CAFC                           ;;CABF|CAAC+CAAC/CAAC\CAAC;
+                      BEQ ChuckDrawShoulder                     ;;CABF|CAAC+CAAC/CAAC\CAAC;
                       SEC                                       ;;CAC1|CAAE+CAAE/CAAE\CAAE;
                       SBC.B #$06                                ;;CAC2|CAAF+CAAF/CAAF\CAAF;
                       CMP.B #$02                                ;;CAC4|CAB1+CAB1/CAB1\CAB1;
-                      BCS +                                     ;;CAC6|CAB3+CAB3/CAB3\CAB3;
+                      BCS .noDrawClappinHands                   ;;CAC6|CAB3+CAB3/CAB3\CAB3;
                       TAX                                       ;;CAC8|CAB5+CAB5/CAB5\CAB5;
                       LDY.B !_5                                 ;;CAC9|CAB6+CAB6/CAB6\CAB6;
                       LDA.B !_0                                 ;;CACB|CAB8+CAB8/CAB8\CAB8;
                       CLC                                       ;;CACD|CABA+CABA/CABA\CABA;
-                      %LorW_X(ADC,DATA_02CA93)                  ;;CACE|CABB+CABB/CABB\CABB;
+                      %LorW_X(ADC,ClappinHandsXOff1)            ;;CACE|CABB+CABB/CABB\CABB;
                       STA.W !OAMTileXPos+$100,Y                 ;;CAD2|CABE+CABE/CABE\CABE;
                       LDA.B !_0                                 ;;CAD5|CAC1+CAC1/CAC1\CAC1;
                       CLC                                       ;;CAD7|CAC3+CAC3/CAC3\CAC3;
-                      %LorW_X(ADC,DATA_02CA95)                  ;;CAD8|CAC4+CAC4/CAC4\CAC4;
+                      %LorW_X(ADC,ClappinHandsXOff2)            ;;CAD8|CAC4+CAC4/CAC4\CAC4;
                       STA.W !OAMTileXPos+$104,Y                 ;;CADC|CAC7+CAC7/CAC7\CAC7;
                       LDA.B !_1                                 ;;CADF|CACA+CACA/CACA\CACA;
                       CLC                                       ;;CAE1|CACC+CACC/CACC\CACC;
-                      %LorW_X(ADC,DATA_02CA99)                  ;;CAE2|CACD+CACD/CACD\CACD;
+                      %LorW_X(ADC,ClappinHandsYOff)             ;;CAE2|CACD+CACD/CACD\CACD;
                       STA.W !OAMTileYPos+$100,Y                 ;;CAE6|CAD0+CAD0/CAD0\CAD0;
                       STA.W !OAMTileYPos+$104,Y                 ;;CAE9|CAD3+CAD3/CAD3\CAD3;
-                      %LorW_X(LDA,ClappinChuckTiles)            ;;CAEC|CAD6+CAD6/CAD6\CAD6;
+                      %LorW_X(LDA,ClappinHandsTiles)            ;;CAEC|CAD6+CAD6/CAD6\CAD6;
                       STA.W !OAMTileNo+$100,Y                   ;;CAF0|CAD9+CAD9/CAD9\CAD9;
                       STA.W !OAMTileNo+$104,Y                   ;;CAF3|CADC+CADC/CADC\CADC;
                       LDA.B !_8                                 ;;CAF6|CADF+CADF/CADF\CADF;
@@ -9079,16 +9079,16 @@ CODE_02CA9D:          LDA.B !_4                                 ;;CAB0|CA9D+CA9D
                       LSR A                                     ;;CB01|CAEA+CAEA/CAEA\CAEA;
                       LSR A                                     ;;CB02|CAEB+CAEB/CAEB\CAEB;
                       TAY                                       ;;CB03|CAEC+CAEC/CAEC\CAEC;
-                      %LorW_X(LDA,DATA_02CA9B)                  ;;CB04|CAED+CAED/CAED\CAED;
+                      %LorW_X(LDA,ClappinHandsTileSize)         ;;CB04|CAED+CAED/CAED\CAED;
                       STA.W !OAMTileSize+$40,Y                  ;;CB08|CAF0+CAF0/CAF0\CAF0;
                       STA.W !OAMTileSize+$41,Y                  ;;CB0B|CAF3+CAF3/CAF3\CAF3;
                       LDX.W !CurSpriteProcess                   ;;CB0E|CAF6+CAF6/CAF6\CAF6; X = Sprite index
-                    + RTS                                       ;;CB11|CAF9+CAF9/CAF9\CAF9; Return
+.noDrawClappinHands:  RTS                                       ;;CB11|CAF9+CAF9/CAF9\CAF9; Return
                                                                 ;;                        ;
                                                                 ;;                        ;
-ChuckGfxProp:         db $47,$07                                ;;CB12|CAFA+CAFA/CAFA\CAFA;
+ChuckShoulderProps:   db $47,$07                                ;;CB12|CAFA+CAFA/CAFA\CAFA;
                                                                 ;;                        ;
-CODE_02CAFC:          LDY.B !_5                                 ;;CB14|CAFC+CAFC/CAFC\CAFC;
+ChuckDrawShoulder:    LDY.B !_5                                 ;;CB14|CAFC+CAFC/CAFC\CAFC;
                       LDA.W !SpriteMisc157C,X                   ;;CB16|CAFE+CAFE/CAFE\CAFE;
                       PHX                                       ;;CB19|CB01+CB01/CB01\CB01;
                       TAX                                       ;;CB1A|CB02+CB02/CB02\CB02;
@@ -9113,25 +9113,25 @@ CODE_02CAFC:          LDY.B !_5                                 ;;CB14|CAFC+CAFC
                       SBC.B #$08                                ;;CB3A|CB22+CB22/CB22\CB22;
                       STA.W !OAMTileYPos+$100,Y                 ;;CB3C|CB24+CB24/CB24\CB24;
                       STA.W !OAMTileYPos+$104,Y                 ;;CB3F|CB27+CB27/CB27\CB27;
-                      LDA.W ChuckGfxProp,X                      ;;CB42|CB2A+CB2A/CB2A\CB2A;
-CODE_02CB2D:          ORA.B !SpriteProperties                   ;;CB45|CB2D+CB2D/CB2D\CB2D;
+                      LDA.W ChuckShoulderProps,X                ;;CB42|CB2A+CB2A/CB2A\CB2A;
+                      ORA.B !SpriteProperties                   ;;CB45|CB2D+CB2D/CB2D\CB2D;
                       STA.W !OAMTileAttr+$100,Y                 ;;CB47|CB2F+CB2F/CB2F\CB2F;
                       STA.W !OAMTileAttr+$104,Y                 ;;CB4A|CB32+CB32/CB32\CB32;
                       TYA                                       ;;CB4D|CB35+CB35/CB35\CB35;
                       LSR A                                     ;;CB4E|CB36+CB36/CB36\CB36;
                       LSR A                                     ;;CB4F|CB37+CB37/CB37\CB37;
                       TAX                                       ;;CB50|CB38+CB38/CB38\CB38;
-CODE_02CB39:          STZ.W !OAMTileSize+$40,X                  ;;CB51|CB39+CB39/CB39\CB39;
+                      STZ.W !OAMTileSize+$40,X                  ;;CB51|CB39+CB39/CB39\CB39;
                       STZ.W !OAMTileSize+$41,X                  ;;CB54|CB3C+CB3C/CB3C\CB3C;
                       PLX                                       ;;CB57|CB3F+CB3F/CB3F\CB3F;
                       RTS                                       ;;CB58|CB40+CB40/CB40\CB40; Return
                                                                 ;;                        ;
                                                                 ;;                        ;
-ChuckBaseballOffs:    db $FA,$0A,$06,$00,$00,$01,$0E,$FE        ;;CB59|CB41+CB41/CB41\CB41;
-                      db $02,$00,$00,$09,$08,$F4,$F4,$00        ;;CB61|CB49+CB49/CB49\CB49;
-                      db $00,$F4                                ;;CB69|CB51+CB51/CB51\CB51;
+ChuckBaseballYXOffs:  db $FA,$0A,$06,$00,$00,$01,$0E,$FE        ;;CB59|CB41+CB41/CB41\CB41; \ TODO this is actually two tables, an X-off
+                      db $02,$00,$00,$09,$08,$F4,$F4,$00        ;;CB61|CB49+CB49/CB49\CB49; | table and a Y-off table.
+                      db $00,$F4                                ;;CB69|CB51+CB51/CB51\CB51; /
                                                                 ;;                        ;
-CODE_02CB53:          PHX                                       ;;CB6B|CB53+CB53/CB53\CB53;
+ChuckDrawBaseball:    PHX                                       ;;CB6B|CB53+CB53/CB53\CB53;
                       STA.B !_2                                 ;;CB6C|CB54+CB54/CB54\CB54;
                       LDY.W !SpriteMisc157C,X                   ;;CB6E|CB56+CB56/CB56\CB56;
                       BNE +                                     ;;CB71|CB59+CB59/CB59\CB59;
@@ -9144,11 +9144,11 @@ CODE_02CB53:          PHX                                       ;;CB6B|CB53+CB53
                       TAY                                       ;;CB7C|CB64+CB64/CB64\CB64;
                       LDA.B !_0                                 ;;CB7D|CB65+CB65/CB65\CB65;
                       CLC                                       ;;CB7F|CB67+CB67/CB67\CB67;
-                      ADC.W ChuckBaseballOffs-$14,X             ;;CB80|CB68+CB68/CB68\CB68;
+                      ADC.W ChuckBaseballYXOffs-$14,X           ;;CB80|CB68+CB68/CB68\CB68;
                       STA.W !OAMTileXPos+$100,Y                 ;;CB83|CB6B+CB6B/CB6B\CB6B;
                       LDX.B !_2                                 ;;CB86|CB6E+CB6E/CB6E\CB6E;
-                      LDA.W ChuckBaseballOffs-$08,X             ;;CB88|CB70+CB70/CB70\CB70;
-                      BEQ +                                     ;;CB8B|CB73+CB73/CB73\CB73;
+                      LDA.W ChuckBaseballYXOffs-$08,X           ;;CB88|CB70+CB70/CB70\CB70;
+                      BEQ .noDrawBaseball                       ;;CB8B|CB73+CB73/CB73\CB73;
                       CLC                                       ;;CB8D|CB75+CB75/CB75\CB75;
                       ADC.B !_1                                 ;;CB8E|CB76+CB76/CB76\CB76;
                       STA.W !OAMTileYPos+$100,Y                 ;;CB90|CB78+CB78/CB78\CB78;
@@ -9162,7 +9162,7 @@ CODE_02CB53:          PHX                                       ;;CB6B|CB53+CB53
                       LSR A                                     ;;CBA1|CB89+CB89/CB89\CB89;
                       TAX                                       ;;CBA2|CB8A+CB8A/CB8A\CB8A;
                       STZ.W !OAMTileSize+$40,X                  ;;CBA3|CB8B+CB8B/CB8B\CB8B;
-                    + PLX                                       ;;CBA6|CB8E+CB8E/CB8E\CB8E;
+.noDrawBaseball       PLX                                       ;;CBA6|CB8E+CB8E/CB8E\CB8E;
                       RTS                                       ;;CBA7|CB8F+CB8F/CB8F\CB8F; Return
                                                                 ;;                        ;
                                                                 ;;                        ;
@@ -9176,7 +9176,7 @@ DigChuckTiles:        db $CA,$E2,$A0                            ;;CBB3|CB9B+CB9B
                                                                 ;;                        ;
 DigChuckTileSize:     db $00,$02,$02                            ;;CBB6|CB9E+CB9E/CB9E\CB9E;
                                                                 ;;                        ;
-CODE_02CBA1:          LDA.B !SpriteNumber,X                     ;;CBB9|CBA1+CBA1/CBA1\CBA1;
+ChuckDigginGFXRt:     LDA.B !SpriteNumber,X                     ;;CBB9|CBA1+CBA1/CBA1\CBA1;
                       CMP.B #$46                                ;;CBBB|CBA3+CBA3/CBA3\CBA3;
                       BNE Return02CBFB                          ;;CBBD|CBA5+CBA5/CBA5\CBA5;
                       LDA.W !SpriteMisc1602,X                   ;;CBBF|CBA7+CBA7/CBA7\CBA7;
