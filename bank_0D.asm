@@ -1398,12 +1398,12 @@ GrasslandObjects:     SEP #$30                                  ;;A44B|A44B+A44B
                       dl CODE_0DB966                            ;;A4F7|A4F7+A4F7/A4F7\A4F7; 37
                       dl CODE_0DB91E                            ;;A4FA|A4FA+A4FA/A4FA\A4FA; 38
                       dl CODE_0DB73F                            ;;A4FD|A4FD+A4FD/A4FD\A4FD; 39
-                      dl CODE_0DB7AA                            ;;A500|A500+A500/A500\A500; 3A
-                      dl CODE_0DB863                            ;;A503|A503+A503/A503\A503; 3B
+                      dl LeftDiagLedgeObj                       ;;A500|A500+A500/A500\A500; 3A
+                      dl RightDiagLedgeObj                      ;;A503|A503+A503/A503\A503; 3B
                       dl CODE_0DB604                            ;;A506|A506+A506/A506\A506; 3C
                       dl CODE_0DB6C3                            ;;A509|A509+A509/A509\A509; 3D
                       dl ADDR_0DB705                            ;;A50C|A50C+A50C/A50C\A50C; 3E
-                      dl CODE_0DB5B7                            ;;A50F|A50F+A50F/A50F\A50F; 3F
+                      dl GrasslandBushObjs                      ;;A50F|A50F+A50F/A50F\A50F; 3F
                                                                 ;;                        ;
 ScreenExitExtObj:     LDY.B #$00                                ;;A512|A512+A512/A512\A512;
                       LDA.B [!Layer1DataPtr],Y                  ;;A514|A514+A514/A514\A514;
@@ -3516,7 +3516,7 @@ DATA_0DB5AD:          db $74,$7B,$86,$89,$C3                    ;;B5AC|B5AD+B5AD
                                                                 ;;                        ;
 DATA_0DB5B2:          db $79,$80,$87,$8E,$C3                    ;;B5B1|B5B2+B5B2/B5B2\B5B2;
                                                                 ;;                        ;
-CODE_0DB5B7:          LDY.B !LevelLoadPos                       ;;B5B6|B5B7+B5B7/B5B7\B5B7;
+GrasslandBushObjs:    LDY.B !LevelLoadPos                       ;;B5B6|B5B7+B5B7/B5B7\B5B7;
                       LDA.B !LvlLoadObjSize                     ;;B5B8|B5B9+B5B9/B5B9\B5B9;
                       AND.B #$0F                                ;;B5BA|B5BB+B5BB/B5BB\B5BB;
                       STA.B !_0                                 ;;B5BC|B5BD+B5BD/B5BD\B5BD;
@@ -3745,7 +3745,7 @@ CODE_0DB79F:          JSR ShiftObjRight                         ;;B79E|B79F+B79F
                       STA.B [!Map16LowPtr],Y                    ;;B7A6|B7A7+B7A7/B7A7\B7A7;
                       RTS                                       ;;B7A8|B7A9+B7A9/B7A9\B7A9; Return
                                                                 ;;                        ;
-CODE_0DB7AA:          LDY.B !LevelLoadPos                       ;;B7A9|B7AA+B7AA/B7AA\B7AA;
+LeftDiagLedgeObj:     LDY.B !LevelLoadPos                       ;;B7A9|B7AA+B7AA/B7AA\B7AA;
                       LDA.B !LvlLoadObjSize                     ;;B7AB|B7AC+B7AC/B7AC\B7AC;
                       AND.B #$0F                                ;;B7AD|B7AE+B7AE/B7AE\B7AE;
                       STA.B !_0                                 ;;B7AF|B7B0+B7B0/B7B0\B7B0;
@@ -3832,7 +3832,7 @@ CODE_0DB84E:          STA.B !_F                                 ;;B84E|B84E+B84E
 CODE_0DB85E:          LDA.B !_F                                 ;;B85E|B85E+B85E/B85E\B85E;
                       JMP StoreLoShiftObjRight                  ;;B860|B860+B860/B860\B860;
                                                                 ;;                        ;
-CODE_0DB863:          LDY.B !LevelLoadPos                       ;;B863|B863+B863/B863\B863;
+RightDiagLedgeObj:    LDY.B !LevelLoadPos                       ;;B863|B863+B863/B863\B863;
                       LDA.B !LvlLoadObjSize                     ;;B865|B865+B865/B865\B865;
                       AND.B #$0F                                ;;B867|B867+B867/B867\B867;
                       STA.B !_0                                 ;;B869|B869+B869/B869\B869;

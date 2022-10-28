@@ -5835,9 +5835,9 @@ CODE_00B8D7:          LDA.W #$8000                              ;;B877|B8D7+B8E7
 CODE_00B8DE:          REP #$10                                  ;;B87E|B8DE+B8EE/B8F1\B8F1; Index (16 bit)
                       LDY.W #$0000                              ;;B880|B8E0+B8F0/B8F3\B8F3; \
 CODE_00B8E3:          JSR ReadByte                              ;;B883|B8E3+B8F3/B8F6\B8F6;  |
-                      CMP.B #$FF                                ;;B886|B8E6+B8F6/B8F9\B8F9;  |If the next byte is xFF, return.
-                      BNE +                                     ;;B888|B8E8+B8F8/B8FB\B8FB;  |Compressed graphics files ends with xFF IIRC
-                      SEP #$10                                  ;;B88A|B8EA+B8FA/B8FD\B8FD;  | ; Index (8 bit)
+                      CMP.B #$FF                                ;;B886|B8E6+B8F6/B8F9\B8F9;  | If the next byte is xFF, return.
+                      BNE +                                     ;;B888|B8E8+B8F8/B8FB\B8FB;  | Compressed graphics files ends with xFF
+                      SEP #$10                                  ;;B88A|B8EA+B8FA/B8FD\B8FD;  | Index (8 bit)
                       RTS                                       ;;B88C|B8EC+B8FC/B8FF\B8FF; /
                                                                 ;;                        ;
                     + STA.B !GraphicsUncompPtr+2                ;;B88D|B8ED+B8FD/B900\B900;
@@ -6106,13 +6106,13 @@ CODE_00BA28:          PHB                                       ;;B9C9|BA28+BA38
                       STA.B !GraphicsCompPtr+1                  ;;B9D5|BA34+BA44/BA47\BA48;
                       LDA.W GFXFilesBank,Y                      ;;B9D7|BA36+BA46/BA49\BA4A;
                       STA.B !GraphicsCompPtr+2                  ;;B9DA|BA39+BA49/BA4C\BA4D;
-                      LDA.B #$00                                ;;B9DC|BA3B+BA4B/BA4E\BA4F;
-                      STA.B !_0                                 ;;B9DE|BA3D+BA4D/BA50\BA51;
-                      LDA.B #$AD                                ;;B9E0|BA3F+BA4F/BA52\BA53;
-                      STA.B !_1                                 ;;B9E2|BA41+BA51/BA54\BA55;
-                      LDA.B #$7E                                ;;B9E4|BA43+BA53/BA56\BA57;
-                      STA.B !_2                                 ;;B9E6|BA45+BA55/BA58\BA59;
-                      JSR CODE_00B8DE                           ;;B9E8|BA47+BA57/BA5A\BA5B;
+                      LDA.B #$00                                ;;B9DC|BA3B+BA4B/BA4E\BA4F; \
+                      STA.B !_0                                 ;;B9DE|BA3D+BA4D/BA50\BA51; | $7EAD00: 4kb buffer: gfx decompression destination
+                      LDA.B #$AD                                ;;B9E0|BA3F+BA4F/BA52\BA53; | Stored in $00
+                      STA.B !_1                                 ;;B9E2|BA41+BA51/BA54\BA55; |
+                      LDA.B #$7E                                ;;B9E4|BA43+BA53/BA56\BA57; |
+                      STA.B !_2                                 ;;B9E6|BA45+BA55/BA58\BA59; |
+                      JSR CODE_00B8DE                           ;;B9E8|BA47+BA57/BA5A\BA5B; /
                       PLY                                       ;;B9EB|BA4A+BA5A/BA5D\BA5E;
                       PLB                                       ;;B9EC|BA4B+BA5B/BA5E\BA5F;
                       RTL                                       ;;B9ED|BA4C+BA5C/BA5F\BA60; Return

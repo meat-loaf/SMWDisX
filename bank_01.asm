@@ -6775,17 +6775,17 @@ TurnBlkBridgeSpeed:   db $01,$FF                                ;;B6A2|B6A1+B6A1
 BlkBridgeTiming:      db $40,$40                                ;;B6A4|B6A3+B6A3/B6A3\B6AA;
                                                                 ;;                        ;
 TurnBlockBridge:      JSR SubOffscreen0Bnk1                     ;;B6A6|B6A5+B6A5/B6A5\B6AC;
-                      JSR CODE_01B710                           ;;B6A9|B6A8+B6A8/B6A8\B6AF;
-                      JSR CODE_01B852                           ;;B6AC|B6AB+B6AB/B6AB\B6B2;
-                      JSR CODE_01B6B2                           ;;B6AF|B6AE+B6AE/B6AE\B6B5;
+                      JSR TurnBlockBridgeGFX                    ;;B6A9|B6A8+B6A8/B6A8\B6AF;
+                      JSR TrnBlkBridgeInteract                  ;;B6AC|B6AB+B6AB/B6AB\B6B2;
+                      JSR .handlePhase                          ;;B6AF|B6AE+B6AE/B6AE\B6B5;
                       RTS                                       ;;B6B2|B6B1+B6B1/B6B1\B6B8; Return
                                                                 ;;                        ;
-CODE_01B6B2:          LDA.B !SpriteTableC2,X                    ;;B6B3|B6B2+B6B2/B6B2\B6B9;
+.handlePhase:         LDA.B !SpriteTableC2,X                    ;;B6B3|B6B2+B6B2/B6B2\B6B9;
                       AND.B #$01                                ;;B6B5|B6B4+B6B4/B6B4\B6BB;
                       TAY                                       ;;B6B7|B6B6+B6B6/B6B6\B6BD;
                       LDA.W !SpriteMisc151C,X                   ;;B6B8|B6B7+B6B7/B6B7\B6BE;
                       CMP.W BlkBridgeLength,Y                   ;;B6BB|B6BA+B6BA/B6BA\B6C1;
-                      BEQ CODE_01B6D1                           ;;B6BE|B6BD+B6BD/B6BD\B6C4;
+                      BEQ .nextPhase                            ;;B6BE|B6BD+B6BD/B6BD\B6C4;
                       LDA.W !SpriteMisc1540,X                   ;;B6C0|B6BF+B6BF/B6BF\B6C6;
                       ORA.B !SpriteLock                         ;;B6C3|B6C2+B6C2/B6C2\B6C9;
                       BNE +                                     ;;B6C5|B6C4+B6C4/B6C4\B6CB;
@@ -6795,21 +6795,21 @@ CODE_01B6B2:          LDA.B !SpriteTableC2,X                    ;;B6B3|B6B2+B6B2
                       STA.W !SpriteMisc151C,X                   ;;B6CE|B6CD+B6CD/B6CD\B6D4;
                     + RTS                                       ;;B6D1|B6D0+B6D0/B6D0\B6D7; Return
                                                                 ;;                        ;
-CODE_01B6D1:          LDA.W BlkBridgeTiming,Y                   ;;B6D2|B6D1+B6D1/B6D1\B6D8;
+.nextPhase:           LDA.W BlkBridgeTiming,Y                   ;;B6D2|B6D1+B6D1/B6D1\B6D8;
                       STA.W !SpriteMisc1540,X                   ;;B6D5|B6D4+B6D4/B6D4\B6DB;
                       INC.B !SpriteTableC2,X                    ;;B6D8|B6D7+B6D7/B6D7\B6DE;
                       RTS                                       ;;B6DA|B6D9+B6D9/B6D9\B6E0; Return
                                                                 ;;                        ;
 HorzTurnBlkBridge:    JSR SubOffscreen0Bnk1                     ;;B6DB|B6DA+B6DA/B6DA\B6E1;
-                      JSR CODE_01B710                           ;;B6DE|B6DD+B6DD/B6DD\B6E4;
-                      JSR CODE_01B852                           ;;B6E1|B6E0+B6E0/B6E0\B6E7;
-                      JSR CODE_01B6E7                           ;;B6E4|B6E3+B6E3/B6E3\B6EA;
+                      JSR TurnBlockBridgeGFX                    ;;B6DE|B6DD+B6DD/B6DD\B6E4;
+                      JSR TrnBlkBridgeInteract                  ;;B6E1|B6E0+B6E0/B6E0\B6E7;
+                      JSR .handlePhase                          ;;B6E4|B6E3+B6E3/B6E3\B6EA;
                       RTS                                       ;;B6E7|B6E6+B6E6/B6E6\B6ED; Return
                                                                 ;;                        ;
-CODE_01B6E7:          LDY.B !SpriteTableC2,X                    ;;B6E8|B6E7+B6E7/B6E7\B6EE;
+.handlePhase:         LDY.B !SpriteTableC2,X                    ;;B6E8|B6E7+B6E7/B6E7\B6EE;
                       LDA.W !SpriteMisc151C,X                   ;;B6EA|B6E9+B6E9/B6E9\B6F0;
                       CMP.W BlkBridgeLength,Y                   ;;B6ED|B6EC+B6EC/B6EC\B6F3;
-                      BEQ CODE_01B703                           ;;B6F0|B6EF+B6EF/B6EF\B6F6;
+                      BEQ .nextPhase                            ;;B6F0|B6EF+B6EF/B6EF\B6F6;
                       LDA.W !SpriteMisc1540,X                   ;;B6F2|B6F1+B6F1/B6F1\B6F8;
                       ORA.B !SpriteLock                         ;;B6F5|B6F4+B6F4/B6F4\B6FB;
                       BNE +                                     ;;B6F7|B6F6+B6F6/B6F6\B6FD;
@@ -6819,14 +6819,14 @@ CODE_01B6E7:          LDY.B !SpriteTableC2,X                    ;;B6E8|B6E7+B6E7
                       STA.W !SpriteMisc151C,X                   ;;B700|B6FF+B6FF/B6FF\B706;
                     + RTS                                       ;;B703|B702+B702/B702\B709; Return
                                                                 ;;                        ;
-CODE_01B703:          LDA.W BlkBridgeTiming,Y                   ;;B704|B703+B703/B703\B70A;
+.nextPhase:           LDA.W BlkBridgeTiming,Y                   ;;B704|B703+B703/B703\B70A;
                       STA.W !SpriteMisc1540,X                   ;;B707|B706+B706/B706\B70D;
                       LDA.B !SpriteTableC2,X                    ;;B70A|B709+B709/B709\B710;
                       EOR.B #$01                                ;;B70C|B70B+B70B/B70B\B712;
                       STA.B !SpriteTableC2,X                    ;;B70E|B70D+B70D/B70D\B714;
                       RTS                                       ;;B710|B70F+B70F/B70F\B716; Return
                                                                 ;;                        ;
-CODE_01B710:          JSR GetDrawInfoBnk1                       ;;B711|B710+B710/B710\B717;
+TurnBlockBridgeGFX:   JSR GetDrawInfoBnk1                       ;;B711|B710+B710/B710\B717;
                       STZ.B !_0                                 ;;B714|B713+B713/B713\B71A;
                       STZ.B !_1                                 ;;B716|B715+B715/B715\B71C;
                       STZ.B !_2                                 ;;B718|B717+B717/B717\B71E;
@@ -6918,83 +6918,83 @@ FinishOAMWrite:       PHB                                       ;;B7B4|B7B3+B7B3
                       PLB                                       ;;B7BA|B7B9+B7B9/B7B9\B7C0;
                       RTL                                       ;;B7BB|B7BA+B7BA/B7BA\B7C1; Return
                                                                 ;;                        ;
-FinishOAMWriteRt:     STY.B !_B                                 ;;B7BC|B7BB+B7BB/B7BB\B7C2;
-                      STA.B !_8                                 ;;B7BE|B7BD+B7BD/B7BD\B7C4;
-                      LDY.W !SpriteOAMIndex,X                   ;;B7C0|B7BF+B7BF/B7BF\B7C6; Y = Index into sprite OAM
+FinishOAMWriteRt:     STY.B !_B                                 ;;B7BC|B7BB+B7BB/B7BB\B7C2; $0B = tile size (shall be $00 or $02)
+                      STA.B !_8                                 ;;B7BE|B7BD+B7BD/B7BD\B7C4; $08 = number of tiles to draw - 1
+                      LDY.W !SpriteOAMIndex,X                   ;;B7C0|B7BF+B7BF/B7BF\B7C6;
                       LDA.B !SpriteYPosLow,X                    ;;B7C3|B7C2+B7C2/B7C2\B7C9;
-                      STA.B !_0                                 ;;B7C5|B7C4+B7C4/B7C4\B7CB;
+                      STA.B !_0                                 ;;B7C5|B7C4+B7C4/B7C4\B7CB; $00 = Sprite Y low
                       SEC                                       ;;B7C7|B7C6+B7C6/B7C6\B7CD;
                       SBC.B !Layer1YPos                         ;;B7C8|B7C7+B7C7/B7C7\B7CE;
-                      STA.B !_6                                 ;;B7CA|B7C9+B7C9/B7C9\B7D0;
+                      STA.B !_6                                 ;;B7CA|B7C9+B7C9/B7C9\B7D0; $06 = Sprite Y low - Layer 1 Y low
                       LDA.W !SpriteXPosHigh,X                   ;;B7CC|B7CB+B7CB/B7CB\B7D2;
-                      STA.B !_1                                 ;;B7CF|B7CE+B7CE/B7CE\B7D5;
+                      STA.B !_1                                 ;;B7CF|B7CE+B7CE/B7CE\B7D5; $01 = Sprite X hi
                       LDA.B !SpriteXPosLow,X                    ;;B7D1|B7D0+B7D0/B7D0\B7D7;
-                      STA.B !_2                                 ;;B7D3|B7D2+B7D2/B7D2\B7D9;
+                      STA.B !_2                                 ;;B7D3|B7D2+B7D2/B7D2\B7D9; $02 = Sprite X low
                       SEC                                       ;;B7D5|B7D4+B7D4/B7D4\B7DB;
                       SBC.B !Layer1XPos                         ;;B7D6|B7D5+B7D5/B7D5\B7DC;
-                      STA.B !_7                                 ;;B7D8|B7D7+B7D7/B7D7\B7DE;
+                      STA.B !_7                                 ;;B7D8|B7D7+B7D7/B7D7\B7DE; $07 = Sprite X low - Layer 1 X low
                       LDA.W !SpriteYPosHigh,X                   ;;B7DA|B7D9+B7D9/B7D9\B7E0;
-                      STA.B !_3                                 ;;B7DD|B7DC+B7DC/B7DC\B7E3;
-CODE_01B7DE:          TYA                                       ;;B7DF|B7DE+B7DE/B7DE\B7E5;
+                      STA.B !_3                                 ;;B7DD|B7DC+B7DC/B7DC\B7E3; $03 = Sprite Y hi
+.tileLoop:            TYA                                       ;;B7DF|B7DE+B7DE/B7DE\B7E5;
                       LSR A                                     ;;B7E0|B7DF+B7DF/B7DF\B7E6;
                       LSR A                                     ;;B7E1|B7E0+B7E0/B7E0\B7E7;
-                      TAX                                       ;;B7E2|B7E1+B7E1/B7E1\B7E8;
+                      TAX                                       ;;B7E2|B7E1+B7E1/B7E1\B7E8; X = index to OAM tilesize mirror
                       LDA.B !_B                                 ;;B7E3|B7E2+B7E2/B7E2\B7E9;
-                      BPL CODE_01B7F0                           ;;B7E5|B7E4+B7E4/B7E4\B7EB;
-                      LDA.W !OAMTileSize+$40,X                  ;;B7E7|B7E6+B7E6/B7E6\B7ED;
-                      AND.B #$02                                ;;B7EA|B7E9+B7E9/B7E9\B7F0;
-                      STA.W !OAMTileSize+$40,X                  ;;B7EC|B7EB+B7EB/B7EB\B7F2;
-                      BRA +                                     ;;B7EF|B7EE+B7EE/B7EE\B7F5;
+                      BPL .setTileSize                          ;;B7E5|B7E4+B7E4/B7E4\B7EB; Sign bit set on size indicates manually set by calling routine (usually $FF)
+                      LDA.W !OAMTileSize+$40,X                  ;;B7E7|B7E6+B7E6/B7E6\B7ED; \
+                      AND.B #$02                                ;;B7EA|B7E9+B7E9/B7E9\B7F0; | Manual tile size: clear x high bit
+                      STA.W !OAMTileSize+$40,X                  ;;B7EC|B7EB+B7EB/B7EB\B7F2; /
+                      BRA .manualTileSizeDone                   ;;B7EF|B7EE+B7EE/B7EE\B7F5;
                                                                 ;;                        ;
-CODE_01B7F0:          STA.W !OAMTileSize+$40,X                  ;;B7F1|B7F0+B7F0/B7F0\B7F7;
-                    + LDX.B #$00                                ;;B7F4|B7F3+B7F3/B7F3\B7FA;
+.setTileSize:         STA.W !OAMTileSize+$40,X                  ;;B7F1|B7F0+B7F0/B7F0\B7F7;
+.manualTileSizeDone:  LDX.B #$00                                ;;B7F4|B7F3+B7F3/B7F3\B7FA;
                       LDA.W !OAMTileXPos+$100,Y                 ;;B7F6|B7F5+B7F5/B7F5\B7FC;
-                      SEC                                       ;;B7F9|B7F8+B7F8/B7F8\B7FF;
+                      SEC                                       ;;B7F9|B7F8+B7F8/B7F8\B7FF; $07 = OAM Tile Xpos - $07
                       SBC.B !_7                                 ;;B7FA|B7F9+B7F9/B7F9\B800;
-                      BPL +                                     ;;B7FC|B7FB+B7FB/B7FB\B802;
+                      BPL .XTileLoCalcNoCarry                   ;;B7FC|B7FB+B7FB/B7FB\B802;
                       DEX                                       ;;B7FE|B7FD+B7FD/B7FD\B804;
-                    + CLC                                       ;;B7FF|B7FE+B7FE/B7FE\B805;
-                      ADC.B !_2                                 ;;B800|B7FF+B7FF/B7FF\B806;
-                      STA.B !_4                                 ;;B802|B801+B801/B801\B808;
-                      TXA                                       ;;B804|B803+B803/B803\B80A;
-                      ADC.B !_3                                 ;;B805|B804+B804/B804\B80B;
-                      STA.B !_5                                 ;;B807|B806+B806/B806\B80D;
-                      JSR CODE_01B844                           ;;B809|B808+B808/B808\B80F;
-                      BCC +                                     ;;B80C|B80B+B80B/B80B\B812;
-                      TYA                                       ;;B80E|B80D+B80D/B80D\B814;
+.XTileLoCalcNoCarry:  CLC                                       ;;B7FF|B7FE+B7FE/B7FE\B805;
+                      ADC.B !_2                                 ;;B800|B7FF+B7FF/B7FF\B806; \ $04 = $07 + Sprite X low
+                      STA.B !_4                                 ;;B802|B801+B801/B801\B808; /
+                      TXA                                       ;;B804|B803+B803/B803\B80A; A = $FF or $00 depending on result of previous calc of $07 (oam tile x - (sprite x - layer 1 x))
+                      ADC.B !_3                                 ;;B805|B804+B804/B804\B80B; \ $05 = ($FF or $00) + $03 (sprite Y hi) + carry
+                      STA.B !_5                                 ;;B807|B806+B806/B806\B80D; / (we have calculated the 'absolute' 16-bit X position of the OAM tile in $04-$05)
+                      JSR CheckTileOffscreenX                   ;;B809|B808+B808/B808\B80F;
+                      BCC .XOnscreen                            ;;B80C|B80B+B80B/B80B\B812;
+                      TYA                                       ;;B80E|B80D+B80D/B80D\B814; Tile is offscreen, set 'high' x bit to hide it
                       LSR A                                     ;;B80F|B80E+B80E/B80E\B815;
                       LSR A                                     ;;B810|B80F+B80F/B80F\B816;
                       TAX                                       ;;B811|B810+B810/B810\B817;
                       LDA.W !OAMTileSize+$40,X                  ;;B812|B811+B811/B811\B818;
                       ORA.B #$01                                ;;B815|B814+B814/B814\B81B;
                       STA.W !OAMTileSize+$40,X                  ;;B817|B816+B816/B816\B81D;
-                    + LDX.B #$00                                ;;B81A|B819+B819/B819\B820;
+.XOnscreen:           LDX.B #$00                                ;;B81A|B819+B819/B819\B820;
                       LDA.W !OAMTileYPos+$100,Y                 ;;B81C|B81B+B81B/B81B\B822;
                       SEC                                       ;;B81F|B81E+B81E/B81E\B825;
                       SBC.B !_6                                 ;;B820|B81F+B81F/B81F\B826;
-                      BPL +                                     ;;B822|B821+B821/B821\B828;
+                      BPL .YTileLoCalcNoCarry                   ;;B822|B821+B821/B821\B828;
                       DEX                                       ;;B824|B823+B823/B823\B82A;
-                    + CLC                                       ;;B825|B824+B824/B824\B82B;
+.YTileLoCalcNoCarry:  CLC                                       ;;B825|B824+B824/B824\B82B;
                       ADC.B !_0                                 ;;B826|B825+B825/B825\B82C;
                       STA.B !_9                                 ;;B828|B827+B827/B827\B82E;
                       TXA                                       ;;B82A|B829+B829/B829\B830;
                       ADC.B !_1                                 ;;B82B|B82A+B82A/B82A\B831;
                       STA.B !_A                                 ;;B82D|B82C+B82C/B82C\B833;
-                      JSR CODE_01C9BF                           ;;B82F|B82E+B82E/B82E\B835;
-                      BCC +                                     ;;B832|B831+B831/B831\B838;
-                      LDA.B #$F0                                ;;B834|B833+B833/B833\B83A;
+                      JSR CheckTileOffscreenY                   ;;B82F|B82E+B82E/B82E\B835;
+                      BCC .YOnscreen                            ;;B832|B831+B831/B831\B838;
+                      LDA.B #$F0                                ;;B834|B833+B833/B833\B83A; Tile is offscreen, set Y position to $F0 to hide it
                       STA.W !OAMTileYPos+$100,Y                 ;;B836|B835+B835/B835\B83C;
-                    + INY                                       ;;B839|B838+B838/B838\B83F;
+.YOnscreen:           INY                                       ;;B839|B838+B838/B838\B83F;
                       INY                                       ;;B83A|B839+B839/B839\B840;
                       INY                                       ;;B83B|B83A+B83A/B83A\B841;
                       INY                                       ;;B83C|B83B+B83B/B83B\B842;
                       DEC.B !_8                                 ;;B83D|B83C+B83C/B83C\B843;
-                      BPL CODE_01B7DE                           ;;B83F|B83E+B83E/B83E\B845;
-                      LDX.W !CurSpriteProcess                   ;;B841|B840+B840/B840\B847; X = Sprite index
-                      RTS                                       ;;B844|B843+B843/B843\B84A; Return
+                      BPL .tileLoop                             ;;B83F|B83E+B83E/B83E\B845;
+                      LDX.W !CurSpriteProcess                   ;;B841|B840+B840/B840\B847;
+                      RTS                                       ;;B844|B843+B843/B843\B84A;
                                                                 ;;                        ;
-CODE_01B844:          REP #$20                                  ;;B845|B844+B844/B844\B84B; Accum (16 bit)
-                      LDA.B !_4                                 ;;B847|B846+B846/B846\B84D;
+CheckTileOffscreenX:  REP #$20                                  ;;B845|B844+B844/B844\B84B; Accum (16 bit)
+                      LDA.B !_4                                 ;;B847|B846+B846/B846\B84D; $04 = calculated (absolute) 16-bit X position of OAM tile
                       SEC                                       ;;B849|B848+B848/B848\B84F;
                       SBC.B !Layer1XPos                         ;;B84A|B849+B849/B849\B850;
                       CMP.W #$0100                              ;;B84C|B84B+B84B/B84B\B852;
@@ -7003,7 +7003,7 @@ CODE_01B844:          REP #$20                                  ;;B845|B844+B844
                                                                 ;;                        ;
                       RTS                                       ;;B852|B851+B851/B851\B858;
                                                                 ;;                        ;
-CODE_01B852:          LDA.W !SpriteWayOffscreenX,X              ;;B853|B852+B852/B852\B859;
+TrnBlkBridgeInteract: LDA.W !SpriteWayOffscreenX,X              ;;B853|B852+B852/B852\B859;
                       BNE Return01B8B1                          ;;B856|B855+B855/B855\B85C;
                       LDA.B !PlayerAnimation                    ;;B858|B857+B857/B857\B85E;
                       CMP.B #$01                                ;;B85A|B859+B859/B859\B860;
@@ -9131,7 +9131,7 @@ CODE_01C934:          TYA                                       ;;C940|C934+C934
                       TXA                                       ;;C959|C94D+C94D/C950\C957;
                       ADC.B !_3                                 ;;C95A|C94E+C94E/C951\C958;
                       STA.B !_5                                 ;;C95C|C950+C950/C953\C95A;
-                      JSR CODE_01B844                           ;;C95E|C952+C952/C955\C95C;
+                      JSR CheckTileOffscreenX                   ;;C95E|C952+C952/C955\C95C;
                       BCC +                                     ;;C961|C955+C955/C958\C95F;
                       TYA                                       ;;C963|C957+C957/C95A\C961;
                       LSR A                                     ;;C964|C958+C958/C95B\C962;
@@ -9151,7 +9151,7 @@ CODE_01C934:          TYA                                       ;;C940|C934+C934
                       TXA                                       ;;C97C|C970+C970/C973\C97A;
                       ADC.B !_1                                 ;;C97D|C971+C971/C974\C97B;
                       STA.B !_A                                 ;;C97F|C973+C973/C976\C97D;
-                      JSR CODE_01C9BF                           ;;C981|C975+C975/C978\C97F;
+                      JSR CheckTileOffscreenY                   ;;C981|C975+C975/C978\C97F;
                       BCC +                                     ;;C984|C978+C978/C97B\C982;
                       LDA.B #$F0                                ;;C986|C97A+C97A/C97D\C984;
                       STA.W !OAMTileYPos+$100,Y                 ;;C988|C97C+C97C/C97F\C986;
@@ -9188,7 +9188,7 @@ BrwnChainPlatOffs:    db $E0,$F0,$00,$10                        ;;C9C3|C9B7+C9B7
                                                                 ;;                        ;
 BrwnChainPlatTiles:   db $60,$61,$61,$62                        ;;C9C7|C9BB+C9BB/C9BE\C9C5;
                                                                 ;;                        ;
-CODE_01C9BF:          REP #$20                                  ;;C9CB|C9BF+C9BF/C9C2\C9C9; Accum (16 bit)
+CheckTileOffscreenY:  REP #$20                                  ;;C9CB|C9BF+C9BF/C9C2\C9C9; Accum (16 bit)
                       LDA.B !_9                                 ;;C9CD|C9C1+C9C1/C9C4\C9CB;
                       PHA                                       ;;C9CF|C9C3+C9C3/C9C6\C9CD;
                       CLC                                       ;;C9D0|C9C4+C9C4/C9C7\C9CE;
@@ -14259,9 +14259,9 @@ CODE_01F373:          LDA.B #$00                                ;;F376|F373+F373
                       BNE +                                     ;;F393|F390+F390/F390\F390;
                       LDA.B #$74                                ;;F395|F392+F392/F392\F392; \ Sprite = Mushroom
                       STA.W !SpriteNumber,Y                     ;;F397|F394+F394/F394\F394; /
-                      LDA.W !SpriteTweaker167A,Y                   ;;F39A|F397+F397/F397\F397; \ Set "Gives powerup when eaten" bit
+                      LDA.W !SpriteTweaker167A,Y                ;;F39A|F397+F397/F397\F397; \ Set "Gives powerup when eaten" bit
                       ORA.B #$40                                ;;F39D|F39A+F39A/F39A\F39A;  |
-                      STA.W !SpriteTweaker167A,Y                   ;;F39F|F39C+F39C/F39C\F39C; /
+                      STA.W !SpriteTweaker167A,Y                ;;F39F|F39C+F39C/F39C\F39C; /
                     + LDA.W !SpriteNumber,Y                     ;;F3A2|F39F+F39F/F39F\F39F; \ Branch if not Changing Item
                       CMP.B #$81                                ;;F3A5|F3A2+F3A2/F3A2\F3A2;  |
                       BNE +                                     ;;F3A7|F3A4+F3A4/F3A4\F3A4; /
@@ -14279,7 +14279,7 @@ CODE_01F373:          LDA.B #$00                                ;;F376|F373+F373
                       STA.W !SpriteNumber,Y                     ;;F3BA|F3B7+F3B7/F3B7\F3B7;
                     + PHA                                       ;;F3BD|F3BA+F3BA/F3BA\F3BA;
                       LDY.B !_0                                 ;;F3BE|F3BB+F3BB/F3BB\F3BB;
-                      LDA.W !SpriteTweaker167A,Y                   ;;F3C0|F3BD+F3BD/F3BD\F3BD;
+                      LDA.W !SpriteTweaker167A,Y                ;;F3C0|F3BD+F3BD/F3BD\F3BD;
                       ASL A                                     ;;F3C3|F3C0+F3C0/F3C0\F3C0;
                       ASL A                                     ;;F3C4|F3C1+F3C1/F3C1\F3C1;
                       PLA                                       ;;F3C5|F3C2+F3C2/F3C2\F3C2;
@@ -14610,7 +14610,7 @@ CODE_01F62B:          STY.W !SpriteInterIndex                   ;;F62E|F62B+F62B
                       LDA.W !SpriteStatus,Y                     ;;F64D|F64A+F64A/F64A\F64A;
                       CMP.B #$09                                ;;F650|F64D+F64D/F64D\F64D;
                       BEQ +                                     ;;F652|F64F+F64F/F64F\F64F;
-                      LDA.W !SpriteTweaker167A,Y                   ;;F654|F651+F651/F651\F651;
+                      LDA.W !SpriteTweaker167A,Y                ;;F654|F651+F651/F651\F651;
                       AND.B #$02                                ;;F657|F654+F654/F654\F654;
                       ORA.W !SpriteOnYoshiTongue,Y              ;;F659|F656+F656/F656\F656;
                       ORA.W !SpriteBehindScene,Y                ;;F65C|F659+F659/F659\F659;

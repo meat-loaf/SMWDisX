@@ -8293,11 +8293,11 @@ DATA_02C3B3:          db $7F,$BF,$FF,$DF                        ;;C3BA|C3B3+C3B3
                                                                 ;;                        ;
 DATA_02C3B7:          db $18,$19,$14,$14                        ;;C3BE|C3B7+C3B7/C3B7\C3B7;
                                                                 ;;                        ;
-DATA_02C3BB:          db $18,$18,$18,$18,$17,$17,$17,$17        ;;C3C2|C3BB+C3BB/C3BB\C3BB;
+PChuckJumpAniFrame:   db $18,$18,$18,$18,$17,$17,$17,$17        ;;C3C2|C3BB+C3BB/C3BB\C3BB;
                       db $17,$17,$16,$15,$15,$16,$16,$16        ;;C3CA|C3C3+C3C3/C3C3\C3C3;
                                                                 ;;                        ;
-ChuckPitchin:         LDA.W !SpriteMisc1534,X                   ;;C3D2|C3CB+C3CB/C3CB\C3CB;
-                      BNE CODE_02C43A                           ;;C3D5|C3CE+C3CE/C3CE\C3CE;
+ChuckPitchin:         LDA.W !SpriteMisc1534,X                   ;;C3D2|C3CB+C3CB/C3CB\C3CB; Used as 'is jumping' flag
+                      BNE PChuckJumpThrow                       ;;C3D5|C3CE+C3CE/C3CE\C3CE;
                       JSR SubVertPosBnk2                        ;;C3D7|C3D0+C3D0/C3D0\C3D0;
                       LDA.B !_E                                 ;;C3DA|C3D3+C3D3/C3D3\C3D3;
                       BPL +                                     ;;C3DC|C3D5+C3D5/C3D5\C3D5;
@@ -8339,55 +8339,55 @@ ChuckPitchin:         LDA.W !SpriteMisc1534,X                   ;;C3D2|C3CB+C3CB
                       TAY                                       ;;C428|C421+C421/C421\C421;
                       LDA.W DATA_02C3B7,Y                       ;;C429|C422+C422/C422\C422;
                       STA.W !SpriteMisc1602,X                   ;;C42C|C425+C425/C425\C425;
-                      LDA.W !SpriteMisc1540,X                   ;;C42F|C428+C428/C428\C428;
-                      AND.B #$1F                                ;;C432|C42B+C42B/C42B\C42B;
-                      CMP.B #$06                                ;;C434|C42D+C42D/C42D\C42D;
-                      BNE Return02C439                          ;;C436|C42F+C42F/C42F\C42F;
-                      JSR CODE_02C466                           ;;C438|C431+C431/C431\C431;
-                      LDA.B #$08                                ;;C43B|C434+C434/C434\C434;
-                      STA.W !SpriteMisc1558,X                   ;;C43D|C436+C436/C436\C436;
+                      LDA.W !SpriteMisc1540,X                   ;;C42F|C428+C428/C428\C428; \
+                      AND.B #$1F                                ;;C432|C42B+C42B/C42B\C42B; | Spawn a baseball every
+                      CMP.B #$06                                ;;C434|C42D+C42D/C42D\C42D; | time the bottom 5 bits
+                      BNE Return02C439                          ;;C436|C42F+C42F/C42F\C42F; | of the frame timer is 6
+                      JSR SprSpawnExtBaseball                   ;;C438|C431+C431/C431\C431; / (once every 32 frames)
+                      LDA.B #$08                                ;;C43B|C434+C434/C434\C434; \ Set 'thrown baseball' timer
+                      STA.W !SpriteMisc1558,X                   ;;C43D|C436+C436/C436\C436; /
 Return02C439:         RTS                                       ;;C440|C439+C439/C439\C439; Return
                                                                 ;;                        ;
-CODE_02C43A:          LDA.W !SpriteMisc1540,X                   ;;C441|C43A+C43A/C43A\C43A;
-                      BEQ CODE_02C45C                           ;;C444|C43D+C43D/C43D\C43D;
-                      PHA                                       ;;C446|C43F+C43F/C43F\C43F;
+PChuckJumpThrow:      LDA.W !SpriteMisc1540,X                   ;;C441|C43A+C43A/C43A\C43A; \ If 'throw baseballs timer' is zero'..
+                      BEQ .dontThrowNoJump                      ;;C444|C43D+C43D/C43D\C43D; / ..abort
+                      PHA                                       ;;C446|C43F+C43F/C43F\C43F; > Backup throw baseballs timer value.
                       CMP.B #$20                                ;;C447|C440+C440/C440\C440;
-                      BCC +                                     ;;C449|C442+C442/C442\C442;
+                      BCC .dontZeroYSpeed                       ;;C449|C442+C442/C442\C442;
                       CMP.B #$30                                ;;C44B|C444+C444/C444\C444;
-                      BCS +                                     ;;C44D|C446+C446/C446\C446;
-                      STZ.B !SpriteYSpeed,X                     ;;C44F|C448+C448/C448\C448; Sprite Y Speed = 0
-                    + LSR A                                     ;;C451|C44A+C44A/C44A\C44A;
-                      LSR A                                     ;;C452|C44B+C44B/C44B\C44B;
-                      TAY                                       ;;C453|C44C+C44C/C44C\C44C;
-                      LDA.W DATA_02C3BB,Y                       ;;C454|C44D+C44D/C44D\C44D;
-                      STA.W !SpriteMisc1602,X                   ;;C457|C450+C450/C450\C450;
-                      PLA                                       ;;C45A|C453+C453/C453\C453;
-                      CMP.B #$26                                ;;C45B|C454+C454/C454\C454;
-                      BNE +                                     ;;C45D|C456+C456/C456\C456;
-                      JSR CODE_02C466                           ;;C45F|C458+C458/C458\C458;
-                    + RTS                                       ;;C462|C45B+C45B/C45B\C45B; Return
+                      BCS .dontZeroYSpeed                       ;;C44D|C446+C446/C446\C446;
+                      STZ.B !SpriteYSpeed,X                     ;;C44F|C448+C448/C448\C448; > Zero Y speed if pitch timer in [20,30].
+.dontZeroYSpeed:      LSR A                                     ;;C451|C44A+C44A/C44A\C44A; \ Divide timer value by 4..
+                      LSR A                                     ;;C452|C44B+C44B/C44B\C44B; /
+                      TAY                                       ;;C453|C44C+C44C/C44C\C44C; \ ..and use as index to animation frame to use
+                      LDA.W PChuckJumpAniFrame,Y                ;;C454|C44D+C44D/C44D\C44D; |
+                      STA.W !SpriteMisc1602,X                   ;;C457|C450+C450/C450\C450; /
+                      PLA                                       ;;C45A|C453+C453/C453\C453; \ Restore throw baseballs timer value.
+                      CMP.B #$26                                ;;C45B|C454+C454/C454\C454; | Spawn a baseball..
+                      BNE .dontThrow                            ;;C45D|C456+C456/C456\C456; | ..if timer value equals 26
+                      JSR SprSpawnExtBaseball                   ;;C45F|C458+C458/C458\C458; /
+.dontThrow:           RTS                                       ;;C462|C45B+C45B/C45B\C45B; Return
                                                                 ;;                        ;
-CODE_02C45C:          STZ.W !SpriteMisc1534,X                   ;;C463|C45C+C45C/C45C\C45C;
+.dontThrowNoJump:     STZ.W !SpriteMisc1534,X                   ;;C463|C45C+C45C/C45C\C45C; Clear 'is jumping' flag...
                       RTS                                       ;;C466|C45F+C45F/C45F\C45F; Return
                                                                 ;;                        ;
                                                                 ;;                        ;
-BaseballTileDispX:    db $10,$F8                                ;;C467|C460+C460/C460\C460;
+ExtBaseballDispXLo:   db $10,$F8                                ;;C467|C460+C460/C460\C460;
                                                                 ;;                        ;
-DATA_02C462:          db $00,$FF                                ;;C469|C462+C462/C462\C462;
+ExtBaseballDispXHi:   db $00,$FF                                ;;C469|C462+C462/C462\C462;
                                                                 ;;                        ;
-BaseballSpeed:        db $18,$E8                                ;;C46B|C464+C464/C464\C464;
+ExtBaseballSpeed:     db $18,$E8                                ;;C46B|C464+C464/C464\C464;
                                                                 ;;                        ;
-CODE_02C466:          LDA.W !SpriteMisc1558,X                   ;;C46D|C466+C466/C466\C466;
+SprSpawnExtBaseball:  LDA.W !SpriteMisc1558,X                   ;;C46D|C466+C466/C466\C466;
                       ORA.W !SpriteOffscreenVert,X              ;;C470|C469+C469/C469\C469;
                       BNE Return02C439                          ;;C473|C46C+C46C/C46C\C46C;
                       LDY.B #$07                                ;;C475|C46E+C46E/C46E\C46E; \ Find a free extended sprite slot
-CODE_02C470:          LDA.W !ExtSpriteNumber,Y                  ;;C477|C470+C470/C470\C470;  |
-                      BEQ CODE_02C479                           ;;C47A|C473+C473/C473\C473;  |
+.find_slot_loop:      LDA.W !ExtSpriteNumber,Y                  ;;C477|C470+C470/C470\C470;  |
+                      BEQ .slot_found                           ;;C47A|C473+C473/C473\C473;  |
                       DEY                                       ;;C47C|C475+C475/C475\C475;  |
-                      BPL CODE_02C470                           ;;C47D|C476+C476/C476\C476;  |
+                      BPL .find_slot_loop                       ;;C47D|C476+C476/C476\C476;  |
                       RTS                                       ;;C47F|C478+C478/C478\C478; / Return if no free slots
                                                                 ;;                        ;
-CODE_02C479:          LDA.B #$0D                                ;;C480|C479+C479/C479\C479; \ Extended sprite = Baseball
+.slot_found:          LDA.B #$0D                                ;;C480|C479+C479/C479\C479; \ Extended sprite = Baseball
                       STA.W !ExtSpriteNumber,Y                  ;;C482|C47B+C47B/C47B\C47B; /
                       LDA.B !SpriteXPosLow,X                    ;;C485|C47E+C47E/C47E\C47E;
                       STA.B !_0                                 ;;C487|C480+C480/C480\C480;
@@ -8405,12 +8405,12 @@ CODE_02C479:          LDA.B #$0D                                ;;C480|C479+C479
                       TAX                                       ;;C4A2|C49B+C49B/C49B\C49B;
                       LDA.B !_0                                 ;;C4A3|C49C+C49C/C49C\C49C;
                       CLC                                       ;;C4A5|C49E+C49E/C49E\C49E;
-                      ADC.W BaseballTileDispX,X                 ;;C4A6|C49F+C49F/C49F\C49F;
+                      ADC.W ExtBaseballDispXLo,X                ;;C4A6|C49F+C49F/C49F\C49F;
                       STA.W !ExtSpriteXPosLow,Y                 ;;C4A9|C4A2+C4A2/C4A2\C4A2;
                       LDA.B !_1                                 ;;C4AC|C4A5+C4A5/C4A5\C4A5;
-                      ADC.W DATA_02C462,X                       ;;C4AE|C4A7+C4A7/C4A7\C4A7;
+                      ADC.W ExtBaseballDispXHi,X                ;;C4AE|C4A7+C4A7/C4A7\C4A7;
                       STA.W !ExtSpriteXPosHigh,Y                ;;C4B1|C4AA+C4AA/C4AA\C4AA;
-                      LDA.W BaseballSpeed,X                     ;;C4B4|C4AD+C4AD/C4AD\C4AD;
+                      LDA.W ExtBaseballSpeed,X                  ;;C4B4|C4AD+C4AD/C4AD\C4AD;
                       STA.W !ExtSpriteXSpeed,Y                  ;;C4B7|C4B0+C4B0/C4B0\C4B0;
                       PLX                                       ;;C4BA|C4B3+C4B3/C4B3\C4B3;
                       RTS                                       ;;C4BB|C4B4+C4B4/C4B4\C4B4; Return
