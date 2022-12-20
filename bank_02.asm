@@ -6680,7 +6680,7 @@ CODE_02B6A7:          LDA.B !SpriteTableC2,X                    ;;B6A7|B6A7+B6A7
                       CLC                                       ;;B6E3|B6E3+B6E3/B6E3\B6E3;
                       ADC.B #$02                                ;;B6E4|B6E4+B6E4/B6E4\B6E4;
                       STA.B !SpriteYSpeed,X                     ;;B6E6|B6E6+B6E6/B6E6\B6E6;
-                    + JSL CODE_019138                           ;;B6E8|B6E8+B6E8/B6E8\B6E8;
+                    + JSL SprObjInteract                        ;;B6E8|B6E8+B6E8/B6E8\B6E8;
                       LDA.W !SpriteBlockedDirs,X                ;;B6EC|B6EC+B6EC/B6EC\B6EC; \ Branch if not on ground
                       AND.B #$04                                ;;B6EF|B6EF+B6EF/B6EF\B6EF;  |
                       BEQ +                                     ;;B6F1|B6F1+B6F1/B6F1\B6F1; /
@@ -7301,7 +7301,7 @@ CODE_02BBB7:          TXA                                       ;;BBBA|BBB7+BBB7
                       EOR.B !TrueFrame                          ;;BBBB|BBB8+BBB8/BBB8\BBB8;
                       LSR A                                     ;;BBBD|BBBA+BBBA/BBBA\BBBA;
                       BCC +                                     ;;BBBE|BBBB+BBBB/BBBB\BBBB;
-                      JSL CODE_019138                           ;;BBC0|BBBD+BBBD/BBBD\BBBD;
+                      JSL SprObjInteract                        ;;BBC0|BBBD+BBBD/BBBD\BBBD;
                     + LDA.B !SpriteYSpeed,X                     ;;BBC4|BBC1+BBC1/BBC1\BBC1;
                       BMI CODE_02BBFB                           ;;BBC6|BBC3+BBC3/BBC3\BBC3;
                       LDA.W !SpriteInLiquid,X                   ;;BBC8|BBC5+BBC5/BBC5\BBC5;
@@ -7506,7 +7506,7 @@ CODE_02BD75:          LDA.B !SpriteNumber,X                     ;;BD78|BD75+BD75
                       BEQ CODE_02BD91                           ;;BD81|BD7E+BD7E/BD7E\BD7E;
 CODE_02BD80:          JSR UpdateXPosNoGrvty                     ;;BD83|BD80+BD80/BD80\BD80;
                       JSR UpdateYPosNoGrvty                     ;;BD86|BD83+BD83/BD83\BD83;
-                      JSL CODE_019138                           ;;BD89|BD86+BD86/BD86\BD86;
+                      JSL SprObjInteract                        ;;BD89|BD86+BD86/BD86\BD86;
                       LDA.W !SpriteBlockedDirs,X                ;;BD8D|BD8A+BD8A/BD8A\BD8A;
                       AND.B #$0F                                ;;BD90|BD8D+BD8D/BD8D\BD8D;
                       BEQ +                                     ;;BD92|BD8F+BD8F/BD8F\BD8F;
@@ -7536,7 +7536,7 @@ CODE_02BDB3:          LDA.W !SpriteMisc1540,X                   ;;BDB6|BDB3+BDB3
                       STA.B !SpriteYSpeed,X                     ;;BDC0|BDBD+BDBD/BDBD\BDBD;
                       LDA.W DATA_02BC9F,Y                       ;;BDC2|BDBF+BDBF/BDBF\BDBF;
                       STA.B !SpriteXSpeed,X                     ;;BDC5|BDC2+BDC2/BDC2\BDC2;
-                      JSL CODE_019138                           ;;BDC7|BDC4+BDC4/BDC4\BDC4;
+                      JSL SprObjInteract                        ;;BDC7|BDC4+BDC4/BDC4\BDC4;
                       LDA.W !SpriteBlockedDirs,X                ;;BDCB|BDC8+BDC8/BDC8\BDC8;
                       AND.B #$0F                                ;;BDCE|BDCB+BDCB/BDCB\BDCB;
                       BNE CODE_02BDE7                           ;;BDD0|BDCD+BDCD/BDCD\BDCD;
@@ -7814,7 +7814,7 @@ RipVanFishMain:       JSL GenericSprGfxRt2                      ;;BFD4|BFCD+BFCD
                     + JSR CODE_02C126                           ;;BFFA|BFF3+BFF3/BFF3\BFF3;
                       JSR UpdateXPosNoGrvty                     ;;BFFD|BFF6+BFF6/BFF6\BFF6;
                       JSR UpdateYPosNoGrvty                     ;;C000|BFF9+BFF9/BFF9\BFF9;
-                      JSL CODE_019138                           ;;C003|BFFC+BFFC/BFFC\BFFC;
+                      JSL SprObjInteract                        ;;C003|BFFC+BFFC/BFFC\BFFC;
                       PLA                                       ;;C007|C000+C000/C000\C000;
                       STA.B !SpriteYSpeed,X                     ;;C008|C001+C001/C001\C001;
                       PLA                                       ;;C00A|C003+C003/C003\C003;
@@ -8123,7 +8123,7 @@ ChucksMainRt:         LDA.W !SpriteStatus,X                     ;;C233|C22C+C22C
                     + JSR SubOffscreen0Bnk2                     ;;C262|C25B+C25B/C25B\C25B;
                       JSR ChuckInteract                         ;;C265|C25E+C25E/C25E\C25E;
                       JSL SprSprInteract                        ;;C268|C261+C261/C261\C261;
-                      JSL CODE_019138                           ;;C26C|C265+C265/C265\C265;
+                      JSL SprObjInteract                        ;;C26C|C265+C265/C265\C265;
                       LDA.W !SpriteBlockedDirs,X                ;;C270|C269+C269/C269\C269;
                       AND.B #$08                                ;;C273|C26C+C26C/C26C\C26C;
                       BEQ +                                     ;;C275|C26E+C26E/C26E\C26E;
@@ -10882,7 +10882,7 @@ CODE_02D904:          LDA.B !SpriteLock                         ;;D904|D904+D904
                       JSR SubOffscreen0Bnk2                     ;;D927|D927+D927/D927\D927;
                       JSR UpdateXPosNoGrvty                     ;;D92A|D92A+D92A/D92A\D92A;
                       JSR UpdateYPosNoGrvty                     ;;D92D|D92D+D92D/D92D\D92D;
-                      JSL CODE_019138                           ;;D930|D930+D930/D930\D930;
+                      JSL SprObjInteract                        ;;D930|D930+D930/D930\D930;
                       LDY.W !SpriteMisc157C,X                   ;;D934|D934+D934/D934\D934;
                       LDA.W BubbleSprGfxProp2,Y                 ;;D937|D937+D937/D937\D937;
                       STA.B !SpriteXSpeed,X                     ;;D93A|D93A+D93A/D93A\D93A;
@@ -11539,7 +11539,7 @@ CODE_02DEB0:          LDA.W !SpriteMisc1540,X                   ;;DEB0|DEB0+DEB0
                       JSR UpdateYPosNoGrvty                     ;;DEB9|DEB9+DEB9/DEB9\DEB9;
                       LDA.W !SpriteMisc1FE2,X                   ;;DEBC|DEBC+DEBC/DEBC\DEBC;
                       BNE +                                     ;;DEBF|DEBF+DEBF/DEBF\DEBF;
-                      JSL CODE_019138                           ;;DEC1|DEC1+DEC1/DEC1\DEC1;
+                      JSL SprObjInteract                        ;;DEC1|DEC1+DEC1/DEC1\DEC1;
                       LDA.W !SpriteBlockedDirs,X                ;;DEC5|DEC5+DEC5/DEC5\DEC5; \ Branch if not on ground
                       AND.B #$04                                ;;DEC8|DEC8+DEC8/DEC8\DEC8;  |
                       BEQ +                                     ;;DECA|DECA+DECA/DECA\DECA; /
@@ -11647,7 +11647,7 @@ CODE_02DF93:          JSR VolcanoLotusGfx                       ;;DF93|DF93+DF93
                       CMP.B #$40                                ;;DFA9|DFA9+DFA9/DFA9\DFA9;
                       BPL +                                     ;;DFAB|DFAB+DFAB/DFAB\DFAB;
                       INC.B !SpriteYSpeed,X                     ;;DFAD|DFAD+DFAD/DFAD\DFAD;
-                    + JSL CODE_019138                           ;;DFAF|DFAF+DFAF/DFAF\DFAF;
+                    + JSL SprObjInteract                        ;;DFAF|DFAF+DFAF/DFAF\DFAF;
                       LDA.W !SpriteBlockedDirs,X                ;;DFB3|DFB3+DFB3/DFB3\DFB3; \ Branch if not on ground
                       AND.B #$04                                ;;DFB6|DFB6+DFB6/DFB6\DFB6;  |
                       BEQ +                                     ;;DFB8|DFB8+DFB8/DFB8\DFB8; /
@@ -11888,7 +11888,7 @@ CODE_02E17F:          INC.W !SpriteMisc1570,X                   ;;E17F|E17F+E17F
                       BPL +                                     ;;E18C|E18C+E18C/E18C\E18C;
                       INC A                                     ;;E18E|E18E+E18E/E18E\E18E;
                       STA.B !SpriteYSpeed,X                     ;;E18F|E18F+E18F/E18F\E18F;
-                    + JSL CODE_019138                           ;;E191|E191+E191/E191\E191;
+                    + JSL SprObjInteract                        ;;E191|E191+E191/E191\E191;
                       LDA.W !SpriteBlockedDirs,X                ;;E195|E195+E195/E195\E195; \ Branch if not on ground
                       AND.B #$04                                ;;E198|E198+E198/E198\E198;  |
                       BEQ Return02E176                          ;;E19A|E19A+E19A/E19A\E19A; /
@@ -11948,11 +11948,11 @@ DATA_02E211:          db $01,$00,$03,$02                        ;;E211|E211+E211
 DirectionCoinsMain:   PHB                                       ;;E215|E215+E215/E215\E215;
                       PHK                                       ;;E216|E216+E216/E216\E216;
                       PLB                                       ;;E217|E217+E217/E217\E217;
-                      JSR CODE_02E21D                           ;;E218|E218+E218/E218\E218;
+                      JSR DirectionCoinsMainRt                  ;;E218|E218+E218/E218\E218;
                       PLB                                       ;;E21B|E21B+E21B/E21B\E21B;
                       RTL                                       ;;E21C|E21C+E21C/E21C\E21C; Return
                                                                 ;;                        ;
-CODE_02E21D:          LDA.B !SpriteProperties                   ;;E21D|E21D+E21D/E21D\E21D;
+DirectionCoinsMainRt: LDA.B !SpriteProperties                   ;;E21D|E21D+E21D/E21D\E21D;
                       PHA                                       ;;E21F|E21F+E21F/E21F\E21F;
                       LDA.W !SpriteMisc1540,X                   ;;E220|E220+E220/E220\E220;
                       CMP.B #$30                                ;;E223|E223+E223/E223\E223;
@@ -12043,7 +12043,7 @@ CODE_02E288:          LDY.B !SpriteTableC2,X                    ;;E288|E288+E288
                       JSL GenerateTile                          ;;E2D9|E2D9+E2D9/E2D9\E2D9;
                       RTS                                       ;;E2DD|E2DD+E2DD/E2DD\E2DD; Return
                                                                 ;;                        ;
-CODE_02E2DE:          JSL CODE_019138                           ;;E2DE|E2DE+E2DE/E2DE\E2DE;
+CODE_02E2DE:          JSL SprObjInteract                        ;;E2DE|E2DE+E2DE/E2DE\E2DE;
                       LDA.B !SpriteXSpeed,X                     ;;E2E2|E2E2+E2E2/E2E2\E2E2;
                       BNE CODE_02E2F3                           ;;E2E4|E2E4+E2E4/E2E4\E2E4;
                       LDA.W !SprMap16TouchVertHigh              ;;E2E6|E2E6+E2E6/E2E6\E2E6;
@@ -12573,7 +12573,7 @@ CODE_02E727:          JSL GenericSprGfxRt2                      ;;E727|E727+E727
                       BNE +                                     ;;E72D|E72D+E72D/E72D\E72D;
                       JSR SubOffscreen0Bnk2                     ;;E72F|E72F+E72F/E72F\E72F;
                       JSL SprSpr_MarioSprRts                    ;;E732|E732+E732/E732\E732;
-                      JSL CODE_019138                           ;;E736|E736+E736/E736\E736;
+                      JSL SprObjInteract                        ;;E736|E736+E736/E736\E736;
                       LDY.B #$00                                ;;E73A|E73A+E73A/E73A\E73A;
                       JSR CODE_02EB3D                           ;;E73C|E73C+E73C/E73C\E73C;
                       LDA.B !SpriteTableC2,X                    ;;E73F|E73F+E73F/E73F\E73F;
@@ -13676,52 +13676,52 @@ WigglerMain:          PHB                                       ;;F02A|F029+F029
                       RTL                                       ;;F031|F030+F030/F030\F030; Return
                                                                 ;;                        ;
                                                                 ;;                        ;
-WigglerSpeed:         db $08,$F8,$10,$F0                        ;;F032|F031+F031/F031\F031;
+WigglerSpeeds:        db $08,$F8,$10,$F0                        ;;F032|F031+F031/F031\F031; Speeds moving right, left, angry right, angry left
                                                                 ;;                        ;
 WigglerMainRt:        JSR InitWigglerSgmtPtr                    ;;F036|F035+F035/F035\F035;
                       LDA.B !SpriteLock                         ;;F039|F038+F038/F038\F038;
-                      BEQ +                                     ;;F03B|F03A+F03A/F03A\F03A;
-                      JMP CODE_02F0D8                           ;;F03D|F03C+F03C/F03C\F03C;
+                      BEQ .noSprLock                            ;;F03B|F03A+F03A/F03A\F03A;
+                      JMP WigglerDoGfx                          ;;F03D|F03C+F03C/F03C\F03C;
                                                                 ;;                        ;
-                    + JSL SprSprInteract                        ;;F040|F03F+F03F/F03F\F03F;
+.noSprLock:           JSL SprSprInteract                        ;;F040|F03F+F03F/F03F\F03F;
                       LDA.W !SpriteMisc1540,X                   ;;F044|F043+F043/F043\F043;
-                      BEQ CODE_02F061                           ;;F047|F046+F046/F046\F046;
+                      BEQ .notStunned                           ;;F047|F046+F046/F046\F046;
                       CMP.B #$01                                ;;F049|F048+F048/F048\F048;
-                      BNE CODE_02F050                           ;;F04B|F04A+F04A/F04A\F04A;
+                      BNE .paletteCycle                         ;;F04B|F04A+F04A/F04A\F04A;
                       LDA.B #$08                                ;;F04D|F04C+F04C/F04C\F04C;
-                      BRA +                                     ;;F04F|F04E+F04E/F04E\F04E;
+                      BRA .noPaletteCycle                       ;;F04F|F04E+F04E/F04E\F04E;
                                                                 ;;                        ;
-CODE_02F050:          AND.B #$0E                                ;;F051|F050+F050/F050\F050;
-                    + STA.B !_0                                 ;;F053|F052+F052/F052\F052;
+.paletteCycle:        AND.B #$0E                                ;;F051|F050+F050/F050\F050; Use value of timer as palette
+.noPaletteCycle:      STA.B !_0                                 ;;F053|F052+F052/F052\F052;
                       LDA.W !SpriteOBJAttribute,X               ;;F055|F054+F054/F054\F054;
                       AND.B #$F1                                ;;F058|F057+F057/F057\F057;
                       ORA.B !_0                                 ;;F05A|F059+F059/F059\F059;
                       STA.W !SpriteOBJAttribute,X               ;;F05C|F05B+F05B/F05B\F05B;
-                      JMP CODE_02F0D8                           ;;F05F|F05E+F05E/F05E\F05E;
+                      JMP WigglerDoGfx                          ;;F05F|F05E+F05E/F05E\F05E;
                                                                 ;;                        ;
-CODE_02F061:          JSR UpdateXPosNoGrvty                     ;;F062|F061+F061/F061\F061;
+.notStunned:          JSR UpdateXPosNoGrvty                     ;;F062|F061+F061/F061\F061;
                       JSR UpdateYPosNoGrvty                     ;;F065|F064+F064/F064\F064;
                       JSR SubOffscreen0Bnk2                     ;;F068|F067+F067/F067\F067;
-                      INC.W !SpriteMisc1570,X                   ;;F06B|F06A+F06A/F06A\F06A;
-                      LDA.W !SpriteMisc151C,X                   ;;F06E|F06D+F06D/F06D\F06D;
-                      BEQ +                                     ;;F071|F070+F070/F070\F070;
+                      INC.W !SpriteMisc1570,X                   ;;F06B|F06A+F06A/F06A\F06A; Animation frame counter
+                      LDA.W !SpriteMisc151C,X                   ;;F06E|F06D+F06D/F06D\F06D; \ Branch if wiggler isn't angry (hasn't yet been jumped on)
+                      BEQ .notAngry1                            ;;F071|F070+F070/F070\F070; /
                       INC.W !SpriteMisc1570,X                   ;;F073|F072+F072/F072\F072;
                       INC.W !SpriteMisc1534,X                   ;;F076|F075+F075/F075\F075;
                       LDA.W !SpriteMisc1534,X                   ;;F079|F078+F078/F078\F078;
                       AND.B #$3F                                ;;F07C|F07B+F07B/F07B\F07B;
-                      BNE +                                     ;;F07E|F07D+F07D/F07D\F07D;
+                      BNE .notAngry1                            ;;F07E|F07D+F07D/F07D\F07D;
                       JSR SubHorizPosBnk2                       ;;F080|F07F+F07F/F07F\F07F;
                       TYA                                       ;;F083|F082+F082/F082\F082;
                       STA.W !SpriteMisc157C,X                   ;;F084|F083+F083/F083\F083;
-                    + LDY.W !SpriteMisc157C,X                   ;;F087|F086+F086/F086\F086;
+.notAngry1:           LDY.W !SpriteMisc157C,X                   ;;F087|F086+F086/F086\F086;
                       LDA.W !SpriteMisc151C,X                   ;;F08A|F089+F089/F089\F089;
-                      BEQ +                                     ;;F08D|F08C+F08C/F08C\F08C;
+                      BEQ .notAngry2                            ;;F08D|F08C+F08C/F08C\F08C;
                       INY                                       ;;F08F|F08E+F08E/F08E\F08E;
                       INY                                       ;;F090|F08F+F08F/F08F\F08F;
-                    + LDA.W WigglerSpeed,Y                      ;;F091|F090+F090/F090\F090;
+.notAngry2:           LDA.W WigglerSpeeds,Y                     ;;F091|F090+F090/F090\F090;
                       STA.B !SpriteXSpeed,X                     ;;F094|F093+F093/F093\F093;
                       INC.B !SpriteYSpeed,X                     ;;F096|F095+F095/F095\F095;
-                      JSL CODE_019138                           ;;F098|F097+F097/F097\F097;
+                      JSL SprObjInteract                        ;;F098|F097+F097/F097\F097;
                       LDA.W !SpriteBlockedDirs,X                ;;F09C|F09B+F09B/F09B\F09B; \ Branch if touching object
                       AND.B #$03                                ;;F09F|F09E+F09E/F09E\F09E;  |
                       BNE CODE_02F0AE                           ;;F0A1|F0A0+F0A0/F0A0\F0A0; /
@@ -13739,44 +13739,44 @@ CODE_02F0AE:          LDA.W !SpriteMisc15AC,X                   ;;F0AF|F0AE+F0AE
                       STZ.W !SpriteMisc1602,X                   ;;F0BC|F0BB+F0BB/F0BB\F0BB;
                       LDA.B #$08                                ;;F0BF|F0BE+F0BE/F0BE\F0BE;
                       STA.W !SpriteMisc15AC,X                   ;;F0C1|F0C0+F0C0/F0C0\F0C0;
-                    + JSR CODE_02F0DB                           ;;F0C4|F0C3+F0C3/F0C3\F0C3;
+                    + JSR WigglerUpdateSegBuff                  ;;F0C4|F0C3+F0C3/F0C3\F0C3;
                       LDA.W !SpriteMisc1602,X                   ;;F0C7|F0C6+F0C6/F0C6\F0C6;
                       INC.W !SpriteMisc1602,X                   ;;F0CA|F0C9+F0C9/F0C9\F0C9;
                       AND.B #$07                                ;;F0CD|F0CC+F0CC/F0CC\F0CC;
-                      BNE CODE_02F0D8                           ;;F0CF|F0CE+F0CE/F0CE\F0CE;
+                      BNE WigglerDoGfx                          ;;F0CF|F0CE+F0CE/F0CE\F0CE;
                       LDA.B !SpriteTableC2,X                    ;;F0D1|F0D0+F0D0/F0D0\F0D0;
                       ASL A                                     ;;F0D3|F0D2+F0D2/F0D2\F0D2;
                       ORA.W !SpriteMisc157C,X                   ;;F0D4|F0D3+F0D3/F0D3\F0D3;
                       STA.B !SpriteTableC2,X                    ;;F0D7|F0D6+F0D6/F0D6\F0D6;
-CODE_02F0D8:          JMP WigglerGfx                            ;;F0D9|F0D8+F0D8/F0D8\F0D8;
+WigglerDoGfx:         JMP WigglerGfx                            ;;F0D9|F0D8+F0D8/F0D8\F0D8;
                                                                 ;;                        ;
-CODE_02F0DB:          PHX                                       ;;F0DC|F0DB+F0DB/F0DB\F0DB;
+WigglerUpdateSegBuff: PHX                                       ;;F0DC|F0DB+F0DB/F0DB\F0DB;
                       PHB                                       ;;F0DD|F0DC+F0DC/F0DC\F0DC;
                       REP #$30                                  ;;F0DE|F0DD+F0DD/F0DD\F0DD; Index (16 bit) Accum (16 bit)
                       LDA.B !WigglerSegmentPtr                  ;;F0E0|F0DF+F0DF/F0DF\F0DF;
                       CLC                                       ;;F0E2|F0E1+F0E1/F0E1\F0E1;
                       ADC.W #$007D                              ;;F0E3|F0E2+F0E2/F0E2\F0E2;
-                      TAX                                       ;;F0E6|F0E5+F0E5/F0E5\F0E5;
+                      TAX                                       ;;F0E6|F0E5+F0E5/F0E5\F0E5; MVP Source: Segment buffer + $7D
                       LDA.B !WigglerSegmentPtr                  ;;F0E7|F0E6+F0E6/F0E6\F0E6;
                       CLC                                       ;;F0E9|F0E8+F0E8/F0E8\F0E8;
                       ADC.W #$007F                              ;;F0EA|F0E9+F0E9/F0E9\F0E9;
-                      TAY                                       ;;F0ED|F0EC+F0EC/F0EC\F0EC;
-                      LDA.W #$007D                              ;;F0EE|F0ED+F0ED/F0ED\F0ED;
-                      MVP !WigglerTable>>16,!WigglerTable>>16   ;;F0F1|F0F0+F0F0/F0F0\F0F0;
+                      TAY                                       ;;F0ED|F0EC+F0EC/F0EC\F0EC; MVP Destination: Segment buffer + $7F
+                      LDA.W #$007D                              ;;F0EE|F0ED+F0ED/F0ED\F0ED; Size: $7D bytes
+                      MVP !WigglerTable>>16,!WigglerTable>>16   ;;F0F1|F0F0+F0F0/F0F0\F0F0; This moves every byte in the buffer down (to a higher address) by two bytes.
                       SEP #$30                                  ;;F0F4|F0F3+F0F3/F0F3\F0F3; Index (8 bit) Accum (8 bit)
                       PLB                                       ;;F0F6|F0F5+F0F5/F0F5\F0F5;
                       PLX                                       ;;F0F7|F0F6+F0F6/F0F6\F0F6;
-                      LDY.B #$00                                ;;F0F8|F0F7+F0F7/F0F7\F0F7;
-                      LDA.B !SpriteXPosLow,X                    ;;F0FA|F0F9+F0F9/F0F9\F0F9;
-                      STA.B [!WigglerSegmentPtr],Y              ;;F0FC|F0FB+F0FB/F0FB\F0FB;
-                      LDA.B !SpriteYPosLow,X                    ;;F0FE|F0FD+F0FD/F0FD\F0FD;
-                      INY                                       ;;F100|F0FF+F0FF/F0FF\F0FF;
-                      STA.B [!WigglerSegmentPtr],Y              ;;F101|F100+F100/F100\F100;
+                      LDY.B #$00                                ;;F0F8|F0F7+F0F7/F0F7\F0F7; \ Now simply set the current
+                      LDA.B !SpriteXPosLow,X                    ;;F0FA|F0F9+F0F9/F0F9\F0F9; | \ x position in the buffer
+                      STA.B [!WigglerSegmentPtr],Y              ;;F0FC|F0FB+F0FB/F0FB\F0FB; | /
+                      LDA.B !SpriteYPosLow,X                    ;;F0FE|F0FD+F0FD/F0FD\F0FD; | \ y position in the buffer
+                      INY                                       ;;F100|F0FF+F0FF/F0FF\F0FF; | |
+                      STA.B [!WigglerSegmentPtr],Y              ;;F101|F100+F100/F100\F100; / /
                       RTS                                       ;;F103|F102+F102/F102\F102; Return
                                                                 ;;                        ;
                                                                 ;;                        ;
-DATA_02F103:          db $00,$1E,$3E,$5E,$7E                    ;;F104|F103+F103/F103\F103;
-                                                                ;;                        ;
+WigSegBuffPartOff:    db $00,$1E,$3E,$5E,$7E                    ;;F104|F103+F103/F103\F103; Initial Offset into the segment buffer, head
+                                                                ;;                        ; and then following body parts.
 DATA_02F108:          db $00,$01,$02,$01                        ;;F109|F108+F108/F108\F108;
                                                                 ;;                        ;
 WigglerBodyTiles:     db $C4,$C6,$C8,$C6                        ;;F10D|F10C+F10C/F10C\F10C;
@@ -13809,34 +13809,34 @@ CODE_02F12D:          PHX                                       ;;F12E|F12D+F12D
                       ADC.B !_5                                 ;;F13B|F13A+F13A/F13A\F13A;
                       AND.B #$03                                ;;F13D|F13C+F13C/F13C\F13C;
                       STA.B !_6                                 ;;F13F|F13E+F13E/F13E\F13E;
-                      PHY                                       ;;F141|F140+F140/F140\F140;
-                      LDY.W DATA_02F103,X                       ;;F142|F141+F141/F141\F141;
-                      LDA.B !_8                                 ;;F145|F144+F144/F144\F144;
-                      BEQ +                                     ;;F147|F146+F146/F146\F146;
-                      TYA                                       ;;F149|F148+F148/F148\F148;
-                      LSR A                                     ;;F14A|F149+F149/F149\F149;
-                      AND.B #$FE                                ;;F14B|F14A+F14A/F14A\F14A;
-                      TAY                                       ;;F14D|F14C+F14C/F14C\F14C;
-                    + STY.B !_9                                 ;;F14E|F14D+F14D/F14D\F14D;
-                      LDA.B [!WigglerSegmentPtr],Y              ;;F150|F14F+F14F/F14F\F14F;
-                      PLY                                       ;;F152|F151+F151/F151\F151;
-                      SEC                                       ;;F153|F152+F152/F152\F152;
-                      SBC.B !Layer1XPos                         ;;F154|F153+F153/F153\F153;
+                      PHY                                       ;;F141|F140+F140/F140\F140; Push OAM Mirror offset
+                      LDY.W WigSegBuffPartOff,X                 ;;F142|F141+F141/F141\F141; Load initial offset to segment position buffer
+                      LDA.B !_8                                 ;;F145|F144+F144/F144\F144; \ Load 151C,x backup
+                      BEQ +                                     ;;F147|F146+F146/F146\F146; | If wiggler is angry,
+                      TYA                                       ;;F149|F148+F148/F148\F148; | buffer index to A
+                      LSR A                                     ;;F14A|F149+F149/F149\F149; | halve the buffer offset
+                      AND.B #$FE                                ;;F14B|F14A+F14A/F14A\F14A; | truncate range (x,y pair)
+                      TAY                                       ;;F14D|F14C+F14C/F14C\F14C; / restore buffer offset to Y
+                    + STY.B !_9                                 ;;F14E|F14D+F14D/F14D\F14D; Backup wiggler buffer index
+                      LDA.B [!WigglerSegmentPtr],Y              ;;F150|F14F+F14F/F14F\F14F; > Load buffer x position for this tile
+                      PLY                                       ;;F152|F151+F151/F151\F151; Pull OAM Mirror offset into Y
+                      SEC                                       ;;F153|F152+F152/F152\F152; \ Calculate x position relative
+                      SBC.B !Layer1XPos                         ;;F154|F153+F153/F153\F153; / to camera
                       STA.W !OAMTileXPos+$100,Y                 ;;F156|F155+F155/F155\F155;
-                      PHY                                       ;;F159|F158+F158/F158\F158;
-                      LDY.B !_9                                 ;;F15A|F159+F159/F159\F159;
-                      INY                                       ;;F15C|F15B+F15B/F15B\F15B;
-                      LDA.B [!WigglerSegmentPtr],Y              ;;F15D|F15C+F15C/F15C\F15C;
-                      PLY                                       ;;F15F|F15E+F15E/F15E\F15E;
-                      SEC                                       ;;F160|F15F+F15F/F15F\F15F;
-                      SBC.B !Layer1YPos                         ;;F161|F160+F160/F160\F160;
+                      PHY                                       ;;F159|F158+F158/F158\F158; Push OAM Mirror offset
+                      LDY.B !_9                                 ;;F15A|F159+F159/F159\F159; Load wiggler buffer index
+                      INY                                       ;;F15C|F15B+F15B/F15B\F15B; \ Load buffer y position for this tile
+                      LDA.B [!WigglerSegmentPtr],Y              ;;F15D|F15C+F15C/F15C\F15C; /
+                      PLY                                       ;;F15F|F15E+F15E/F15E\F15E; Pull OAM Mirror offset into Y
+                      SEC                                       ;;F160|F15F+F15F/F15F\F15F; \ Calculate y position relative
+                      SBC.B !Layer1YPos                         ;;F161|F160+F160/F160\F160; / to camera
                       LDX.B !_6                                 ;;F163|F162+F162/F162\F162;
                       SEC                                       ;;F165|F164+F164/F164\F164;
                       %LorW_X(SBC,DATA_02F108)                  ;;F166|F165+F165/F165\F165;
                       STA.W !OAMTileYPos+$100,Y                 ;;F16A|F168+F168/F168\F168;
                       PLX                                       ;;F16D|F16B+F16B/F16B\F16B;
                       PHX                                       ;;F16E|F16C+F16C/F16C\F16C;
-                      LDA.B #$8C                                ;;F16F|F16D+F16D/F16D\F16D; Wiggler's head tiles
+                      LDA.B #$8C                                ;;F16F|F16D+F16D/F16D\F16D; Wiggler's head tile
                       CPX.B #$00                                ;;F171|F16F+F16F/F16F\F16F;
                       BEQ +                                     ;;F173|F171+F171/F171\F171;
                       LDX.B !_6                                 ;;F175|F173+F173/F173\F173;

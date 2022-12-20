@@ -2067,7 +2067,7 @@ BulletBill:           LDA.B #$01                                ;;8FE7|8FE7+8FE7
                       STA.B !SpriteYSpeed,X                     ;;9006|9006+9006/9006\9006; /
                       JSR SubSprXPosNoGrvty                     ;;9008|9008+9008/9008\9008; \ Update position
                       JSR SubSprYPosNoGrvty                     ;;900B|900B+900B/900B\900B; /
-                      JSR CODE_019140                           ;;900E|900E+900E/900E\900E;
+                      JSR SprObjInteractRt                      ;;900E|900E+900E/900E\900E;
                       JSR SubSprSpr_MarioSpr                    ;;9011|9011+9011/9011\9011; Interact with Mario and sprites
                     + JSR SubOffscreen0Bnk1                     ;;9014|9014+9014/9014\9014;
                       LDA.B !SpriteYPosLow,X                    ;;9017|9017+9017/9017\9017;
@@ -2127,7 +2127,7 @@ SubUpdateSprPos:      JSR SubSprYPosNoGrvty                     ;;9032|9032+9032
                       STA.B !SpriteXSpeed,X                     ;;907A|907A+907A/907A\907A;
                       LDA.W !SpriteDisableObjInt,X              ;;907C|907C+907C/907C\907C;
                       BNE +                                     ;;907F|907F+907F/907F\907F;
-                      JSR CODE_019140                           ;;9081|9081+9081/9081\9081;
+                      JSR SprObjInteractRt                      ;;9081|9081+9081/9081\9081;
                       RTS                                       ;;9084|9084+9084/9084\9084; Return
                                                                 ;;                        ;
                     + STZ.W !SpriteBlockedDirs,X                ;;9085|9085+9085/9085\9085;
@@ -2180,16 +2180,16 @@ SpriteObjClippingY:   db $08,$08,$10,$02,$12,$12,$20,$02        ;;90F7|90F7+90F7
                       db $00,$00,$00,$00,$08,$08,$10,$00        ;;9127|9127+9127/9127\9127;
                       db $08,$08,$10,$00,$04                    ;;912F|912F+912F/912F\912F;
                                                                 ;;                        ;
-DATA_019134:          db $01,$02,$04,$08                        ;;9134|9134+9134/9134\9134;
+SprBlockedBitsTbl:    db $01,$02,$04,$08                        ;;9134|9134+9134/9134\9134;
                                                                 ;;                        ;
-CODE_019138:          PHB                                       ;;9138|9138+9138/9138\9138;
+SprObjInteract:       PHB                                       ;;9138|9138+9138/9138\9138;
                       PHK                                       ;;9139|9139+9139/9139\9139;
                       PLB                                       ;;913A|913A+913A/913A\913A;
-                      JSR CODE_019140                           ;;913B|913B+913B/913B\913B;
+                      JSR SprObjInteractRt                      ;;913B|913B+913B/913B\913B;
                       PLB                                       ;;913E|913E+913E/913E\913E;
                       RTL                                       ;;913F|913F+913F/913F\913F; Return
                                                                 ;;                        ;
-CODE_019140:          STZ.W !SpriteBlockOffset                  ;;9140|9140+9140/9140\9140;
+SprObjInteractRt:     STZ.W !SpriteBlockOffset                  ;;9140|9140+9140/9140\9140;
                       STZ.W !SpriteBlockedDirs,X                ;;9143|9143+9143/9143\9143; Set sprite's position status to 0 (in air)
                       STZ.W !SpriteSlope,X                      ;;9146|9146+9146/9146\9146;
                       STZ.W !TileGenerateTrackA                 ;;9149|9149+9149/9149\9149;
@@ -2560,7 +2560,7 @@ CODE_019425:          LDA.B !_A                                 ;;9425|9425+9425
                       STA.B !TouchBlockYPos+1                   ;;9433|9433+9433/9433\943F;
 CODE_019435:          LDY.B !_F                                 ;;9435|9435+9435/9435\9441;
                       LDA.W !SpriteBlockedDirs,X                ;;9437|9437+9437/9437\9443;
-                      ORA.W DATA_019134,Y                       ;;943A|943A+943A/943A\9446;
+                      ORA.W SprBlockedBitsTbl,Y                 ;;943A|943A+943A/943A\9446;
                       STA.W !SpriteBlockedDirs,X                ;;943D|943D+943D/943D\9449;
                       RTS                                       ;;9440|9440+9440/9440\944C; Return
                                                                 ;;                        ;
@@ -3886,7 +3886,7 @@ CODE_019FC4:          STZ.W !PBalloonInflating                  ;;9FC4|9FC4+9FC4
                       STA.W !OAMTileYPos+$100,Y                 ;;9FDC|9FDC+9FDC/9FDC\9FE8;
                       RTS                                       ;;9FDF|9FDF+9FDF/9FDF\9FEB; Return
                                                                 ;;                        ;
-CODE_019FE0:          JSR CODE_019140                           ;;9FE0|9FE0+9FE0/9FE0\9FEC;
+CODE_019FE0:          JSR SprObjInteractRt                      ;;9FE0|9FE0+9FE0/9FE0\9FEC;
                       LDA.B !PlayerAnimation                    ;;9FE3|9FE3+9FE3/9FE3\9FEF; \ Branch if no Mario animation sequence in progress
                       CMP.B #$01                                ;;9FE5|9FE5+9FE5/9FE5\9FF1;  |
                       BCC +                                     ;;9FE7|9FE7+9FE7/9FE7\9FF3; /
@@ -4936,7 +4936,7 @@ ProcessInteract:      JSR SubHorizPosBnk1                       ;;A7F9|A7F7+A7F7
                       ADC.B #$60                                ;;A80B|A809+A809/A809\A815;
                       CMP.B #$C0                                ;;A80D|A80B+A80B/A80B\A817;
                       BCS -                                     ;;A80F|A80D+A80D/A80D\A819; No contact, return
-CODE_01A80F:          LDA.B !PlayerAnimation                    ;;A811|A80F+A80F/A80F\A81B; \ If animation sequence activated...
+ProcInterxnNoProxChk: LDA.B !PlayerAnimation                    ;;A811|A80F+A80F/A80F\A81B; \ If animation sequence activated...
                       CMP.B #$01                                ;;A813|A811+A811/A811\A81D;  |
                       BCS -                                     ;;A815|A813+A813/A813\A81F; / ...no contact, return
                       LDA.B #$00                                ;;A817|A815+A815/A815\A821; \ Branch if bit 6 of $0D9B set?
@@ -5779,14 +5779,14 @@ Thwomp:               JSR ThwompGfx                             ;;AEA3|AEA3+AEA3
                       LDA.B !SpriteTableC2,X                    ;;AEB7|AEB7+AEB7/AEB7\AEBE;
                       JSL ExecutePtr                            ;;AEB9|AEB9+AEB9/AEB9\AEC0;
                                                                 ;;                        ;
-                      dw CODE_01AEC3                            ;;AEBD|AEBD+AEBD/AEBD\AEC4;
-                      dw CODE_01AEFA                            ;;AEBF|AEBF+AEBF/AEBF\AEC6;
-                      dw CODE_01AF24                            ;;AEC1|AEC1+AEC1/AEC1\AEC8;
+                      dw .waitMario                             ;;AEBD|AEBD+AEBD/AEBD\AEC4;
+                      dw .falling                               ;;AEBF|AEBF+AEBF/AEBF\AEC6;
+                      dw .hitGroundRising                       ;;AEC1|AEC1+AEC1/AEC1\AEC8;
                                                                 ;;                        ;
-CODE_01AEC3:          LDA.W !SpriteOffscreenVert,X              ;;AEC3|AEC3+AEC3/AEC3\AECA;
-                      BNE CODE_01AEEE                           ;;AEC6|AEC6+AEC6/AEC6\AECD;
+.waitMario:           LDA.W !SpriteOffscreenVert,X              ;;AEC3|AEC3+AEC3/AEC3\AECA;
+                      BNE ..isOffscreenVert                     ;;AEC6|AEC6+AEC6/AEC6\AECD;
                       LDA.W !SpriteOffscreenX,X                 ;;AEC8|AEC8+AEC8/AEC8\AECF;
-                      BNE Return01AEF9                          ;;AECB|AECB+AECB/AECB\AED2;
+                      BNE ..ret                                 ;;AECB|AECB+AECB/AECB\AED2;
                       JSR SubHorizPosBnk1                       ;;AECD|AECD+AECD/AECD\AED4;
                       TYA                                       ;;AED0|AED0+AED0/AED0\AED7;
                       STA.W !SpriteMisc157C,X                   ;;AED1|AED1+AED1/AED1\AED8;
@@ -5795,30 +5795,30 @@ CODE_01AEC3:          LDA.W !SpriteOffscreenVert,X              ;;AEC3|AEC3+AEC3
                       CLC                                       ;;AED9|AED9+AED9/AED9\AEE0;
                       ADC.B #$40                                ;;AEDA|AEDA+AEDA/AEDA\AEE1;
                       CMP.B #$80                                ;;AEDC|AEDC+AEDC/AEDC\AEE3;
-                      BCS +                                     ;;AEDE|AEDE+AEDE/AEDE\AEE5;
+                      BCS ..noGlareAni                          ;;AEDE|AEDE+AEDE/AEDE\AEE5;
                       LDA.B #$01                                ;;AEE0|AEE0+AEE0/AEE0\AEE7;
                       STA.W !SpriteMisc1528,X                   ;;AEE2|AEE2+AEE2/AEE2\AEE9;
-                    + LDA.B !_F                                 ;;AEE5|AEE5+AEE5/AEE5\AEEC;
+..noGlareAni:         LDA.B !_F                                 ;;AEE5|AEE5+AEE5/AEE5\AEEC;
                       CLC                                       ;;AEE7|AEE7+AEE7/AEE7\AEEE;
                       ADC.B #$24                                ;;AEE8|AEE8+AEE8/AEE8\AEEF;
                       CMP.B #$50                                ;;AEEA|AEEA+AEEA/AEEA\AEF1;
-                      BCS Return01AEF9                          ;;AEEC|AEEC+AEEC/AEEC\AEF3;
-CODE_01AEEE:          LDA.B #$02                                ;;AEEE|AEEE+AEEE/AEEE\AEF5;
+                      BCS ..ret                                 ;;AEEC|AEEC+AEEC/AEEC\AEF3;
+..isOffscreenVert:    LDA.B #$02                                ;;AEEE|AEEE+AEEE/AEEE\AEF5;
                       STA.W !SpriteMisc1528,X                   ;;AEF0|AEF0+AEF0/AEF0\AEF7;
                       INC.B !SpriteTableC2,X                    ;;AEF3|AEF3+AEF3/AEF3\AEFA;
                       LDA.B #$00                                ;;AEF5|AEF5+AEF5/AEF5\AEFC;
                       STA.B !SpriteYSpeed,X                     ;;AEF7|AEF7+AEF7/AEF7\AEFE;
-Return01AEF9:         RTS                                       ;;AEF9|AEF9+AEF9/AEF9\AF00; Return
+..ret:                RTS                                       ;;AEF9|AEF9+AEF9/AEF9\AF00; Return
                                                                 ;;                        ;
-CODE_01AEFA:          JSR SubSprYPosNoGrvty                     ;;AEFA|AEFA+AEFA/AEFA\AF01;
+.falling:             JSR SubSprYPosNoGrvty                     ;;AEFA|AEFA+AEFA/AEFA\AF01;
                       LDA.B !SpriteYSpeed,X                     ;;AEFD|AEFD+AEFD/AEFD\AF04;
                       CMP.B #$3E                                ;;AEFF|AEFF+AEFF/AEFF\AF06;
-                      BCS +                                     ;;AF01|AF01+AF01/AF01\AF08;
+                      BCS ..accelMax                            ;;AF01|AF01+AF01/AF01\AF08;
                       ADC.B #$04                                ;;AF03|AF03+AF03/AF03\AF0A;
                       STA.B !SpriteYSpeed,X                     ;;AF05|AF05+AF05/AF05\AF0C;
-                    + JSR CODE_019140                           ;;AF07|AF07+AF07/AF07\AF0E;
+..accelMax:           JSR SprObjInteractRt                      ;;AF07|AF07+AF07/AF07\AF0E;
                       JSR IsOnGround                            ;;AF0A|AF0A+AF0A/AF0A\AF11;
-                      BEQ +                                     ;;AF0D|AF0D+AF0D/AF0D\AF14;
+                      BEQ ..notGroundedYet                      ;;AF0D|AF0D+AF0D/AF0D\AF14;
                       JSR SetSomeYSpeed__                       ;;AF0F|AF0F+AF0F/AF0F\AF16;
                       LDA.B #$18                                ;;AF12|AF12+AF12/AF12\AF19; \ Set ground shake timer
                       STA.W !ScreenShakeTimer                   ;;AF14|AF14+AF14/AF14\AF1B; /
@@ -5827,22 +5827,22 @@ CODE_01AEFA:          JSR SubSprYPosNoGrvty                     ;;AEFA|AEFA+AEFA
                       LDA.B #$40                                ;;AF1C|AF1C+AF1C/AF1C\AF23;
                       STA.W !SpriteMisc1540,X                   ;;AF1E|AF1E+AF1E/AF1E\AF25;
                       INC.B !SpriteTableC2,X                    ;;AF21|AF21+AF21/AF21\AF28;
-                    + RTS                                       ;;AF23|AF23+AF23/AF23\AF2A; Return
+..notGroundedYet:     RTS                                       ;;AF23|AF23+AF23/AF23\AF2A; Return
                                                                 ;;                        ;
-CODE_01AF24:          LDA.W !SpriteMisc1540,X                   ;;AF24|AF24+AF24/AF24\AF2B;
-                      BNE Return01AF3F                          ;;AF27|AF27+AF27/AF27\AF2E;
+.hitGroundRising:     LDA.W !SpriteMisc1540,X                   ;;AF24|AF24+AF24/AF24\AF2B;
+                      BNE ..ret                                 ;;AF27|AF27+AF27/AF27\AF2E;
                       STZ.W !SpriteMisc1528,X                   ;;AF29|AF29+AF29/AF29\AF30;
                       LDA.B !SpriteYPosLow,X                    ;;AF2C|AF2C+AF2C/AF2C\AF33;
-                      CMP.W !SpriteMisc151C,X                   ;;AF2E|AF2E+AF2E/AF2E\AF35;
-                      BNE +                                     ;;AF31|AF31+AF31/AF31\AF38;
+                      CMP.W !SpriteMisc151C,X                   ;;AF2E|AF2E+AF2E/AF2E\AF35; Spawn Y-pos low byte cache
+                      BNE ..keepRising                          ;;AF31|AF31+AF31/AF31\AF38;
                       LDA.B #$00                                ;;AF33|AF33+AF33/AF33\AF3A;
                       STA.B !SpriteTableC2,X                    ;;AF35|AF35+AF35/AF35\AF3C;
                       RTS                                       ;;AF37|AF37+AF37/AF37\AF3E; Return
                                                                 ;;                        ;
-                    + LDA.B #$F0                                ;;AF38|AF38+AF38/AF38\AF3F;
+..keepRising:         LDA.B #$F0                                ;;AF38|AF38+AF38/AF38\AF3F;
                       STA.B !SpriteYSpeed,X                     ;;AF3A|AF3A+AF3A/AF3A\AF41;
                       JSR SubSprYPosNoGrvty                     ;;AF3C|AF3C+AF3C/AF3C\AF43;
-Return01AF3F:         RTS                                       ;;AF3F|AF3F+AF3F/AF3F\AF46; Return
+..ret:                RTS                                       ;;AF3F|AF3F+AF3F/AF3F\AF46; Return
                                                                 ;;                        ;
                                                                 ;;                        ;
 ThwompDispX:          db $FC,$04,$FC,$04,$00                    ;;AF40|AF40+AF40/AF40\AF47;
@@ -5889,9 +5889,9 @@ CODE_01AF8F:          STA.W !OAMTileNo+$100,Y                   ;;AF8F|AF8F+AF8F
                       DEX                                       ;;AF96|AF96+AF96/AF96\AF9D;
                       BPL CODE_01AF64                           ;;AF97|AF97+AF97/AF97\AF9E;
                       PLX                                       ;;AF99|AF99+AF99/AF99\AFA0; pull sprite index
-                      LDA.B #$04                                ;;AF9A|AF9A+AF9A/AF9A\AFA1; \ i believe this abuses a property of the oam allocator to avoid drawing a
-                      JMP DoFinOAMWrite16x16                    ;;AF9C|AF9C+AF9C/AF9C\AFA3; / garbage tile when drawing the 'normal' face: the immediate tile after is not allocated,
-                                                                ;;                        ;   so should always be offscreen when not set up here?
+                      LDA.B #$04                                ;;AF9A|AF9A+AF9A/AF9A\AFA1;
+                      JMP DoFinOAMWrite16x16                    ;;AF9C|AF9C+AF9C/AF9C\AFA3;
+                                                                ;;                        ;
 Thwimp:               LDA.W !SpriteStatus,X                     ;;AF9F|AF9F+AF9F/AF9F\AFA6;
                       CMP.B #$08                                ;;AFA2|AFA2+AFA2/AFA2\AFA9;
                       BNE CODE_01B006                           ;;AFA4|AFA4+AFA4/AFA4\AFAB;
@@ -5901,7 +5901,7 @@ Thwimp:               LDA.W !SpriteStatus,X                     ;;AF9F|AF9F+AF9F
                       JSR MarioSprInteractRt                    ;;AFAD|AFAD+AFAD/AFAD\AFB4;
                       JSR SubSprXPosNoGrvty                     ;;AFB0|AFB0+AFB0/AFB0\AFB7;
                       JSR SubSprYPosNoGrvty                     ;;AFB3|AFB3+AFB3/AFB3\AFBA;
-                      JSR CODE_019140                           ;;AFB6|AFB6+AFB6/AFB6\AFBD;
+                      JSR SprObjInteractRt                      ;;AFB6|AFB6+AFB6/AFB6\AFBD;
                       LDA.B !SpriteYSpeed,X                     ;;AFB9|AFB9+AFB9/AFB9\AFC0;
                       BMI CODE_01AFC3                           ;;AFBB|AFBB+AFBB/AFBB\AFC2;
                       CMP.B #$40                                ;;AFBD|AFBD+AFBD/AFBD\AFC4;
@@ -6016,7 +6016,7 @@ CODE_01B09C:          LDA.W !SpriteMisc1602,X                   ;;B09C|B09C+B09C
                       STA.W !SpriteMisc1602,X                   ;;B0A2|B0A2+B0A2/B0A2\B0A9;
                       BRA CODE_01B0EA                           ;;B0A5|B0A5+B0A5/B0A5\B0AC;
                                                                 ;;                        ;
-CODE_01B0A7:          JSR CODE_019140                           ;;B0A7|B0A7+B0A7/B0A7\B0AE;
+CODE_01B0A7:          JSR SprObjInteractRt                      ;;B0A7|B0A7+B0A7/B0A7\B0AE;
                       JSR UpdateDirection                       ;;B0AA|B0AA+B0AA/B0AA\B0B1;
                       ASL.W !SpriteOBJAttribute,X               ;;B0AD|B0AD+B0AD/B0AD\B0B4;
                       LSR.W !SpriteOBJAttribute,X               ;;B0B0|B0B0+B0B0/B0B0\B0B7;
@@ -6129,7 +6129,7 @@ GeneratedFish:        JSR CODE_01B209                           ;;B192|B192+B192
                       JSR SetAnimationFrame                     ;;B199|B199+B199/B199\B1A0;
                       JSR SubSprXPosNoGrvty                     ;;B19C|B19C+B19C/B19C\B1A3;
                       JSR SubSprYPosNoGrvty                     ;;B19F|B19F+B19F/B19F\B1A6;
-                      JSR CODE_019140                           ;;B1A2|B1A2+B1A2/B1A2\B1A9;
+                      JSR SprObjInteractRt                      ;;B1A2|B1A2+B1A2/B1A2\B1A9;
                       LDA.B !SpriteYSpeed,X                     ;;B1A5|B1A5+B1A5/B1A5\B1AC;
                       CMP.B #$20                                ;;B1A7|B1A7+B1A7/B1A7\B1AE;
                       BPL +                                     ;;B1A9|B1A9+B1A9/B1A9\B1B0;
@@ -6206,7 +6206,7 @@ InitOrangePlat:       LDA.W !SpriteBuoyancy                     ;;B22E|B22E+B22E
                                                                 ;;                        ;
 InitFloatingPlat:     LDA.B #$03                                ;;B236|B236+B236/B236\B23D;
                       STA.W !SpriteMisc151C,X                   ;;B238|B238+B238/B238\B23F;
-CODE_01B23B:          JSR CODE_019140                           ;;B23B|B23B+B23B/B23B\B242;
+CODE_01B23B:          JSR SprObjInteractRt                      ;;B23B|B23B+B23B/B23B\B242;
                       LDA.W !SpriteInLiquid,X                   ;;B23E|B23E+B23E/B23E\B245;
                       BNE Return01B25D                          ;;B241|B241+B241/B241\B248;
                       DEC.W !SpriteMisc151C,X                   ;;B243|B243+B243/B243\B24A;
@@ -6718,7 +6718,7 @@ CODE_01B624:          LDY.W !TileGenerateTrackA                 ;;B625|B624+B624
                       PHA                                       ;;B63F|B63E+B63E/B63E\B645;
                       SBC.B #$00                                ;;B640|B63F+B63F/B63F\B646;
                       STA.W !SpriteXPosHigh,X                   ;;B642|B641+B641/B641\B648;
-                      JSR CODE_019140                           ;;B645|B644+B644/B644\B64B;
+                      JSR SprObjInteractRt                      ;;B645|B644+B644/B644\B64B;
                       PLA                                       ;;B648|B647+B647/B647\B64E;
                       STA.W !SpriteXPosHigh,X                   ;;B649|B648+B648/B648\B64F;
                       PLA                                       ;;B64C|B64B+B64B/B64B\B652;
@@ -7231,7 +7231,7 @@ CODE_01B9A3:          LDY.B !SpriteYPosLow,X                    ;;B9A4|B9A3+B9A3
                                                                 ;;                        ;
 CODE_01B9FB:          LDA.B !SpriteLock                         ;;B9FC|B9FB+B9FB/B9FB\BA02; \ Branch if sprites locked
                       BNE CODE_01BA53                           ;;B9FE|B9FD+B9FD/B9FD\BA04; /
-                      JSR CODE_019140                           ;;BA00|B9FF+B9FF/B9FF\BA06;
+                      JSR SprObjInteractRt                      ;;BA00|B9FF+B9FF/B9FF\BA06;
                       LDY.B !SpriteTableC2,X                    ;;BA03|BA02+BA02/BA02\BA09;
                       LDA.W !SpriteBlockedDirs,X                ;;BA05|BA04+BA04/BA04\BA0B;
                       AND.W DATA_01B97D,Y                       ;;BA08|BA07+BA07/BA07\BA0E;
@@ -7503,7 +7503,7 @@ MagikoopasMagic:      LDA.B !SpriteLock                         ;;BC3D|BC38+BC38
                       PHA                                       ;;BC4F|BC4A+BC4A/BC4A\BC51;
                       LDA.B #$FF                                ;;BC50|BC4B+BC4B/BC4B\BC52;
                       STA.B !SpriteYSpeed,X                     ;;BC52|BC4D+BC4D/BC4D\BC54;
-                      JSR CODE_019140                           ;;BC54|BC4F+BC4F/BC4F\BC56;
+                      JSR SprObjInteractRt                      ;;BC54|BC4F+BC4F/BC4F\BC56;
                       PLA                                       ;;BC57|BC52+BC52/BC52\BC59;
                       STA.B !SpriteYSpeed,X                     ;;BC58|BC53+BC53/BC53\BC5A;
                       JSR IsTouchingCeiling                     ;;BC5A|BC55+BC55/BC55\BC5C;
@@ -7742,7 +7742,7 @@ CODE_01BDF2:          LDA.W !SpriteWillAppear                   ;;BDFD|BDF2+BDF2
                       STZ.B !SpriteYSpeed,X                     ;;BE47|BE3C+BE3C/BE3C\BE43; Sprite Y Speed = 0
                       LDA.B #$01                                ;;BE49|BE3E+BE3E/BE3E\BE45;
                       STA.B !SpriteXSpeed,X                     ;;BE4B|BE40+BE40/BE40\BE47;
-                      JSR CODE_019140                           ;;BE4D|BE42+BE42/BE42\BE49;
+                      JSR SprObjInteractRt                      ;;BE4D|BE42+BE42/BE42\BE49;
                       JSR IsOnGround                            ;;BE50|BE45+BE45/BE45\BE4C;
                       BEQ +                                     ;;BE53|BE48+BE48/BE48\BE4F;
                       LDA.W !SprMap16TouchHorizHigh             ;;BE55|BE4A+BE4A/BE4A\BE51;
@@ -8184,7 +8184,7 @@ GrowingVine:          LDA.B !SpriteProperties                   ;;C18E|C183+C183
                       LDA.W !SpriteMisc1540,X                   ;;C1BF|C1B4+C1B4/C1B4\C1BB;
                       CMP.B #$20                                ;;C1C2|C1B7+C1B7/C1B7\C1BE;
                       BCS CODE_01C1CB                           ;;C1C4|C1B9+C1B9/C1B9\C1C0;
-                      JSR CODE_019140                           ;;C1C6|C1BB+C1BB/C1BB\C1C2;
+                      JSR SprObjInteractRt                      ;;C1C6|C1BB+C1BB/C1BB\C1C2;
                       LDA.W !SpriteBlockedDirs,X                ;;C1C9|C1BE+C1BE/C1BE\C1C5;
                       BNE CODE_01C1C8                           ;;C1CC|C1C1+C1C1/C1C1\C1C8;
                       LDA.W !SpriteXPosHigh,X                   ;;C1CE|C1C3+C1C3/C1C3\C1CA;
@@ -8425,7 +8425,7 @@ PowerUpRt:            LDA.W !SpriteMisc160E,X                   ;;C35E|C353+C353
                                                                 ;;                        ;
 CODE_01C38F:          LDA.W !SpriteMisc1540,X                   ;;C39B|C38F+C38F/C392\C399;
                       BEQ CODE_01C3AE                           ;;C39E|C392+C392/C395\C39C;
-                      JSR CODE_019140                           ;;C3A0|C394+C394/C397\C39E;
+                      JSR SprObjInteractRt                      ;;C3A0|C394+C394/C397\C39E;
                       LDA.W !SpriteMisc1528,X                   ;;C3A3|C397+C397/C39A\C3A1;
                       BNE +                                     ;;C3A6|C39A+C39A/C39D\C3A4;
                       LDA.B #$10                                ;;C3A8|C39C+C39C/C39F\C3A6;
@@ -8463,7 +8463,7 @@ CODE_01C3AE:          LDA.B !SpriteLock                         ;;C3BA|C3AE+C3AE
                     + LDA.B !SpriteTableC2,X                    ;;C3ED|C3E1+C3E1/C3E4\C3EB;
                       BEQ CODE_01C3F3                           ;;C3EF|C3E3+C3E3/C3E6\C3ED;
                       BMI +                                     ;;C3F1|C3E5+C3E5/C3E8\C3EF;
-                      JSR CODE_019140                           ;;C3F3|C3E7+C3E7/C3EA\C3F1;
+                      JSR SprObjInteractRt                      ;;C3F3|C3E7+C3E7/C3EA\C3F1;
                       LDA.W !SpriteBlockedDirs,X                ;;C3F6|C3EA+C3EA/C3ED\C3F4;
                       BNE +                                     ;;C3F9|C3ED+C3ED/C3F0\C3F7;
                       STZ.B !SpriteTableC2,X                    ;;C3FB|C3EF+C3EF/C3F2\C3F9;
@@ -8556,7 +8556,7 @@ CODE_01C4A8:          PLA                                       ;;C4B4|C4A8+C4A8
                       STA.B !SpriteProperties                   ;;C4B5|C4A9+C4A9/C4AC\C4B3;
                     - RTS                                       ;;C4B7|C4AB+C4AB/C4AE\C4B5; Return
                                                                 ;;                        ;
-CODE_01C4AC:          JSR CODE_01A80F                           ;;C4B8|C4AC+C4AC/C4AF\C4B6;
+CODE_01C4AC:          JSR ProcInterxnNoProxChk                  ;;C4B8|C4AC+C4AC/C4AF\C4B6;
                       BCC -                                     ;;C4BB|C4AF+C4AF/C4B2\C4B9;
                       LDA.W !SpriteMisc151C,X                   ;;C4BD|C4B1+C4B1/C4B4\C4BB;
                       BEQ CODE_01C4BA                           ;;C4C0|C4B4+C4B4/C4B7\C4BE;
@@ -8838,7 +8838,7 @@ Feather:              LDA.B !SpriteLock                         ;;C6F9|C6ED+C6ED
                       BNE CODE_01C744                           ;;C6FB|C6EF+C6EF/C6F2\C6F9; /
                       LDA.B !SpriteTableC2,X                    ;;C6FD|C6F1+C6F1/C6F4\C6FB;
                       BEQ CODE_01C701                           ;;C6FF|C6F3+C6F3/C6F6\C6FD;
-                      JSR CODE_019140                           ;;C701|C6F5+C6F5/C6F8\C6FF;
+                      JSR SprObjInteractRt                      ;;C701|C6F5+C6F5/C6F8\C6FF;
                       LDA.W !SpriteBlockedDirs,X                ;;C704|C6F8+C6F8/C6FB\C702;
                       BNE +                                     ;;C707|C6FB+C6FB/C6FE\C705;
                       STZ.B !SpriteTableC2,X                    ;;C709|C6FD+C6FD/C700\C707;
@@ -10780,7 +10780,7 @@ CODE_01D671:          LDA.B !SpriteNumber,X                     ;;D672|D671+D671
                       JSL LoadSpriteTables                      ;;D67D|D67C+D67C/D683\D68A;
                       RTS                                       ;;D681|D680+D680/D687\D68E; Return
                                                                 ;;                        ;
-                    + JSR CODE_019140                           ;;D682|D681+D681/D688\D68F;
+                    + JSR SprObjInteractRt                      ;;D682|D681+D681/D688\D68F;
                       JSR IsOnGround                            ;;D685|D684+D684/D68B\D692;
                       BEQ +                                     ;;D688|D687+D687/D68E\D695;
                       JSR SetSomeYSpeed__                       ;;D68A|D689+D689/D690\D697;
@@ -10792,7 +10792,7 @@ CODE_01D693:          TXA                                       ;;D694|D693+D693
                       EOR.B !TrueFrame                          ;;D695|D694+D694/D69B\D6A2;
                       LSR A                                     ;;D697|D696+D696/D69D\D6A4;
                       BCC CODE_01D6B5                           ;;D698|D697+D697/D69E\D6A5;
-                      JSR CODE_019140                           ;;D69A|D699+D699/D6A0\D6A7;
+                      JSR SprObjInteractRt                      ;;D69A|D699+D699/D6A0\D6A7;
                       JSR IsTouchingObjSide                     ;;D69D|D69C+D69C/D6A3\D6AA;
                       BEQ +                                     ;;D6A0|D69F+D69F/D6A6\D6AD;
                       LDA.B #$01                                ;;D6A2|D6A1+D6A1/D6A8\D6AF;
@@ -11236,7 +11236,7 @@ CODE_01D9D3:          JSR CODE_01DC54                           ;;D9D4|D9D3+D9D3
                       LDA.B !PlayerBlockedDir                   ;;D9F4|D9F3+D9F3/D9FA\DA01;
                       AND.B #$03                                ;;D9F6|D9F5+D9F5/D9FC\DA03;
                       BNE Return01DA09                          ;;D9F8|D9F7+D9F7/D9FE\DA05;
-                      JSR CODE_01A80F                           ;;D9FA|D9F9+D9F9/DA00\DA07;
+                      JSR ProcInterxnNoProxChk                  ;;D9FA|D9F9+D9F9/DA00\DA07;
                       BCS CODE_01DA0A                           ;;D9FD|D9FC+D9FC/DA03\DA0A;
 CODE_01D9FE:          LDA.W !SpriteMisc163E,X                   ;;D9FF|D9FE+D9FE/DA05\DA0C;
                       BEQ Return01DA09                          ;;DA02|DA01+DA01/DA08\DA0F;
@@ -11960,7 +11960,7 @@ InitFireball:         LDA.B !SpriteYPosLow,X                    ;;E05B|E050+E050
                       LDA.W !SpriteXPosHigh,X                   ;;E06D|E062+E062/E069\E070;
                       ADC.B #$00                                ;;E070|E065+E065/E06C\E073;
                       STA.W !SpriteXPosHigh,X                   ;;E072|E067+E067/E06E\E075;
-                      JSR CODE_019140                           ;;E075|E06A+E06A/E071\E078;
+                      JSR SprObjInteractRt                      ;;E075|E06A+E06A/E071\E078;
                       LDA.W !SpriteInLiquid,X                   ;;E078|E06D+E06D/E074\E07B;
                       BEQ -                                     ;;E07B|E070+E070/E077\E07E;
                       JSR CODE_01E0E2                           ;;E07D|E072+E072/E079\E080;
@@ -12000,7 +12000,7 @@ CODE_01E0A7:          LDA.B !SpriteLock                         ;;E0B2|E0A7+E0A7
                       INC.W !SpriteMisc1602,X                   ;;E0CE|E0C3+E0C3/E0CA\E0D1;
                       ORA.B #$80                                ;;E0D1|E0C6+E0C6/E0CD\E0D4;
                     + STA.W !SpriteOBJAttribute,X               ;;E0D3|E0C8+E0C8/E0CF\E0D6;
-                      JSR CODE_019140                           ;;E0D6|E0CB+E0CB/E0D2\E0D9;
+                      JSR SprObjInteractRt                      ;;E0D6|E0CB+E0CB/E0D2\E0D9;
                       LDA.W !SpriteInLiquid,X                   ;;E0D9|E0CE+E0CE/E0D5\E0DC;
                       BEQ CODE_01E106                           ;;E0DC|E0D1+E0D1/E0D8\E0DF;
                       LDA.B !SpriteYSpeed,X                     ;;E0DE|E0D3+E0D3/E0DA\E0E1;

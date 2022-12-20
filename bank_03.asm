@@ -598,7 +598,7 @@ PorcuPuffer:          JSR CODE_0385A3                           ;;852F|852F+852F
                       JSL UpdateXPosNoGvtyW                     ;;856C|856C+856C/856C\856C;
                       PLA                                       ;;8570|8570+8570/8570\8570;
                       STA.B !SpriteXSpeed,X                     ;;8571|8571+8571/8571\8571;
-                      JSL CODE_019138                           ;;8573|8573+8573/8573\8573;
+                      JSL SprObjInteract                        ;;8573|8573+8573/8573\8573;
                       LDY.B #$04                                ;;8577|8577+8577/8577\8577;
                       LDA.W !SpriteInLiquid,X                   ;;8579|8579+8579/8579\8579;
                       BEQ +                                     ;;857C|857C+857C/857C\857C;
@@ -1869,7 +1869,7 @@ CODE_038FA4:          LDA.W !SpriteStatus,X                     ;;8FA4|8FA4+8FA4
                       JSR CODE_039020                           ;;8FBF|8FBF+8FBF/8FBF\8FBF;
                     + JSL UpdateYPosNoGvtyW                     ;;8FC2|8FC2+8FC2/8FC2\8FC2;
                       JSL UpdateXPosNoGvtyW                     ;;8FC6|8FC6+8FC6/8FC6\8FC6;
-                      JSL CODE_019138                           ;;8FCA|8FCA+8FCA/8FCA\8FCA;
+                      JSL SprObjInteract                        ;;8FCA|8FCA+8FCA/8FCA\8FCA;
                       LDA.W !SpriteBlockedDirs,X                ;;8FCE|8FCE+8FCE/8FCE\8FCE; \ Branch if not touching object
                       AND.B #$03                                ;;8FD1|8FD1+8FD1/8FD1\8FD1;  |
                       BEQ +                                     ;;8FD3|8FD3+8FD3/8FD3\8FD3; /
@@ -2273,7 +2273,7 @@ CODE_03932C:          LDA.B #$02                                ;;932C|932C+932C
                       LDA.B #$01                                ;;9331|9331+9331/9331\9331;
                       STA.B !SpriteXSpeed,X                     ;;9333|9333+9333/9333\9333;
                       STA.B !SpriteYSpeed,X                     ;;9335|9335+9335/9335\9335;
-                      JSL CODE_019138                           ;;9337|9337+9337/9337\9337;
+                      JSL SprObjInteract                        ;;9337|9337+9337/9337\9337;
                       LDA.W !SpriteBlockedDirs,X                ;;933B|933B+933B/933B\933B;
                       PHA                                       ;;933E|933E+933E/933E\933E;
                       LDA.B #$FF                                ;;933F|933F+933F/933F\933F;
@@ -2297,7 +2297,7 @@ CODE_03932C:          LDA.B #$02                                ;;932C|932C+932C
                       PHA                                       ;;9361|9361+9361/9361\9361;
                       SBC.B #$00                                ;;9362|9362+9362/9362\9362;
                       STA.W !SpriteXPosHigh,X                   ;;9364|9364+9364/9364\9364;
-                      JSL CODE_019138                           ;;9367|9367+9367/9367\9367;
+                      JSL SprObjInteract                        ;;9367|9367+9367/9367\9367;
                       PLA                                       ;;936B|936B+936B/936B\936B;
                       STA.W !SpriteXPosHigh,X                   ;;936C|936C+936C/936C\936C;
                       PLA                                       ;;936F|936F+936F/936F\936F;
