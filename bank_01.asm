@@ -1261,7 +1261,7 @@ CODE_018913:          JSR SetAnimationFrame                     ;;8913|8913+8913
                       JSR IsOnGround                            ;;8927|8927+8927/8927\8927; \ If sprite is on edge (on ground),
                       BEQ +                                     ;;892A|892A+892A/892A\892A;  |Sprite Y Speed = 0
                       STZ.B !SpriteYSpeed,X                     ;;892C|892C+892C/892C\892C; /
-                    + JMP CODE_018B03                           ;;892E|892E+892E/892E\892E;
+                    + JMP Spr0to13NakedKoopaE                   ;;892E|892E+892E/892E\892E;
                                                                 ;;                        ;
 CODE_018931:          LDA.B !SpriteNumber,X                     ;;8931|8931+8931/8931\8931; \
                       CMP.B #$02                                ;;8933|8933+8933/8933\8933;  |If sprite isn't Blue shelless Koopa,
@@ -1479,28 +1479,28 @@ Bobomb:               LDA.W !SpriteMisc1534,X                   ;;8AE5|8AE5+8AE5
 Spr0to13Start:        LDA.B !SpriteLock                         ;;8AFC|8AFC+8AFC/8AFC\8AFC; \ If sprites locked...
                       BEQ Spr0to13Main                          ;;8AFE|8AFE+8AFE/8AFE\8AFE;  |
 CODE_018B00:          JSR MarioSprInteractRt                    ;;8B00|8B00+8B00/8B00\8B00;  | ...interact with Mario
-CODE_018B03:          JSR SubSprSprInteract                     ;;8B03|8B03+8B03/8B03\8B03;  | ...interact with sprites
+Spr0to13NakedKoopaE:  JSR SubSprSprInteract                     ;;8B03|8B03+8B03/8B03\8B03;  | ...interact with sprites (shelless koopas have special Mario interaction handling)
                       JSR Spr0to13Gfx                           ;;8B06|8B06+8B06/8B06\8B06;  | ...draw sprite
                       RTS                                       ;;8B09|8B09+8B09/8B09\8B09; / Return
                                                                 ;;                        ;
 Spr0to13Main:         JSR IsOnGround                            ;;8B0A|8B0A+8B0A/8B0A\8B0A; \ If sprite on ground...
-                      BEQ CODE_018B2E                           ;;8B0D|8B0D+8B0D/8B0D\8B0D;  |
+                      BEQ .airborne                             ;;8B0D|8B0D+8B0D/8B0D\8B0D;  |
                       LDY.B !SpriteNumber,X                     ;;8B0F|8B0F+8B0F/8B0F\8B0F;  |
                       LDA.W Spr0to13Prop,Y                      ;;8B11|8B11+8B11/8B11\8B11;  | Set sprite X speed
                       LSR A                                     ;;8B14|8B14+8B14/8B14\8B14;  |
-                      LDY.W !SpriteMisc157C,X                   ;;8B15|8B15+8B15/8B15\8B15;  |
-                      BCC +                                     ;;8B18|8B18+8B18/8B18\8B18;  |
+                      LDY.W !SpriteMisc157C,X                   ;;8B15|8B15+8B15/8B15\8B15;  | Sprite facing direction
+                      BCC .noFastWalk                           ;;8B18|8B18+8B18/8B18\8B18;  |
                       INY                                       ;;8B1A|8B1A+8B1A/8B1A\8B1A;  | Increase index if sprite set to go fast
                       INY                                       ;;8B1B|8B1B+8B1B/8B1B\8B1B;  |
-                    + LDA.W Spr0to13SpeedX,Y                    ;;8B1C|8B1C+8B1C/8B1C\8B1C;  |
-                      EOR.W !SpriteSlope,X                      ;;8B1F|8B1F+8B1F/8B1F\8B1F;  | what does $15B8,x do?
-                      ASL A                                     ;;8B22|8B22+8B22/8B22\8B22;  |
-                      LDA.W Spr0to13SpeedX,Y                    ;;8B23|8B23+8B23/8B23\8B23;  |
-                      BCC +                                     ;;8B26|8B26+8B26/8B26\8B26;  |
-                      CLC                                       ;;8B28|8B28+8B28/8B28\8B28;  |
-                      ADC.W !SpriteSlope,X                      ;;8B29|8B29+8B29/8B29\8B29;  |
-                    + STA.B !SpriteXSpeed,X                     ;;8B2C|8B2C+8B2C/8B2C\8B2C; /
-CODE_018B2E:          LDY.W !SpriteMisc157C,X                   ;;8B2E|8B2E+8B2E/8B2E\8B2E; \ If touching an object in the direction
+.noFastWalk:          LDA.W Spr0to13SpeedX,Y                    ;;8B1C|8B1C+8B1C/8B1C\8B1C;  |
+                      EOR.W !SpriteSlope,X                      ;;8B1F|8B1F+8B1F/8B1F\8B1F;  | \ set cary if sprite going uphill
+                      ASL A                                     ;;8B22|8B22+8B22/8B22\8B22;  | /
+                      LDA.W Spr0to13SpeedX,Y                    ;;8B23|8B23+8B23/8B23\8B23;  | > reload speed value
+                      BCC .spriteSpdWithSlope                   ;;8B26|8B26+8B26/8B26\8B26;  |
+                      CLC                                       ;;8B28|8B28+8B28/8B28\8B28;  | Carry is set if sprite is going uphill
+                      ADC.W !SpriteSlope,X                      ;;8B29|8B29+8B29/8B29\8B29;  | so reduce speed based on slope its on
+.spriteSpdWithSlope:  STA.B !SpriteXSpeed,X                     ;;8B2C|8B2C+8B2C/8B2C\8B2C; /
+.airborne:            LDY.W !SpriteMisc157C,X                   ;;8B2E|8B2E+8B2E/8B2E\8B2E; \ If touching an object in the direction
                       TYA                                       ;;8B31|8B31+8B31/8B31\8B31;  | that Mario is moving...
                       INC A                                     ;;8B32|8B32+8B32/8B32\8B32;  |
                       AND.W !SpriteBlockedDirs,X                ;;8B33|8B33+8B33/8B33\8B33;  |
@@ -2859,7 +2859,7 @@ UnstunSprite:         LDA.B !SpriteNumber,X                     ;;96A9|96A9+96A9
                       BEQ Return0196CA                          ;;96C1|96C1+96C1/96C1\96CD; /
                       CMP.B #$53                                ;;96C3|96C3+96C3/96C3\96CF; \ Branch if not Throw Block
                       BNE GeneralResetSpr                       ;;96C5|96C5+96C5/96C5\96D1; /
-                      JSR CODE_019ACB                           ;;96C7|96C7+96C7/96C7\96D3; Set throw block to vanish
+                      JSR SpriteSpinkill                        ;;96C7|96C7+96C7/96C7\96D3; Set throw block to vanish
 Return0196CA:         RTS                                       ;;96CA|96CA+96CA/96CA\96D6; Return
                                                                 ;;                        ;
 SetNormalStatus:      LDA.B #$08                                ;;96CB|96CB+96CB/96CB\96D7; \ Sprite Status = Normal
@@ -3353,17 +3353,17 @@ HandleSprKilled:      LDA.B !SpriteNumber,X                     ;;9AA2|9AA2+9AA2
                       JSL CODE_02E463                           ;;9AC0|9AC0+9AC0/9AC0\9ACC; /
                     + LDA.W !SpriteTweaker1656,X                ;;9AC4|9AC4+9AC4/9AC4\9AD0; \ If "disappears in puff of smoke" is set...
                       AND.B #$80                                ;;9AC7|9AC7+9AC7/9AC7\9AD3;  |
-                      BEQ +                                     ;;9AC9|9AC9+9AC9/9AC9\9AD5;  |
-CODE_019ACB:          LDA.B #$04                                ;;9ACB|9ACB+9ACB/9ACB\9AD7;  | ...Sprite status = Spin Jump Killed...
+                      BEQ SpriteDyingNoSmoke                    ;;9AC9|9AC9+9AC9/9AC9\9AD5;  |
+SpriteSpinkill:       LDA.B #$04                                ;;9ACB|9ACB+9ACB/9ACB\9AD7;  | ...Sprite status = Spin Jump Killed...
                       STA.W !SpriteStatus,X                     ;;9ACD|9ACD+9ACD/9ACD\9AD9;  |
                       LDA.B #$1F                                ;;9AD0|9AD0+9AD0/9AD0\9ADC;  | ...Set Time to show smoke cloud...
                       STA.W !SpriteMisc1540,X                   ;;9AD2|9AD2+9AD2/9AD2\9ADE;  |
                       RTS                                       ;;9AD5|9AD5+9AD5/9AD5\9AE1; / ... and return
                                                                 ;;                        ;
-                    + LDA.B !SpriteLock                         ;;9AD6|9AD6+9AD6/9AD6\9AE2; \ Branch if sprites locked
-                      BNE +                                     ;;9AD8|9AD8+9AD8/9AD8\9AE4; /
+SpriteDyingNoSmoke:   LDA.B !SpriteLock                         ;;9AD6|9AD6+9AD6/9AD6\9AE2; \ Branch if sprites locked
+                      BNE .noPosUpdate                          ;;9AD8|9AD8+9AD8/9AD8\9AE4; /
                       JSR SubUpdateSprPos                       ;;9ADA|9ADA+9ADA/9ADA\9AE6;
-                    + JSR SubOffscreen0Bnk1                     ;;9ADD|9ADD+9ADD/9ADD\9AE9;
+.noPosUpdate:         JSR SubOffscreen0Bnk1                     ;;9ADD|9ADD+9ADD/9ADD\9AE9;
                       JSR HandleSpriteDeath                     ;;9AE0|9AE0+9AE0/9AE0\9AEC;
                       RTS                                       ;;9AE3|9AE3+9AE3/9AE3\9AEF; Return
                                                                 ;;                        ;
@@ -3480,17 +3480,17 @@ SprTilemap:           db $82,$A0,$82,$A2,$84,$A4,$8C,$8A        ;;9B83|9B83+9B83
                       db $88,$89,$CE,$CE,$89,$88,$F3,$CE        ;;9C73|9C73+9C73/9C73\9C7F;
                       db $F3,$CE,$A7,$A9                        ;;9C7B|9C7B+9C7B/9C7B\9C87;
                                                                 ;;                        ;
-SprTilemapOffset:     db $09,$09,$10,$09,$00,$00,$00,$00        ;;9C7F|9C7F+9C7F/9C7F\9C8B;
-                      db $00,$00,$00,$00,$00,$37,$00,$25        ;;9C87|9C87+9C87/9C87\9C93;
-                      db $25,$5A,$00,$4B,$4E,$8A,$8A,$8A        ;;9C8F|9C8F+9C8F/9C8F\9C9B;
-                      db $8A,$56,$3A,$46,$47,$69,$6B,$73        ;;9C97|9C97+9C97/9C97\9CA3;
-                      db $00,$00,$80,$80,$80,$80,$8E,$90        ;;9C9F|9C9F+9C9F/9C9F\9CAB;
-                      db $00,$00,$3A,$F6,$94,$95,$63,$9A        ;;9CA7|9CA7+9CA7/9CA7\9CB3;
-                      db $A6,$AA,$AE,$B2,$C2,$C4,$D5,$D9        ;;9CAF|9CAF+9CAF/9CAF\9CBB;
-                      db $D7,$D7,$E6,$E6,$E6,$E2,$99,$17        ;;9CB7|9CB7+9CB7/9CB7\9CC3;
-                      db $29,$E6,$E6,$E6,$00,$E8,$00,$8A        ;;9CBF|9CBF+9CBF/9CBF\9CCB;
-                      db $E8,$00,$ED,$EA,$7F,$EA,$EA,$3A        ;;9CC7|9CC7+9CC7/9CC7\9CD3;
-                      db $3A,$FA,$71,$7F                        ;;9CCF|9CCF+9CCF/9CCF\9CDB;
+SprTilemapOffset:     db $09,$09,$10,$09,$00,$00,$00,$00        ;;9C7F|9C7F+9C7F/9C7F\9C8B; Sprites 00-07
+                      db $00,$00,$00,$00,$00,$37,$00,$25        ;;9C87|9C87+9C87/9C87\9C93; Sprites 08-0F
+                      db $25,$5A,$00,$4B,$4E,$8A,$8A,$8A        ;;9C8F|9C8F+9C8F/9C8F\9C9B; Sprites 10-17
+                      db $8A,$56,$3A,$46,$47,$69,$6B,$73        ;;9C97|9C97+9C97/9C97\9CA3; Sprites 18-1F
+                      db $00,$00,$80,$80,$80,$80,$8E,$90        ;;9C9F|9C9F+9C9F/9C9F\9CAB; Sprites 20-27
+                      db $00,$00,$3A,$F6,$94,$95,$63,$9A        ;;9CA7|9CA7+9CA7/9CA7\9CB3; Sprites 28-2F
+                      db $A6,$AA,$AE,$B2,$C2,$C4,$D5,$D9        ;;9CAF|9CAF+9CAF/9CAF\9CBB; Sprites 30-37
+                      db $D7,$D7,$E6,$E6,$E6,$E2,$99,$17        ;;9CB7|9CB7+9CB7/9CB7\9CC3; Sprites 38-3F
+                      db $29,$E6,$E6,$E6,$00,$E8,$00,$8A        ;;9CBF|9CBF+9CBF/9CBF\9CCB; Sprites 40-47
+                      db $E8,$00,$ED,$EA,$7F,$EA,$EA,$3A        ;;9CC7|9CC7+9CC7/9CC7\9CD3; Sprites 48-4F
+                      db $3A,$FA,$71,$7F                        ;;9CCF|9CCF+9CCF/9CCF\9CDB; Sprites 50-53
                                                                 ;;                        ;
 GeneralSprDispX:      db $00,$08,$00,$08                        ;;9CD3|9CD3+9CD3/9CD3\9CDF;
                                                                 ;;                        ;
@@ -4159,7 +4159,7 @@ StunPow:              LDY.W !SpriteMisc163E,X                   ;;A1FD|A1FD+A1FD
                       BEQ CODE_01A218                           ;;A200|A200+A200/A200\A20C;
                       CPY.B #$01                                ;;A202|A202+A202/A202\A20E;
                       BNE +                                     ;;A204|A204+A204/A204\A210;
-                      JMP CODE_019ACB                           ;;A206|A206+A206/A206\A212;
+                      JMP SpriteSpinkill                        ;;A206|A206+A206/A206\A212;
                                                                 ;;                        ;
                     + JSR SmushedGfxRt                          ;;A209|A209+A209/A209\A215;
                       LDY.W !SpriteOAMIndex,X                   ;;A20C|A20C+A20C/A20C\A218; Y = Index into sprite OAM
@@ -5068,7 +5068,7 @@ CODE_01A924:          JSL DisplayContactGfxP                    ;;A926|A924+A924
                       LDA.W !PlayerRidingYoshi                  ;;A92E|A92C+A92C/A92C\A938;
                       BEQ +                                     ;;A931|A92F+A92F/A92F\A93B;
                       JSL BoostMarioSpeed                       ;;A933|A931+A931/A931\A93D;
-                    + JSR CODE_019ACB                           ;;A937|A935+A935/A935\A941;
+                    + JSR SpriteSpinkill                        ;;A937|A935+A935/A935\A941;
                       JSL CODE_07FC3B                           ;;A93A|A938+A938/A938\A944;
                       JSR CODE_01AB46                           ;;A93E|A93C+A93C/A93C\A948;
                       LDA.B #!SFX_SPINKILL                      ;;A941|A93F+A93F/A93F\A94B;
@@ -12058,7 +12058,7 @@ CODE_01E12D:          LDA.B !SpriteTableC2,X                    ;;E138|E12D+E12D
                       BEQ CODE_01E14A                           ;;E14C|E141+E141/E148\E14F;
                       CMP.B #$01                                ;;E14E|E143+E143/E14A\E151;
                       BNE +                                     ;;E150|E145+E145/E14C\E153;
-                      JMP CODE_019ACB                           ;;E152|E147+E147/E14E\E155;
+                      JMP SpriteSpinkill                        ;;E152|E147+E147/E14E\E155;
                                                                 ;;                        ;
 CODE_01E14A:          LDA.B #$80                                ;;E155|E14A+E14A/E151\E158;
                       STA.W !SpriteMisc1558,X                   ;;E157|E14C+E14C/E153\E15A;
@@ -15168,7 +15168,7 @@ IggysBall:            JSR SubSprGfx2Entry1                      ;;FA5B|FA58+FA58
                       BCC Return01FAB3                          ;;FAAD|FAAA+FAAA/FAAA\FAAA;
                       CMP.B #$50                                ;;FAAF|FAAC+FAAC/FAAC\FAAC;
                       BCS Return01FAB3                          ;;FAB1|FAAE+FAAE/FAAE\FAAE;
-                      JSR CODE_019ACB                           ;;FAB3|FAB0+FAB0/FAB0\FAB0;
+                      JSR SpriteSpinkill                        ;;FAB3|FAB0+FAB0/FAB0\FAB0;
 Return01FAB3:         RTS                                       ;;FAB6|FAB3+FAB3/FAB3\FAB3; Return
                                                                 ;;                        ;
                                                                 ;;                        ;

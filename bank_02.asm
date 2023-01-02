@@ -4823,25 +4823,25 @@ DATA_02A7F9:          db $FF,$00,$01                            ;;A813|A7F9+A7F9
 LoadSprFromLevel:     LDA.B !TrueFrame                          ;;A816|A7FC+A7FC/A7FC\A7FC; \ Return every other frame
                       AND.B #$01                                ;;A818|A7FE+A7FE/A7FE\A7FE;  |
                       BNE Return02A84B                          ;;A81A|A800+A800/A800\A800; /
-CODE_02A802:          LDY.B !Layer1ScrollDir                    ;;A81C|A802+A802/A802\A802;
+LoadSprFromLvlNoFR:   LDY.B !Layer1ScrollDir                    ;;A81C|A802+A802/A802\A802; FR - framerule
                       LDA.B !ScreenMode                         ;;A81E|A804+A804/A804\A804; \ Branch if horizontal level
                       LSR A                                     ;;A820|A806+A806/A806\A806;  |
-                      BCC CODE_02A817                           ;;A821|A807+A807/A807\A807; /
+                      BCC LoadSprHorzLevel                      ;;A821|A807+A807/A807\A807; /
                       LDA.B !Layer1YPos                         ;;A823|A809+A809/A809\A809; \ Vertical level:
                       CLC                                       ;;A825|A80B+A80B/A80B\A80B;  | $00,$01 = Screen boundary Y + offset
                       ADC.W DATA_02A7F6,Y                       ;;A826|A80C+A80C/A80C\A80C;  |
                       AND.B #$F0                                ;;A829|A80F+A80F/A80F\A80F;  |
                       STA.B !_0                                 ;;A82B|A811+A811/A811\A811;  |
                       LDA.B !Layer1YPos+1                       ;;A82D|A813+A813/A813\A813;  |
-                      BRA +                                     ;;A82F|A815+A815/A815\A815; /
+                      BRA LoadSprPosDone                        ;;A82F|A815+A815/A815\A815; /
                                                                 ;;                        ;
-CODE_02A817:          LDA.B !Layer1XPos                         ;;A831|A817+A817/A817\A817; \ Horizontal level:
+LoadSprHorzLevel:     LDA.B !Layer1XPos                         ;;A831|A817+A817/A817\A817; \ Horizontal level:
                       CLC                                       ;;A833|A819+A819/A819\A819;  | $00,$01 = Screen boundary X + offset
                       ADC.W DATA_02A7F6,Y                       ;;A834|A81A+A81A/A81A\A81A;  |
                       AND.B #$F0                                ;;A837|A81D+A81D/A81D\A81D;  |
                       STA.B !_0                                 ;;A839|A81F+A81F/A81F\A81F;  |
                       LDA.B !Layer1XPos+1                       ;;A83B|A821+A821/A821\A821;  |
-                    + ADC.W DATA_02A7F9,Y                       ;;A83D|A823+A823/A823\A823;  |
+LoadSprPosDone:       ADC.W DATA_02A7F9,Y                       ;;A83D|A823+A823/A823\A823;  |
                       BMI Return02A84B                          ;;A840|A826+A826/A826\A826;  |
                       STA.B !_1                                 ;;A842|A828+A828/A828\A828; /
                       LDX.B #$00                                ;;A844|A82A+A82A/A82A\A82A; X = #$00 (Number of sprite in level)
@@ -4879,9 +4879,9 @@ CODE_02A84C:          BNE Return02A84B                          ;;A866|A84C+A84C
                       INY                                       ;;A87A|A860+A860/A860\A860; Next byte
                       LDA.B [!SpriteDataPtr],Y                  ;;A87B|A861+A861/A861\A861; Byte format: Sprite number
                       STA.B !_5                                 ;;A87D|A863+A863/A863\A863; $05 = Sprite number
-                      DEY                                       ;;A87F|A865+A865/A865\A865; Previous byte
+                      DEY                                       ;;A87F|A865+A865/A865\A865; Y = index to current loading sprite x-position
                       CMP.B #$E7                                ;;A880|A866+A866/A866\A866; \ Branch if sprite number < #$E7
-                      BCC CODE_02A88C                           ;;A882|A868+A868/A868\A868; /
+                      BCC LoadSprNotScrollCmd                   ;;A882|A868+A868/A868\A868; /
                       LDA.W !Layer1ScrollCmd                    ;;A884|A86A+A86A/A86A\A86A;
                       ORA.W !Layer2ScrollCmd                    ;;A887|A86D+A86D/A86D\A86D;
                       BNE +                                     ;;A88A|A870+A870/A870\A870;
@@ -4891,7 +4891,7 @@ CODE_02A84C:          BNE Return02A84B                          ;;A866|A84C+A84C
                       SEC                                       ;;A890|A876+A876/A876\A876;  | (Sprite number - #$E7)
                       SBC.B #$E7                                ;;A891|A877+A877/A877\A877;  |
                       STA.W !Layer1ScrollCmd                    ;;A893|A879+A879/A879\A879; /
-                      DEY                                       ;;A896|A87C+A87C/A87C\A87C; Previous byte
+                      DEY                                       ;;A896|A87C+A87C/A87C\A87C; Y = index to current loading sprite y-position
                       LDA.B [!SpriteDataPtr],Y                  ;;A897|A87D+A87D/A87D\A87D; Byte format: YYYYEEsy
                       LSR A                                     ;;A899|A87F+A87F/A87F\A87F;
                       LSR A                                     ;;A89A|A880+A880/A880\A880;
@@ -4901,7 +4901,7 @@ CODE_02A84C:          BNE Return02A84B                          ;;A866|A84C+A84C
                       PLY                                       ;;A8A3|A889+A889/A889\A889;
                     + BRA LoadNextSprite                        ;;A8A4|A88A+A88A/A88A\A88A;
                                                                 ;;                        ;
-CODE_02A88C:          CMP.B #$DE                                ;;A8A6|A88C+A88C/A88C\A88C; \ Branch if sprite number != 5 Eeries
+LoadSprNotScrollCmd:  CMP.B #$DE                                ;;A8A6|A88C+A88C/A88C\A88C; \ Branch if sprite number != 5 Eeries
                       BNE CODE_02A89C                           ;;A8A8|A88E+A88E/A88E\A88E; /
                       PHY                                       ;;A8AA|A890+A890/A890\A890;
                       PHX                                       ;;A8AB|A891+A891/A891\A891;
@@ -4910,7 +4910,7 @@ CODE_02A88C:          CMP.B #$DE                                ;;A8A6|A88C+A88C
                       JSR Load5Eeries                           ;;A8AF|A895+A895/A895\A895;
                       PLX                                       ;;A8B2|A898+A898/A898\A898;
                       PLY                                       ;;A8B3|A899+A899/A899\A899;
-CODE_02A89A:          BRA LoadNextSprite                        ;;A8B4|A89A+A89A/A89A\A89A;
+LoadNextSprIndir:     BRA LoadNextSprite                        ;;A8B4|A89A+A89A/A89A\A89A;
                                                                 ;;                        ;
 CODE_02A89C:          CMP.B #$E0                                ;;A8B6|A89C+A89C/A89C\A89C; \ Branch if sprite number != 3 Platforms on Chain
                       BNE CODE_02A8AC                           ;;A8B8|A89E+A89E/A89E\A89E; /
@@ -4921,7 +4921,7 @@ CODE_02A89C:          CMP.B #$E0                                ;;A8B6|A89C+A89C
                       JSR Load3Platforms                        ;;A8BF|A8A5+A8A5/A8A5\A8A5;
                       PLX                                       ;;A8C2|A8A8+A8A8/A8A8\A8A8;
                       PLY                                       ;;A8C3|A8A9+A8A9/A8A9\A8A9;
-                      BRA CODE_02A89A                           ;;A8C4|A8AA+A8AA/A8AA\A8AA;
+                      BRA LoadNextSprIndir                      ;;A8C4|A8AA+A8AA/A8AA\A8AA;
                                                                 ;;                        ;
 CODE_02A8AC:          CMP.B #$CB                                ;;A8C6|A8AC+A8AC/A8AC\A8AC; \ Branch if sprite number < #$CB
                       BCC CODE_02A8D4                           ;;A8C8|A8AE+A8AE/A8AE\A8AE; /
@@ -4932,10 +4932,10 @@ CODE_02A8AC:          CMP.B #$CB                                ;;A8C6|A8AC+A8AC
                       INC A                                     ;;A8D1|A8B7+A8B7/A8B7\A8B7;  |
                       STA.W !CurrentGenerator                   ;;A8D2|A8B8+A8B8/A8B8\A8B8; /
                       STZ.W !SpriteLoadStatus,X                 ;;A8D5|A8BB+A8BB/A8BB\A8BB; Allow sprite to be reloaded by level loading routine
-                      BRA CODE_02A89A                           ;;A8D8|A8BE+A8BE/A8BE\A8BE;
+                      BRA LoadNextSprIndir                      ;;A8D8|A8BE+A8BE/A8BE\A8BE;
                                                                 ;;                        ;
 CODE_02A8C0:          CMP.B #$E1                                ;;A8DA|A8C0+A8C0/A8C0\A8C0; \ Branch if sprite number < #$E1
-                      BCC CODE_02A8D0                           ;;A8DC|A8C2+A8C2/A8C2\A8C2; /
+                      BCC LoadShell                             ;;A8DC|A8C2+A8C2/A8C2\A8C2; /
                       PHX                                       ;;A8DE|A8C4+A8C4/A8C4\A8C4;
                       PHY                                       ;;A8DF|A8C5+A8C5/A8C5\A8C5;
                       DEY                                       ;;A8E0|A8C6+A8C6/A8C6\A8C6;
@@ -4943,18 +4943,18 @@ CODE_02A8C0:          CMP.B #$E1                                ;;A8DA|A8C0+A8C0
                       JSR CODE_02AAC0                           ;;A8E3|A8C9+A8C9/A8C9\A8C9;
                       PLY                                       ;;A8E6|A8CC+A8CC/A8CC\A8CC;
                       PLX                                       ;;A8E7|A8CD+A8CD/A8CD\A8CD;
-                      BRA CODE_02A89A                           ;;A8E8|A8CE+A8CE/A8CE\A8CE;
+                      BRA LoadNextSprIndir                      ;;A8E8|A8CE+A8CE/A8CE\A8CE;
                                                                 ;;                        ;
-CODE_02A8D0:          LDA.B #$09                                ;;A8EA|A8D0+A8D0/A8D0\A8D0;
-                      BRA CODE_02A8DF                           ;;A8EC|A8D2+A8D2/A8D2\A8D2;
+LoadShell:            LDA.B #$09                                ;;A8EA|A8D0+A8D0/A8D0\A8D0;
+                      BRA LoadNormSprAltStatus                  ;;A8EC|A8D2+A8D2/A8D2\A8D2;
                                                                 ;;                        ;
 CODE_02A8D4:          CMP.B #$C9                                ;;A8EE|A8D4+A8D4/A8D4\A8D4; \ Branch if sprite number < #$C9
                       BCC LoadNormalSprite                      ;;A8F0|A8D6+A8D6/A8D6\A8D6; /
                       JSR LoadShooter                           ;;A8F2|A8D8+A8D8/A8D8\A8D8;
-                      BRA CODE_02A89A                           ;;A8F5|A8DB+A8DB/A8DB\A8DB;
+                      BRA LoadNextSprIndir                      ;;A8F5|A8DB+A8DB/A8DB\A8DB;
                                                                 ;;                        ;
 LoadNormalSprite:     LDA.B #$01                                ;;A8F7|A8DD+A8DD/A8DD\A8DD; \ $04 = #$01
-CODE_02A8DF:          STA.B !_4                                 ;;A8F9|A8DF+A8DF/A8DF\A8DF; / Eventually goes into sprite status
+LoadNormSprAltStatus: STA.B !_4                                 ;;A8F9|A8DF+A8DF/A8DF\A8DF; / Eventually goes into sprite status
                       DEY                                       ;;A8FB|A8E1+A8E1/A8E1\A8E1; Previous byte
                       STY.B !_3                                 ;;A8FC|A8E2+A8E2/A8E2\A8E2;
                       LDY.W !SpriteMemorySetting                ;;A8FE|A8E4+A8E4/A8E4\A8E4;
@@ -5001,7 +5001,7 @@ CODE_02A936:          LDX.B !_2                                 ;;A950|A936+A936
 CODE_02A93C:          LDY.B !_3                                 ;;A956|A93C+A93C/A93C\A93C;
                       LDA.B !ScreenMode                         ;;A958|A93E+A93E/A93E\A93E; \ Branch if horizontal level
                       LSR A                                     ;;A95A|A940+A940/A940\A940;  |
-                      BCC CODE_02A95B                           ;;A95B|A941+A941/A941\A941; /
+                      BCC LoadNSprHorzLvlPos                    ;;A95B|A941+A941/A941\A941; /
                       LDA.B [!SpriteDataPtr],Y                  ;;A95D|A943+A943/A943\A943; \ Vertical level:
                       PHA                                       ;;A95F|A945+A945/A945\A945;  | Same as below with X and Y coords swapped
                       AND.B #$F0                                ;;A960|A946+A946/A946\A946;  |
@@ -5013,9 +5013,9 @@ CODE_02A93C:          LDY.B !_3                                 ;;A956|A93C+A93C
                       STA.B !SpriteYPosLow,X                    ;;A96C|A952+A952/A952\A952;  |
                       LDA.B !_1                                 ;;A96E|A954+A954/A954\A954;  |
                       STA.W !SpriteXPosHigh,X                   ;;A970|A956+A956/A956\A956;  |
-                      BRA +                                     ;;A973|A959+A959/A959\A959; /
+                      BRA LoadNSprPosLoadDone                   ;;A973|A959+A959/A959\A959; /
                                                                 ;;                        ;
-CODE_02A95B:          LDA.B [!SpriteDataPtr],Y                  ;;A975|A95B+A95B/A95B\A95B; Byte format: YYYYEEsy
+LoadNSprHorzLvlPos:   LDA.B [!SpriteDataPtr],Y                  ;;A975|A95B+A95B/A95B\A95B; Byte format: YYYYEEsy
                       PHA                                       ;;A977|A95D+A95D/A95D\A95D; \ Bits 11110000 are low byte of Y position
                       AND.B #$F0                                ;;A978|A95E+A95E/A95E\A95E;  |
                       STA.B !SpriteYPosLow,X                    ;;A97A|A960+A960/A960\A960; /
@@ -5026,56 +5026,56 @@ CODE_02A95B:          LDA.B [!SpriteDataPtr],Y                  ;;A975|A95B+A95B
                       STA.B !SpriteXPosLow,X                    ;;A984|A96A+A96A/A96A\A96A;  |
                       LDA.B !_1                                 ;;A986|A96C+A96C/A96C\A96C;  |
                       STA.W !SpriteYPosHigh,X                   ;;A988|A96E+A96E/A96E\A96E; /
-                    + INY                                       ;;A98B|A971+A971/A971\A971;
-                      INY                                       ;;A98C|A972+A972/A972\A972;
-                      LDA.B !_4                                 ;;A98D|A973+A973/A973\A973; \ Sprite status = ??
+LoadNSprPosLoadDone:  INY                                       ;;A98B|A971+A971/A971\A971; \ Y = index to sprite id
+                      INY                                       ;;A98C|A972+A972/A972\A972; /
+                      LDA.B !_4                                 ;;A98D|A973+A973/A973\A973; \ Sprite status = $01, or $09 if shell
                       STA.W !SpriteStatus,X                     ;;A98F|A975+A975/A975\A975; /
                       CMP.B #$09                                ;;A992|A978+A978/A978\A978;
-                      LDA.B [!SpriteDataPtr],Y                  ;;A994|A97A+A97A/A97A\A97A;KKOOPA STORAGE???
-                      BCC +                                     ;;A996|A97C+A97C/A97C\A97C;NO, IT WAS STATIONARY
-                      SEC                                       ;;A998|A97E+A97E/A97E\A97E;
-                      SBC.B #$DA                                ;;A999|A97F+A97F/A97F\A97F;SUBTRACT DA, FIRST SHELL SPRITE [RED]
-                      CLC                                       ;;A99B|A981+A981/A981\A981;
-                      ADC.B #$04                                ;;A99C|A982+A982/A982\A982;
-                    + PHY                                       ;;A99E|A984+A984/A984\A984;
-                      LDY.W !OWLevelTileSettings+$49            ;;A99F|A985+A985/A985\A985;
-                      BPL CODE_02A996                           ;;A9A2|A988+A988/A988\A988;IF POSITIBE, JUST STORE?
-                      CMP.B #$04                                ;;A9A4|A98A+A98A/A98A\A98A;
-                      BNE +                                     ;;A9A6|A98C+A98C/A98C\A98C;
-                      LDA.B #$07                                ;;A9A8|A98E+A98E/A98E\A98E;WHAT?
-                    + CMP.B #$05                                ;;A9AA|A990+A990/A990\A990;
-                      BNE CODE_02A996                           ;;A9AC|A992+A992/A992\A992;
-                      LDA.B #$06                                ;;A9AE|A994+A994/A994\A994;STORING RED KOOPA SHELL TO SPRITENUM
-CODE_02A996:          STA.B !SpriteNumber,X                     ;;A9B0|A996+A996/A996\A996;
-                      PLY                                       ;;A9B2|A998+A998/A998\A998;
+                      LDA.B [!SpriteDataPtr],Y                  ;;A994|A97A+A97A/A97A\A97A; Load sprite id
+                      BCC LoadNSprStatusInit                    ;;A996|A97C+A97C/A97C\A97C; > Was sprite state set to < 9? Skip if so
+                      SEC                                       ;;A998|A97E+A97E/A97E\A97E; \
+                      SBC.B #$DA                                ;;A999|A97F+A97F/A97F\A97F; | Subtract $DA, first koopa shell value (green)
+                      CLC                                       ;;A99B|A981+A981/A981\A981; | Then add 4 (account for shelless koopas)
+                      ADC.B #$04                                ;;A99C|A982+A982/A982\A982; / So sprite num for shell will be 04 through 09 (Skipping 08, value DE is for 5 eeries)
+LoadNSprStatusInit:   PHY                                       ;;A99E|A984+A984/A984\A984; > Push Y (index to current loading sprite's id)
+                      LDY.W !OWLevelTileSettings+$49            ;;A99F|A985+A985/A985\A985; \ special world cleared setting
+                      BPL LoadKoopaNoColorChg                   ;;A9A2|A988+A988/A988\A988; /
+                      CMP.B #$04                                ;;A9A4|A98A+A98A/A98A\A98A; \ If green koopa
+                      BNE LoadKoopaNotGreen                     ;;A9A6|A98C+A98C/A98C\A98C; | ..
+                      LDA.B #$07                                ;;A9A8|A98E+A98E/A98E\A98E; / make it yellow
+LoadKoopaNotGreen:    CMP.B #$05                                ;;A9AA|A990+A990/A990\A990; \ if red koopa
+                      BNE LoadKoopaNoColorChg                   ;;A9AC|A992+A992/A992\A992; | ..
+                      LDA.B #$06                                ;;A9AE|A994+A994/A994\A994; / make it blue
+LoadKoopaNoColorChg:  STA.B !SpriteNumber,X                     ;;A9B0|A996+A996/A996\A996; > store the actual sprite number
+                      PLY                                       ;;A9B2|A998+A998/A998\A998; > Pull Y (Index to current loading sprite's id)
                       LDA.B !_2                                 ;;A9B3|A999+A999/A999\A999; \ $161A,x = index of the sprite in the level
                       STA.W !SpriteLoadIndex,X                  ;;A9B5|A99B+A99B/A99B\A99B; / (Number of sprites in level, not just onscreen)
-                      LDA.W !SilverPSwitchTimer                 ;;A9B8|A99E+A99E/A99E\A99E;
-                      BEQ CODE_02A9C9                           ;;A9BB|A9A1+A9A1/A9A1\A9A1;
-                      PHX                                       ;;A9BD|A9A3+A9A3/A9A3\A9A3;
-                      LDA.B !SpriteNumber,X                     ;;A9BE|A9A4+A9A4/A9A4\A9A4;
-                      TAX                                       ;;A9C0|A9A6+A9A6/A9A6\A9A6;
-                      LDA.L Sprite190FVals,X                    ;;A9C1|A9A7+A9A7/A9A7\A9A7;
-                      PLX                                       ;;A9C5|A9AB+A9AB/A9AB\A9AB;
-                      AND.B #$40                                ;;A9C6|A9AC+A9AC/A9AC\A9AC;
-                      BNE CODE_02A9C9                           ;;A9C8|A9AE+A9AE/A9AE\A9AE;
+                      LDA.W !SilverPSwitchTimer                 ;;A9B8|A99E+A99E/A99E\A99E; \ Is a silver P-switch active?
+                      BEQ LoadNSprInitTbls                      ;;A9BB|A9A1+A9A1/A9A1\A9A1; / Branch if not
+                      PHX                                       ;;A9BD|A9A3+A9A3/A9A3\A9A3; Push X (Sprite index in the loader list)
+                      LDA.B !SpriteNumber,X                     ;;A9BE|A9A4+A9A4/A9A4\A9A4; \ Get 190F val for this sprite's id
+                      TAX                                       ;;A9C0|A9A6+A9A6/A9A6\A9A6; |
+                      LDA.L Sprite190FVals,X                    ;;A9C1|A9A7+A9A7/A9A7\A9A7; /
+                      PLX                                       ;;A9C5|A9AB+A9AB/A9AB\A9AB; > Pull X (Sprite's index in the loader list)
+                      AND.B #$40                                ;;A9C6|A9AC+A9AC/A9AC\A9AC; \ Can this sprite be turned into a silver coin?
+                      BNE LoadNSprInitTbls                      ;;A9C8|A9AE+A9AE/A9AE\A9AE; / Branch if not
                       LDA.B #$21                                ;;A9CA|A9B0+A9B0/A9B0\A9B0; \ Sprite = Moving Coin
                       STA.B !SpriteNumber,X                     ;;A9CC|A9B2+A9B2/A9B2\A9B2; /
                       LDA.B #$08                                ;;A9CE|A9B4+A9B4/A9B4\A9B4; \ Sprite status = Normal
                       STA.W !SpriteStatus,X                     ;;A9D0|A9B6+A9B6/A9B6\A9B6; /
                       JSL InitSpriteTables                      ;;A9D3|A9B9+A9B9/A9B9\A9B9;
-                      LDA.W !SpriteOBJAttribute,X               ;;A9D7|A9BD+A9BD/A9BD\A9BD;
-                      AND.B #$F1                                ;;A9DA|A9C0+A9C0/A9C0\A9C0;
-                      ORA.B #$02                                ;;A9DC|A9C2+A9C2/A9C2\A9C2;
-                      STA.W !SpriteOBJAttribute,X               ;;A9DE|A9C4+A9C4/A9C4\A9C4;
-                      BRA +                                     ;;A9E1|A9C7+A9C7/A9C7\A9C7;
+                      LDA.W !SpriteOBJAttribute,X               ;;A9D7|A9BD+A9BD/A9BD\A9BD; \ Change palette to sprite palette 1
+                      AND.B #$F1                                ;;A9DA|A9C0+A9C0/A9C0\A9C0; |
+                      ORA.B #$02                                ;;A9DC|A9C2+A9C2/A9C2\A9C2; |
+                      STA.W !SpriteOBJAttribute,X               ;;A9DE|A9C4+A9C4/A9C4\A9C4; /
+                      BRA LoadNSprNoInitTbls                    ;;A9E1|A9C7+A9C7/A9C7\A9C7;
                                                                 ;;                        ;
-CODE_02A9C9:          JSL InitSpriteTables                      ;;A9E3|A9C9+A9C9/A9C9\A9C9; Reset sprite tables
-                    + LDA.B #$01                                ;;A9E7|A9CD+A9CD/A9CD\A9CD; \ Set off screen horizontally
+LoadNSprInitTbls:     JSL InitSpriteTables                      ;;A9E3|A9C9+A9C9/A9C9\A9C9; Reset sprite tables (N = normal)
+LoadNSprNoInitTbls:   LDA.B #$01                                ;;A9E7|A9CD+A9CD/A9CD\A9CD; \ Set off screen horizontally
                       STA.W !SpriteOffscreenX,X                 ;;A9E9|A9CF+A9CF/A9CF\A9CF; /
-                      LDA.B #$04                                ;;A9EC|A9D2+A9D2/A9D2\A9D2; \ ?? $1FE2,X = #$04
-                      STA.W !SpriteMisc1FE2,X                   ;;A9EE|A9D4+A9D4/A9D4\A9D4; /
-                      INY                                       ;;A9F1|A9D7+A9D7/A9D7\A9D7;
+                      LDA.B #$04                                ;;A9EC|A9D2+A9D2/A9D2\A9D2; \ $1FE2,X = #$04 (to disable water splash
+                      STA.W !SpriteMisc1FE2,X                   ;;A9EE|A9D4+A9D4/A9D4\A9D4; / animation if spawned in water, presumably)
+                      INY                                       ;;A9F1|A9D7+A9D7/A9D7\A9D7; > Y = y position of next sprite to load
                       LDX.B !_2                                 ;;A9F2|A9D8+A9D8/A9D8\A9D8;
                       INX                                       ;;A9F4|A9DA+A9DA/A9DA\A9DA;
                       JMP LoadSpriteLoopStrt                    ;;A9F5|A9DB+A9DB/A9DB\A9DB;
@@ -5402,8 +5402,8 @@ CODE_02AC5C:          LDA.B !ScreenMode                         ;;AC77|AC5C+AC5C
                       SBC.B #$00                                ;;AC8E|AC73+AC73/AC73\AC73;
                       STA.B !Layer1YPos+1                       ;;AC90|AC75+AC75/AC75\AC75;
                       STZ.W !TileGenerateTrackB                 ;;AC92|AC77+AC77/AC77\AC77;
-                    - JSR CODE_02A802                           ;;AC95|AC7A+AC7A/AC7A\AC7A;
-                      JSR CODE_02A802                           ;;AC98|AC7D+AC7D/AC7D\AC7D;
+                    - JSR LoadSprFromLvlNoFR                    ;;AC95|AC7A+AC7A/AC7A\AC7A;
+                      JSR LoadSprFromLvlNoFR                    ;;AC98|AC7D+AC7D/AC7D\AC7D;
                       LDA.B !Layer1YPos                         ;;AC9B|AC80+AC80/AC80\AC80;
                       CLC                                       ;;AC9D|AC82+AC82/AC82\AC82;
                       ADC.B #$10                                ;;AC9E|AC83+AC83/AC83\AC83;
@@ -5437,8 +5437,8 @@ CODE_02ACA1:          LDA.B !Layer1ScrollDir                    ;;ACBC|ACA1+ACA1
                       SBC.B #$00                                ;;ACCE|ACB3+ACB3/ACB3\ACB3;
                       STA.B !Layer1XPos+1                       ;;ACD0|ACB5+ACB5/ACB5\ACB5;
                       STZ.W !TileGenerateTrackB                 ;;ACD2|ACB7+ACB7/ACB7\ACB7;
-                    - JSR CODE_02A802                           ;;ACD5|ACBA+ACBA/ACBA\ACBA;
-                      JSR CODE_02A802                           ;;ACD8|ACBD+ACBD/ACBD\ACBD;
+                    - JSR LoadSprFromLvlNoFR                    ;;ACD5|ACBA+ACBA/ACBA\ACBA;
+                      JSR LoadSprFromLvlNoFR                    ;;ACD8|ACBD+ACBD/ACBD\ACBD;
                       LDA.B !Layer1XPos                         ;;ACDB|ACC0+ACC0/ACC0\ACC0;
                       CLC                                       ;;ACDD|ACC2+ACC2/ACC2\ACC2;
                       ADC.B #$10                                ;;ACDE|ACC3+ACC3/ACC3\ACC3;
