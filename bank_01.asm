@@ -1274,7 +1274,7 @@ CODE_01893C:          ASL.W !SpriteTweaker167A,X                ;;893C|893C+893C
                       ROR.W !SpriteTweaker167A,X                ;;8940|8940+8940/8940\8940; /
                       JSR MarioSprInteractRt                    ;;8943|8943+8943/8943\8943;
                       BCC +                                     ;;8946|8946+8946/8946\8946;
-                      JSR CODE_01B12A                           ;;8948|8948+8948/8948\8948;
+                      JSR KickKillSprite                        ;;8948|8948+8948/8948\8948;
                     + ASL.W !SpriteTweaker167A,X                ;;894B|894B+894B/894B\894B; \ Clear high bit of 167A
                       LSR.W !SpriteTweaker167A,X                ;;894E|894E+894E/894E\894E; /
 Return018951:         RTS                                       ;;8951|8951+8951/8951\8951; Return
@@ -5973,11 +5973,11 @@ Fish:                 LDA.W !SpriteStatus,X                     ;;B033|B033+B033
                       BNE CODE_01B03E                           ;;B038|B038+B038/B038\B03F;
                       LDA.B !SpriteLock                         ;;B03A|B03A+B03A/B03A\B041;
                       BEQ +                                     ;;B03C|B03C+B03C/B03C\B043;
-CODE_01B03E:          JMP CODE_01B10A                           ;;B03E|B03E+B03E/B03E\B045;
+CODE_01B03E:          JMP FishGfxRtInvoc                        ;;B03E|B03E+B03E/B03E\B045;
                                                                 ;;                        ;
                     + JSR SetAnimationFrame                     ;;B041|B041+B041/B041\B048;
                       LDA.W !SpriteInLiquid,X                   ;;B044|B044+B044/B044\B04B;
-                      BNE CODE_01B0A7                           ;;B047|B047+B047/B047\B04E;
+                      BNE FishSwimming                          ;;B047|B047+B047/B047\B04E;
                       JSR SubUpdateSprPos                       ;;B049|B049+B049/B049\B050;
                       JSR IsTouchingObjSide                     ;;B04C|B04C+B04C/B04C\B053;
                       BEQ +                                     ;;B04F|B04F+B04F/B04F\B056;
@@ -6016,10 +6016,10 @@ CODE_01B09C:          LDA.W !SpriteMisc1602,X                   ;;B09C|B09C+B09C
                       STA.W !SpriteMisc1602,X                   ;;B0A2|B0A2+B0A2/B0A2\B0A9;
                       BRA CODE_01B0EA                           ;;B0A5|B0A5+B0A5/B0A5\B0AC;
                                                                 ;;                        ;
-CODE_01B0A7:          JSR SprObjInteractRt                      ;;B0A7|B0A7+B0A7/B0A7\B0AE;
+FishSwimming:         JSR SprObjInteractRt                      ;;B0A7|B0A7+B0A7/B0A7\B0AE;
                       JSR UpdateDirection                       ;;B0AA|B0AA+B0AA/B0AA\B0B1;
-                      ASL.W !SpriteOBJAttribute,X               ;;B0AD|B0AD+B0AD/B0AD\B0B4;
-                      LSR.W !SpriteOBJAttribute,X               ;;B0B0|B0B0+B0B0/B0B0\B0B7;
+                      ASL.W !SpriteOBJAttribute,X               ;;B0AD|B0AD+B0AD/B0AD\B0B4; \ Clears y-flip bit
+                      LSR.W !SpriteOBJAttribute,X               ;;B0B0|B0B0+B0B0/B0B0\B0B7; /
                       LDA.W !SpriteBlockedDirs,X                ;;B0B3|B0B3+B0B3/B0B3\B0BA;
                       LDY.W !SpriteMisc151C,X                   ;;B0B6|B0B6+B0B6/B0B6\B0BD;
                       AND.W DATA_01B031,Y                       ;;B0B9|B0B9+B0B9/B0B9\B0C0;
@@ -6046,18 +6046,18 @@ CODE_01B0C3:          LDA.B #$80                                ;;B0C3|B0C3+B0C3
                       JSR SubSprYPosNoGrvty                     ;;B0E7|B0E7+B0E7/B0E7\B0EE;
 CODE_01B0EA:          JSR SubSprSprInteract                     ;;B0EA|B0EA+B0EA/B0EA\B0F1;
                       JSR MarioSprInteractRt                    ;;B0ED|B0ED+B0ED/B0ED\B0F4;
-                      BCC CODE_01B10A                           ;;B0F0|B0F0+B0F0/B0F0\B0F7;
+                      BCC FishGfxRtInvoc                        ;;B0F0|B0F0+B0F0/B0F0\B0F7;
                       LDA.W !SpriteInLiquid,X                   ;;B0F2|B0F2+B0F2/B0F2\B0F9;
-                      BEQ CODE_01B107                           ;;B0F5|B0F5+B0F5/B0F5\B0FC;
+                      BEQ FishKickInvocGfx                      ;;B0F5|B0F5+B0F5/B0F5\B0FC;
                       LDA.W !InvinsibilityTimer                 ;;B0F7|B0F7+B0F7/B0F7\B0FE; \ Branch if Mario has star
-                      BNE CODE_01B107                           ;;B0FA|B0FA+B0FA/B0FA\B101; /
+                      BNE FishKickInvocGfx                      ;;B0FA|B0FA+B0FA/B0FA\B101; /
                       LDA.W !PlayerRidingYoshi                  ;;B0FC|B0FC+B0FC/B0FC\B103;
-                      BNE CODE_01B10A                           ;;B0FF|B0FF+B0FF/B0FF\B106;
+                      BNE FishGfxRtInvoc                        ;;B0FF|B0FF+B0FF/B0FF\B106;
                       JSL HurtMario                             ;;B101|B101+B101/B101\B108;
-                      BRA CODE_01B10A                           ;;B105|B105+B105/B105\B10C;
+                      BRA FishGfxRtInvoc                        ;;B105|B105+B105/B105\B10C;
                                                                 ;;                        ;
-CODE_01B107:          JSR CODE_01B12A                           ;;B107|B107+B107/B107\B10E;
-CODE_01B10A:          LDA.W !SpriteMisc1602,X                   ;;B10A|B10A+B10A/B10A\B111;
+FishKickInvocGfx:     JSR KickKillSprite                        ;;B107|B107+B107/B107\B10E;
+FishGfxRtInvoc:       LDA.W !SpriteMisc1602,X                   ;;B10A|B10A+B10A/B10A\B111;
                       LSR A                                     ;;B10D|B10D+B10D/B10D\B114;
                       EOR.B #$01                                ;;B10E|B10E+B10E/B10E\B115;
                       STA.B !_0                                 ;;B110|B110+B110/B110\B117;
@@ -6072,7 +6072,7 @@ CODE_01B10A:          LDA.W !SpriteMisc1602,X                   ;;B10A|B10A+B10A
                       ROL.W !SpriteOBJAttribute,X               ;;B126|B126+B126/B126\B12D;
                       RTS                                       ;;B129|B129+B129/B129\B130; Return
                                                                 ;;                        ;
-CODE_01B12A:          LDA.B #$10                                ;;B12A|B12A+B12A/B12A\B131;
+KickKillSprite:       LDA.B #$10                                ;;B12A|B12A+B12A/B12A\B131;
                       STA.W !KickingTimer                       ;;B12C|B12C+B12C/B12C\B133;
                       LDA.B #!SFX_KICK                          ;;B12F|B12F+B12F/B12F\B136;
                       STA.W !SPCIO0                             ;;B131|B131+B131/B131\B138; / Play sound effect
@@ -6182,7 +6182,7 @@ CODE_01B1EA:          INC.W !SpriteMisc1570,X                   ;;B1EA|B1EA+B1EA
 CODE_01B206:          JSR SetAnimationFrame                     ;;B206|B206+B206/B206\B20D;
 CODE_01B209:          JSR SubSprSpr_MarioSpr                    ;;B209|B209+B209/B209\B210;
                       JSR UpdateDirection                       ;;B20C|B20C+B20C/B20C\B213;
-                      JMP CODE_01B10A                           ;;B20F|B20F+B20F/B20F\B216;
+                      JMP FishGfxRtInvoc                        ;;B20F|B20F+B20F/B20F\B216;
                                                                 ;;                        ;
                                                                 ;;                        ;
 DATA_01B212:          db $08,$F8,$10,$F0                        ;;B212|B212+B212/B212\B219;
@@ -14644,7 +14644,7 @@ CODE_01F668:          PHX                                       ;;F66B|F668+F668
                     - PHY                                       ;;F698|F695+F695/F695\F695;
                       PHX                                       ;;F699|F696+F696/F696\F696;
                       TYX                                       ;;F69A|F697+F697/F697\F697;
-                      JSR CODE_01B12A                           ;;F69B|F698+F698/F698\F698;
+                      JSR KickKillSprite                        ;;F69B|F698+F698/F698\F698;
                       PLX                                       ;;F69E|F69B+F69B/F69B\F69B;
                       PLY                                       ;;F69F|F69C+F69C/F69C\F69C;
                       RTS                                       ;;F6A0|F69D+F69D/F69D\F69D; Return

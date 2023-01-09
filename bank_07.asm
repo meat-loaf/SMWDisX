@@ -321,7 +321,7 @@ DATA_07F0B4:          db $00,$0C,$18,$24,$30,$3C,$00,$48        ;;F0B4|F0B4+F0B4
                       db $54,$60,$6C,$78,$84,$90,$9C,$00        ;;F0BC|F0BC+F0BC/F0BC\F0BC;
                       db $A8,$0C,$00,$B4                        ;;F0C4|F0C4+F0C4/F0C4\F0C4;
                                                                 ;;                        ;
-DATA_07F0C8:          db $00,$08,$10,$00,$10,$00,$10,$00        ;;F0C8|F0C8+F0C8/F0C8\F0C8;
+BonusStarNumXCoords:  db $00,$08,$10,$00,$10,$00,$10,$00        ;;F0C8|F0C8+F0C8/F0C8\F0C8;
                       db $10,$00,$08,$10,$FF,$08,$08,$08        ;;F0D0|F0D0+F0D0/F0D0\F0D0;
                       db $08,$08,$FF,$00,$08,$10,$10,$08        ;;F0D8|F0D8+F0D8/F0D8\F0D8;
                       db $00,$00,$08,$10,$FF,$00,$08,$10        ;;F0E0|F0E0+F0E0/F0E0\F0E0;
@@ -336,7 +336,7 @@ DATA_07F0C8:          db $00,$08,$10,$00,$10,$00,$10,$00        ;;F0C8|F0C8+F0C8
                       db $08,$10,$00,$10,$00,$08,$10,$10        ;;F128|F128+F128/F128\F128;
                       db $00,$08,$10,$FF                        ;;F130|F130+F130/F130\F130;
                                                                 ;;                        ;
-DATA_07F134:          db $00,$00,$00,$08,$08,$10,$10,$18        ;;F134|F134+F134/F134\F134;
+BonusStarNumYCoords:  db $00,$00,$00,$08,$08,$10,$10,$18        ;;F134|F134+F134/F134\F134;
                       db $18,$20,$20,$20,$FF,$00,$08,$10        ;;F13C|F13C+F13C/F13C\F13C;
                       db $18,$20,$FF,$00,$00,$00,$08,$10        ;;F144|F144+F144/F144\F144;
                       db $18,$20,$20,$20,$FF,$00,$00,$08        ;;F14C|F14C+F14C/F14C\F14C;
@@ -351,7 +351,7 @@ DATA_07F134:          db $00,$00,$00,$08,$08,$10,$10,$18        ;;F134|F134+F134
                       db $00,$00,$08,$08,$10,$10,$10,$18        ;;F194|F194+F194/F194\F194;
                       db $20,$20,$20,$FF                        ;;F19C|F19C+F19C/F19C\F19C;
                                                                 ;;                        ;
-DATA_07F1A0:          db $00,$0D,$13,$1D,$27,$31,$3D,$49        ;;F1A0|F1A0+F1A0/F1A0\F1A0;
+BonusStarNumTblOff:   db $00,$0D,$13,$1D,$27,$31,$3D,$49        ;;F1A0|F1A0+F1A0/F1A0\F1A0;
                       db $51,$5F                                ;;F1A8|F1A8+F1A8/F1A8\F1A8;
                                                                 ;;                        ;
 GoalTapeStarCount:    db $01,$02,$03,$04,$05,$06,$07,$08        ;;F1AA|F1AA+F1AA/F1AA\F1AA;
@@ -374,14 +374,14 @@ GoalTapeStarGfxRt:    LDA.W !SpriteMisc1540,X                   ;;F1CA|F1CA+F1CA
                       LSR A                                     ;;F1DF|F1DF+F1DF/F1DF\F1DF;
                       TAX                                       ;;F1E0|F1E0+F1E0/F1E0\F1E0;
                       BEQ +                                     ;;F1E1|F1E1+F1E1/F1E1\F1E1;
-                      LDA.L DATA_07F1A0,X                       ;;F1E3|F1E3+F1E3/F1E3\F1E3;
+                      LDA.L BonusStarNumTblOff,X                ;;F1E3|F1E3+F1E3/F1E3\F1E3;
                       TAX                                       ;;F1E7|F1E7+F1E7/F1E7\F1E7;
                       LDY.B #$20                                ;;F1E8|F1E8+F1E8/F1E8\F1E8;
                       JSR CODE_07F200                           ;;F1EA|F1EA+F1EA/F1EA\F1EA;
                     + PLA                                       ;;F1ED|F1ED+F1ED/F1ED\F1ED;
                       AND.B #$0F                                ;;F1EE|F1EE+F1EE/F1EE\F1EE;
                       TAX                                       ;;F1F0|F1F0+F1F0/F1F0\F1F0;
-                      LDA.L DATA_07F1A0,X                       ;;F1F1|F1F1+F1F1/F1F1\F1F1;
+                      LDA.L BonusStarNumTblOff,X                ;;F1F1|F1F1+F1F1/F1F1\F1F1;
                       TAX                                       ;;F1F5|F1F5+F1F5/F1F5\F1F5;
                       LDA.B #$20                                ;;F1F6|F1F6+F1F6/F1F6\F1F6;
                       STA.B !_2                                 ;;F1F8|F1F8+F1F8/F1F8\F1F8;
@@ -389,14 +389,14 @@ GoalTapeStarGfxRt:    LDA.W !SpriteMisc1540,X                   ;;F1CA|F1CA+F1CA
                       JSR CODE_07F200                           ;;F1FC|F1FC+F1FC/F1FC\F1FC;
                       RTL                                       ;;F1FF|F1FF+F1FF/F1FF\F1FF; Return
                                                                 ;;                        ;
-CODE_07F200:          LDA.L DATA_07F0C8,X                       ;;F200|F200+F200/F200\F200;
+CODE_07F200:          LDA.L BonusStarNumXCoords,X               ;;F200|F200+F200/F200\F200;
                       BMI CODE_07F24A                           ;;F204|F204+F204/F204\F204;
                       CLC                                       ;;F206|F206+F206/F206\F206;
                       ADC.B #$64                                ;;F207|F207+F207/F207\F207;
                       CLC                                       ;;F209|F209+F209/F209\F209;
                       ADC.B !_2                                 ;;F20A|F20A+F20A/F20A\F20A;
                       STA.W !OAMTileXPos,Y                      ;;F20C|F20C+F20C/F20C\F20C;
-                      LDA.L DATA_07F134,X                       ;;F20F|F20F+F20F/F20F\F20F;
+                      LDA.L BonusStarNumYCoords,X               ;;F20F|F20F+F20F/F20F\F20F;
                       CLC                                       ;;F213|F213+F213/F213\F213;
                       ADC.B #$40                                ;;F214|F214+F214/F214\F214;
                       STA.W !OAMTileYPos,Y                      ;;F216|F216+F216/F216\F216;
