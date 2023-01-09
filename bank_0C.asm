@@ -1644,10 +1644,10 @@ CODE_0C9FEA:          REP #$20                                  ;;9F9D|9FEA+9FEA
                       JSR CODE_0CA75A                           ;;9FB4|A001+A001/A001\A001;
                       LDA.B #$52                                ;;9FB7|A004+A004/A004\A004;
                       STA.B !SpriteXPosLow                      ;;9FB9|A006+A006/A006\A006;
-                      STZ.W !SpriteYPosHigh                     ;;9FBB|A008+A008/A008\A008;
+                      STZ.W !SpriteXPosHigh                     ;;9FBB|A008+A008/A008\A008;
                       LDA.B #$8F                                ;;9FBE|A00B+A00B/A00B\A00B;
                       STA.B !SpriteYPosLow                      ;;9FC0|A00D+A00D/A00D\A00D;
-                      STZ.W !SpriteXPosHigh                     ;;9FC2|A00F+A00F/A00F\A00F;
+                      STZ.W !SpriteYPosHigh                     ;;9FC2|A00F+A00F/A00F\A00F;
                       LDA.B #$A0                                ;;9FC5|A012+A012/A012\A012;
                       STA.W !SpriteOAMIndex                     ;;9FC7|A014+A014/A014\A014;
                       JSR CODE_0CA778                           ;;9FCA|A017+A017/A017\A017;
@@ -1922,11 +1922,11 @@ CODE_0CA24F:          LDA.B #$F8                                ;;A202|A24F+A24F
                       STA.B !SpriteXPosLow                      ;;A226|A273+A273/A273\A273;
                       LDA.W !CreditsSprXPosHigh                 ;;A228|A275+A275/A275\A275;
                       ADC.B #$00                                ;;A22B|A278+A278/A278\A278;
-                      STA.W !SpriteYPosHigh                     ;;A22D|A27A+A27A/A27A\A27A;
+                      STA.W !SpriteXPosHigh                     ;;A22D|A27A+A27A/A27A\A27A;
                       LDA.B #$60                                ;;A230|A27D+A27D/A27D\A27D;
                       STA.B !SpriteYPosLow                      ;;A232|A27F+A27F/A27F\A27F;
                       LDA.B #$01                                ;;A234|A281+A281/A281\A281;
-                      STA.W !SpriteXPosHigh                     ;;A236|A283+A283/A283\A283;
+                      STA.W !SpriteYPosHigh                     ;;A236|A283+A283/A283\A283;
                       LDA.B #$30                                ;;A239|A286+A286/A286\A286;
                       STA.W !SpriteOAMIndex                     ;;A23B|A288+A288/A288\A288;
                       JSR CODE_0CA778                           ;;A23E|A28B+A28B/A28B\A28B;

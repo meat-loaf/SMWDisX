@@ -695,8 +695,8 @@ incsrc "hardware_registers.asm"
 !BrSwingCosine = $7E14C5
 ; 7E14C7 unused
 !SpriteStatus = $7E14C8
-!SpriteXPosHigh = $7E14D4
-!SpriteYPosHigh = $7E14E0
+!SpriteYPosHigh = $7E14D4
+!SpriteXPosHigh = $7E14E0
 !SpriteYPosSpx = $7E14EC
 !SpriteXPosSpx = $7E14F8
 !SpriteMisc1504 = $7E1504

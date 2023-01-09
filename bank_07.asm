@@ -997,14 +997,14 @@ CODE_07FC52:          LDA.B #$10                                ;;FC52|FC52+FC52
                       CLC                                       ;;FC5D|FC5D+FC5D/FC5D\FC5D;
                       ADC.B #$04                                ;;FC5E|FC5E+FC5E/FC5E\FC5E;
                       STA.W !ExtSpriteYPosLow,Y                 ;;FC60|FC60+FC60/FC60\FC60;
-                      LDA.W !SpriteXPosHigh,X                   ;;FC63|FC63+FC63/FC63\FC63;
+                      LDA.W !SpriteYPosHigh,X                   ;;FC63|FC63+FC63/FC63\FC63;
                       ADC.B #$00                                ;;FC66|FC66+FC66/FC66\FC66;
                       STA.W !ExtSpriteYPosHigh,Y                ;;FC68|FC68+FC68/FC68\FC68;
                       LDA.B !SpriteXPosLow,X                    ;;FC6B|FC6B+FC6B/FC6B\FC6B;
                       CLC                                       ;;FC6D|FC6D+FC6D/FC6D\FC6D;
                       ADC.B #$04                                ;;FC6E|FC6E+FC6E/FC6E\FC6E;
                       STA.W !ExtSpriteXPosLow,Y                 ;;FC70|FC70+FC70/FC70\FC70;
-                      LDA.W !SpriteYPosHigh,X                   ;;FC73|FC73+FC73/FC73\FC73;
+                      LDA.W !SpriteXPosHigh,X                   ;;FC73|FC73+FC73/FC73\FC73;
                       ADC.B #$00                                ;;FC76|FC76+FC76/FC76\FC76;
                       STA.W !ExtSpriteXPosHigh,Y                ;;FC78|FC78+FC78/FC78\FC78;
                       PLX                                       ;;FC7B|FC7B+FC7B/FC7B\FC7B;

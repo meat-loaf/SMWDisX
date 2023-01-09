@@ -12973,7 +12973,7 @@ FlatPalaceSwitch:     LDA.B #$20                                ;;F9E5|FA45+FA45
                       AND.B #$F0                                ;;F9F8|FA58+FA58/FA7A\FA7A;  |Set sprite X (low) to $9A & 0xF0
                       STA.W !SpriteXPosLow,Y                    ;;F9FA|FA5A+FA5A/FA7C\FA7C; /
                       LDA.B !TouchBlockXPos+1                   ;;F9FD|FA5D+FA5D/FA7F\FA7F; \ Set sprite X (high) to $9B
-                      STA.W !SpriteYPosHigh,Y                   ;;F9FF|FA5F+FA5F/FA81\FA81; /
+                      STA.W !SpriteXPosHigh,Y                   ;;F9FF|FA5F+FA5F/FA81\FA81; /
                       LDA.B !TouchBlockYPos                     ;;FA02|FA62+FA62/FA84\FA84; \
                       AND.B #$F0                                ;;FA04|FA64+FA64/FA86\FA86;  |
                       CLC                                       ;;FA06|FA66+FA66/FA88\FA88;  |Set sprite Y (low) to ($98 & 0xF0) + 0x10
@@ -12981,7 +12981,7 @@ FlatPalaceSwitch:     LDA.B #$20                                ;;F9E5|FA45+FA45
                       STA.W !SpriteYPosLow,Y                    ;;FA09|FA69+FA69/FA8B\FA8B; /
                       LDA.B !TouchBlockYPos+1                   ;;FA0C|FA6C+FA6C/FA8E\FA8E; \
                       ADC.B #$00                                ;;FA0E|FA6E+FA6E/FA90\FA90;  |Set sprite Y (high) to $99 + carry
-                      STA.W !SpriteXPosHigh,Y                   ;;FA10|FA70+FA70/FA92\FA92; / (Carry carried over from previous addition)
+                      STA.W !SpriteYPosHigh,Y                   ;;FA10|FA70+FA70/FA92\FA92; / (Carry carried over from previous addition)
                       PHX                                       ;;FA13|FA73+FA73/FA95\FA95;
                       TYX                                       ;;FA14|FA74+FA74/FA96\FA96;
                       JSL InitSpriteTables                      ;;FA15|FA75+FA75/FA97\FA97;
@@ -13142,8 +13142,8 @@ LvlEndSprCoinsRt:     LDY.B #$00                                ;;FB51|FBB4+FBB4
                       ADC.B !SpriteXPosLow,X                    ;;FB5A|FBBD+FBBD/FBDF\FBDF;
                       STA.B !SpriteXPosLow,X                    ;;FB5C|FBBF+FBBF/FBE1\FBE1;
                       TYA                                       ;;FB5E|FBC1+FBC1/FBE3\FBE3;
-                      ADC.W !SpriteYPosHigh,X                   ;;FB5F|FBC2+FBC2/FBE4\FBE4;
-                      STA.W !SpriteYPosHigh,X                   ;;FB62|FBC5+FBC5/FBE7\FBE7;
+                      ADC.W !SpriteXPosHigh,X                   ;;FB5F|FBC2+FBC2/FBE4\FBE4;
+                      STA.W !SpriteXPosHigh,X                   ;;FB62|FBC5+FBC5/FBE7\FBE7;
                       LDA.W !SpriteMisc1540,X                   ;;FB65|FBC8+FBC8/FBEA\FBEA;
                       BEQ CODE_00FBF0                           ;;FB68|FBCB+FBCB/FBED\FBED;
                       CMP.B #$01                                ;;FB6A|FBCD+FBCD/FBEF\FBEF;
@@ -13207,11 +13207,11 @@ ADDR_00FC25:          LDA.W !SpriteStatus,Y                     ;;FBC2|FC25+FC25
                       STA.W !SpriteXPosLow,Y                    ;;FBEC|FC4F+FC4F/FC71\FC71;
                       LDA.B !Layer1XPos+1                       ;;FBEF|FC52+FC52/FC74\FC74;
                       SBC.B #$00                                ;;FBF1|FC54+FC54/FC76\FC76;
-                      STA.W !SpriteYPosHigh,Y                   ;;FBF3|FC56+FC56/FC78\FC78;
+                      STA.W !SpriteXPosHigh,Y                   ;;FBF3|FC56+FC56/FC78\FC78;
                       LDA.B !PlayerYPosNext                     ;;FBF6|FC59+FC59/FC7B\FC7B;
                       STA.W !SpriteYPosLow,Y                    ;;FBF8|FC5B+FC5B/FC7D\FC7D;
                       LDA.B !PlayerYPosNext+1                   ;;FBFB|FC5E+FC5E/FC80\FC80;
-                      STA.W !SpriteXPosHigh,Y                   ;;FBFD|FC60+FC60/FC82\FC82;
+                      STA.W !SpriteYPosHigh,Y                   ;;FBFD|FC60+FC60/FC82\FC82;
                       LDA.B #$03                                ;;FC00|FC63+FC63/FC85\FC85;
                       STA.W !SpriteTableC2,Y                    ;;FC02|FC65+FC65/FC87\FC87;
                       LDA.B #$00                                ;;FC05|FC68+FC68/FC8A\FC8A;
@@ -13245,7 +13245,7 @@ CODE_00FC7A:          LDA.B #!SFX_YOSHIDRUMON                   ;;FC17|FC7A+FC7A
                       LDA.B !PlayerXPosNext                     ;;FC3E|FCA1+FCA1/FCC3\FCC3; \ Yoshi X position = Mario X position
                       STA.B !SpriteXPosLow,X                    ;;FC40|FCA3+FCA3/FCC5\FCC5;  |
                       LDA.B !PlayerXPosNext+1                   ;;FC42|FCA5+FCA5/FCC7\FCC7;  |
-                      STA.W !SpriteYPosHigh,X                   ;;FC44|FCA7+FCA7/FCC9\FCC9; /
+                      STA.W !SpriteXPosHigh,X                   ;;FC44|FCA7+FCA7/FCC9\FCC9; /
                       LDA.B !PlayerYPosNext                     ;;FC47|FCAA+FCAA/FCCC\FCCC; \ Yoshi's Y position = Mario Y position - #$10
                       SEC                                       ;;FC49|FCAC+FCAC/FCCE\FCCE;  | Mario Y position = Mario Y position - #$10
                       SBC.B #$10                                ;;FC4A|FCAD+FCAD/FCCF\FCCF;  |
@@ -13254,7 +13254,7 @@ CODE_00FC7A:          LDA.B #!SFX_YOSHIDRUMON                   ;;FC17|FC7A+FC7A
                       LDA.B !PlayerYPosNext+1                   ;;FC50|FCB3+FCB3/FCD5\FCD5;  |
                       SBC.B #$00                                ;;FC52|FCB5+FCB5/FCD7\FCD7;  |
                       STA.B !PlayerYPosNext+1                   ;;FC54|FCB7+FCB7/FCD9\FCD9;  |
-                      STA.W !SpriteXPosHigh,X                   ;;FC56|FCB9+FCB9/FCDB\FCDB; /
+                      STA.W !SpriteYPosHigh,X                   ;;FC56|FCB9+FCB9/FCDB\FCDB; /
                       JSL InitSpriteTables                      ;;FC59|FCBC+FCBC/FCDE\FCDE; Reset sprite tables
                       LDA.B #$04                                ;;FC5D|FCC0+FCC0/FCE2\FCE2;
                       STA.W !SpriteMisc1FE2,X                   ;;FC5F|FCC2+FCC2/FCE4\FCE4;
@@ -13284,11 +13284,11 @@ CODE_00FCEC:          LDX.B #$0B                                ;;FC89|FCEC+FCEC
 CODE_00FCF5:          LDA.B #$A0                                ;;FC92|FCF5+FCF5/FD17\FD17;
                       STA.B !SpriteXPosLow,X                    ;;FC94|FCF7+FCF7/FD19\FD19;
                       LDA.B #$00                                ;;FC96|FCF9+FCF9/FD1B\FD1B;
-                      STA.W !SpriteYPosHigh,X                   ;;FC98|FCFB+FCFB/FD1D\FD1D;
+                      STA.W !SpriteXPosHigh,X                   ;;FC98|FCFB+FCFB/FD1D\FD1D;
                       LDA.B #$00                                ;;FC9B|FCFE+FCFE/FD20\FD20;
                       STA.B !SpriteYPosLow,X                    ;;FC9D|FD00+FD00/FD22\FD22;
                       LDA.B #$00                                ;;FC9F|FD02+FD02/FD24\FD24;
-                      STA.W !SpriteXPosHigh,X                   ;;FCA1|FD04+FD04/FD26\FD26;
+                      STA.W !SpriteYPosHigh,X                   ;;FCA1|FD04+FD04/FD26\FD26;
                       RTL                                       ;;FCA4|FD07+FD07/FD29\FD29; Return
                                                                 ;;                        ;
 CODE_00FD08:          LDY.B #$3F                                ;;FCA5|FD08+FD08/FD2A\FD2A;
@@ -13573,7 +13573,7 @@ ADDR_00FF07:          REP #$20                                  ;;FEA4|FF07+FF07
                       SEP #$20                                  ;;FECC|FF2F+FF2F/FF51\FF51; Accum (8 bit)
                       RTL                                       ;;FECE|FF31+FF31/FF53\FF53; Return
                                                                 ;;                        ;
-ADDR_00FF32:          LDA.W !SpriteYPosHigh,X                   ;;FECF|FF32+FF32/FF54\FF54;
+ADDR_00FF32:          LDA.W !SpriteXPosHigh,X                   ;;FECF|FF32+FF32/FF54\FF54;
                       XBA                                       ;;FED2|FF35+FF35/FF57\FF57;
                       LDA.B !SpriteXPosLow,X                    ;;FED3|FF36+FF36/FF58\FF58;
                       REP #$20                                  ;;FED5|FF38+FF38/FF5A\FF5A; Accum (16 bit)
@@ -13585,7 +13585,7 @@ ADDR_00FF32:          LDA.W !SpriteYPosHigh,X                   ;;FECF|FF32+FF32
                       SBC.B !_0                                 ;;FEE0|FF43+FF43/FF65\FF65;
                       STA.B !Layer3XPos                         ;;FEE2|FF45+FF45/FF67\FF67;
                       SEP #$20                                  ;;FEE4|FF47+FF47/FF69\FF69; Accum (8 bit)
-                      LDA.W !SpriteXPosHigh,X                   ;;FEE6|FF49+FF49/FF6B\FF6B;
+                      LDA.W !SpriteYPosHigh,X                   ;;FEE6|FF49+FF49/FF6B\FF6B;
                       XBA                                       ;;FEE9|FF4C+FF4C/FF6E\FF6E;
                       LDA.B !SpriteYPosLow,X                    ;;FEEA|FF4D+FF4D/FF6F\FF6F;
                       REP #$20                                  ;;FEEC|FF4F+FF4F/FF71\FF71; Accum (16 bit)
@@ -13599,7 +13599,7 @@ ADDR_00FF32:          LDA.W !SpriteYPosHigh,X                   ;;FECF|FF32+FF32
                       SEP #$20                                  ;;FEFB|FF5E+FF5E/FF80\FF80; Accum (8 bit)
                       RTL                                       ;;FEFD|FF60+FF60/FF82\FF82; Return
                                                                 ;;                        ;
-CODE_00FF61:          LDA.W !SpriteYPosHigh,X                   ;;FEFE|FF61+FF61/FF83\FF83;
+CODE_00FF61:          LDA.W !SpriteXPosHigh,X                   ;;FEFE|FF61+FF61/FF83\FF83;
                       XBA                                       ;;FF01|FF64+FF64/FF86\FF86;
                       LDA.B !SpriteXPosLow,X                    ;;FF02|FF65+FF65/FF87\FF87;
                       REP #$20                                  ;;FF04|FF67+FF67/FF89\FF89; Accum (16 bit)
@@ -13610,7 +13610,7 @@ CODE_00FF61:          LDA.W !SpriteYPosHigh,X                   ;;FEFE|FF61+FF61
 CODE_00FF73:          LDA.W #$0100                              ;;FF10|FF73+FF73/FF95\FF95;
                     + STA.B !Layer3XPos                         ;;FF13|FF76+FF76/FF98\FF98;
                       SEP #$20                                  ;;FF15|FF78+FF78/FF9A\FF9A; Accum (8 bit)
-                      LDA.W !SpriteXPosHigh,X                   ;;FF17|FF7A+FF7A/FF9C\FF9C;
+                      LDA.W !SpriteYPosHigh,X                   ;;FF17|FF7A+FF7A/FF9C\FF9C;
                       XBA                                       ;;FF1A|FF7D+FF7D/FF9F\FF9F;
                       LDA.B !SpriteYPosLow,X                    ;;FF1B|FF7E+FF7E/FFA0\FFA0;
                       REP #$20                                  ;;FF1D|FF80+FF80/FFA2\FFA2; Accum (16 bit)

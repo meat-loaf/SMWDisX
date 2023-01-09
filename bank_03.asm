@@ -261,11 +261,11 @@ CODE_0381F5:          PHX                                       ;;81F5|81F5+81F5
                       STZ.W !SpriteStatus,X                     ;;8211|8211+8211/8211\8211;
                       LDA.B !SpriteXPosLow,X                    ;;8214|8214+8214/8214\8214;
                       STA.B !TouchBlockXPos                     ;;8216|8216+8216/8216\8216;
-                      LDA.W !SpriteYPosHigh,X                   ;;8218|8218+8218/8218\8218;
+                      LDA.W !SpriteXPosHigh,X                   ;;8218|8218+8218/8218\8218;
                       STA.B !TouchBlockXPos+1                   ;;821B|821B+821B/821B\821B;
                       LDA.B !SpriteYPosLow,X                    ;;821D|821D+821D/821D\821D;
                       STA.B !TouchBlockYPos                     ;;821F|821F+821F/821F\821F;
-                      LDA.W !SpriteXPosHigh,X                   ;;8221|8221+8221/8221\8221;
+                      LDA.W !SpriteYPosHigh,X                   ;;8221|8221+8221/8221\8221;
                       STA.B !TouchBlockYPos+1                   ;;8224|8224+8224/8224\8224;
                       PHB                                       ;;8226|8226+8226/8226\8226;
                       LDA.B #$02                                ;;8227|8227+8227/8227\8227;
@@ -904,7 +904,7 @@ CODE_0387CD:          CPY.B #$00                                ;;87CD|87CD+87CD
                     + CLC                                       ;;87FF|87FF+87FF/87FF\87FF; |
                       ADC.B !SpriteYPosLow,X                    ;;8800|8800+8800/8800\8800; |
                       STA.B !PlayerYPosNext                     ;;8802|8802+8802/8802\8802; |
-                      LDA.W !SpriteXPosHigh,X                   ;;8804|8804+8804/8804\8804; |
+                      LDA.W !SpriteYPosHigh,X                   ;;8804|8804+8804/8804\8804; |
                       ADC.B #$FF                                ;;8807|8807+8807/8807\8807; |
                       STA.B !PlayerYPosNext+1                   ;;8809|8809+8809/8809\8809; /
                       LDY.B #$00                                ;;880B|880B+880B/880B\880B; \
@@ -1286,7 +1286,7 @@ CODE_038ACB:          TXA                                       ;;8ACB|8ACB+8ACB
                       STA.W !SpriteNumber,Y                     ;;8AE6|8AE6+8AE6/8AE6\8AE6; /
                       LDA.B !SpriteXPosLow,X                    ;;8AE9|8AE9+8AE9/8AE9\8AE9;
                       STA.B !_0                                 ;;8AEB|8AEB+8AEB/8AEB\8AEB;
-                      LDA.W !SpriteYPosHigh,X                   ;;8AED|8AED+8AED/8AED\8AED;
+                      LDA.W !SpriteXPosHigh,X                   ;;8AED|8AED+8AED/8AED\8AED;
                       STA.B !_1                                 ;;8AF0|8AF0+8AF0/8AF0\8AF0;
                       PHX                                       ;;8AF2|8AF2+8AF2/8AF2\8AF2;
                       LDA.W !SpriteMisc157C,X                   ;;8AF3|8AF3+8AF3/8AF3\8AF3;
@@ -1297,7 +1297,7 @@ CODE_038ACB:          TXA                                       ;;8ACB|8ACB+8ACB
                       STA.W !SpriteXPosLow,Y                    ;;8AFD|8AFD+8AFD/8AFD\8AFD;
                       LDA.B !_1                                 ;;8B00|8B00+8B00/8B00\8B00;
                       ADC.W BwserFireDispXHi,X                  ;;8B02|8B02+8B02/8B02\8B02;
-                      STA.W !SpriteYPosHigh,Y                   ;;8B05|8B05+8B05/8B05\8B05;
+                      STA.W !SpriteXPosHigh,Y                   ;;8B05|8B05+8B05/8B05\8B05;
                       TYX                                       ;;8B08|8B08+8B08/8B08\8B08; \ Reset sprite tables
                       JSL InitSpriteTables                      ;;8B09|8B09+8B09/8B09\8B09;  |
                       PLX                                       ;;8B0D|8B0D+8B0D/8B0D\8B0D; /
@@ -1305,9 +1305,9 @@ CODE_038ACB:          TXA                                       ;;8ACB|8ACB+8ACB
                       SEC                                       ;;8B10|8B10+8B10/8B10\8B10;
                       SBC.B #$02                                ;;8B11|8B11+8B11/8B11\8B11;
                       STA.W !SpriteYPosLow,Y                    ;;8B13|8B13+8B13/8B13\8B13;
-                      LDA.W !SpriteXPosHigh,X                   ;;8B16|8B16+8B16/8B16\8B16;
+                      LDA.W !SpriteYPosHigh,X                   ;;8B16|8B16+8B16/8B16\8B16;
                       SBC.B #$00                                ;;8B19|8B19+8B19/8B19\8B19;
-                      STA.W !SpriteXPosHigh,Y                   ;;8B1B|8B1B+8B1B/8B1B\8B1B;
+                      STA.W !SpriteYPosHigh,Y                   ;;8B1B|8B1B+8B1B/8B1B\8B1B;
                       LDA.W !SpriteMisc157C,X                   ;;8B1E|8B1E+8B1E/8B1E\8B1E;
                       STA.W !SpriteMisc157C,Y                   ;;8B21|8B21+8B21/8B21\8B21;
                     + RTS                                       ;;8B24|8B24+8B24/8B24\8B24; Return
@@ -1473,7 +1473,7 @@ CarrotTopLift:        JSR CarrotTopLiftGfx                      ;;8C2F|8C2F+8C2F
                       SEC                                       ;;8CBB|8CBB+8CBB/8CBB\8CBB;
                       SBC.B !_0                                 ;;8CBC|8CBC+8CBC/8CBC\8CBC;
                       STA.B !PlayerYPosNext                     ;;8CBE|8CBE+8CBE/8CBE\8CBE;
-                      LDA.W !SpriteXPosHigh,X                   ;;8CC0|8CC0+8CC0/8CC0\8CC0;
+                      LDA.W !SpriteYPosHigh,X                   ;;8CC0|8CC0+8CC0/8CC0\8CC0;
                       SBC.B #$00                                ;;8CC3|8CC3+8CC3/8CC3\8CC3;
                       PLP                                       ;;8CC5|8CC5+8CC5/8CC5\8CC5;
                       ADC.B #$00                                ;;8CC6|8CC6+8CC6/8CC6\8CC6;
@@ -1925,11 +1925,11 @@ CODE_039037:          LDA.B #$0A                                ;;9037|9037+9037
                       STA.W !MinExtSpriteNumber,Y               ;;9039|9039+9039/9039\9039;
                       LDA.B !SpriteXPosLow,X                    ;;903C|903C+903C/903C\903C;
                       STA.W !MinExtSpriteXPosLow,Y              ;;903E|903E+903E/903E\903E;
-                      LDA.W !SpriteYPosHigh,X                   ;;9041|9041+9041/9041\9041;
+                      LDA.W !SpriteXPosHigh,X                   ;;9041|9041+9041/9041\9041;
                       STA.W !MinExtSpriteXPosHigh,Y             ;;9044|9044+9044/9044\9044;
                       LDA.B !SpriteYPosLow,X                    ;;9047|9047+9047/9047\9047;
                       STA.W !MinExtSpriteYPosLow,Y              ;;9049|9049+9049/9049\9049;
-                      LDA.W !SpriteXPosHigh,X                   ;;904C|904C+904C/904C\904C;
+                      LDA.W !SpriteYPosHigh,X                   ;;904C|904C+904C/904C\904C;
                       STA.W !MinExtSpriteYPosHigh,Y             ;;904F|904F+904F/904F\904F;
                       LDA.B #$30                                ;;9052|9052+9052/9052\9052;
                       STA.W !MinExtSpriteXPosSpx,Y              ;;9054|9054+9054/9054\9054;
@@ -2025,7 +2025,7 @@ CODE_0390F3:          LDA.W !SpriteMisc157C,X                   ;;90F3|90F3+90F3
                       CLC                                       ;;90FD|90FD+90FD/90FD\90FD;
                       ADC.W DATA_0390EB,Y                       ;;90FE|90FE+90FE/90FE\90FE;
                       STA.B !_4                                 ;;9101|9101+9101/9101\9101;
-                      LDA.W !SpriteYPosHigh,X                   ;;9103|9103+9103/9103\9103;
+                      LDA.W !SpriteXPosHigh,X                   ;;9103|9103+9103/9103\9103;
                       ADC.W DATA_0390EF,Y                       ;;9106|9106+9106/9106\9106;
                       STA.B !_A                                 ;;9109|9109+9109/9109\9109;
                       LDA.B #$04                                ;;910B|910B+910B/910B\910B;
@@ -2035,7 +2035,7 @@ CODE_0390F3:          LDA.W !SpriteMisc157C,X                   ;;90F3|90F3+90F3
                       CLC                                       ;;9113|9113+9113/9113\9113;
                       ADC.B #$47                                ;;9114|9114+9114/9114\9114;
                       STA.B !_5                                 ;;9116|9116+9116/9116\9116;
-                      LDA.W !SpriteXPosHigh,X                   ;;9118|9118+9118/9118\9118;
+                      LDA.W !SpriteYPosHigh,X                   ;;9118|9118+9118/9118\9118;
                       ADC.B #$00                                ;;911B|911B+911B/911B\911B;
                       STA.B !_B                                 ;;911D|911D+911D/911D\911D;
                       JSL GetMarioClipping                      ;;911F|911F+911F/911F\911F;
@@ -2284,26 +2284,26 @@ CODE_03932C:          LDA.B #$02                                ;;932C|932C+932C
                       SEC                                       ;;9348|9348+9348/9348\9348;
                       SBC.B #$01                                ;;9349|9349+9349/9349\9349;
                       STA.B !SpriteXPosLow,X                    ;;934B|934B+934B/934B\934B;
-                      LDA.W !SpriteYPosHigh,X                   ;;934D|934D+934D/934D\934D;
+                      LDA.W !SpriteXPosHigh,X                   ;;934D|934D+934D/934D\934D;
                       PHA                                       ;;9350|9350+9350/9350\9350;
                       SBC.B #$00                                ;;9351|9351+9351/9351\9351;
-                      STA.W !SpriteYPosHigh,X                   ;;9353|9353+9353/9353\9353;
+                      STA.W !SpriteXPosHigh,X                   ;;9353|9353+9353/9353\9353;
                       LDA.B !SpriteYPosLow,X                    ;;9356|9356+9356/9356\9356;
                       PHA                                       ;;9358|9358+9358/9358\9358;
                       SEC                                       ;;9359|9359+9359/9359\9359;
                       SBC.B #$01                                ;;935A|935A+935A/935A\935A;
                       STA.B !SpriteYPosLow,X                    ;;935C|935C+935C/935C\935C;
-                      LDA.W !SpriteXPosHigh,X                   ;;935E|935E+935E/935E\935E;
+                      LDA.W !SpriteYPosHigh,X                   ;;935E|935E+935E/935E\935E;
                       PHA                                       ;;9361|9361+9361/9361\9361;
                       SBC.B #$00                                ;;9362|9362+9362/9362\9362;
-                      STA.W !SpriteXPosHigh,X                   ;;9364|9364+9364/9364\9364;
+                      STA.W !SpriteYPosHigh,X                   ;;9364|9364+9364/9364\9364;
                       JSL SprObjInteract                        ;;9367|9367+9367/9367\9367;
                       PLA                                       ;;936B|936B+936B/936B\936B;
-                      STA.W !SpriteXPosHigh,X                   ;;936C|936C+936C/936C\936C;
+                      STA.W !SpriteYPosHigh,X                   ;;936C|936C+936C/936C\936C;
                       PLA                                       ;;936F|936F+936F/936F\936F;
                       STA.B !SpriteYPosLow,X                    ;;9370|9370+9370/9370\9370;
                       PLA                                       ;;9372|9372+9372/9372\9372;
-                      STA.W !SpriteYPosHigh,X                   ;;9373|9373+9373/9373\9373;
+                      STA.W !SpriteXPosHigh,X                   ;;9373|9373+9373/9373\9373;
                       PLA                                       ;;9376|9376+9376/9376\9376;
                       STA.B !SpriteXPosLow,X                    ;;9377|9377+9377/9377\9377;
                       PLA                                       ;;9379|9379+9379/9379\9379;
@@ -2320,11 +2320,11 @@ CODE_03932C:          LDA.B #$02                                ;;932C|932C+932C
 GenTileFromSpr1:      STA.B !Map16TileGenerate                  ;;938B|938B+938B/938B\938B; $9C = tile to generate
                       LDA.B !SpriteXPosLow,X                    ;;938D|938D+938D/938D\938D; \ $9A = Sprite X position
                       STA.B !TouchBlockXPos                     ;;938F|938F+938F/938F\938F;  | for block creation
-                      LDA.W !SpriteYPosHigh,X                   ;;9391|9391+9391/9391\9391;  |
+                      LDA.W !SpriteXPosHigh,X                   ;;9391|9391+9391/9391\9391;  |
                       STA.B !TouchBlockXPos+1                   ;;9394|9394+9394/9394\9394; /
                       LDA.B !SpriteYPosLow,X                    ;;9396|9396+9396/9396\9396; \ $98 = Sprite Y position
                       STA.B !TouchBlockYPos                     ;;9398|9398+9398/9398\9398;  | for block creation
-                      LDA.W !SpriteXPosHigh,X                   ;;939A|939A+939A/939A\939A;  |
+                      LDA.W !SpriteYPosHigh,X                   ;;939A|939A+939A/939A\939A;  |
                       STA.B !TouchBlockYPos+1                   ;;939D|939D+939D/939D\939D; /
                       JSL GenerateTile                          ;;939F|939F+939F/939F\939F; Generate the tile
                       RTS                                       ;;93A3|93A3+93A3/93A3\93A3; Return
@@ -2943,10 +2943,10 @@ Reznor:               INC.W !ReznorOAMIndex                     ;;9890|9890+9890
                       LDX.B #$00                                ;;98A9|98A9+98A9/98A9\98A9;
                       LDA.B #$C0                                ;;98AB|98AB+98AB/98AB\98AB; \ X position of Reznor sign
                       STA.B !SpriteXPosLow                      ;;98AD|98AD+98AD/98AD\98AD;  |
-                      STZ.W !SpriteYPosHigh                     ;;98AF|98AF+98AF/98AF\98AF; /
+                      STZ.W !SpriteXPosHigh                     ;;98AF|98AF+98AF/98AF\98AF; /
                       LDA.B #$B2                                ;;98B2|98B2+98B2/98B2\98B2; \ Y position of Reznor sign
                       STA.B !SpriteYPosLow                      ;;98B4|98B4+98B4/98B4\98B4;  |
-                      STZ.W !SpriteXPosHigh                     ;;98B6|98B6+98B6/98B6\98B6; /
+                      STZ.W !SpriteYPosHigh                     ;;98B6|98B6+98B6/98B6\98B6; /
                       LDA.B #$2C                                ;;98B9|98B9+98B9/98B9\98B9;
                       STA.W !Mode7TileIndex                     ;;98BB|98BB+98BB/98BB\98BB;
                       JSL CODE_03DEDF                           ;;98BE|98BE+98BE/98BE\98BE; Applies position changes to Reznor sign
@@ -3077,7 +3077,7 @@ CODE_039910:          LDA.W !SpriteStatus,X                     ;;9910|9910+9910
                       ADC.B #$00                                ;;99BD|99BD+99BD/99BD\99BD;
                       PLP                                       ;;99BF|99BF+99BF/99BF\99BF;
                       ADC.B !_0                                 ;;99C0|99C0+99C0/99C0\99C0;
-                      STA.W !SpriteYPosHigh,X                   ;;99C2|99C2+99C2/99C2\99C2;
+                      STA.W !SpriteXPosHigh,X                   ;;99C2|99C2+99C2/99C2\99C2;
                       PLA                                       ;;99C5|99C5+99C5/99C5\99C5;
                       SEC                                       ;;99C6|99C6+99C6/99C6\99C6;
                       SBC.B !SpriteXPosLow,X                    ;;99C7|99C7+99C7/99C7\99C7;
@@ -3097,7 +3097,7 @@ CODE_039910:          LDA.W !SpriteStatus,X                     ;;9910|9910+9910
                       ADC.B #$00                                ;;99E1|99E1+99E1/99E1\99E1;
                       PLP                                       ;;99E3|99E3+99E3/99E3\99E3;
                       ADC.B !_1                                 ;;99E4|99E4+99E4/99E4\99E4;
-                      STA.W !SpriteXPosHigh,X                   ;;99E6|99E6+99E6/99E6\99E6;
+                      STA.W !SpriteYPosHigh,X                   ;;99E6|99E6+99E6/99E6\99E6;
                       LDA.W !SpriteMisc151C,X                   ;;99E9|99E9+99E9/99E9\99E9; \ If a Reznor is dead, make it's platform standable
                       BEQ +                                     ;;99EC|99EC+99EC/99EC\99EC;  |
                       JSL InvisBlkMainRt                        ;;99EE|99EE+99EE/99EE\99EE;  |
@@ -3204,12 +3204,12 @@ ReznorNoFiring:       JSR ReznorGfxRt                           ;;9AA6|9AA6+9AA6
                       STA.W !SpriteNumber,Y                     ;;9AD3|9AD3+9AD3/9AD3\9AD3; /
                       LDA.B !SpriteXPosLow,X                    ;;9AD6|9AD6+9AD6/9AD6\9AD6; \ Transfer x position to dead Reznor
                       STA.W !SpriteXPosLow,Y                    ;;9AD8|9AD8+9AD8/9AD8\9AD8;  |
-                      LDA.W !SpriteYPosHigh,X                   ;;9ADB|9ADB+9ADB/9ADB\9ADB;  |
-                      STA.W !SpriteYPosHigh,Y                   ;;9ADE|9ADE+9ADE/9ADE\9ADE; /
+                      LDA.W !SpriteXPosHigh,X                   ;;9ADB|9ADB+9ADB/9ADB\9ADB;  |
+                      STA.W !SpriteXPosHigh,Y                   ;;9ADE|9ADE+9ADE/9ADE\9ADE; /
                       LDA.B !SpriteYPosLow,X                    ;;9AE1|9AE1+9AE1/9AE1\9AE1; \ Transfer y position to dead Reznor
                       STA.W !SpriteYPosLow,Y                    ;;9AE3|9AE3+9AE3/9AE3\9AE3;  |
-                      LDA.W !SpriteXPosHigh,X                   ;;9AE6|9AE6+9AE6/9AE6\9AE6;  |
-                      STA.W !SpriteXPosHigh,Y                   ;;9AE9|9AE9+9AE9/9AE9\9AE9; /
+                      LDA.W !SpriteYPosHigh,X                   ;;9AE6|9AE6+9AE6/9AE6\9AE6;  |
+                      STA.W !SpriteYPosHigh,Y                   ;;9AE9|9AE9+9AE9/9AE9\9AE9; /
                       PHX                                       ;;9AEC|9AEC+9AEC/9AEC\9AEC; \
                       TYX                                       ;;9AED|9AED+9AED/9AED\9AED;  | Before: X must have index of sprite being generated
                       JSL InitSpriteTables                      ;;9AEE|9AEE+9AEE/9AEE\9AEE; /  Routine clears all old sprite values and loads in new values for the 6 main sprite tables
@@ -3235,7 +3235,7 @@ FoundRznrFireSlot:    LDA.B #!SFX_MAGIC                         ;;9B03|9B03+9B03
                       SBC.B #$08                                ;;9B11|9B11+9B11/9B11\9B11;
                       STA.W !ExtSpriteXPosLow,Y                 ;;9B13|9B13+9B13/9B13\9B13;
                       STA.B !SpriteXPosLow,X                    ;;9B16|9B16+9B16/9B16\9B16;
-                      LDA.W !SpriteYPosHigh,X                   ;;9B18|9B18+9B18/9B18\9B18;
+                      LDA.W !SpriteXPosHigh,X                   ;;9B18|9B18+9B18/9B18\9B18;
                       SBC.B #$00                                ;;9B1B|9B1B+9B1B/9B1B\9B1B;
                       STA.W !ExtSpriteXPosHigh,Y                ;;9B1D|9B1D+9B1D/9B1D\9B1D;
                       LDA.B !SpriteYPosLow,X                    ;;9B20|9B20+9B20/9B20\9B20;
@@ -3244,15 +3244,15 @@ FoundRznrFireSlot:    LDA.B #!SFX_MAGIC                         ;;9B03|9B03+9B03
                       SBC.B #$14                                ;;9B24|9B24+9B24/9B24\9B24;
                       STA.B !SpriteYPosLow,X                    ;;9B26|9B26+9B26/9B26\9B26;
                       STA.W !ExtSpriteYPosLow,Y                 ;;9B28|9B28+9B28/9B28\9B28;
-                      LDA.W !SpriteXPosHigh,X                   ;;9B2B|9B2B+9B2B/9B2B\9B2B;
+                      LDA.W !SpriteYPosHigh,X                   ;;9B2B|9B2B+9B2B/9B2B\9B2B;
                       PHA                                       ;;9B2E|9B2E+9B2E/9B2E\9B2E;
                       SBC.B #$00                                ;;9B2F|9B2F+9B2F/9B2F\9B2F;
                       STA.W !ExtSpriteYPosHigh,Y                ;;9B31|9B31+9B31/9B31\9B31;
-                      STA.W !SpriteXPosHigh,X                   ;;9B34|9B34+9B34/9B34\9B34;
+                      STA.W !SpriteYPosHigh,X                   ;;9B34|9B34+9B34/9B34\9B34;
                       LDA.B #$10                                ;;9B37|9B37+9B37/9B37\9B37;
                       JSR CODE_0397F9                           ;;9B39|9B39+9B39/9B39\9B39;
                       PLA                                       ;;9B3C|9B3C+9B3C/9B3C\9B3C;
-                      STA.W !SpriteXPosHigh,X                   ;;9B3D|9B3D+9B3D/9B3D\9B3D;
+                      STA.W !SpriteYPosHigh,X                   ;;9B3D|9B3D+9B3D/9B3D\9B3D;
                       PLA                                       ;;9B40|9B40+9B40/9B40\9B40;
                       STA.B !SpriteYPosLow,X                    ;;9B41|9B41+9B41/9B41\9B41;
                       PLA                                       ;;9B43|9B43+9B43/9B43\9B43;
@@ -3420,9 +3420,9 @@ CODE_039C89:          STZ.W !SpriteMisc1602,X                   ;;9C89|9C89+9C89
                       CLC                                       ;;9C94|9C94+9C94/9C94\9C94;
                       ADC.W DATA_039C6E,Y                       ;;9C95|9C95+9C95/9C95\9C95;
                       STA.B !SpriteXPosLow,X                    ;;9C98|9C98+9C98/9C98\9C98;
-                      LDA.W !SpriteYPosHigh,X                   ;;9C9A|9C9A+9C9A/9C9A\9C9A;
+                      LDA.W !SpriteXPosHigh,X                   ;;9C9A|9C9A+9C9A/9C9A\9C9A;
                       ADC.W DATA_039C71,Y                       ;;9C9D|9C9D+9C9D/9C9D\9C9D;
-                      STA.W !SpriteYPosHigh,X                   ;;9CA0|9CA0+9CA0/9CA0\9CA0;
+                      STA.W !SpriteXPosHigh,X                   ;;9CA0|9CA0+9CA0/9CA0\9CA0;
 Return039CA3:         RTS                                       ;;9CA3|9CA3+9CA3/9CA3\9CA3; Return
                                                                 ;;                        ;
                                                                 ;;                        ;
@@ -3555,7 +3555,7 @@ DinoFlameClipping:    LDA.W !SpriteMisc1602,X                   ;;9DB6|9DB6+9DB6
                       CLC                                       ;;9DC6|9DC6+9DC6/9DC6\9DC6;
                       ADC.W DinoFlame1,Y                        ;;9DC7|9DC7+9DC7/9DC7\9DC7;
                       STA.B !_4                                 ;;9DCA|9DCA+9DCA/9DCA\9DCA;
-                      LDA.W !SpriteYPosHigh,X                   ;;9DCC|9DCC+9DCC/9DCC\9DCC;
+                      LDA.W !SpriteXPosHigh,X                   ;;9DCC|9DCC+9DCC/9DCC\9DCC;
                       ADC.W DinoFlame2,Y                        ;;9DCF|9DCF+9DCF/9DCF\9DCF;
                       STA.B !_A                                 ;;9DD2|9DD2+9DD2/9DD2\9DD2;
                       LDA.W DinoFlame3,Y                        ;;9DD4|9DD4+9DD4/9DD4\9DD4;
@@ -3564,7 +3564,7 @@ DinoFlameClipping:    LDA.W !SpriteMisc1602,X                   ;;9DB6|9DB6+9DB6
                       CLC                                       ;;9DDB|9DDB+9DDB/9DDB\9DDB;
                       ADC.W DinoFlame4,Y                        ;;9DDC|9DDC+9DDC/9DDC\9DDC;
                       STA.B !_5                                 ;;9DDF|9DDF+9DDF/9DDF\9DDF;
-                      LDA.W !SpriteXPosHigh,X                   ;;9DE1|9DE1+9DE1/9DE1\9DE1;
+                      LDA.W !SpriteYPosHigh,X                   ;;9DE1|9DE1+9DE1/9DE1\9DE1;
                       ADC.W DinoFlame5,Y                        ;;9DE4|9DE4+9DE4/9DE4\9DE4;
                       STA.B !_B                                 ;;9DE7|9DE7+9DE7/9DE7\9DE7;
                       LDA.W DinoFlame6,Y                        ;;9DE9|9DE9+9DE9/9DE9\9DE9;
@@ -3757,11 +3757,11 @@ CODE_039F57:          LDA.W !SpriteOffscreenX,X                 ;;9F5B|9F57+9F57
                       BCS +                                     ;;9F6D|9F69+9F69/9F69\9F69;
                       LDA.B #$E3                                ;;9F6F|9F6B+9F6B/9F6B\9F6B;
                       STA.B !SpriteYSpeed,X                     ;;9F71|9F6D+9F6D/9F6D\9F6D;
-                      LDA.W !SpriteYPosHigh,X                   ;;9F73|9F6F+9F6F/9F6F\9F6F;
+                      LDA.W !SpriteXPosHigh,X                   ;;9F73|9F6F+9F6F/9F6F\9F6F;
                       STA.W !SpriteMisc151C,X                   ;;9F76|9F72+9F72/9F72\9F72;
                       LDA.B !SpriteXPosLow,X                    ;;9F79|9F75+9F75/9F75\9F75;
                       STA.W !SpriteMisc1528,X                   ;;9F7B|9F77+9F77/9F77\9F77;
-                      LDA.W !SpriteXPosHigh,X                   ;;9F7E|9F7A+9F7A/9F7A\9F7A;
+                      LDA.W !SpriteYPosHigh,X                   ;;9F7E|9F7A+9F7A/9F7A\9F7A;
                       STA.W !SpriteMisc1534,X                   ;;9F81|9F7D+9F7D/9F7D\9F7D;
                       LDA.B !SpriteYPosLow,X                    ;;9F84|9F80+9F80/9F80\9F80;
                       STA.W !SpriteMisc1594,X                   ;;9F86|9F82+9F82/9F82\9F82;
@@ -3844,11 +3844,11 @@ CODE_03A002:          JSL UpdateXPosNoGvtyW                     ;;A006|A002+A002
                       JSR CODE_03A045                           ;;A01C|A018+A018/A018\A018;
                       STZ.B !SpriteTableC2,X                    ;;A01F|A01B+A01B/A01B\A01B;
                       LDA.W !SpriteMisc151C,X                   ;;A021|A01D+A01D/A01D\A01D;
-                      STA.W !SpriteYPosHigh,X                   ;;A024|A020+A020/A020\A020;
+                      STA.W !SpriteXPosHigh,X                   ;;A024|A020+A020/A020\A020;
                       LDA.W !SpriteMisc1528,X                   ;;A027|A023+A023/A023\A023;
                       STA.B !SpriteXPosLow,X                    ;;A02A|A026+A026/A026\A026;
                       LDA.W !SpriteMisc1534,X                   ;;A02C|A028+A028/A028\A028;
-                      STA.W !SpriteXPosHigh,X                   ;;A02F|A02B+A02B/A02B\A02B;
+                      STA.W !SpriteYPosHigh,X                   ;;A02F|A02B+A02B/A02B\A02B;
                       LDA.W !SpriteMisc1594,X                   ;;A032|A02E+A02E/A02E\A02E;
                       STA.B !SpriteYPosLow,X                    ;;A035|A031+A031/A031\A031;
                       LDA.B #$40                                ;;A037|A033+A033/A033\A033;
@@ -3866,13 +3866,13 @@ CODE_03A045:          LDA.B !SpriteYPosLow,X                    ;;A049|A045+A045
                       SEC                                       ;;A04C|A048+A048/A048\A048;
                       SBC.B #$0C                                ;;A04D|A049+A049/A049\A049;
                       STA.B !SpriteYPosLow,X                    ;;A04F|A04B+A04B/A04B\A04B;
-                      LDA.W !SpriteXPosHigh,X                   ;;A051|A04D+A04D/A04D\A04D;
+                      LDA.W !SpriteYPosHigh,X                   ;;A051|A04D+A04D/A04D\A04D;
                       PHA                                       ;;A054|A050+A050/A050\A050;
                       SBC.B #$00                                ;;A055|A051+A051/A051\A051;
-                      STA.W !SpriteXPosHigh,X                   ;;A057|A053+A053/A053\A053;
+                      STA.W !SpriteYPosHigh,X                   ;;A057|A053+A053/A053\A053;
                       JSL CODE_028528                           ;;A05A|A056+A056/A056\A056;
                       PLA                                       ;;A05E|A05A+A05A/A05A\A05A;
-                      STA.W !SpriteXPosHigh,X                   ;;A05F|A05B+A05B/A05B\A05B;
+                      STA.W !SpriteYPosHigh,X                   ;;A05F|A05B+A05B/A05B\A05B;
                       PLA                                       ;;A062|A05E+A05E/A05E\A05E;
                       STA.B !SpriteYPosLow,X                    ;;A063|A05F+A05F/A05F\A05F;
                       RTS                                       ;;A065|A061+A061/A061\A061; Return
@@ -3954,11 +3954,11 @@ CODE_03A0F1:          JSL InitSpriteTables                      ;;A0F5|A0F1+A0F1
                       LDA.B #$80                                ;;A0FC|A0F8+A0F8/A0F8\A0F8;
                       STA.B !SpriteYPosLow,X                    ;;A0FE|A0FA+A0FA/A0FA\A0FA;
                       LDA.B #$FF                                ;;A100|A0FC+A0FC/A0FC\A0FC;
-                      STA.W !SpriteXPosHigh,X                   ;;A102|A0FE+A0FE/A0FE\A0FE;
+                      STA.W !SpriteYPosHigh,X                   ;;A102|A0FE+A0FE/A0FE\A0FE;
                       LDA.B #$D0                                ;;A105|A101+A101/A101\A101;
                       STA.B !SpriteXPosLow,X                    ;;A107|A103+A103/A103\A103;
                       LDA.B #$00                                ;;A109|A105+A105/A105\A105;
-                      STA.W !SpriteYPosHigh,X                   ;;A10B|A107+A107/A107\A107;
+                      STA.W !SpriteXPosHigh,X                   ;;A10B|A107+A107/A107\A107;
                       LDA.B #$02                                ;;A10E|A10A+A10A/A10A\A10A;
                       STA.W !SpriteMisc187B,X                   ;;A110|A10C+A10C/A10C\A10C;
                       LDA.B #$03                                ;;A113|A10F+A10F/A10F\A10F;
@@ -4571,16 +4571,16 @@ CODE_03A61D:          LDA.B #$08                                ;;A621|A61D+A61D
                       CLC                                       ;;A62C|A628+A628/A628\A628;
                       ADC.B #$08                                ;;A62D|A629+A629/A629\A629;
                       STA.B !SpriteXPosLow+8                    ;;A62F|A62B+A62B/A62B\A62B;
-                      LDA.W !SpriteYPosHigh,X                   ;;A631|A62D+A62D/A62D\A62D;
+                      LDA.W !SpriteXPosHigh,X                   ;;A631|A62D+A62D/A62D\A62D;
                       ADC.B #$00                                ;;A634|A630+A630/A630\A630;
-                      STA.W !SpriteYPosHigh+8                   ;;A636|A632+A632/A632\A632;
+                      STA.W !SpriteXPosHigh+8                   ;;A636|A632+A632/A632\A632;
                       LDA.B !SpriteYPosLow,X                    ;;A639|A635+A635/A635\A635;
                       CLC                                       ;;A63B|A637+A637/A637\A637;
                       ADC.B #$40                                ;;A63C|A638+A638/A638\A638;
                       STA.B !SpriteYPosLow+8                    ;;A63E|A63A+A63A/A63A\A63A;
-                      LDA.W !SpriteXPosHigh,X                   ;;A640|A63C+A63C/A63C\A63C;
+                      LDA.W !SpriteYPosHigh,X                   ;;A640|A63C+A63C/A63C\A63C;
                       ADC.B #$00                                ;;A643|A63F+A63F/A63F\A63F;
-                      STA.W !SpriteXPosHigh+8                   ;;A645|A641+A641/A641\A641;
+                      STA.W !SpriteYPosHigh+8                   ;;A645|A641+A641/A641\A641;
                       PHX                                       ;;A648|A644+A644/A644\A644;
                       LDX.B #$08                                ;;A649|A645+A645/A645\A645;
                       JSL InitSpriteTables                      ;;A64B|A647+A647/A647\A647;
@@ -4745,7 +4745,7 @@ CODE_03A731:          LDY.W !SpriteMisc1528,X                   ;;A735|A731+A731
                       CMP.W DATA_03A72D,Y                       ;;A789|A785+A785/A785\A785;
                       BNE +                                     ;;A78C|A788+A788/A788\A788;
                       INC.W !BrSwingCenterYPos                  ;;A78E|A78A+A78A/A78A\A78A;
-                    + LDA.W !SpriteYPosHigh,X                   ;;A791|A78D+A78D/A78D\A78D;
+                    + LDA.W !SpriteXPosHigh,X                   ;;A791|A78D+A78D/A78D\A78D;
                       CMP.B #$FE                                ;;A794|A790+A790/A790\A790;
                       BNE +                                     ;;A796|A792+A792/A792\A792;
 CODE_03A794:          LDA.B #$03                                ;;A798|A794+A794/A794\A794;
@@ -4763,7 +4763,7 @@ CODE_03A7AD:          LDA.B #$60                                ;;A7B1|A7AD+A7AD
                       STA.B !Mode7XScale                        ;;A7B3|A7AF+A7AF/A7AF\A7AF;
                       STA.B !Mode7YScale                        ;;A7B5|A7B1+A7B1/A7B1\A7B1;
                       LDA.B #$FF                                ;;A7B7|A7B3+A7B3/A7B3\A7B3;
-                      STA.W !SpriteYPosHigh,X                   ;;A7B9|A7B5+A7B5/A7B5\A7B5;
+                      STA.W !SpriteXPosHigh,X                   ;;A7B9|A7B5+A7B5/A7B5\A7B5;
                       LDA.B #$60                                ;;A7BC|A7B8+A7B8/A7B8\A7B8;
                       STA.B !SpriteXPosLow,X                    ;;A7BE|A7BA+A7BA/A7BA\A7BA;
                       LDA.W !BrSwingCenterXPos                  ;;A7C0|A7BC+A7BC/A7BC\A7BC;
@@ -4775,7 +4775,7 @@ CODE_03A7AD:          LDA.B #$60                                ;;A7B1|A7AD+A7AD
                       LDA.B #$18                                ;;A7CF|A7CB+A7CB/A7CB\A7CB;
                       STA.B !SpriteYPosLow,X                    ;;A7D1|A7CD+A7CD/A7CD\A7CD;
                       LDA.B #$00                                ;;A7D3|A7CF+A7CF/A7CF\A7CF;
-                      STA.W !SpriteXPosHigh,X                   ;;A7D5|A7D1+A7D1/A7D1\A7D1;
+                      STA.W !SpriteYPosHigh,X                   ;;A7D5|A7D1+A7D1/A7D1\A7D1;
                       LDA.B #$08                                ;;A7D8|A7D4+A7D4/A7D4\A7D4;
                       STA.B !Mode7XScale                        ;;A7DA|A7D6+A7D6/A7D6\A7D6;
                       STA.B !Mode7YScale                        ;;A7DC|A7D8+A7D8/A7D8\A7D8;
@@ -4809,10 +4809,10 @@ CODE_03A7F6:          LDA.B #!SFX_FIRESPIT                      ;;A7FA|A7F6+A7F6
                       ADC.B #$20                                ;;A811|A80D+A80D/A80D\A80D;
                       STA.W !BrSwingYDist+1                     ;;A813|A80F+A80F/A80F\A80F;
                       LDA.B #$00                                ;;A816|A812+A812/A812\A812;
-                      STA.W !SpriteYPosHigh,Y                   ;;A818|A814+A814/A814\A814;
+                      STA.W !SpriteXPosHigh,Y                   ;;A818|A814+A814/A814\A814;
                       LDA.B #$00                                ;;A81B|A817+A817/A817\A817;
                       STA.W !SpriteYPosLow,Y                    ;;A81D|A819+A819/A819\A819;
-                      STA.W !SpriteXPosHigh,Y                   ;;A820|A81C+A81C/A81C\A81C;
+                      STA.W !SpriteYPosHigh,Y                   ;;A820|A81C+A81C/A81C\A81C;
                       PHX                                       ;;A823|A81F+A81F/A81F\A81F;
                       TYX                                       ;;A824|A820+A820/A820\A820;
                       JSL InitSpriteTables                      ;;A825|A821+A821/A821\A821;
@@ -4931,16 +4931,16 @@ CODE_03A8E3:          LDA.B #!SFX_MAGIC                         ;;A8E7|A8E3+A8E3
                       CLC                                       ;;A8F8|A8F4+A8F4/A8F4\A8F4;
                       ADC.B #$04                                ;;A8F9|A8F5+A8F5/A8F5\A8F5;
                       STA.W !SpriteXPosLow,Y                    ;;A8FB|A8F7+A8F7/A8F7\A8F7;
-                      LDA.W !SpriteYPosHigh,X                   ;;A8FE|A8FA+A8FA/A8FA\A8FA;
+                      LDA.W !SpriteXPosHigh,X                   ;;A8FE|A8FA+A8FA/A8FA\A8FA;
                       ADC.B #$00                                ;;A901|A8FD+A8FD/A8FD\A8FD;
-                      STA.W !SpriteYPosHigh,Y                   ;;A903|A8FF+A8FF/A8FF\A8FF;
+                      STA.W !SpriteXPosHigh,Y                   ;;A903|A8FF+A8FF/A8FF\A8FF;
                       LDA.B !SpriteYPosLow,X                    ;;A906|A902+A902/A902\A902;
                       CLC                                       ;;A908|A904+A904/A904\A904;
                       ADC.B #$18                                ;;A909|A905+A905/A905\A905;
                       STA.W !SpriteYPosLow,Y                    ;;A90B|A907+A907/A907\A907;
-                      LDA.W !SpriteXPosHigh,X                   ;;A90E|A90A+A90A/A90A\A90A;
+                      LDA.W !SpriteYPosHigh,X                   ;;A90E|A90A+A90A/A90A\A90A;
                       ADC.B #$00                                ;;A911|A90D+A90D/A90D\A90D;
-                      STA.W !SpriteXPosHigh,Y                   ;;A913|A90F+A90F/A90F\A90F;
+                      STA.W !SpriteYPosHigh,Y                   ;;A913|A90F+A90F/A90F\A90F;
                       PHX                                       ;;A916|A912+A912/A912\A912;
                       TYX                                       ;;A917|A913+A913/A913\A913;
                       JSL InitSpriteTables                      ;;A918|A914+A914/A914\A914;
@@ -5109,7 +5109,7 @@ CODE_03AB21:          JSR CODE_03A4FD                           ;;AB25|AB21+AB21
                       LDY.B #$00                                ;;AB34|AB30+AB30/AB30\AB30;
                       LDA.B !SpriteXPosLow,X                    ;;AB36|AB32+AB32/AB32\AB32;
                       CMP.B !PlayerXPosNext                     ;;AB38|AB34+AB34/AB34\AB34;
-                      LDA.W !SpriteYPosHigh,X                   ;;AB3A|AB36+AB36/AB36\AB36;
+                      LDA.W !SpriteXPosHigh,X                   ;;AB3A|AB36+AB36/AB36\AB36;
                       SBC.B !PlayerXPosNext+1                   ;;AB3D|AB39+AB39/AB39\AB39;
                       BMI +                                     ;;AB3F|AB3B+AB3B/AB3B\AB3B;
                       INY                                       ;;AB41|AB3D+AB3D/AB3D\AB3D;
@@ -5147,7 +5147,7 @@ CODE_03AB64:          LDA.B #$03                                ;;AB68|AB64+AB64
                       LDA.B !SpriteYPosLow,X                    ;;AB7D|AB79+AB79/AB79\AB79;
                       CMP.B #con($64,$64,$64,$64,$74)           ;;AB7F|AB7B+AB7B/AB7B\AB7B;
                       BCC +                                     ;;AB81|AB7D+AB7D/AB7D\AB7D;
-                      LDA.W !SpriteXPosHigh,X                   ;;AB83|AB7F+AB7F/AB7F\AB7F;
+                      LDA.W !SpriteYPosHigh,X                   ;;AB83|AB7F+AB7F/AB7F\AB7F;
                       BMI +                                     ;;AB86|AB82+AB82/AB82\AB82;
                       LDA.B #$64                                ;;AB88|AB84+AB84/AB84\AB84;
                       STA.B !SpriteYPosLow,X                    ;;AB8A|AB86+AB86/AB86\AB86;
@@ -5163,7 +5163,7 @@ CODE_03AB64:          LDA.B #$03                                ;;AB68|AB64+AB64
                     + RTS                                       ;;ABA2|AB9E+AB9E/AB9E\AB9E; Return
                                                                 ;;                        ;
 CODE_03AB9F:          JSR CODE_03A6AC                           ;;ABA3|AB9F+AB9F/AB9F\AB9F;
-                      LDA.W !SpriteXPosHigh,X                   ;;ABA6|ABA2+ABA2/ABA2\ABA2;
+                      LDA.W !SpriteYPosHigh,X                   ;;ABA6|ABA2+ABA2/ABA2\ABA2;
                       BMI CODE_03ABAF                           ;;ABA9|ABA5+ABA5/ABA5\ABA5;
                       BNE +                                     ;;ABAB|ABA7+ABA7/ABA7\ABA7;
                       LDA.B !SpriteYPosLow,X                    ;;ABAD|ABA9+ABA9/ABA9\ABA9;
@@ -5252,8 +5252,8 @@ Return03AC4C:         RTS                                       ;;AC50|AC4C+AC4C
                       STA.W !SPCIO2                             ;;AC58|AC54+AC54/AC54\AC54; / Change music
                       INC.W !SpriteInLiquid,X                   ;;AC5B|AC57+AC57/AC57\AC57;
                     + LDA.B #$FE                                ;;AC5E|AC5A+AC5A/AC5A\AC5A;
-                      STA.W !SpriteYPosHigh,X                   ;;AC60|AC5C+AC5C/AC5C\AC5C;
-                      STA.W !SpriteXPosHigh,X                   ;;AC63|AC5F+AC5F/AC5F\AC5F;
+                      STA.W !SpriteXPosHigh,X                   ;;AC60|AC5C+AC5C/AC5C\AC5C;
+                      STA.W !SpriteYPosHigh,X                   ;;AC63|AC5F+AC5F/AC5F\AC5F;
                       RTS                                       ;;AC66|AC62+AC62/AC62\AC62; Return
                                                                 ;;                        ;
 CODE_03AC63:          LDA.B #$08                                ;;AC67|AC63+AC63/AC63\AC63;
@@ -5264,16 +5264,16 @@ CODE_03AC63:          LDA.B #$08                                ;;AC67|AC63+AC63
                       CLC                                       ;;AC72|AC6E+AC6E/AC6E\AC6E;
                       ADC.B #$08                                ;;AC73|AC6F+AC6F/AC6F\AC6F;
                       STA.B !SpriteXPosLow+8                    ;;AC75|AC71+AC71/AC71\AC71;
-                      LDA.W !SpriteYPosHigh,X                   ;;AC77|AC73+AC73/AC73\AC73;
+                      LDA.W !SpriteXPosHigh,X                   ;;AC77|AC73+AC73/AC73\AC73;
                       ADC.B #$00                                ;;AC7A|AC76+AC76/AC76\AC76;
-                      STA.W !SpriteYPosHigh+8                   ;;AC7C|AC78+AC78/AC78\AC78;
+                      STA.W !SpriteXPosHigh+8                   ;;AC7C|AC78+AC78/AC78\AC78;
                       LDA.B !SpriteYPosLow,X                    ;;AC7F|AC7B+AC7B/AC7B\AC7B;
                       CLC                                       ;;AC81|AC7D+AC7D/AC7D\AC7D;
                       ADC.B #$47                                ;;AC82|AC7E+AC7E/AC7E\AC7E;
                       STA.B !SpriteYPosLow+8                    ;;AC84|AC80+AC80/AC80\AC80;
-                      LDA.W !SpriteXPosHigh,X                   ;;AC86|AC82+AC82/AC82\AC82;
+                      LDA.W !SpriteYPosHigh,X                   ;;AC86|AC82+AC82/AC82\AC82;
                       ADC.B #$00                                ;;AC89|AC85+AC85/AC85\AC85;
-                      STA.W !SpriteXPosHigh+8                   ;;AC8B|AC87+AC87/AC87\AC87;
+                      STA.W !SpriteYPosHigh+8                   ;;AC8B|AC87+AC87/AC87\AC87;
                       PHX                                       ;;AC8E|AC8A+AC8A/AC8A\AC8A;
                       LDX.B #$08                                ;;AC8F|AC8B+AC8B/AC8B\AC8B;
                       JSL InitSpriteTables                      ;;AC91|AC8D+AC8D/AC8D\AC8D;
@@ -5373,7 +5373,7 @@ CODE_03AD37:          LDA.B #$06                                ;;AD3B|AD37+AD37
                       CLC                                       ;;AD4A|AD46+AD46/AD46\AD46;
                       ADC.B #$01                                ;;AD4B|AD47+AD47/AD47\AD47;
                       STA.B !SpriteYSpeed,X                     ;;AD4D|AD49+AD49/AD49\AD49;
-                    + LDA.W !SpriteXPosHigh,X                   ;;AD4F|AD4B+AD4B/AD4B\AD4B;
+                    + LDA.W !SpriteYPosHigh,X                   ;;AD4F|AD4B+AD4B/AD4B\AD4B;
                       BMI +                                     ;;AD52|AD4E+AD4E/AD4E\AD4E;
                       LDA.B !SpriteYPosLow,X                    ;;AD54|AD50+AD50/AD50\AD50;
                       CMP.B #con($A0,$A0,$A0,$A0,$B0)           ;;AD56|AD52+AD52/AD52\AD52;
@@ -5406,14 +5406,14 @@ CODE_03AD74:          LDA.B #$05                                ;;AD78|AD74+AD74
                     + CLC                                       ;;AD8C|AD88+AD88/AD88\AD88;
                       ADC.B !SpriteXPosLow,X                    ;;AD8D|AD89+AD89/AD89\AD89;
                       STA.W !MinExtSpriteXPosLow,Y              ;;AD8F|AD8B+AD8B/AD8B\AD8B;
-                      LDA.W !SpriteYPosHigh,X                   ;;AD92|AD8E+AD8E/AD8E\AD8E;
+                      LDA.W !SpriteXPosHigh,X                   ;;AD92|AD8E+AD8E/AD8E\AD8E;
                       ADC.B !_0                                 ;;AD95|AD91+AD91/AD91\AD91;
                       STA.W !MinExtSpriteXPosHigh,Y             ;;AD97|AD93+AD93/AD93\AD93;
                       LDA.W !RandomNumber+1                     ;;AD9A|AD96+AD96/AD96\AD96;
                       AND.B #$1F                                ;;AD9D|AD99+AD99/AD99\AD99;
                       ADC.B !SpriteYPosLow,X                    ;;AD9F|AD9B+AD9B/AD9B\AD9B;
                       STA.W !MinExtSpriteYPosLow,Y              ;;ADA1|AD9D+AD9D/AD9D\AD9D;
-                      LDA.W !SpriteXPosHigh,X                   ;;ADA4|ADA0+ADA0/ADA0\ADA0;
+                      LDA.W !SpriteYPosHigh,X                   ;;ADA4|ADA0+ADA0/ADA0\ADA0;
                       ADC.B #$00                                ;;ADA7|ADA3+ADA3/ADA3\ADA3;
                       STA.W !MinExtSpriteYPosHigh,Y             ;;ADA9|ADA5+ADA5/ADA5\ADA5;
                       LDA.B #$00                                ;;ADAC|ADA8+ADA8/ADA8\ADA8;
@@ -5745,12 +5745,12 @@ CODE_03B02B:          LDA.B #$08                                ;;B027|B02B+B02B
                       CLC                                       ;;B033|B037+B037/B037\B037;
                       ADC.B #$10                                ;;B034|B038+B038/B038\B038;
                       STA.W !SpriteYPosLow,Y                    ;;B036|B03A+B03A/B03A\B03A;
-                      LDA.W !SpriteXPosHigh,X                   ;;B039|B03D+B03D/B03D\B03D;
+                      LDA.W !SpriteYPosHigh,X                   ;;B039|B03D+B03D/B03D\B03D;
                       ADC.B #$00                                ;;B03C|B040+B040/B040\B040;
-                      STA.W !SpriteXPosHigh,Y                   ;;B03E|B042+B042/B042\B042;
+                      STA.W !SpriteYPosHigh,Y                   ;;B03E|B042+B042/B042\B042;
                       LDA.B !SpriteXPosLow,X                    ;;B041|B045+B045/B045\B045;
                       STA.B !_0                                 ;;B043|B047+B047/B047\B047;
-                      LDA.W !SpriteYPosHigh,X                   ;;B045|B049+B049/B049\B049;
+                      LDA.W !SpriteXPosHigh,X                   ;;B045|B049+B049/B049\B049;
                       STA.B !_1                                 ;;B048|B04C+B04C/B04C\B04C;
                       PHX                                       ;;B04A|B04E+B04E/B04E\B04E;
                       LDX.B !_2                                 ;;B04B|B04F+B04F/B04F\B04F;
@@ -5760,7 +5760,7 @@ CODE_03B02B:          LDA.B #$08                                ;;B027|B02B+B02B
                       STA.W !SpriteXPosLow,Y                    ;;B053|B057+B057/B057\B057;
                       LDA.B !_1                                 ;;B056|B05A+B05A/B05A\B05A;
                       ADC.W DATA_03B015,X                       ;;B058|B05C+B05C/B05C\B05C;
-                      STA.W !SpriteYPosHigh,Y                   ;;B05B|B05F+B05F/B05F\B05F;
+                      STA.W !SpriteXPosHigh,Y                   ;;B05B|B05F+B05F/B05F\B05F;
                       TYX                                       ;;B05E|B062+B062/B062\B062;
                       JSL InitSpriteTables                      ;;B05F|B063+B063/B063\B063;
                       LDY.B !_2                                 ;;B063|B067+B067/B067\B067;
@@ -5899,7 +5899,7 @@ CODE_03B186:          LDA.B #$40                                ;;B182|B186+B186
                       STA.B !SpriteYSpeed,X                     ;;B184|B188+B188/B188\B188;
                     + LDA.B !SpriteYSpeed,X                     ;;B186|B18A+B18A/B18A\B18A;
                       BMI CODE_03B1C5                           ;;B188|B18C+B18C/B18C\B18C;
-                      LDA.W !SpriteXPosHigh,X                   ;;B18A|B18E+B18E/B18E\B18E;
+                      LDA.W !SpriteYPosHigh,X                   ;;B18A|B18E+B18E/B18E\B18E;
                       BMI CODE_03B1C5                           ;;B18D|B191+B191/B191\B191;
                       LDA.B !SpriteYPosLow,X                    ;;B18F|B193+B193/B193\B193;
                       CMP.B #con($B0,$B0,$B0,$B0,$C0)           ;;B191|B195+B195/B195\B195;
@@ -6458,7 +6458,7 @@ GetSpriteClippingA:   PHY                                       ;;B69F|B69F+B69F
                     + CLC                                       ;;B6B2|B6B2+B6B2/B6B2\B6B2;  |
                       ADC.W !SpriteXPosLow,Y                    ;;B6B3|B6B3+B6B3/B6B3\B6B3;  |
                       STA.B !_4                                 ;;B6B6|B6B6+B6B6/B6B6\B6B6;  | $04 = (Sprite X position + displacement) Low byte
-                      LDA.W !SpriteYPosHigh,Y                   ;;B6B8|B6B8+B6B8/B6B8\B6B8;  |
+                      LDA.W !SpriteXPosHigh,Y                   ;;B6B8|B6B8+B6B8/B6B8\B6B8;  |
                       ADC.B !_F                                 ;;B6BB|B6BB+B6BB/B6BB\B6BB;  |
                       STA.B !_A                                 ;;B6BD|B6BD+B6BD/B6BD\B6BD; / $0A = (Sprite X position + displacement) High byte
                       LDA.L SprClippingWidth,X                  ;;B6BF|B6BF+B6BF/B6BF\B6BF; \ $06 = Clipping width
@@ -6470,7 +6470,7 @@ GetSpriteClippingA:   PHY                                       ;;B69F|B69F+B69F
                     + CLC                                       ;;B6CF|B6CF+B6CF/B6CF\B6CF;  |
                       ADC.W !SpriteYPosLow,Y                    ;;B6D0|B6D0+B6D0/B6D0\B6D0;  |
                       STA.B !_5                                 ;;B6D3|B6D3+B6D3/B6D3\B6D3;  | $05 = (Sprite Y position + displacement) Low byte
-                      LDA.W !SpriteXPosHigh,Y                   ;;B6D5|B6D5+B6D5/B6D5\B6D5;  |
+                      LDA.W !SpriteYPosHigh,Y                   ;;B6D5|B6D5+B6D5/B6D5\B6D5;  |
                       ADC.B !_F                                 ;;B6D8|B6D8+B6D8/B6D8\B6D8;  |
                       STA.B !_B                                 ;;B6DA|B6DA+B6DA/B6DA\B6DA; / $0B = (Sprite Y position + displacement) High byte
                       LDA.L SprClippingHeight,X                 ;;B6DC|B6DC+B6DC/B6DC\B6DC; \ $07 = Clipping height
@@ -6492,7 +6492,7 @@ GetSpriteClippingB:   PHY                                       ;;B6E5|B6E5+B6E5
                     + CLC                                       ;;B6F8|B6F8+B6F8/B6F8\B6F8;  |
                       ADC.W !SpriteXPosLow,Y                    ;;B6F9|B6F9+B6F9/B6F9\B6F9;  |
                       STA.B !_0                                 ;;B6FC|B6FC+B6FC/B6FC\B6FC;  | $00 = (Sprite X position + displacement) Low byte
-                      LDA.W !SpriteYPosHigh,Y                   ;;B6FE|B6FE+B6FE/B6FE\B6FE;  |
+                      LDA.W !SpriteXPosHigh,Y                   ;;B6FE|B6FE+B6FE/B6FE\B6FE;  |
                       ADC.B !_F                                 ;;B701|B701+B701/B701\B701;  |
                       STA.B !_8                                 ;;B703|B703+B703/B703\B703; / $08 = (Sprite X position + displacement) High byte
                       LDA.L SprClippingWidth,X                  ;;B705|B705+B705/B705\B705; \ $02 = Clipping width
@@ -6504,7 +6504,7 @@ GetSpriteClippingB:   PHY                                       ;;B6E5|B6E5+B6E5
                     + CLC                                       ;;B715|B715+B715/B715\B715;  |
                       ADC.W !SpriteYPosLow,Y                    ;;B716|B716+B716/B716\B716;  |
                       STA.B !_1                                 ;;B719|B719+B719/B719\B719;  | $01 = (Sprite Y position + displacement) Low byte
-                      LDA.W !SpriteXPosHigh,Y                   ;;B71B|B71B+B71B/B71B\B71B;  |
+                      LDA.W !SpriteYPosHigh,Y                   ;;B71B|B71B+B71B/B71B\B71B;  |
                       ADC.B !_F                                 ;;B71E|B71E+B71E/B71E\B71E;  |
                       STA.B !_9                                 ;;B720|B720+B720/B720\B720; / $09 = (Sprite Y position + displacement) High byte
                       LDA.L SprClippingHeight,X                 ;;B722|B722+B722/B722\B722; \ $03 = Clipping height
@@ -6553,11 +6553,11 @@ GetDrawInfoBnk3:      STZ.W !SpriteOffscreenVert,X              ;;B760|B760+B760
                       STZ.W !SpriteOffscreenX,X                 ;;B763|B763+B763/B763\B763; Reset sprite offscreen flag, horizontal
                       LDA.B !SpriteXPosLow,X                    ;;B766|B766+B766/B766\B766; \
                       CMP.B !Layer1XPos                         ;;B768|B768+B768/B768\B768;  | Set horizontal offscreen if necessary
-                      LDA.W !SpriteYPosHigh,X                   ;;B76A|B76A+B76A/B76A\B76A;  |
+                      LDA.W !SpriteXPosHigh,X                   ;;B76A|B76A+B76A/B76A\B76A;  |
                       SBC.B !Layer1XPos+1                       ;;B76D|B76D+B76D/B76D\B76D;  |
                       BEQ +                                     ;;B76F|B76F+B76F/B76F\B76F;  |
                       INC.W !SpriteOffscreenX,X                 ;;B771|B771+B771/B771\B771; /
-                    + LDA.W !SpriteYPosHigh,X                   ;;B774|B774+B774/B774\B774; \
+                    + LDA.W !SpriteXPosHigh,X                   ;;B774|B774+B774/B774\B774; \
                       XBA                                       ;;B777|B777+B777/B777\B777;  | Mark sprite invalid if far enough off screen
                       LDA.B !SpriteXPosLow,X                    ;;B778|B778+B778/B778\B778;  |
                       REP #$20                                  ;;B77A|B77A+B77A/B77A\B77A; Accum (16 bit)
@@ -6583,7 +6583,7 @@ CODE_03B79A:          LDA.B !SpriteYPosLow,X                    ;;B79A|B79A+B79A
                       CMP.B !Layer1YPos                         ;;B7A1|B7A1+B7A1/B7A1\B7A1;  | (vert screen boundry)
                       ROL.B !_0                                 ;;B7A3|B7A3+B7A3/B7A3\B7A3;  |
                       PLP                                       ;;B7A5|B7A5+B7A5/B7A5\B7A5;  |
-                      LDA.W !SpriteXPosHigh,X                   ;;B7A6|B7A6+B7A6/B7A6\B7A6;  |
+                      LDA.W !SpriteYPosHigh,X                   ;;B7A6|B7A6+B7A6/B7A6\B7A6;  |
                       ADC.B #$00                                ;;B7A9|B7A9+B7A9/B7A9\B7A9;  |
                       LSR.B !_0                                 ;;B7AB|B7AB+B7AB/B7AB\B7AB;  |
                       SBC.B !Layer1YPos+1                       ;;B7AD|B7AD+B7AD/B7AD\B7AD;  |
@@ -6641,7 +6641,7 @@ SubHorzPosBnk3:       LDY.B #$00                                ;;B817|B817+B817
                       SBC.B !SpriteXPosLow,X                    ;;B81C|B81C+B81C/B81C\B81C;
                       STA.B !_F                                 ;;B81E|B81E+B81E/B81E\B81E;
                       LDA.B !PlayerXPosNext+1                   ;;B820|B820+B820/B820\B820;
-                      SBC.W !SpriteYPosHigh,X                   ;;B822|B822+B822/B822\B822;
+                      SBC.W !SpriteXPosHigh,X                   ;;B822|B822+B822/B822\B822;
                       BPL +                                     ;;B825|B825+B825/B825\B825;
                       INY                                       ;;B827|B827+B827/B827\B827;
                     + RTS                                       ;;B828|B828+B828/B828\B828; Return
@@ -6652,7 +6652,7 @@ SubVertPosBnk3:       LDY.B #$00                                ;;B829|B829+B829
                       SBC.B !SpriteYPosLow,X                    ;;B82E|B82E+B82E/B82E\B82E; Interestingly, this routine in banks 1 and 2
                       STA.B !_F                                 ;;B830|B830+B830/B830\B830; Stores the difference of player y-low pos and
                       LDA.B !PlayerYPosNext+1                   ;;B832|B832+B832/B832\B832; sprite y-low into $0E instead.
-                      SBC.W !SpriteXPosHigh,X                   ;;B834|B834+B834/B834\B834;
+                      SBC.W !SpriteYPosHigh,X                   ;;B834|B834+B834/B834\B834;
                       BPL +                                     ;;B837|B837+B837/B837\B837;
                       INY                                       ;;B839|B839+B839/B839\B839;
                     + RTS                                       ;;B83A|B83A+B83A/B83A\B83A; Return
@@ -6684,7 +6684,7 @@ SubOffscreen0Bnk3:    STZ.B !_3                                 ;;B85D|B85D+B85D
                       LDA.B !SpriteYPosLow,X                    ;;B86A|B86A+B86A/B86A\B86A; \
                       CLC                                       ;;B86C|B86C+B86C/B86C\B86C;  |
                       ADC.B #$50                                ;;B86D|B86D+B86D/B86D\B86D;  | if the sprite has gone off the bottom of the level...
-                      LDA.W !SpriteXPosHigh,X                   ;;B86F|B86F+B86F/B86F\B86F;  | (if adding 0x50 to the sprite y position would make the high byte >= 2)
+                      LDA.W !SpriteYPosHigh,X                   ;;B86F|B86F+B86F/B86F\B86F;  | (if adding 0x50 to the sprite y position would make the high byte >= 2)
                       ADC.B #$00                                ;;B872|B872+B872/B872\B872;  |
                       CMP.B #$02                                ;;B874|B874+B874/B874\B874;  |
                       BPL OffScrEraseSprBnk3                    ;;B876|B876+B876/B876\B876; /    ...erase the sprite
@@ -6706,7 +6706,7 @@ SubOffscreen0Bnk3:    STZ.B !_3                                 ;;B85D|B85D+B85D
                       LSR.B !_0                                 ;;B895|B895+B895/B895\B895;
                       ADC.W DATA_03B847,Y                       ;;B897|B897+B897/B897\B897;
                       PLP                                       ;;B89A|B89A+B89A/B89A\B89A;
-                      SBC.W !SpriteYPosHigh,X                   ;;B89B|B89B+B89B/B89B\B89B;
+                      SBC.W !SpriteXPosHigh,X                   ;;B89B|B89B+B89B/B89B\B89B;
                       STA.B !_0                                 ;;B89E|B89E+B89E/B89E\B89E;
                       LSR.B !_1                                 ;;B8A0|B8A0+B8A0/B8A0\B8A0;
                       BCC +                                     ;;B8A2|B8A2+B8A2/B8A2\B8A2;
@@ -6744,7 +6744,7 @@ VerticalLevelBnk3:    LDA.W !SpriteTweaker167A,X                ;;B8C3|B8C3+B8C3
                       LSR.B !_0                                 ;;B8E2|B8E2+B8E2/B8E2\B8E2;
                       ADC.W DATA_03B83D,Y                       ;;B8E4|B8E4+B8E4/B8E4\B8E4;
                       PLP                                       ;;B8E7|B8E7+B8E7/B8E7\B8E7;
-                      SBC.W !SpriteXPosHigh,X                   ;;B8E8|B8E8+B8E8/B8E8\B8E8;
+                      SBC.W !SpriteYPosHigh,X                   ;;B8E8|B8E8+B8E8/B8E8\B8E8;
                       STA.B !_0                                 ;;B8EB|B8EB+B8EB/B8EB\B8EB;
                       LDY.B !_1                                 ;;B8ED|B8ED+B8ED/B8ED\B8ED;
                       BEQ +                                     ;;B8EF|B8EF+B8EF/B8EF\B8EF;
@@ -6769,14 +6769,14 @@ GenTileFromSpr2:      STA.B !Map16TileGenerate                  ;;C000|C000+C000
                       SEC                                       ;;C004|C004+C004/C004\C004;  | for block creation
                       SBC.B #$08                                ;;C005|C005+C005/C005\C005;  |
                       STA.B !TouchBlockXPos                     ;;C007|C007+C007/C007\C007;  |
-                      LDA.W !SpriteYPosHigh,X                   ;;C009|C009+C009/C009\C009;  |
+                      LDA.W !SpriteXPosHigh,X                   ;;C009|C009+C009/C009\C009;  |
                       SBC.B #$00                                ;;C00C|C00C+C00C/C00C\C00C;  |
                       STA.B !TouchBlockXPos+1                   ;;C00E|C00E+C00E/C00E\C00E; /
                       LDA.B !SpriteYPosLow,X                    ;;C010|C010+C010/C010\C010; \ $98 = Sprite Y position + #$08
                       CLC                                       ;;C012|C012+C012/C012\C012;  | for block creation
                       ADC.B #$08                                ;;C013|C013+C013/C013\C013;  |
                       STA.B !TouchBlockYPos                     ;;C015|C015+C015/C015\C015;  |
-                      LDA.W !SpriteXPosHigh,X                   ;;C017|C017+C017/C017\C017;  |
+                      LDA.W !SpriteYPosHigh,X                   ;;C017|C017+C017/C017\C017;  |
                       ADC.B #$00                                ;;C01A|C01A+C01A/C01A\C01A;  |
                       STA.B !TouchBlockYPos+1                   ;;C01C|C01C+C01C/C01C\C01C; /
                       JSL GenerateTile                          ;;C01E|C01E+C01E/C01E\C01E; Generate the tile
@@ -6825,9 +6825,9 @@ ADDR_03C05C:          STZ.W !YoshiSwallowTimer                  ;;C05C|C05C+C05C
                       LDA.B !SpriteYPosLow,X                    ;;C071|C071+C071/C071\C071;
                       SBC.B #$10                                ;;C073|C073+C073/C073\C073;
                       STA.B !SpriteYPosLow,X                    ;;C075|C075+C075/C075\C075;
-                      LDA.W !SpriteXPosHigh,X                   ;;C077|C077+C077/C077\C077;
+                      LDA.W !SpriteYPosHigh,X                   ;;C077|C077+C077/C077\C077;
                       SBC.B #$00                                ;;C07A|C07A+C07A/C07A\C07A;
-                      STA.W !SpriteXPosHigh,X                   ;;C07C|C07C+C07C/C07C\C07C;
+                      STA.W !SpriteYPosHigh,X                   ;;C07C|C07C+C07C/C07C\C07C;
                       LDA.W !SpriteOBJAttribute,X               ;;C07F|C07F+C07F/C07F\C07F;
                       PHA                                       ;;C082|C082+C082/C082\C082;
                       JSL InitSpriteTables                      ;;C083|C083+C083/C083\C083;
@@ -6974,9 +6974,9 @@ CODE_03C1CA:          PHB                                       ;;C1CA|C1CA+C1CA
                       CLC                                       ;;C1D7|C1D7+C1D7/C1D7\C1D7;
                       ADC.W DATA_03C1C6,Y                       ;;C1D8|C1D8+C1D8/C1D8\C1D8;
                       STA.B !SpriteXPosLow,X                    ;;C1DB|C1DB+C1DB/C1DB\C1DB;
-                      LDA.W !SpriteYPosHigh,X                   ;;C1DD|C1DD+C1DD/C1DD\C1DD;
+                      LDA.W !SpriteXPosHigh,X                   ;;C1DD|C1DD+C1DD/C1DD\C1DD;
                       ADC.W DATA_03C1C8,Y                       ;;C1E0|C1E0+C1E0/C1E0\C1E0;
-                      STA.W !SpriteYPosHigh,X                   ;;C1E3|C1E3+C1E3/C1E3\C1E3;
+                      STA.W !SpriteXPosHigh,X                   ;;C1E3|C1E3+C1E3/C1E3\C1E3;
                       LDA.B #$18                                ;;C1E6|C1E6+C1E6/C1E6\C1E6;
                       STA.B !SpriteYSpeed,X                     ;;C1E8|C1E8+C1E8/C1E8\C1E8;
                       PLB                                       ;;C1EA|C1EA+C1EA/C1EA\C1EA;
@@ -7120,11 +7120,11 @@ Generate1Up:          LDA.B #$08                                ;;C2E6|C2E6+C2E6
                       LDA.B !PlayerXPosNext                     ;;C2EF|C2EF+C2EF/C2EF\C2EF; \ Sprite X position = Mario X position
                       STA.B !SpriteXPosLow,X                    ;;C2F1|C2F1+C2F1/C2F1\C2F1;  |
                       LDA.B !PlayerXPosNext+1                   ;;C2F3|C2F3+C2F3/C2F3\C2F3;  |
-                      STA.W !SpriteYPosHigh,X                   ;;C2F5|C2F5+C2F5/C2F5\C2F5; /
+                      STA.W !SpriteXPosHigh,X                   ;;C2F5|C2F5+C2F5/C2F5\C2F5; /
                       LDA.B !PlayerYPosNext                     ;;C2F8|C2F8+C2F8/C2F8\C2F8; \ Sprite Y position = Matio Y position
                       STA.B !SpriteYPosLow,X                    ;;C2FA|C2FA+C2FA/C2FA\C2FA;  |
                       LDA.B !PlayerYPosNext+1                   ;;C2FC|C2FC+C2FC/C2FC\C2FC;  |
-                      STA.W !SpriteXPosHigh,X                   ;;C2FE|C2FE+C2FE/C2FE\C2FE; /
+                      STA.W !SpriteYPosHigh,X                   ;;C2FE|C2FE+C2FE/C2FE\C2FE; /
                       JSL InitSpriteTables                      ;;C301|C301+C301/C301\C301; Load sprite tables
                       LDA.B #$10                                ;;C305|C305+C305/C305\C305; \ Disable interaction timer = #$10
                       STA.W !SpriteMisc154C,X                   ;;C307|C307+C307/C307\C307; /
@@ -7144,9 +7144,9 @@ InvisMushroom:        JSR GetDrawInfoBnk3                       ;;C30F|C30F+C30F
                       SEC                                       ;;C327|C327+C327/C327\C327;  |
                       SBC.B #$0F                                ;;C328|C328+C328/C328\C328;  |
                       STA.B !SpriteYPosLow,X                    ;;C32A|C32A+C32A/C32A\C32A;  |
-                      LDA.W !SpriteXPosHigh,X                   ;;C32C|C32C+C32C/C32C\C32C;  |
+                      LDA.W !SpriteYPosHigh,X                   ;;C32C|C32C+C32C/C32C\C32C;  |
                       SBC.B #$00                                ;;C32F|C32F+C32F/C32F\C32F;  |
-                      STA.W !SpriteXPosHigh,X                   ;;C331|C331+C331/C331\C331; /
+                      STA.W !SpriteYPosHigh,X                   ;;C331|C331+C331/C331\C331; /
 PopupMushroom:        LDA.B #$00                                ;;C334|C334+C334/C334\C334; \ Sprite direction = dirction of Mario's X speed
                       LDY.B !PlayerXSpeed                       ;;C336|C336+C336/C336\C336;  |
                       BPL +                                     ;;C338|C338+C338/C338\C338;  |
@@ -7306,12 +7306,12 @@ CODE_03C461:          LDA.B #$06                                ;;C461|C461+C461
                       SEC                                       ;;C468|C468+C468/C468\C468;
                       SBC.B #$10                                ;;C469|C469+C469/C469\C469;
                       STA.W !ExtSpriteYPosLow,Y                 ;;C46B|C46B+C46B/C46B\C46B;
-                      LDA.W !SpriteXPosHigh,X                   ;;C46E|C46E+C46E/C46E\C46E;
+                      LDA.W !SpriteYPosHigh,X                   ;;C46E|C46E+C46E/C46E\C46E;
                       SBC.B #$00                                ;;C471|C471+C471/C471\C471;
                       STA.W !ExtSpriteYPosHigh,Y                ;;C473|C473+C473/C473\C473;
                       LDA.B !SpriteXPosLow,X                    ;;C476|C476+C476/C476\C476;
                       STA.W !ExtSpriteXPosLow,Y                 ;;C478|C478+C478/C478\C478;
-                      LDA.W !SpriteYPosHigh,X                   ;;C47B|C47B+C47B/C47B\C47B;
+                      LDA.W !SpriteXPosHigh,X                   ;;C47B|C47B+C47B/C47B\C47B;
                       STA.W !ExtSpriteXPosHigh,Y                ;;C47E|C47E+C47E/C47E\C47E;
                       LDA.W !SpriteMisc157C,X                   ;;C481|C481+C481/C481\C481;
                       LSR A                                     ;;C484|C484+C484/C484\C484;
@@ -7619,14 +7619,14 @@ CODE_03C7D0:          LDA.B #$08                                ;;C7D0|C7D0+C7D0
                       LDA.B #$7A                                ;;C7D5|C7D5+C7D5/C7D5\C7D5;
                       STA.W !SpriteNumber,Y                     ;;C7D7|C7D7+C7D7/C7D7\C7D7;
                       LDA.B #$00                                ;;C7DA|C7DA+C7DA/C7DA\C7DA;
-                      STA.W !SpriteYPosHigh,Y                   ;;C7DC|C7DC+C7DC/C7DC\C7DC;
+                      STA.W !SpriteXPosHigh,Y                   ;;C7DC|C7DC+C7DC/C7DC\C7DC;
                       LDA.B #$A8                                ;;C7DF|C7DF+C7DF/C7DF\C7DF;
                       CLC                                       ;;C7E1|C7E1+C7E1/C7E1\C7E1;
                       ADC.B !Layer1YPos                         ;;C7E2|C7E2+C7E2/C7E2\C7E2;
                       STA.W !SpriteYPosLow,Y                    ;;C7E4|C7E4+C7E4/C7E4\C7E4;
                       LDA.B !Layer1YPos+1                       ;;C7E7|C7E7+C7E7/C7E7\C7E7;
                       ADC.B #$00                                ;;C7E9|C7E9+C7E9/C7E9\C7E9;
-                      STA.W !SpriteXPosHigh,Y                   ;;C7EB|C7EB+C7EB/C7EB\C7EB;
+                      STA.W !SpriteYPosHigh,Y                   ;;C7EB|C7EB+C7EB/C7EB\C7EB;
                       PHX                                       ;;C7EE|C7EE+C7EE/C7EE\C7EE;
                       TYX                                       ;;C7EF|C7EF+C7EF/C7EF\C7EF;
                       JSL InitSpriteTables                      ;;C7F0|C7F0+C7F0/C7F0\C7F0;
@@ -8111,11 +8111,11 @@ CODE_03CBB3:          JSL FindFreeSprSlot                       ;;CBB3|CBB3+CBB3
                       STA.W !SpriteStatus,Y                     ;;CBC7|CBC7+CBC7/CBC7\CBC7; /
                       LDA.B !SpriteYPosLow,X                    ;;CBCA|CBCA+CBCA/CBCA\CBCA;
                       STA.W !SpriteYPosLow,Y                    ;;CBCC|CBCC+CBCC/CBCC\CBCC;
-                      LDA.W !SpriteXPosHigh,X                   ;;CBCF|CBCF+CBCF/CBCF\CBCF;
-                      STA.W !SpriteXPosHigh,Y                   ;;CBD2|CBD2+CBD2/CBD2\CBD2;
+                      LDA.W !SpriteYPosHigh,X                   ;;CBCF|CBCF+CBCF/CBCF\CBCF;
+                      STA.W !SpriteYPosHigh,Y                   ;;CBD2|CBD2+CBD2/CBD2\CBD2;
                       LDA.B !SpriteXPosLow,X                    ;;CBD5|CBD5+CBD5/CBD5\CBD5;
                       STA.B !_1                                 ;;CBD7|CBD7+CBD7/CBD7\CBD7;
-                      LDA.W !SpriteYPosHigh,X                   ;;CBD9|CBD9+CBD9/CBD9\CBD9;
+                      LDA.W !SpriteXPosHigh,X                   ;;CBD9|CBD9+CBD9/CBD9\CBD9;
                       STA.B !_0                                 ;;CBDC|CBDC+CBDC/CBDC\CBDC;
                       PHX                                       ;;CBDE|CBDE+CBDE/CBDE\CBDE;
                       LDA.W !SpriteMisc157C,X                   ;;CBDF|CBDF+CBDF/CBDF\CBDF;
@@ -8126,7 +8126,7 @@ CODE_03CBB3:          JSL FindFreeSprSlot                       ;;CBB3|CBB3+CBB3
                       STA.W !SpriteXPosLow,Y                    ;;CBEA|CBEA+CBEA/CBEA\CBEA;
                       LDA.B !_0                                 ;;CBED|CBED+CBED/CBED\CBED;
                       ADC.L ChuckSprGenSpeedHi,X                ;;CBEF|CBEF+CBEF/CBEF\CBEF;
-                      STA.W !SpriteYPosHigh,Y                   ;;CBF3|CBF3+CBF3/CBF3\CBF3;
+                      STA.W !SpriteXPosHigh,Y                   ;;CBF3|CBF3+CBF3/CBF3\CBF3;
                       LDA.L ChuckSprGenSpeedLo,X                ;;CBF6|CBF6+CBF6/CBF6\CBF6;
                       STA.W !SpriteXSpeed,Y                     ;;CBFA|CBFA+CBFA/CBFA\CBFA;
                       LDA.B #$E0                                ;;CBFD|CBFD+CBFD/CBFD\CBFD;
@@ -8238,12 +8238,12 @@ CODE_03CCE8:          LDA.B #$08                                ;;CCE8|CCE8+CCE8
                       STA.W !SpriteMisc160E,Y                   ;;CD07|CD07+CD07/CD07\CD07;
                       LDA.B !SpriteXPosLow,X                    ;;CD0A|CD0A+CD0A/CD0A\CD0A;
                       STA.W !SpriteXPosLow,Y                    ;;CD0C|CD0C+CD0C/CD0C\CD0C;
-                      LDA.W !SpriteYPosHigh,X                   ;;CD0F|CD0F+CD0F/CD0F\CD0F;
-                      STA.W !SpriteYPosHigh,Y                   ;;CD12|CD12+CD12/CD12\CD12;
+                      LDA.W !SpriteXPosHigh,X                   ;;CD0F|CD0F+CD0F/CD0F\CD0F;
+                      STA.W !SpriteXPosHigh,Y                   ;;CD12|CD12+CD12/CD12\CD12;
                       LDA.B !SpriteYPosLow,X                    ;;CD15|CD15+CD15/CD15\CD15;
                       STA.W !SpriteYPosLow,Y                    ;;CD17|CD17+CD17/CD17\CD17;
-                      LDA.W !SpriteXPosHigh,X                   ;;CD1A|CD1A+CD1A/CD1A\CD1A;
-                      STA.W !SpriteXPosHigh,Y                   ;;CD1D|CD1D+CD1D/CD1D\CD1D;
+                      LDA.W !SpriteYPosHigh,X                   ;;CD1A|CD1A+CD1A/CD1A\CD1A;
+                      STA.W !SpriteYPosHigh,Y                   ;;CD1D|CD1D+CD1D/CD1D\CD1D;
                       RTS                                       ;;CD20|CD20+CD20/CD20\CD20; Return
                                                                 ;;                        ;
 CODE_03CD21:          LDA.W !SpriteMisc1540,X                   ;;CD21|CD21+CD21/CD21\CD21;
@@ -8362,7 +8362,7 @@ CODE_03CE5A:          JSL UpdateYPosNoGvtyW                     ;;CE5A|CE5A+CE5A
                       CLC                                       ;;CE64|CE64+CE64/CE64\CE64;
                       ADC.B #$03                                ;;CE65|CE65+CE65/CE65\CE65;
                       STA.B !SpriteYSpeed,X                     ;;CE67|CE67+CE67/CE67\CE67;
-                    + LDA.W !SpriteXPosHigh,X                   ;;CE69|CE69+CE69/CE69\CE69;
+                    + LDA.W !SpriteYPosHigh,X                   ;;CE69|CE69+CE69/CE69\CE69;
                       BEQ +                                     ;;CE6C|CE6C+CE6C/CE6C\CE6C;
                       LDA.B !SpriteYPosLow,X                    ;;CE6E|CE6E+CE6E/CE6E\CE6E;
                       CMP.B #$85                                ;;CE70|CE70+CE70/CE70\CE70;
@@ -9341,12 +9341,12 @@ DATA_03DED7:          db $20,$03,$30,$03,$40,$03,$50,$03        ;;DED4|DED7+DED7
 CODE_03DEDF:          PHB                                       ;;DEDC|DEDF+DEDF/DEDF\DEDF;
                       PHK                                       ;;DEDD|DEE0+DEE0/DEE0\DEE0;
                       PLB                                       ;;DEDE|DEE1+DEE1/DEE1\DEE1;
-                      LDA.W !SpriteYPosHigh,X                   ;;DEDF|DEE2+DEE2/DEE2\DEE2;
+                      LDA.W !SpriteXPosHigh,X                   ;;DEDF|DEE2+DEE2/DEE2\DEE2;
                       XBA                                       ;;DEE2|DEE5+DEE5/DEE5\DEE5;
                       LDA.B !SpriteXPosLow,X                    ;;DEE3|DEE6+DEE6/DEE6\DEE6;
                       LDY.B #$00                                ;;DEE5|DEE8+DEE8/DEE8\DEE8;
                       JSR CODE_03DFAE                           ;;DEE7|DEEA+DEEA/DEEA\DEEA;
-                      LDA.W !SpriteXPosHigh,X                   ;;DEEA|DEED+DEED/DEED\DEED;
+                      LDA.W !SpriteYPosHigh,X                   ;;DEEA|DEED+DEED/DEED\DEED;
                       XBA                                       ;;DEED|DEF0+DEF0/DEF0\DEF0;
                       LDA.B !SpriteYPosLow,X                    ;;DEEE|DEF1+DEF1/DEF1\DEF1;
                       LDY.B #$02                                ;;DEF0|DEF3+DEF3/DEF3\DEF3;
