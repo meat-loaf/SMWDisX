@@ -6467,7 +6467,7 @@ InvisBlkMainRt:       PHB                                       ;;B450|B44F+B44F
                       RTL                                       ;;B457|B456+B456/B456\B45D; Return
                                                                 ;;                        ;
 InvisSolidBlkRtBnk1:  JSR ProcessInteract                       ;;B458|B457+B457/B457\B45E;
-                      BCC CODE_01B4B2                           ;;B45B|B45A+B45A/B45A\B461;
+                      BCC .abortNoContact                       ;;B45B|B45A+B45A/B45A\B461;
                       LDA.B !SpriteYPosLow,X                    ;;B45D|B45C+B45C/B45C\B463;
                       SEC                                       ;;B45F|B45E+B45E/B45E\B465;
                       SBC.B !Layer1YPos                         ;;B460|B45F+B45F/B45F\B466;
@@ -6476,12 +6476,12 @@ InvisSolidBlkRtBnk1:  JSR ProcessInteract                       ;;B458|B457+B457
                       CLC                                       ;;B466|B465+B465/B465\B46C;
                       ADC.B #$18                                ;;B467|B466+B466/B466\B46D;
                       CMP.B !_0                                 ;;B469|B468+B468/B468\B46F;
-                      BPL CODE_01B4B4                           ;;B46B|B46A+B46A/B46A\B471;
+                      BPL .playerBelowSpr                       ;;B46B|B46A+B46A/B46A\B471;
                       LDA.B !PlayerYSpeed                       ;;B46D|B46C+B46C/B46C\B473;
-                      BMI CODE_01B4B2                           ;;B46F|B46E+B46E/B46E\B475;
+                      BMI .abortNoContact                       ;;B46F|B46E+B46E/B46E\B475;
                       LDA.B !PlayerBlockedDir                   ;;B471|B470+B470/B470\B477;
                       AND.B #$08                                ;;B473|B472+B472/B472\B479;
-                      BNE CODE_01B4B2                           ;;B475|B474+B474/B474\B47B;
+                      BNE .abortNoContact                       ;;B475|B474+B474/B474\B47B;
                       LDA.B #$10                                ;;B477|B476+B476/B476\B47D;
                       STA.B !PlayerYSpeed                       ;;B479|B478+B478/B478\B47F;
                       LDA.B #$01                                ;;B47B|B47A+B47A/B47A\B481;
@@ -6514,12 +6514,12 @@ InvisSolidBlkRtBnk1:  JSR ProcessInteract                       ;;B458|B457+B457
 .abortContact:        SEC                                       ;;B4B1|B4B0+B4B0/B4B0\B4B7;
                       RTS                                       ;;B4B2|B4B1+B4B1/B4B1\B4B8; Return
                                                                 ;;                        ;
-CODE_01B4B2:          CLC                                       ;;B4B3|B4B2+B4B2/B4B2\B4B9;
+.abortNoContact:      CLC                                       ;;B4B3|B4B2+B4B2/B4B2\B4B9;
                       RTS                                       ;;B4B4|B4B3+B4B3/B4B3\B4BA; Return
                                                                 ;;                        ;
-CODE_01B4B4:          LDA.W !SpriteTweaker190F,X                ;;B4B5|B4B4+B4B4/B4B4\B4BB; \ Branch if "Make Platform Passable" is set
+.playerBelowSpr:      LDA.W !SpriteTweaker190F,X                ;;B4B5|B4B4+B4B4/B4B4\B4BB; \ Branch if "Make Platform Passable" is set
                       LSR A                                     ;;B4B8|B4B7+B4B7/B4B7\B4BE;  |
-                      BCS CODE_01B4B2                           ;;B4B9|B4B8+B4B8/B4B8\B4BF; /
+                      BCS .abortNoContact                       ;;B4B9|B4B8+B4B8/B4B8\B4BF; /
                       LDA.B #$00                                ;;B4BB|B4BA+B4BA/B4BA\B4C1;
                       LDY.B !PlayerIsDucking                    ;;B4BD|B4BC+B4BC/B4BC\B4C3;
                       BNE CODE_01B4C4                           ;;B4BF|B4BE+B4BE/B4BE\B4C5;

@@ -2341,15 +2341,15 @@ CODE_0293AE:          LDX.B #$0B                                ;;93B7|93AE+93AE
 CODE_0293B0:          STX.W !CurSpriteProcess                   ;;93B9|93B0+93B0/93B0\93B0;
                       LDA.W !SpriteStatus,X                     ;;93BC|93B3+93B3/93B3\93B3;
                       CMP.B #$0B                                ;;93BF|93B6+93B6/93B6\93B6;
-                      BEQ CODE_0293F7                           ;;93C1|93B8+93B8/93B8\93B8;
+                      BEQ NoQuakeCapeHit                        ;;93C1|93B8+93B8/93B8\93B8;
                       CMP.B #$08                                ;;93C3|93BA+93BA/93BA\93BA;
-                      BCC CODE_0293F7                           ;;93C5|93BC+93BC/93BC\93BC;
+                      BCC NoQuakeCapeHit                        ;;93C5|93BC+93BC/93BC\93BC;
                       LDA.W !SpriteTweaker166E,X                ;;93C7|93BE+93BE/93BE\93BE;
                       AND.B #$20                                ;;93CA|93C1+93C1/93C1\93C1;
                       ORA.W !SpriteOnYoshiTongue,X              ;;93CC|93C3+93C3/93C3\93C3;
                       ORA.W !SpriteMisc154C,X                   ;;93CF|93C6+93C6/93C6\93C6;
                       ORA.W !SpriteMisc1FE2,X                   ;;93D2|93C9+93C9/93C9\93C9;
-                      BNE CODE_0293F7                           ;;93D5|93CC+93CC/93CC\93CC;
+                      BNE NoQuakeCapeHit                        ;;93D5|93CC+93CC/93CC\93CC;
                       LDA.W !SpriteBehindScene,X                ;;93D7|93CE+93CE/93CE\93CE;
                       PHY                                       ;;93DA|93D1+93D1/93D1\93D1;
                       LDY.B !PlayerIsClimbing                   ;;93DB|93D2+93D2/93D2\93D2;
@@ -2357,18 +2357,18 @@ CODE_0293B0:          STX.W !CurSpriteProcess                   ;;93B9|93B0+93B0
                       EOR.B #$01                                ;;93DF|93D6+93D6/93D6\93D6;
                     + PLY                                       ;;93E1|93D8+93D8/93D8\93D8;
                       EOR.W !PlayerBehindNet                    ;;93E2|93D9+93D9/93D9\93D9;
-                      BNE CODE_0293F7                           ;;93E5|93DC+93DC/93DC\93DC;
+                      BNE NoQuakeCapeHit                        ;;93E5|93DC+93DC/93DC\93DC;
                       JSL GetSpriteClippingA                    ;;93E7|93DE+93DE/93DE\93DE;
-                      LDA.B !_E                                 ;;93EB|93E2+93E2/93E2\93E2;
-                      BEQ CODE_0293EB                           ;;93ED|93E4+93E4/93E4\93E4;
+                      LDA.B !_E                                 ;;93EB|93E2+93E2/93E2\93E2; If nonzero, we're checking Mario cape interaction
+                      BEQ CheckQuakeSprContact                  ;;93ED|93E4+93E4/93E4\93E4;
                       JSR SetCapeIntrCntctPrms                  ;;93EF|93E6+93E6/93E6\93E6;
                       BRA +                                     ;;93F2|93E9+93E9/93E9\93E9;
                                                                 ;;                        ;
-CODE_0293EB:          JSR CODE_029663                           ;;93F4|93EB+93EB/93EB\93EB;
+CheckQuakeSprContact: JSR QuakeSprSetCntctPrms                  ;;93F4|93EB+93EB/93EB\93EB;
                     + JSL CheckForContact                       ;;93F7|93EE+93EE/93EE\93EE;
-                      BCC CODE_0293F7                           ;;93FB|93F2+93F2/93F2\93F2;
+                      BCC NoQuakeCapeHit                        ;;93FB|93F2+93F2/93F2\93F2;
                       JSR CapeSprHit                            ;;93FD|93F4+93F4/93F4\93F4;
-CODE_0293F7:          LDY.W !MinorSpriteProcIndex               ;;9400|93F7+93F7/93F7\93F7;
+NoQuakeCapeHit:       LDY.W !MinorSpriteProcIndex               ;;9400|93F7+93F7/93F7\93F7;
                       DEX                                       ;;9403|93FA+93FA/93FA\93FA;
                       BMI +                                     ;;9404|93FB+93FB/93FB\93FB;
                       JMP CODE_0293B0                           ;;9406|93FD+93FD/93FD\93FD;
@@ -2659,7 +2659,7 @@ CODE_029633:          STX.W !CurSpriteProcess                   ;;963C|9633+9633
 Return029656:         RTS                                       ;;965F|9656+9656/9656\9656; Return
                                                                 ;;                        ;
                                                                 ;;                        ;
-                      db $FC                                    ;;9660|9657+9657/9657\9657;
+DATA_029657:          db $FC                                    ;;9660|9657+9657/9657\9657;
                                                                 ;;                        ;
 DATA_029658:          db $E0,$FF                                ;;9661|9658+9658/9658\9658;
                                                                 ;;                        ;
@@ -2671,12 +2671,12 @@ DATA_02965E:          db $F8,$FF                                ;;9667|965E+965E
                                                                 ;;                        ;
 DATA_029660:          db $FF,$18,$10                            ;;9669|9660+9660/9660\9660;
                                                                 ;;                        ;
-CODE_029663:          PHX                                       ;;966C|9663+9663/9663\9663;
+QuakeSprSetCntctPrms: PHX                                       ;;966C|9663+9663/9663\9663;
                       LDA.W !QuakeSpriteNumber,Y                ;;966D|9664+9664/9664\9664;
                       TAX                                       ;;9670|9667+9667/9667\9667;
                       LDA.W !QuakeSpriteXPosLow,Y               ;;9671|9668+9668/9668\9668;
                       CLC                                       ;;9674|966B+966B/966B\966B;
-                      ADC.W Return029656,X                      ;;9675|966C+966C/966C\966C;
+                      ADC.W DATA_029657-1,X                      ;;9675|966C+966C/966C\966C;
                       STA.B !_0                                 ;;9678|966F+966F/966F\966F;
                       LDA.W !QuakeSpriteXPosHigh,Y              ;;967A|9671+9671/9671\9671;
                       ADC.W DATA_029658,X                       ;;967D|9674+9674/9674\9674;
@@ -5359,8 +5359,8 @@ CODE_02AC11:          STX.B !_0                                 ;;AC2C|AC11+AC11
                       STZ.W !SpriteStatus,X                     ;;AC35|AC1A+AC1A/AC1A\AC1A;
                       LDA.B #$0B                                ;;AC38|AC1D+AC1D/AC1D\AC1D; \ Sprite status = Being carried
                       STA.W !SpriteStatus                       ;;AC3A|AC1F+AC1F/AC1F\AC1F; /
-                      LDA.B !SpriteNumber,X                     ;;AC3D|AC22+AC22/AC22\AC22;
-                      STA.B !SpriteNumber                       ;;AC3F|AC24+AC24/AC24\AC24;
+                      LDA.B !SpriteNumber,X                     ;;AC3D|AC22+AC22/AC22\AC22; \ Move carried sprites to slot 0
+                      STA.B !SpriteNumber                       ;;AC3F|AC24+AC24/AC24\AC24; | on level transition
                       LDA.B !SpriteXPosLow,X                    ;;AC41|AC26+AC26/AC26\AC26;
                       STA.B !SpriteXPosLow                      ;;AC43|AC28+AC28/AC28\AC28;
                       LDA.W !SpriteXPosHigh,X                   ;;AC45|AC2A+AC2A/AC2A\AC2A;
@@ -5374,7 +5374,7 @@ CODE_02AC11:          STX.B !_0                                 ;;AC2C|AC11+AC11
                       LDX.B #$00                                ;;AC59|AC3E+AC3E/AC3E\AC3E;
                       JSL InitSpriteTables                      ;;AC5B|AC40+AC40/AC40\AC40;
                       PLA                                       ;;AC5F|AC44+AC44/AC44\AC44;
-                      STA.W !SpriteOBJAttribute                 ;;AC60|AC45+AC45/AC45\AC45;
+                      STA.W !SpriteOBJAttribute                 ;;AC60|AC45+AC45/AC45\AC45; /
                     + REP #$10                                  ;;AC63|AC48+AC48/AC48\AC48; Index (16 bit)
                       LDX.W #$027A                              ;;AC65|AC4A+AC4A/AC4A\AC4A;
                     - STZ.W !Map16TileNumber,X                  ;;AC68|AC4D+AC4D/AC4D\AC4D; clear ram before entering new stage/area

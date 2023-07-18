@@ -2701,7 +2701,7 @@ CODE_00983B:          LDA.B #$13                                ;;97D0|983B+983B
                       JSR GM04DoDMA                             ;;97EF|985A+985A/985F\9861;
                       JSR CODE_008ACD                           ;;97F2|985D+985D/9862\9864;
 CODE_009860:          JSL CODE_00E2BD                           ;;97F5|9860+9860/9865\9867;
-                      JSR CODE_00A2F3                           ;;97F9|9864+9864/9869\986B;
+                      JSR PlayerPosNextToNow                    ;;97F9|9864+9864/9869\986B;
                       JSR CODE_00C593                           ;;97FC|9867+9867/986C\986E;
                       STZ.B !PlayerYSpeed                       ;;97FF|986A+986A/986F\9871; Y speed = 0
                       JSL RunSprites                            ;;9801|986C+986C/9871\9873;
@@ -4168,7 +4168,7 @@ CODE_00A28A:          LDA.W !IRQNMICommand                      ;;A228|A28A+A273
                       JMP CODE_00A2A9                           ;;A230|A292+A27B/A297\A299;
                                                                 ;;                        ;
                     + JSL !OAMResetRoutine                      ;;A233|A295+A27E/A29A\A29C;
-                      JSL CODE_00F6DB                           ;;A237|A299+A282/A29E\A2A0;
+                      JSL CODE_00F6DB                           ;;A237|A299+A282/A29E\A2A0; camera stuff
                       JSL CODE_05BC00                           ;;A23B|A29D+A286/A2A2\A2A4;
                       JSL CODE_0586F1                           ;;A23F|A2A1+A28A/A2A6\A2A8;
                       JSL CODE_05BB39                           ;;A243|A2A5+A28E/A2AA\A2AC;
@@ -4194,17 +4194,17 @@ CODE_00A2A9:          LDA.B !Layer1YPos                         ;;A247|A2A9+A292
                       STA.B !Layer1YPos+1                       ;;A271|A2D3+A2BC/A2D8\A2DA; /
                     + JSR StatBarUpdCounters                    ;;A273|A2D5+A2BE/A2DA\A2DC;
                       JSL CODE_00E2BD                           ;;A276|A2D8+A2C1/A2DD\A2DF;
-                      JSR CODE_00A2F3                           ;;A27A|A2DC+A2C5/A2E1\A2E3;
+                      JSR PlayerPosNextToNow                    ;;A27A|A2DC+A2C5/A2E1\A2E3;
                       JSR CODE_00C47E                           ;;A27D|A2DF+A2C8/A2E4\A2E6;
                       JSL RunSprites                            ;;A280|A2E2+A2CB/A2E7\A2E9;
-                      JSL CODE_028AB1                           ;;A284|A2E6+A2CF/A2EB\A2ED;
+                      JSL CODE_028AB1                           ;;A284|A2E6+A2CF/A2EB\A2ED; handle lives timer, invincibility timer, and minor sprite types
                       PLA                                       ;;A288|A2EA+A2D3/A2EF\A2F1;
                       STA.B !Layer1YPos+1                       ;;A289|A2EB+A2D4/A2F0\A2F2;
                       PLA                                       ;;A28B|A2ED+A2D6/A2F2\A2F4;
                       STA.B !Layer1YPos                         ;;A28C|A2EE+A2D7/A2F3\A2F5;
                       JMP CompactOAMTileSz                      ;;A28E|A2F0+A2D9/A2F5\A2F7;
                                                                 ;;                        ;
-CODE_00A2F3:          REP #$20                                  ;;A291|A2F3+A2DC/A2F8\A2FA; Accum (16 bit)
+PlayerPosNextToNow:   REP #$20                                  ;;A291|A2F3+A2DC/A2F8\A2FA; Accum (16 bit)
                       LDA.B !PlayerXPosNext                     ;;A293|A2F5+A2DE/A2FA\A2FC;
                       STA.B !PlayerXPosNow                      ;;A295|A2F7+A2E0/A2FC\A2FE;
                       LDA.B !PlayerYPosNext                     ;;A297|A2F9+A2E2/A2FE\A300;
@@ -8214,7 +8214,7 @@ CODE_00CCBB:          LDA.W !EndLevelTimer                      ;;CC5B|CCBB+CCBB
                       BEQ +                                     ;;CC5E|CCBE+CCBE/CC5E\CC5E;
                       JMP EndLevelRoutine                       ;;CC60|CCC0+CCC0/CC60\CC60;
                                                                 ;;                        ;
-                    + JSR CODE_00CDDD                           ;;CC63|CCC3+CCC3/CC63\CC63;
+                    + JSR CheckLRCameraScroll                   ;;CC63|CCC3+CCC3/CC63\CC63;
                       LDA.B !SpriteLock                         ;;CC66|CCC6+CCC6/CC66\CC66; \ Branch if sprites locked
                       BNE Return00CCDF                          ;;CC68|CCC8+CCC8/CC68\CC68; /
                       STZ.W !CapeInteracts                      ;;CC6A|CCCA+CCCA/CC6A\CC6A;
@@ -8346,18 +8346,18 @@ CODE_00CDAD:          LDX.W !YoshiTongueTimer                   ;;CD4D|CDAD+CDAD
                       JSR ShootFireball                         ;;CD79|CDD9+CDD9/CD79\CD79; /
 Return00CDDC:         RTS                                       ;;CD7C|CDDC+CDDC/CD7C\CD7C; Return
                                                                 ;;                        ;
-CODE_00CDDD:          LDA.W !HorizLayer1Setting                 ;;CD7D|CDDD+CDDD/CD7D\CD7D;
+CheckLRCameraScroll:  LDA.W !HorizLayer1Setting                 ;;CD7D|CDDD+CDDD/CD7D\CD7D;
                       BEQ Return00CDDC                          ;;CD80|CDE0+CDE0/CD80\CD80;
                       LDY.W !CameraScrollDir                    ;;CD82|CDE2+CDE2/CD82\CD82;
                       LDA.W !CameraIsScrolling                  ;;CD85|CDE5+CDE5/CD85\CD85;
                       STA.B !SpriteLock                         ;;CD88|CDE8+CDE8/CD88\CD88;
                       BNE CODE_00CE4C                           ;;CD8A|CDEA+CDEA/CD8A\CD8A;
                       LDA.W !CameraProperMove                   ;;CD8C|CDEC+CDEC/CD8C\CD8C;
-                      BEQ CODE_00CDF6                           ;;CD8F|CDEF+CDEF/CD8F\CD8F;
+                      BEQ .checkStartScroll                     ;;CD8F|CDEF+CDEF/CD8F\CD8F;
                       STZ.W !CameraScrollDir                    ;;CD91|CDF1+CDF1/CD91\CD91;
                       BRA CODE_00CE48                           ;;CD94|CDF4+CDF4/CD94\CD94;
                                                                 ;;                        ;
-CODE_00CDF6:          LDA.B !axlr0000Hold                       ;;CD96|CDF6+CDF6/CD96\CD96; \ Branch if anything besides L/R being held
+.checkStartScroll:    LDA.B !axlr0000Hold                       ;;CD96|CDF6+CDF6/CD96\CD96; \ Branch if anything besides L/R being held
                       AND.B #$CF                                ;;CD98|CDF8+CDF8/CD98\CD98;  |
                       ORA.B !byetudlrHold                       ;;CD9A|CDFA+CDFA/CD9A\CD9A;  |
                       BNE CODE_00CE49                           ;;CD9C|CDFC+CDFC/CD9C\CD9C; /
