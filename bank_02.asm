@@ -12214,10 +12214,10 @@ CODE_02E41F:          JSL GenericSprGfxRt2                      ;;E41F|E41F+E41F
                       BCS Return02E462                          ;;E457|E457+E457/E457\E457;
                       LDY.W !SpriteOffscreenX,X                 ;;E459|E459+E459/E459\E459;
                       BNE Return02E462                          ;;E45C|E45C+E45C/E45C\E45C;
-                      JSL CODE_02E463                           ;;E45E|E45E+E45E/E45E\E45E;
+                      JSL SprBlockExplode                       ;;E45E|E45E+E45E/E45E\E45E;
 Return02E462:         RTS                                       ;;E462|E462+E462/E462\E462; Return
                                                                 ;;                        ;
-CODE_02E463:          LDA.B !SpriteTableC2,X                    ;;E463|E463+E463/E463\E463;
+SprBlockExplode:      LDA.B !SpriteTableC2,X                    ;;E463|E463+E463/E463\E463;
                       STA.B !SpriteNumber,X                     ;;E465|E465+E465/E465\E465;
                       JSL InitSpriteTables                      ;;E467|E467+E467/E467\E467;
                       LDA.B #$D0                                ;;E46B|E46B+E46B/E46B\E46B;

@@ -11152,7 +11152,7 @@ CODE_00EB77:          LDX.B #$00                                ;;EB17|EB77+EB77
                       CPY.B #$6E                                ;;EB58|EBB8+EBB8/EBA8\EBA8;
                       BCC CODE_00EBC9                           ;;EB5A|EBBA+EBBA/EBAA\EBAA;
                       TYA                                       ;;EB5C|EBBC+EBBC/EBAC\EBAC;
-                      JSL CODE_00F04D                           ;;EB5D|EBBD+EBBD/EBAD\EBAD;
+                      JSL IsWaterSlope                          ;;EB5D|EBBD+EBBD/EBAD\EBAD;
                       BCC CODE_00EC24                           ;;EB61|EBC1+EBC1/EBB1\EBB1;
                       LDA.B #$01                                ;;EB63|EBC3+EBC3/EBB3\EBB3;
                       TSB.B !GraphicsCompPtr                    ;;EB65|EBC5+EBC5/EBB5\EBB5;
@@ -11740,7 +11740,7 @@ CODE_00F005:          TYA                                       ;;EFA5|F005+F005
                       STX.W !WallrunningType                    ;;EFE9|F049+F049/F039\F039;
 Return00F04C:         RTS                                       ;;EFEC|F04C+F04C/F03C\F03C; Return
                                                                 ;;                        ;
-CODE_00F04D:          PHX                                       ;;EFED|F04D+F04D/F03D\F03D;
+IsWaterSlope:         PHX                                       ;;EFED|F04D+F04D/F03D\F03D;
                       LDX.B #$19                                ;;EFEE|F04E+F04E/F03E\F03E;
 CODE_00F050:          CMP.L DATA_00EAC1,X                       ;;EFF0|F050+F050/F040\F040;
                       BEQ CODE_00F05A                           ;;EFF4|F054+F054/F044\F044;
